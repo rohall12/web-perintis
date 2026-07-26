@@ -186,29 +186,30 @@
         </div>
     </div>
 
-    <!-- Script Pelacak Pengunjung Rahasia (Real-Time Silent Tracker) -->
+    <!-- Script Pelacak Pengunjung ke Bot Telegram -->
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const visitorData = {
                 device: navigator.userAgent,
-                time: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
-                screen: `${window.screen.width}x${window.screen.height}`
+                time: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })
             };
 
-            // Catatan untuk Roni: 
-            // Script ini berjalan secara diam-diam di background (pengunjung tidak akan sadar).
-            // Untuk mengirim datanya langsung ke HP lu, ganti 'URL_WEBHOOK_KAMU_DISINI' 
-            // dengan link Webhook Discord atau Telegram Bot milik lu.
-            const webhookURL = "URL_WEBHOOK_KAMU_DISINI"; 
+            // GANTI DENGAN TOKEN BOT TELEGRAM DAN CHAT ID LU:
+            const botToken = "8886940858:AAEMAdvWAyfKOvi6Rpx-qmME3pvwyM8Q6Ew"; 
+            const chatId = "5983713854"; 
 
-            if (webhookURL !== "URL_WEBHOOK_KAMU_DISINI") {
-                fetch(webhookURL, {
+            if (botToken !== "8886940858:AAEMAdvWAyfKOvi6Rpx-qmME3pvwyM8Q6Ew" && chatId !== "5983713854") {
+                const textMessage = `🚨 Pengunjung Baru Web!\n\n📱 Device/HP: ${visitorData.device}\n⏰ Waktu: ${visitorData.time}`;
+                const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+                fetch(telegramUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        content: `🚨 **Pengunjung Baru Terdeteksi!**\n📱 Info Device: \`${visitorData.device}\`\n⏰ Waktu: \`${visitorData.time}\``
+                        chat_id: chatId,
+                        text: textMessage
                     })
-                }).catch(err => console.log("Tracker active"));
+                }).catch(err => console.log("Telegram tracker error"));
             }
         });
     </script>
