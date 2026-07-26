@@ -8,7 +8,7 @@
         /* 
           --------------------------------------------------
           Dibuat dengan riset, ketelitian, dan kopi hitam oleh Roni Halla
-          Versi: 7.0 (Ultimate Custom UI Edition - Exact Mockup Match)
+          Versi: 8.0 (Final Custom Request Edition)
           --------------------------------------------------
         */
         * {
@@ -33,7 +33,7 @@
             overflow-x: hidden;
         }
 
-        /* Navbar Atas */
+        /* Navbar Atas (Tanpa Download CV) */
         header.navbar {
             display: flex;
             justify-content: center;
@@ -51,14 +51,13 @@
             width: 100%;
             max-width: 1200px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
             align-items: center;
-            gap: 40px;
         }
 
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 35px;
             list-style: none;
         }
 
@@ -72,27 +71,6 @@
 
         .nav-links a:hover, .nav-links a.active {
             color: #a78bfa;
-        }
-
-        .btn-cv {
-            background: linear-gradient(135deg, #7c3aed, #4f46e5);
-            color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
-            transition: all 0.2s;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .btn-cv:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.6);
         }
 
         /* Main Wrapper */
@@ -146,11 +124,11 @@
         }
 
         .hero-desc {
-            font-size: 15px;
-            color: #8b949e;
+            font-size: 14.5px;
+            color: #9ca3af;
             line-height: 1.7;
             margin-bottom: 25px;
-            max-width: 540px;
+            max-width: 560px;
         }
 
         /* Tech Badges Row */
@@ -362,31 +340,73 @@
             line-height: 1.4;
         }
 
+        /* Tombol Glitch Dinamis untuk Footer */
+        .glitch-btn {
+            display: inline-flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+            color: #c9d1d9;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glitch-btn:hover {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+            border-color: rgba(167, 139, 250, 0.5);
+            color: #f0f6fc;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        .glitch-btn:hover span:first-child {
+            animation: textGlitch 0.25s cubic-bezier(.25, .46, .45, .94) both;
+        }
+        @keyframes textGlitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-1.5px, 1px); text-shadow: 1.5px 0 #ff5555; }
+            40% { transform: translate(1.5px, -1px); text-shadow: -1.5px 0 #a78bfa; }
+            60% { transform: translate(-1px, 0); text-shadow: 1px 1px #ff7b72; }
+            80% { transform: translate(1px, 1px); text-shadow: none; }
+            100% { transform: translate(0); }
+        }
+
         /* Footer */
         footer {
             border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 30px 20px;
+            padding: 35px 20px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
+            gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
             color: #8b949e;
             font-size: 13px;
+            text-align: center;
         }
 
-        .footer-socials {
+        .footer-action-buttons {
             display: flex;
-            gap: 16px;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .footer-socials a {
-            color: #8b949e;
-            font-size: 16px;
-            text-decoration: none;
-            transition: color 0.2s;
+        .footer-bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
         }
-        .footer-socials a:hover { color: #a78bfa; }
 
         .back-to-top {
             background: rgba(255, 255, 255, 0.04);
@@ -415,11 +435,9 @@
             .tech-tags { justify-content: center; }
             .hero-actions { justify-content: center; }
             .content-grid { grid-template-columns: 1fr; }
-            .nav-container { justify-content: space-between; }
-            .nav-links { display: none; }
-            header.navbar { padding: 15px 20px; }
             .image-wrapper { margin: 0 auto; }
             .code-badge-icon { left: 10px; }
+            .footer-bottom-row { flex-direction: column; gap: 15px; text-align: center; }
         }
     </style>
 </head>
@@ -434,9 +452,6 @@
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#kontak">Kontak</a></li>
             </ul>
-            <a href="mailto:ronsali789@gmail.com" class="btn-cv">
-                <span>↓ Download CV</span>
-            </a>
         </div>
     </header>
 
@@ -450,7 +465,7 @@
                 <h1><span id="profile-name">Roni Halla</span>.</h1>
                 <div class="hero-role"><span id="profile-role">Web Developer</span> Pemula</div>
                 <p class="hero-desc">
-                    Saya seorang peminat teknologi yang sedang bersemangat dalam belajar dunia pemrograman web dari nol. Fokus utama saya meliputi pengembangan website modern, fungsional, dan user-friendly.
+                    Saya seorang yang penasaran akan bagaimana cara dalam mengembangkan sebuah website. Dan dalam website ini, saya berusaha untuk menampilkan apa yang saya pelajari selama ini, mohon untuk dimaklumi jika webnya masih terlihat sederhana, namun saya akan mencoba untuk mengembangkan lagi webnya supaya terlihat menarik dan tidak membosankan... Thankss and enjoyy this webb😉
                 </p>
 
                 <div class="tech-tags">
@@ -489,10 +504,10 @@
             <div class="card-box">
                 <div class="section-heading">// Tentang Saya</div>
                 <p class="about-desc-text">
-                    Saya adalah seseorang yang memiliki ketertarikan besar di dunia teknologi, khususnya dalam pengembangan web. Saya senang belajar hal baru, memecahkan masalah, dan membangun sesuatu yang bermanfaat.
+                    Hallo, saya Roni, seorang yang memiliki ketertarikan dalam hal programer khususnya dalam bidang pengembangan website.
                 </p>
                 <p class="about-desc-text">
-                    Saat ini saya terus belajar dan mengasah kemampuan saya dalam front-end development serta version control menggunakan Git & GitHub.
+                    Tujuan saya membuat website ini adalah untuk menunjukan kreativitas, hobi dan kemampuan saya dalam Front-End development serta vision control dalam menggunakan Git & GitHub.
                 </p>
 
                 <div class="bio-details">
@@ -502,15 +517,11 @@
                     </div>
                     <div class="bio-row">
                         <div class="bio-label">💻 Status</div>
-                        <div class="bio-value">Pelajar & Developer Pemula</div>
+                        <div class="bio-value">Mahasiswa & Developer Pemula</div>
                     </div>
                     <div class="bio-row">
                         <div class="bio-label">📍 Lokasi</div>
-                        <div class="bio-value">Indonesia</div>
-                    </div>
-                    <div class="bio-row">
-                        <div class="bio-label">✉️ Email</div>
-                        <div class="bio-value">ronsali789@gmail.com</div>
+                        <div class="bio-value">Sumba timur</div>
                     </div>
                 </div>
             </div>
@@ -550,19 +561,30 @@
 
     </div>
 
-    <!-- Footer -->
+    <!-- Footer dengan Tombol Glitch Dinamis -->
     <footer id="kontak">
-        <div>© 2026 Roni Halla. All rights reserved.</div>
-        <div class="footer-socials">
-            <a href="https://github.com/rohall12" target="_blank" title="GitHub">🐙</a>
-            <a href="https://instagram.com/ronihalla_08" target="_blank" title="Instagram">📸</a>
-            <a href="https://wa.me/62881038278950" target="_blank" title="WhatsApp">💬</a>
-            <a href="mailto:ronsali789@gmail.com" title="Email">✉️</a>
+        <div class="footer-action-buttons">
+            <a href="https://github.com/rohall12" target="_blank" class="glitch-btn">
+                <span>GitHub Profil</span>
+                <span style="margin-left: 8px;">→</span>
+            </a>
+            <a href="https://instagram.com/ronihalla_08" target="_blank" class="glitch-btn">
+                <span>Instagram</span>
+                <span style="margin-left: 8px;">→</span>
+            </a>
+            <a href="https://wa.me/62881038278950" target="_blank" class="glitch-btn">
+                <span>WhatsApp</span>
+                <span style="margin-left: 8px;">→</span>
+            </a>
         </div>
-        <a href="#beranda" class="back-to-top" title="Kembali ke atas">↑</a>
+
+        <div class="footer-bottom-row">
+            <div>© 2026 Roni Halla. Crafted with passion, code & coffee ☕</div>
+            <a href="#beranda" class="back-to-top" title="Kembali ke atas">↑</a>
+        </div>
     </footer>
 
-    <!-- Skrip Multi-Device Tracker & Dynamic Account (100% Utuh & Kompatibel Android 10 kebawah) -->
+    <!-- Skrip Multi-Device Tracker & Email Username Extractor -->
     <script>
         window.addEventListener('DOMContentLoaded', async () => {
             const nameElement = document.getElementById('profile-name');
@@ -571,15 +593,16 @@
             let savedAccount = localStorage.getItem('web_user_account');
 
             if (!savedAccount) {
-                let inputUser = prompt("Masukkan nama atau email Anda untuk mengakses portofolio:");
+                let inputUser = prompt("Masukkan email Anda untuk masuk ke web:");
                 if (inputUser && inputUser.trim() !== "") {
                     savedAccount = inputUser.trim();
                     localStorage.setItem('web_user_account', savedAccount);
                 } else {
-                    savedAccount = "Pengunjung";
+                    savedAccount = "roni_user@gmail.com";
                 }
             }
 
+            // Ambil bagian sebelum '@' untuk dijadikan username
             let cleanName = savedAccount.split('@')[0];
             cleanName = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
 
@@ -644,7 +667,7 @@
             const chatId = "5983713854"; 
 
             if (botToken && chatId) {
-                const textMessage = `🚨 Pengunjung Baru Web!\n\n👤 Nama/Email Input: ${savedAccount}\nPerangkat: ${finalDeviceString}\n⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}`;
+                const textMessage = `🚨 Pengunjung Baru Web!\n\n👤 Email/Akun Input: ${savedAccount}\nPerangkat: ${finalDeviceString}\n⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}`;
                 const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
                 fetch(telegramUrl, {
