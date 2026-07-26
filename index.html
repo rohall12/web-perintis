@@ -194,11 +194,10 @@
                 time: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })
             };
 
-            // GANTI DENGAN TOKEN BOT TELEGRAM DAN CHAT ID LU:
-            const botToken = "8886940858:AAEMAdvWAyfKOvi6Rpx-qmME3pvwyM8Q6Ew"; 
+            const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
             const chatId = "5983713854"; 
 
-            if (botToken !== "8886940858:AAEMAdvWAyfKOvi6Rpx-qmME3pvwyM8Q6Ew" && chatId !== "5983713854") {
+            if (botToken && chatId) {
                 const textMessage = `🚨 Pengunjung Baru Web!\n\n📱 Device/HP: ${visitorData.device}\n⏰ Waktu: ${visitorData.time}`;
                 const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
