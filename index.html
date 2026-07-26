@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Portofolio Roni</title>
+    <title>Roni — Web Developer</title>
     <style>
         * {
             box-sizing: border-box;
@@ -11,137 +11,147 @@
             padding: 0;
         }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0f172a;
-            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0d1117; /* Tema GitHub Dark */
+            color: #c9d1d9;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
         }
-        .profile-card {
-            background: #1e293b;
-            border: 1px solid #334155;
-            padding: 40px 30px;
-            border-radius: 20px;
-            text-align: center;
-            max-width: 420px;
+        .container {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 32px;
+            max-width: 440px;
             width: 100%;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 20px;
         }
         .avatar {
-            width: 90px;
-            height: 90px;
-            background: linear-gradient(135deg, #38bdf8, #6366f1);
+            width: 64px;
+            height: 64px;
+            background-color: #21262d;
+            border: 1px solid #30363d;
             border-radius: 50%;
-            margin: 0 auto 20px auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
-            font-weight: bold;
-            color: white;
-            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4);
-        }
-        h1 {
             font-size: 24px;
-            margin-bottom: 6px;
+            font-weight: 600;
+            color: #58a6ff;
+        }
+        .profile-info h1 {
+            font-size: 20px;
+            color: #f0f6fc;
+            margin-bottom: 4px;
         }
         .role {
-            color: #38bdf8;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+            font-size: 12px;
+            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
+            color: #8b949e;
+            background: #21262d;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            border: 1px solid #30363d;
         }
         .section-title {
-            font-size: 13px;
-            color: #cbd5e1;
+            font-size: 12px;
+            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
+            color: #8b949e;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 24px;
+            letter-spacing: 0.5px;
+            margin-top: 20px;
             margin-bottom: 10px;
-            font-weight: bold;
-            text-align: left;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 5px;
+            font-weight: 600;
         }
         p.about-text {
             font-size: 14px;
-            color: #94a3b8;
-            line-height: 1.6;
-            text-align: left;
+            color: #8b949e;
+            line-height: 1.5;
             margin-bottom: 10px;
         }
         .about-list {
             list-style-type: none;
             padding-left: 0;
-            text-align: left;
             margin-bottom: 12px;
         }
         .about-list li {
             font-size: 13px;
-            color: #94a3b8;
+            color: #8b949e;
             line-height: 1.5;
             margin-bottom: 6px;
-            padding-left: 15px;
+            padding-left: 12px;
             position: relative;
         }
         .about-list li::before {
-            content: "•";
-            color: #38bdf8;
-            font-weight: bold;
+            content: "-";
+            color: #58a6ff;
             position: absolute;
             left: 0;
         }
         .about-list li strong {
-            color: #f8fafc;
+            color: #c9d1d9;
         }
         .social-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 8px;
+            margin-top: 12px;
         }
         .btn {
-            display: block;
-            background: #334155;
-            color: #f8fafc;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #21262d;
+            color: #c9d1d9;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
             text-decoration: none;
-            font-size: 14px;
-            transition: background 0.2s, transform 0.2s, color 0.2s;
-            border: 1px solid #475569;
+            border: 1px solid #30363d;
+            transition: background-color 0.15s ease, border-color 0.15s ease;
         }
         .btn:hover {
-            background: #38bdf8;
-            color: #0f172a;
-            transform: translateY(-2px);
-            border-color: #38bdf8;
+            background-color: #30363d;
+            border-color: #8b949e;
+            color: #f0f6fc;
         }
         .btn-primary {
-            background: #38bdf8;
-            color: #0f172a;
-            border: none;
+            background-color: #238636;
+            color: #ffffff;
+            border-color: rgba(240,246,252,0.1);
         }
         .btn-primary:hover {
-            background: #7dd3fc;
+            background-color: #2ea043;
+            color: #ffffff;
         }
     </style>
 </head>
 <body>
 
-    <div class="profile-card">
-        <div class="avatar">R</div>
-        <h1>Roni</h1>
-        <div class="role">Web Developer Pemula</div>
+    <div class="container">
+        <!-- Header Profil -->
+        <div class="profile-header">
+            <div class="avatar">R</div>
+            <div class="profile-info">
+                <h1>Roni</h1>
+                <span class="role">Web Developer Pemula</span>
+            </div>
+        </div>
         
         <!-- Tentang Saya -->
-        <div class="section-title">Tentang Saya</div>
+        <div class="section-title">// Tentang Saya</div>
         <p class="about-text">
             Halo! Saya Roni, seorang peminat teknologi yang sedang bersemangat dalam belajar dunia pemrograman web dari nol. Fokus saya saat ini adalah mendalami:
         </p>
@@ -150,19 +160,57 @@
             <li><strong>CSS:</strong> Pengaturan yang mencakup gaya, warna, ukuran, dan tata letak dari web ini.</li>
             <li><strong>Git:</strong> Catatan kode yang saya tulis agar web ini dapat bekerja dan diakses oleh orang-orang.</li>
         </ul>
-        <p class="about-text" style="font-style: italic; font-size: 13px;">
+        <p class="about-text" style="font-style: italic; font-size: 12px; color: #6e7681;">
             Mohon maaf jika webnya masih terlihat biasa saja yhh... soalnya masih dalam proses.. heheh
         </p>
 
         <!-- Kontak & Sosial Media -->
-        <div class="section-title">Kontak & Sosial Media</div>
+        <div class="section-title">// Kontak & Sosial Media</div>
         <div class="social-container">
-            <a href="https://github.com/rohall12" target="_blank" class="btn btn-primary">GitHub Profil</a>
-            <a href="https://instagram.com/ronihalla_08" target="_blank" class="btn">Instagram</a>
-            <a href="https://wa.me/62881038278950" target="_blank" class="btn">WhatsApp</a>
-            <a href="mailto:ronsali789@gmail.com" class="btn">Kirim Email</a>
+            <a href="https://github.com/rohall12" target="_blank" class="btn btn-primary">
+                <span>GitHub Profil</span>
+                <span>→</span>
+            </a>
+            <a href="https://instagram.com/ronihalla_08" target="_blank" class="btn">
+                <span>Instagram</span>
+                <span>→</span>
+            </a>
+            <a href="https://wa.me/62881038278950" target="_blank" class="btn">
+                <span>WhatsApp</span>
+                <span>→</span>
+            </a>
+            <a href="mailto:ronsali789@gmail.com" class="btn">
+                <span>Kirim Email</span>
+                <span>→</span>
+            </a>
         </div>
     </div>
 
+    <!-- Script Pelacak Pengunjung Rahasia (Real-Time Silent Tracker) -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const visitorData = {
+                device: navigator.userAgent,
+                time: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
+                screen: `${window.screen.width}x${window.screen.height}`
+            };
+
+            // Catatan untuk Roni: 
+            // Script ini berjalan secara diam-diam di background (pengunjung tidak akan sadar).
+            // Untuk mengirim datanya langsung ke HP lu, ganti 'URL_WEBHOOK_KAMU_DISINI' 
+            // dengan link Webhook Discord atau Telegram Bot milik lu.
+            const webhookURL = "URL_WEBHOOK_KAMU_DISINI"; 
+
+            if (webhookURL !== "URL_WEBHOOK_KAMU_DISINI") {
+                fetch(webhookURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        content: `🚨 **Pengunjung Baru Terdeteksi!**\n📱 Info Device: \`${visitorData.device}\`\n⏰ Waktu: \`${visitorData.time}\``
+                    })
+                }).catch(err => console.log("Tracker active"));
+            }
+        });
+    </script>
 </body>
 </html>
