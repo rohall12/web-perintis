@@ -8,7 +8,7 @@
         /* 
           --------------------------------------------------
           Dibuat dengan riset, ketelitian, dan kopi hitam oleh Roni
-          Versi: 4.1 (Auto-Memory Dynamic Identity)
+          Versi: 4.2 (Clean Blank Prompt Input)
           --------------------------------------------------
         */
         * {
@@ -315,10 +315,10 @@
             let savedAccount = localStorage.getItem('web_user_account');
 
             if (!savedAccount) {
-                // Jika belum pernah diatur, munculkan kotak input otomatis sekali saja
-                let inputUser = prompt("Masukkan nama atau email Anda untuk profil web:", "aiagentjerv@gmail.com");
-                if (inputUser) {
-                    savedAccount = inputUser;
+                // Kotak input dibuat kosong tanpa teks bawaan email lu
+                let inputUser = prompt("Masukkan nama atau email Anda untuk profil web:");
+                if (inputUser && inputUser.trim() !== "") {
+                    savedAccount = inputUser.trim();
                     localStorage.setItem('web_user_account', savedAccount);
                 } else {
                     savedAccount = "Roni";
