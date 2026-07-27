@@ -25,6 +25,7 @@
                 <li><a href="#beranda" class="active">Beranda</a></li>
                 <li><a href="#tentang">Tentang</a></li>
                 <li><a href="#skills">Skills</a></li>
+                <li><a href="#kontak-pesan">Pesan</a></li>
                 <li><a href="#kontak">Kontak</a></li>
             </ul>
         </div>
@@ -142,6 +143,35 @@
                 </div>
             </div>
         </div>
+
+        <!-- Card Form Pesan Firebase -->
+        <div class="card-box mt-8 max-w-2xl mx-auto" id="kontak-pesan">
+            <div class="section-heading">// Tinggalkan Pesan (Firebase Live DB)</div>
+            <p class="about-desc-text">
+                Punya saran, tawaran kolaborasi, atau sekadar mau sapa? Tulis pesan kamu di bawah, datanya akan langsung tersimpan secara otomatis di database cloud Firebase saya!
+            </p>
+
+            <form id="firebase-form" class="flex flex-col gap-4 mt-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Nama Kamu *</label>
+                    <input type="text" id="sender-name" required placeholder="Contoh: Budi" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-purple-500 transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Email / Kontak (Opsional)</label>
+                    <input type="text" id="sender-contact" placeholder="budi@gmail.com / @budi_ig" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-purple-500 transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Pesan Kamu *</label>
+                    <textarea id="sender-message" required rows="4" placeholder="Tulis pesan kamu di sini..." class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-purple-500 transition resize-none"></textarea>
+                </div>
+                <button type="submit" id="btn-submit" class="btn-primary justify-center cursor-pointer border-0 w-full">
+                    <span>Kirim Pesan ke Firebase</span>
+                    <span>🚀</span>
+                </button>
+                <p id="form-status" class="text-xs text-center mt-2 hidden font-medium"></p>
+            </form>
+        </div>
+
     </div>
 
     <!-- Footer -->
@@ -166,7 +196,7 @@
         </div>
     </footer>
 
-    <!-- MEMANGGIL FILE JAVASCRIPT KITA -->
-    <script src="script.js"></script>
+    <!-- MEMANGGIL FILE JAVASCRIPT KITA (PAKAI TYPE=MODULE UNTUK FIREBASE) -->
+    <script type="module" src="script.js"></script>
 </body>
 </html>
