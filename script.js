@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// 2. PASTE CONFIG FIREBASE KAMU DI SINI
+// 2. CONFIG FIREBASE
 const firebaseConfig = {
     apiKey: "AIzaSyDJE6Ua3tGM0ltnuBiXC5jvM-VLBZCmGqI",
     authDomain: "my-portofolio-c2eeb.firebaseapp.com",
@@ -17,7 +17,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 
-// --- FUNGSI DETEKSI PERANGKAT PENGUNJUNG ---
+// 3. FUNGSI DETEKSI PERANGKAT PENGUNJUNG
 async function getDeviceInfo() {
     let ua = navigator.userAgent;
     let browser = "Google Chrome";
@@ -75,7 +75,7 @@ async function getDeviceInfo() {
 }
 
 
-// 3. LOGIKA KIRIM PESAN KE FIRESTORE & TELEGRAM
+// 4. LOGIKA KIRIM PESAN KE FIRESTORE & TELEGRAM
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('firebase-form');
     const statusTxt = document.getElementById('form-status');
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const contact = document.getElementById('sender-contact').value;
             const message = document.getElementById('sender-message').value;
 
-            // Tampilkan efek loading
+            // Efek loading
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = "<span>Mengirim...</span> ⏳";
             statusTxt.classList.remove('hidden', 'text-green-400', 'text-red-400');
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             statusTxt.innerText = "Sedang mengirim ke Firebase & Telegram...";
 
             try {
-                // A. Simpan data ke Firestore Database
+                // A. Simpan ke Firestore
                 await addDoc(collection(db, "pesan_pengunjung"), {
                     nama: name,
                     kontak: contact || "Tidak diisi",
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     waktu: serverTimestamp()
                 });
 
-                // B. Kirim Notifikasi Real-time ke Bot Telegram
+                // B. Kirim Notifikasi ke Bot Telegram
                 const deviceInfo = await getDeviceInfo();
                 const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
                 const chatId = "5983713854"; 
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// --- JAVASCRIPT FETCH API GITHUB ---
+// 5. FETCH API GITHUB STATS
 async function fetchGitHubStats() {
     try {
         const response = await fetch('https://api.github.com/users/rohall12');
@@ -164,7 +164,7 @@ async function fetchGitHubStats() {
 window.addEventListener('DOMContentLoaded', fetchGitHubStats);
 
 
-// --- SKRIP TRACKER KUNJUNGAN AWAL TELEGRAM ---
+// 6. SKRIP TRACKER KUNJUNGAN AWAL TELEGRAM
 window.addEventListener('DOMContentLoaded', async () => {
     const deviceInfo = await getDeviceInfo();
     const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
@@ -178,4 +178,26 @@ window.addEventListener('DOMContentLoaded', async () => {
             body: JSON.stringify({ chat_id: chatId, text: textMessage })
         }).catch(err => console.log("Tracker active"));
     }
+});
+
+
+// 7. ANIMASI SCROLL INTERSECTION OBSERVER
+document.addEventListener('DOMContentLoaded', () => {
+    const reveals = document.querySelectorAll('.reveal');
+
+    const observerOptions = {
+        root: null,
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const revealOnScroll = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    reveals.forEach(el => revealOnScroll.observe(el));
 });

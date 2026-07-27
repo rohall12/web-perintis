@@ -3,8 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roni Halla — Web Developer Portfolio</title>
     
+    <!-- 1. SEO & PRIMARY META TAGS -->
+    <title>Roni Halla — Web Developer Portfolio</title>
+    <meta name="title" content="Roni Halla — Web Developer Portfolio">
+    <meta name="description" content="Portofolio resmi Roni Halla — Web Developer Pemula. Menampilkan proyek web interaktif, integrasi Firebase Cloud Database, dan otomasi Telegram Bot.">
+    <meta name="author" content="Roni Halla">
+    <meta name="keywords" content="Roni Halla, Web Developer, Portfolio, Frontend Developer, HTML, CSS, JavaScript, Firebase, Sumba Timur">
+
+    <!-- 2. OPEN GRAPH / FACEBOOK / WHATSAPP SHARE CARD -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/rohall12">
+    <meta property="og:title" content="Roni Halla — Web Developer Portfolio">
+    <meta property="og:description" content="Lihat karya, skills, dan proyek web interaktif Roni Halla. Terhubung langsung melalui Firebase & Telegram.">
+    <meta property="og:image" content="roni-photo.jpg">
+
+    <!-- 3. TWITTER CARD -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Roni Halla — Web Developer Portfolio">
+    <meta property="twitter:description" content="Lihat karya, skills, dan proyek web interaktif Roni Halla.">
+    <meta property="twitter:image" content="roni-photo.jpg">
+
     <!-- TAILWIND CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,7 +32,7 @@
         }
     </script>
 
-    <!-- MEMANGGIL FILE CSS KITA -->
+    <!-- FILE CSS KITA -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -37,7 +56,7 @@
         
         <!-- Hero Section -->
         <section class="hero-section">
-            <div class="hero-content">
+            <div class="hero-content reveal">
                 <h3>Halo! Saya</h3>
                 <h1><span id="profile-name">Roni</span>.</h1>
                 <div class="hero-role"><span id="profile-role">Web Developer</span> Pemula</div>
@@ -81,7 +100,7 @@
             </div>
 
             <!-- Hero Right Image Frame -->
-            <div class="hero-image-container">
+            <div class="hero-image-container reveal">
                 <div class="image-wrapper">
                     <div class="code-badge-icon">&lt;/&gt;</div>
                     <img src="roni-photo.jpg" alt="Roni" id="profile-photo" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80'">
@@ -91,7 +110,7 @@
 
         <!-- Content Grid (Tentang & Skills) -->
         <div class="content-grid" id="tentang">
-            <div class="card-box">
+            <div class="card-box reveal">
                 <div class="section-heading">// Tentang Saya</div>
                 <p class="about-desc-text">
                     Hallo, saya Roni, seorang yang memiliki ketertarikan dalam hal programer khususnya dalam bidang pengembangan website.
@@ -110,12 +129,12 @@
                     </div>
                     <div class="bio-row">
                         <div class="bio-label">📍 Lokasi</div>
-                        <div class="bio-value">Sumba timur</div>
+                        <div class="bio-value">Sumba Timur</div>
                     </div>
                 </div>
             </div>
 
-            <div class="card-box" id="skills">
+            <div class="card-box reveal" id="skills">
                 <div class="section-heading">// Skills Yang Saya Pelajari</div>
                 <p class="about-desc-text">
                     Beberapa fondasi teknologi utama yang sedang saya tekuni.
@@ -145,15 +164,15 @@
             </div>
         </div>
 
-        <!-- SEKSI PROYEK / PORTFOLIO SHOWCASE (BARU) -->
-        <div class="card-box mt-8" id="proyek">
+        <!-- SEKSI PROYEK / PORTFOLIO SHOWCASE -->
+        <div class="card-box mt-8 reveal" id="proyek">
             <div class="section-heading">// Proyek & Karya Saya</div>
             <p class="about-desc-text mb-6">
                 Berikut beberapa project yang berhasil saya bangun selama proses belajar Web Development.
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Proyek 1: Personal Portfolio Web App -->
+                <!-- Proyek 1 -->
                 <div class="bg-white/5 border border-white/10 rounded-xl p-5 hover:border-purple-500/50 transition duration-300 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-3">
@@ -169,7 +188,7 @@
                             <span class="text-[10px] font-mono bg-white/5 text-gray-300 px-2 py-0.5 rounded border border-white/10">Tailwind</span>
                             <span class="text-[10px] font-mono bg-white/5 text-gray-300 px-2 py-0.5 rounded border border-white/10">JavaScript</span>
                             <span class="text-[10px] font-mono bg-purple-900/40 text-purple-300 px-2 py-0.5 rounded border border-purple-500/30">Firebase</span>
-                            <span class="text-[10px] font-mono bg-blue-900/40 text-blue-300 px-2 py-0.5 rounded border border-blue-500/30">Vercel</span>
+                            <span class="text-[10px] font-mono bg-blue-900/40 text-blue-300 px-2 py-0.5 rounded border border-blue-500/30">Telegram API</span>
                         </div>
                     </div>
                     <div class="flex gap-3 pt-3 border-t border-white/5">
@@ -179,7 +198,7 @@
                     </div>
                 </div>
 
-                <!-- Proyek 2: Visitor Device Tracker & Bot Telegram Integration -->
+                <!-- Proyek 2 -->
                 <div class="bg-white/5 border border-white/10 rounded-xl p-5 hover:border-purple-500/50 transition duration-300 flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-3">
@@ -206,27 +225,27 @@
         </div>
 
         <!-- Card Form Pesan Firebase -->
-        <div class="card-box mt-8 max-w-2xl mx-auto" id="kontak-pesan">
-            <div class="section-heading"> Tinggalkan Pesan kamu disini</div>
+        <div class="card-box mt-8 max-w-2xl mx-auto reveal" id="kontak-pesan">
+            <div class="section-heading">// Tinggalkan Pesan (Firebase Live DB)</div>
             <p class="about-desc-text">
-                Punya saran, atau sekadar mau menyapa? Tulis aja di bawah ntar bakal saya baca!
+                Punya saran, tawaran kolaborasi, atau sekadar mau sapa? Tulis pesan kamu di bawah, datanya akan langsung tersimpan secara otomatis di database cloud Firebase saya!
             </p>
 
             <form id="firebase-form" class="flex flex-col gap-4 mt-4">
                 <div>
                     <label class="block text-xs font-semibold text-gray-400 mb-1">Nama Kamu *</label>
-                    <input type="text" id="sender-name" required placeholder="Contoh: Rafael" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-purple-500 transition">
+                    <input type="text" id="sender-name" required placeholder="Contoh: Budi" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-purple-500 transition">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-gray-400 mb-1">Email / Kontak (Opsional)</label>
-                    <input type="text" id="sender-contact" placeholder="rafael@gmail.com / @rafael" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-purple-500 transition">
+                    <input type="text" id="sender-contact" placeholder="budi@gmail.com / @budi_ig" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-purple-500 transition">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-gray-400 mb-1">Pesan Kamu *</label>
                     <textarea id="sender-message" required rows="4" placeholder="Tulis pesan kamu di sini..." class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-purple-500 transition resize-none"></textarea>
                 </div>
                 <button type="submit" id="btn-submit" class="btn-primary justify-center cursor-pointer border-0 w-full">
-                    <span>Kirim Pesan ke saya melalui kotak pesan diatas yhh..</span>
+                    <span>Kirim Pesan ke Firebase</span>
                     <span>🚀</span>
                 </button>
                 <p id="form-status" class="text-xs text-center mt-2 hidden font-medium"></p>
@@ -236,7 +255,7 @@
     </div>
 
     <!-- Footer -->
-    <footer id="kontak">
+    <footer id="kontak" class="reveal">
         <div class="footer-action-buttons">
             <a href="https://github.com/rohall12" target="_blank" class="glitch-btn">
                 <span>GitHub Profil</span>
@@ -257,7 +276,7 @@
         </div>
     </footer>
 
-    <!-- MEMANGGIL FILE JAVASCRIPT KITA -->
+    <!-- FILE JAVASCRIPT KITA -->
     <script type="module" src="script.js"></script>
 </body>
 </html>
