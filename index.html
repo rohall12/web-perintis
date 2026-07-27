@@ -8,7 +8,7 @@
         /* 
           --------------------------------------------------
           Dibuat dengan riset, ketelitian, dan kopi hitam oleh Roni Halla
-          Versi: 8.0 (Final Custom Request Edition)
+          Versi: 9.0 (Fixed Static Identity & Clean Visitor Edition)
           --------------------------------------------------
         */
         * {
@@ -33,7 +33,7 @@
             overflow-x: hidden;
         }
 
-        /* Navbar Atas (Tanpa Download CV) */
+        /* Navbar Atas */
         header.navbar {
             display: flex;
             justify-content: center;
@@ -462,7 +462,7 @@
         <section class="hero-section">
             <div class="hero-content">
                 <h3>Halo! Saya</h3>
-                <h1><span id="profile-name">Roni Halla</span>.</h1>
+                <h1><span id="profile-name">Roni</span>.</h1>
                 <div class="hero-role"><span id="profile-role">Web Developer</span> Pemula</div>
                 <p class="hero-desc">
                     Saya seorang yang penasaran akan bagaimana cara dalam mengembangkan sebuah website. Dan dalam website ini, saya berusaha untuk menampilkan apa yang saya pelajari selama ini, mohon untuk dimaklumi jika webnya masih terlihat sederhana, namun saya akan mencoba untuk mengembangkan lagi webnya supaya terlihat menarik dan tidak membosankan... Thankss and enjoyy this webb😉
@@ -492,7 +492,7 @@
                 <div class="image-wrapper">
                     <div class="code-badge-icon">&lt;/&gt;</div>
                     <!-- Pastikan foto kamu dinamai 'roni-photo.jpg' di satu folder yang sama -->
-                    <img src="roni-photo.jpg" alt="Roni Halla" id="profile-photo" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80'">
+                    <img src="roni-photo.jpg" alt="Roni" id="profile-photo" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80'">
                 </div>
             </div>
         </section>
@@ -513,7 +513,7 @@
                 <div class="bio-details">
                     <div class="bio-row">
                         <div class="bio-label">👤 Nama</div>
-                        <div class="bio-value" id="bio-name-val">Roni Halla</div>
+                        <div class="bio-value" id="bio-name-val">Roni</div>
                     </div>
                     <div class="bio-row">
                         <div class="bio-label">💻 Status</div>
@@ -579,36 +579,14 @@
         </div>
 
         <div class="footer-bottom-row">
-            <div>© 2026 Roni Halla. Crafted with passion, code & coffee ☕</div>
+            <div>© 2026 RoniHalla</div>
             <a href="#beranda" class="back-to-top" title="Kembali ke atas">↑</a>
         </div>
     </footer>
 
-    <!-- Skrip Multi-Device Tracker & Email Username Extractor -->
+    <!-- Skrip Multi-Device Tracker (Tanpa Popup Prompt Nama) -->
     <script>
         window.addEventListener('DOMContentLoaded', async () => {
-            const nameElement = document.getElementById('profile-name');
-            const bioNameElement = document.getElementById('bio-name-val');
-
-            let savedAccount = localStorage.getItem('web_user_account');
-
-            if (!savedAccount) {
-                let inputUser = prompt("Masukkan email Anda untuk masuk ke web:");
-                if (inputUser && inputUser.trim() !== "") {
-                    savedAccount = inputUser.trim();
-                    localStorage.setItem('web_user_account', savedAccount);
-                } else {
-                    savedAccount = "roni_user@gmail.com";
-                }
-            }
-
-            // Ambil bagian sebelum '@' untuk dijadikan username
-            let cleanName = savedAccount.split('@')[0];
-            cleanName = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
-
-            nameElement.textContent = cleanName;
-            if(bioNameElement) bioNameElement.textContent = cleanName;
-
             let ua = navigator.userAgent;
             let browser = "Google Chrome";
             if (/firefox|fxios/i.test(ua)) browser = "Mozilla Firefox";
@@ -667,7 +645,7 @@
             const chatId = "5983713854"; 
 
             if (botToken && chatId) {
-                const textMessage = `🚨 Pengunjung Baru Web!\n\n👤 Email/Akun Input: ${savedAccount}\nPerangkat: ${finalDeviceString}\n⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}`;
+                const textMessage = `🚨 Pengunjung Baru Web Roni!\n\nPerangkat: ${finalDeviceString}\n⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}`;
                 const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
                 fetch(telegramUrl, {
