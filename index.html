@@ -25,6 +25,7 @@
                 <li><a href="#beranda" class="active">Beranda</a></li>
                 <li><a href="#tentang">Tentang</a></li>
                 <li><a href="#skills">Skills</a></li>
+                <li><a href="#proyek">Proyek</a></li>
                 <li><a href="#kontak-pesan">Pesan</a></li>
                 <li><a href="#kontak">Kontak</a></li>
             </ul>
@@ -52,7 +53,7 @@
                 </div>
 
                 <div class="hero-actions">
-                    <a href="#tentang" class="btn-primary">
+                    <a href="#proyek" class="btn-primary">
                         <span>Lihat Proyek</span>
                         <span>→</span>
                     </a>
@@ -144,6 +145,66 @@
             </div>
         </div>
 
+        <!-- SEKSI PROYEK / PORTFOLIO SHOWCASE (BARU) -->
+        <div class="card-box mt-8" id="proyek">
+            <div class="section-heading">// Proyek & Karya Saya</div>
+            <p class="about-desc-text mb-6">
+                Berikut beberapa project yang berhasil saya bangun selama proses belajar Web Development.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Proyek 1: Personal Portfolio Web App -->
+                <div class="bg-white/5 border border-white/10 rounded-xl p-5 hover:border-purple-500/50 transition duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-mono text-purple-400 bg-purple-500/10 px-2.5 py-1 rounded-md border border-purple-500/20">Web App</span>
+                            <span class="text-xs text-gray-400 font-mono">2026</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 mb-2">Personal Portfolio & Live Firebase DB</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed mb-4">
+                            Website portofolio interaktif yang memadukan desain kustom CSS dengan Tailwind, dikoneksikan ke Firebase Firestore Cloud Database serta Fetch API GitHub.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mb-5">
+                            <span class="text-[10px] font-mono bg-white/5 text-gray-300 px-2 py-0.5 rounded border border-white/10">HTML5</span>
+                            <span class="text-[10px] font-mono bg-white/5 text-gray-300 px-2 py-0.5 rounded border border-white/10">Tailwind</span>
+                            <span class="text-[10px] font-mono bg-white/5 text-gray-300 px-2 py-0.5 rounded border border-white/10">JavaScript</span>
+                            <span class="text-[10px] font-mono bg-purple-900/40 text-purple-300 px-2 py-0.5 rounded border border-purple-500/30">Firebase</span>
+                            <span class="text-[10px] font-mono bg-blue-900/40 text-blue-300 px-2 py-0.5 rounded border border-blue-500/30">Vercel</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 pt-3 border-t border-white/5">
+                        <a href="https://github.com/rohall12" target="_blank" class="text-xs text-purple-400 hover:text-purple-300 font-semibold flex items-center gap-1">
+                            <span>Source Code</span> →
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Proyek 2: Visitor Device Tracker & Bot Telegram Integration -->
+                <div class="bg-white/5 border border-white/10 rounded-xl p-5 hover:border-purple-500/50 transition duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-mono text-blue-400 bg-blue-500/10 px-2.5 py-1 rounded-md border border-blue-500/20">Automation & API</span>
+                            <span class="text-xs text-gray-400 font-mono">2026</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-100 mb-2">Visitor Tracker Bot Telegram</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed mb-4">
+                            Skrip analitik pengunjung otomatis berbasis JavaScript yang mendeteksi jenis perangkat/browser pengunjung dan mengirimkan notifikasi instan ke Telegram.
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mb-5">
+                            <span class="text-[10px] font-mono bg-white/5 text-gray-300 px-2 py-0.5 rounded border border-white/10">JavaScript Async</span>
+                            <span class="text-[10px] font-mono bg-white/5 text-gray-300 px-2 py-0.5 rounded border border-white/10">Fetch API</span>
+                            <span class="text-[10px] font-mono bg-blue-900/40 text-blue-300 px-2 py-0.5 rounded border border-blue-500/30">Telegram Bot API</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-3 pt-3 border-t border-white/5">
+                        <a href="https://github.com/rohall12" target="_blank" class="text-xs text-purple-400 hover:text-purple-300 font-semibold flex items-center gap-1">
+                            <span>Repository</span> →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Card Form Pesan Firebase -->
         <div class="card-box mt-8 max-w-2xl mx-auto" id="kontak-pesan">
             <div class="section-heading">// Tinggalkan Pesan (Firebase Live DB)</div>
@@ -196,7 +257,7 @@
         </div>
     </footer>
 
-    <!-- MEMANGGIL FILE JAVASCRIPT KITA (PAKAI TYPE=MODULE UNTUK FIREBASE) -->
+    <!-- MEMANGGIL FILE JAVASCRIPT KITA -->
     <script type="module" src="script.js"></script>
 </body>
 </html>
