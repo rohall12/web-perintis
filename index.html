@@ -4,442 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roni Halla — Web Developer Portfolio</title>
-    <style>
-        /* 
-          --------------------------------------------------
-          Dibuat dengan riset, ketelitian, dan kopi hitam oleh Roni Halla
-          Versi: 9.0 (Fixed Static Identity & Clean Visitor Edition)
-          --------------------------------------------------
-        */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-            scroll-behavior: smooth;
+    
+    <!-- TAILWIND CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            corePlugins: { preflight: false }
         }
+    </script>
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #07090e;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                radial-gradient(circle at 10% 20%, rgba(124, 58, 237, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.1) 0%, transparent 40%);
-            background-size: 32px 32px, 32px 32px, 100% 100%, 100% 100%;
-            color: #c9d1d9;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Navbar Atas */
-        header.navbar {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px 40px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(7, 9, 14, 0.85);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .nav-container {
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 35px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: #8b949e;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: #a78bfa;
-        }
-
-        /* Main Wrapper */
-        .main-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        /* Hero Section */
-        .hero-section {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            align-items: center;
-            gap: 50px;
-            margin-bottom: 80px;
-        }
-
-        .hero-content h3 {
-            font-size: 18px;
-            color: #a78bfa;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        .hero-content h1 {
-            font-size: 56px;
-            font-weight: 800;
-            color: #f0f6fc;
-            line-height: 1.15;
-            margin-bottom: 12px;
-            letter-spacing: -1px;
-        }
-
-        .hero-content h1 span {
-            color: #a78bfa;
-            background: linear-gradient(135deg, #c084fc, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-role {
-            font-size: 20px;
-            font-weight: 600;
-            color: #c9d1d9;
-            margin-bottom: 20px;
-        }
-
-        .hero-role span {
-            color: #a78bfa;
-        }
-
-        .hero-desc {
-            font-size: 14.5px;
-            color: #9ca3af;
-            line-height: 1.7;
-            margin-bottom: 25px;
-            max-width: 560px;
-        }
-
-        /* Tech Badges Row */
-        .tech-tags {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .tech-tag {
-            font-family: ui-monospace, monospace;
-            font-size: 12px;
-            padding: 6px 14px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            color: #c9d1d9;
-            font-weight: 500;
-        }
-        .tech-tag.html { border-color: rgba(239, 68, 68, 0.4); color: #f87171; }
-        .tech-tag.css { border-color: rgba(59, 130, 246, 0.4); color: #60a5fa; }
-        .tech-tag.js { border-color: rgba(234, 179, 8, 0.4); color: #facc15; }
-        .tech-tag.git { border-color: rgba(168, 85, 247, 0.4); color: #c084fc; }
-
-        /* CTA Buttons */
-        .hero-actions {
-            display: flex;
-            gap: 16px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #7c3aed, #6366f1);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35);
-            transition: all 0.2s;
-        }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5); }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.04);
-            color: #c9d1d9;
-            padding: 12px 24px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-        .btn-secondary:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
-
-        /* Hero Image Frame with Neon Glow */
-        .hero-image-container {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .image-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            height: 440px;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid rgba(167, 139, 250, 0.3);
-            box-shadow: 0 0 35px rgba(124, 58, 237, 0.25);
-            background: #111827;
-        }
-
-        .image-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top;
-            filter: contrast(1.05);
-        }
-
-        .code-badge-icon {
-            position: absolute;
-            top: 30px;
-            left: -20px;
-            background: #1e1b4b;
-            border: 1px solid rgba(167, 139, 250, 0.4);
-            color: #a78bfa;
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: bold;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-
-        /* Section Bawah (Tentang & Skills Grid) */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .card-box {
-            background: rgba(17, 24, 39, 0.7);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 32px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        .section-heading {
-            font-family: ui-monospace, monospace;
-            font-size: 13px;
-            color: #a78bfa;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 18px;
-            font-weight: 700;
-        }
-
-        .about-desc-text {
-            font-size: 14px;
-            color: #9ca3af;
-            line-height: 1.7;
-            margin-bottom: 16px;
-        }
-
-        .bio-details {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding-top: 20px;
-        }
-
-        .bio-row {
-            display: flex;
-            font-size: 13.5px;
-        }
-
-        .bio-label {
-            width: 90px;
-            color: #9ca3af;
-            font-weight: 500;
-        }
-
-        .bio-value {
-            color: #f3f4f6;
-            font-weight: 500;
-        }
-
-        /* Skills Cards Inside Grid */
-        .skills-grid-inner {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-top: 15px;
-        }
-
-        .skill-item-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 14px;
-            padding: 20px 16px;
-            text-align: center;
-            transition: all 0.25s;
-        }
-
-        .skill-item-card:hover {
-            border-color: rgba(167, 139, 250, 0.4);
-            transform: translateY(-3px);
-            background: rgba(124, 58, 237, 0.04);
-        }
-
-        .skill-icon-box {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            font-family: ui-monospace, monospace;
-        }
-
-        .skill-title-name {
-            font-size: 14px;
-            font-weight: 700;
-            color: #f3f4f6;
-            margin-bottom: 6px;
-        }
-
-        .skill-desc-text {
-            font-size: 11.5px;
-            color: #9ca3af;
-            line-height: 1.4;
-        }
-
-        /* Tombol Glitch Dinamis untuk Footer */
-        .glitch-btn {
-            display: inline-flex;
-            justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
-            color: #c9d1d9;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            text-decoration: none;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .glitch-btn:hover {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
-            border-color: rgba(167, 139, 250, 0.5);
-            color: #f0f6fc;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-            transform: translateY(-2px);
-        }
-        .glitch-btn:hover span:first-child {
-            animation: textGlitch 0.25s cubic-bezier(.25, .46, .45, .94) both;
-        }
-        @keyframes textGlitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-1.5px, 1px); text-shadow: 1.5px 0 #ff5555; }
-            40% { transform: translate(1.5px, -1px); text-shadow: -1.5px 0 #a78bfa; }
-            60% { transform: translate(-1px, 0); text-shadow: 1px 1px #ff7b72; }
-            80% { transform: translate(1px, 1px); text-shadow: none; }
-            100% { transform: translate(0); }
-        }
-
-        /* Footer */
-        footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 35px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            color: #8b949e;
-            font-size: 13px;
-            text-align: center;
-        }
-
-        .footer-action-buttons {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .footer-bottom-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            max-width: 1200px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .back-to-top {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #c9d1d9;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        .back-to-top:hover { background: rgba(124, 58, 237, 0.2); border-color: #a78bfa; color: white; }
-
-        /* Responsif untuk HP */
-        @media (max-width: 900px) {
-            .hero-section {
-                grid-template-columns: 1fr;
-                text-align: center;
-                gap: 40px;
-            }
-            .hero-content h1 { font-size: 40px; }
-            .hero-desc { margin: 0 auto 25px auto; }
-            .tech-tags { justify-content: center; }
-            .hero-actions { justify-content: center; }
-            .content-grid { grid-template-columns: 1fr; }
-            .image-wrapper { margin: 0 auto; }
-            .code-badge-icon { left: 10px; }
-            .footer-bottom-row { flex-direction: column; gap: 15px; text-align: center; }
-        }
-    </style>
+    <!-- MEMANGGIL FILE CSS KITA -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -465,7 +40,7 @@
                 <h1><span id="profile-name">Roni</span>.</h1>
                 <div class="hero-role"><span id="profile-role">Web Developer</span> Pemula</div>
                 <p class="hero-desc">
-                    Saya seorang yang penasaran akan bagaimana cara dalam mengembangkan sebuah website. Dan dalam website ini, saya berusaha untuk menampilkan apa yang saya pelajari selama ini, mohon untuk dimaklumi jika webnya masih terlihat sederhana, namun saya akan mencoba untuk mengembangkan lagi webnya supaya terlihat menarik dan tidak membosankan... Thankss and enjoyy this webb😉
+                    Saya seorang yang penasaran akan bagaimana cara dalam mengembangkan sebuah website. Dan dalam website ini, saya berusaha untuk menampilkan apa yang saya pelajari selama ini.
                 </p>
 
                 <div class="tech-tags">
@@ -485,13 +60,28 @@
                         <span>💬</span>
                     </a>
                 </div>
+
+                <!-- KOTAK STATISTIK GITHUB -->
+                <div class="mt-6 flex items-center justify-between bg-white/5 border border-white/10 p-4 rounded-xl backdrop-blur-md max-w-sm hover:border-purple-500/50 transition duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-purple-600/20 rounded-lg text-purple-400">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold">Live GitHub Stats</p>
+                            <p class="text-sm font-medium text-gray-200">
+                                <span id="github-repos" class="text-purple-400 font-bold">...</span> Repositori | 
+                                <span id="github-followers" class="text-blue-400 font-bold">...</span> Followers
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Hero Right Image Frame -->
             <div class="hero-image-container">
                 <div class="image-wrapper">
                     <div class="code-badge-icon">&lt;/&gt;</div>
-                    <!-- Pastikan foto kamu dinamai 'roni-photo.jpg' di satu folder yang sama -->
                     <img src="roni-photo.jpg" alt="Roni" id="profile-photo" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80'">
                 </div>
             </div>
@@ -499,8 +89,6 @@
 
         <!-- Content Grid (Tentang & Skills) -->
         <div class="content-grid" id="tentang">
-            
-            <!-- Card Tentang Saya -->
             <div class="card-box">
                 <div class="section-heading">// Tentang Saya</div>
                 <p class="about-desc-text">
@@ -509,11 +97,10 @@
                 <p class="about-desc-text">
                     Tujuan saya membuat website ini adalah untuk menunjukan kreativitas, hobi dan kemampuan saya dalam Front-End development serta vision control dalam menggunakan Git & GitHub.
                 </p>
-
                 <div class="bio-details">
                     <div class="bio-row">
                         <div class="bio-label">👤 Nama</div>
-                        <div class="bio-value" id="bio-name-val">Roni</div>
+                        <div class="bio-value">Roni</div>
                     </div>
                     <div class="bio-row">
                         <div class="bio-label">💻 Status</div>
@@ -526,13 +113,11 @@
                 </div>
             </div>
 
-            <!-- Card Skills -->
             <div class="card-box" id="skills">
                 <div class="section-heading">// Skills Yang Saya Pelajari</div>
                 <p class="about-desc-text">
-                    Beberapa fondasi teknologi utama yang sedang saya tekuni dan kuasai untuk membangun halaman web interaktif.
+                    Beberapa fondasi teknologi utama yang sedang saya tekuni.
                 </p>
-
                 <div class="skills-grid-inner">
                     <div class="skill-item-card">
                         <div class="skill-icon-box" style="color: #f87171;">5</div>
@@ -556,12 +141,10 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 
-    <!-- Footer dengan Tombol Glitch Dinamis -->
+    <!-- Footer -->
     <footer id="kontak">
         <div class="footer-action-buttons">
             <a href="https://github.com/rohall12" target="_blank" class="glitch-btn">
@@ -577,87 +160,13 @@
                 <span style="margin-left: 8px;">→</span>
             </a>
         </div>
-
         <div class="footer-bottom-row">
             <div>© 2026 RoniHalla</div>
             <a href="#beranda" class="back-to-top" title="Kembali ke atas">↑</a>
         </div>
     </footer>
 
-    <!-- Skrip Multi-Device Tracker (Tanpa Popup Prompt Nama) -->
-    <script>
-        window.addEventListener('DOMContentLoaded', async () => {
-            let ua = navigator.userAgent;
-            let browser = "Google Chrome";
-            if (/firefox|fxios/i.test(ua)) browser = "Mozilla Firefox";
-            else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = "Apple Safari";
-            else if (/edge|edg/i.test(ua)) browser = "Microsoft Edge";
-            else if (/opr|opera/i.test(ua)) browser = "Opera";
-            else if (/samsungbrowser/i.test(ua)) browser = "Samsung Internet";
-
-            let deviceName = "Perangkat Android";
-            let androidVersion = "Android";
-
-            if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
-                try {
-                    const hints = await navigator.userAgentData.getHighEntropyValues(['model', 'platformVersion']);
-                    if (hints.platformVersion) {
-                        let majorVer = hints.platformVersion.split('.')[0];
-                        androidVersion = `Android ${majorVer}`;
-                    }
-                    if (hints.model) {
-                        deviceName = hints.model.trim();
-                    }
-                } catch (e) {
-                    console.log("Client hints fallback active");
-                }
-            }
-
-            if (deviceName === "Perangkat Android" || deviceName === "") {
-                if (/SM-[A-Z0-9]+/i.test(ua)) {
-                    let matchModel = ua.match(/(SM-[A-Z0-9]+)/i);
-                    deviceName = `Samsung ${matchModel[1]}`;
-                } else if (/samsung/i.test(ua)) {
-                    deviceName = "Samsung Galaxy";
-                } else if (/oppo/i.test(ua)) {
-                    deviceName = "Oppo Smartphone";
-                } else if (/vivo/i.test(ua)) {
-                    deviceName = "Vivo Smartphone";
-                } else if (/xiaomi|redmi|poco/i.test(ua)) {
-                    deviceName = "Xiaomi / Redmi";
-                } else if (/iphone/i.test(ua)) {
-                    deviceName = "Apple iPhone";
-                    androidVersion = "iOS";
-                } else if (/windows/i.test(ua)) {
-                    deviceName = "Windows PC";
-                    androidVersion = "Windows OS";
-                } else {
-                    let androidMatch = ua.match(/Android\s([0-9.]+)/i);
-                    if (androidMatch) {
-                        androidVersion = `Android ${androidMatch[1]}`;
-                    }
-                }
-            }
-
-            const finalDeviceString = `📱 ${deviceName} - ${androidVersion} (${browser})`;
-
-            const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
-            const chatId = "5983713854"; 
-
-            if (botToken && chatId) {
-                const textMessage = `🚨 Pengunjung Baru Web Roni!\n\nPerangkat: ${finalDeviceString}\n⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}`;
-                const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-
-                fetch(telegramUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: chatId,
-                        text: textMessage
-                    })
-                }).catch(err => console.log("Tracker active"));
-            }
-        });
-    </script>
+    <!-- MEMANGGIL FILE JAVASCRIPT KITA -->
+    <script src="script.js"></script>
 </body>
 </html>
