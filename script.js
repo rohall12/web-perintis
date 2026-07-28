@@ -7,7 +7,7 @@ import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.g
 // ==========================================
 // 2. FIREBASE CONFIGURATION
 // ==========================================
-// ⚠️ Pastikan ganti value di bawah ini dengan kreden sial Firebase milikmu!
+// ⚠️ Ganti value di bawah ini dengan kredensial Firebase milikmu!
 const firebaseConfig = {
     apiKey: "AIzaSyDJE6Ua3tGM0ltnuBiXC5jvM-VLBZCmGqI",
     authDomain: "my-portofolio-c2eeb.firebaseapp.com",
@@ -67,67 +67,166 @@ updateLocalTime();
 
 
 // ==========================================
-// 5. DETEKSI PERANGKAT PENGUNJUNG
+// 5. ADVANCED HARDWARE & BROWSER DETECTION
 // ==========================================
+// A. Deteksi GPU / Kartu Grafis (WebGL)
+function getGPUInfo() {
+    try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (!gl) return "Tidak Terdeteksi";
+        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+        if (debugInfo) {
+            let renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+            renderer = renderer.replace(/^ANGLE \((.*)\)$/, '$1');
+            renderer = renderer.replace(/Direct3D11 vs_5_0 ps_5_0/i, '').trim();
+            return renderer;
+        }
+    } catch (e) { }
+    return "Standard GPU";
+}
+
+// B. Deteksi Browser Lengkap & Versi
+function getBrowserDetail() {
+    const ua = navigator.userAgent;
+    let browserName = "Chrome";
+    let fullVersion = "";
+
+    if (/FBAN|FBAV/i.test(ua)) {
+        browserName = "Facebook In-App Browser";
+    } else if (/Instagram/i.test(ua)) {
+        browserName = "Instagram In-App Browser";
+    } else if (/TikTok/i.test(ua)) {
+        browserName = "TikTok In-App Browser";
+    } else if (/edg/i.test(ua)) {
+        browserName = "Microsoft Edge";
+    } else if (/samsungbrowser/i.test(ua)) {
+        browserName = "Samsung Internet";
+    } else if (/opera|opr/i.test(ua)) {
+        browserName = "Opera";
+    } else if (/chrome|crios/i.test(ua) && !/edg/i.test(ua)) {
+        browserName = "Google Chrome";
+    } else if (/firefox|fxios/i.test(ua)) {
+        browserName = "Mozilla Firefox";
+    } else if (/safari/i.test(ua) && !/chrome/i.test(ua)) {
+        browserName = "Apple Safari";
+    } else if (/brave/i.test(ua) || (navigator.brave && typeof navigator.brave.isBrave === "function")) {
+        browserName = "Brave Browser";
+    } else if (/ucbrowser/i.test(ua)) {
+        browserName = "UC Browser";
+    }
+
+    let match = ua.match(/(chrome|safari|firefox|msie|trident|edg|opr|samsungbrowser)\/?\s*(\d+)/i);
+    if (match && match[2]) {
+        fullVersion = ` v${match[2]}`;
+    }
+
+    return `${browserName}${fullVersion}`;
+}
+
+// C. Engine Deteksi Seri HP & Perangkat High-Entropy
 async function getDeviceInfo() {
-    let ua = navigator.userAgent;
-    let browser = "Google Chrome";
-    if (/firefox|fxios/i.test(ua)) browser = "Mozilla Firefox";
-    else if (/safari/i.test(ua) && !/chrome/i.test(ua)) browser = "Apple Safari";
-    else if (/edge|edg/i.test(ua)) browser = "Microsoft Edge";
-    else if (/opr|opera/i.test(ua)) browser = "Opera";
-    else if (/samsungbrowser/i.test(ua)) browser = "Samsung Internet";
+    const ua = navigator.userAgent;
+    let deviceName = "Unknown Device";
+    let osDetail = "Unknown OS";
+    let gpu = getGPUInfo();
+    let browser = getBrowserDetail();
+    
+    let ram = navigator.deviceMemory ? `~${navigator.deviceMemory} GB RAM` : "RAM tak terdeteksi";
+    let cpuCores = navigator.hardwareConcurrency ? `${navigator.hardwareConcurrency} Cores CPU` : "CPU tak terdeteksi";
+    let isTouch = ('ontouchstart' in window || navigator.maxTouchPoints > 0) ? "Touchscreen" : "Non-Touch";
+    let screenSize = `${window.screen.width} x ${window.screen.height}`;
 
-    let deviceName = "Perangkat Android";
-    let androidVersion = "Android";
-
+    // 1. Client Hints (Chromium Modern / Android Terbaru)
     if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
         try {
-            const hints = await navigator.userAgentData.getHighEntropyValues(['model', 'platformVersion']);
-            if (hints.platformVersion) {
-                let majorVer = hints.platformVersion.split('.')[0];
-                androidVersion = `Android ${majorVer}`;
-            }
-            if (hints.model) {
+            const hints = await navigator.userAgentData.getHighEntropyValues([
+                'model', 'platform', 'platformVersion', 'architecture', 'bitness'
+            ]);
+
+            if (hints.model && hints.model.trim() !== "") {
                 deviceName = hints.model.trim();
+            }
+
+            if (hints.platform) {
+                let pVer = hints.platformVersion ? hints.platformVersion.split('.')[0] : '';
+                if (hints.platform === "Android") {
+                    osDetail = `Android ${pVer || ''}`;
+                } else if (hints.platform === "Windows") {
+                    let winVer = parseInt(pVer) >= 13 ? "Windows 11" : "Windows 10";
+                    osDetail = `${winVer} ${hints.bitness || '64'}-bit`;
+                } else if (hints.platform === "macOS") {
+                    osDetail = `macOS (${hints.architecture || 'Apple Silicon/Intel'})`;
+                } else {
+                    osDetail = hints.platform;
+                }
             }
         } catch (e) {
             console.log("Client hints fallback active");
         }
     }
 
-    if (deviceName === "Perangkat Android" || deviceName === "") {
-        if (/SM-[A-Z0-9]+/i.test(ua)) {
-            let matchModel = ua.match(/(SM-[A-Z0-9]+)/i);
-            deviceName = `Samsung ${matchModel[1]}`;
-        } else if (/samsung/i.test(ua)) {
-            deviceName = "Samsung Galaxy";
-        } else if (/oppo/i.test(ua)) {
-            deviceName = "Oppo Smartphone";
-        } else if (/vivo/i.test(ua)) {
-            deviceName = "Vivo Smartphone";
-        } else if (/xiaomi|redmi|poco/i.test(ua)) {
-            deviceName = "Xiaomi / Redmi";
-        } else if (/iphone/i.test(ua)) {
-            deviceName = "Apple iPhone";
-            androidVersion = "iOS";
-        } else if (/windows/i.test(ua)) {
-            deviceName = "Windows PC";
-            androidVersion = "Windows OS";
-        } else {
-            let androidMatch = ua.match(/Android\s([0-9.]+)/i);
-            if (androidMatch) {
-                androidVersion = `Android ${androidMatch[1]}`;
+    // 2. Fallback Regex Brand & Seri HP / Laptop
+    if (deviceName === "Unknown Device" || deviceName === "") {
+        if (/iPhone/i.test(ua)) {
+            if (gpu.includes("A17") || gpu.includes("A16")) {
+                deviceName = "Apple iPhone (Series 14 Pro / 15)";
+            } else if (gpu.includes("A15")) {
+                deviceName = "Apple iPhone (Series 13 / 14)";
+            } else {
+                deviceName = "Apple iPhone";
             }
+            osDetail = "iOS";
+        } else if (/iPad/i.test(ua)) {
+            deviceName = "Apple iPad";
+            osDetail = "iPadOS";
+        } else if (/SM-[A-Z0-9]+/i.test(ua)) {
+            let model = ua.match(/(SM-[A-Z0-9]+)/i);
+            deviceName = `Samsung Galaxy (${model[1]})`;
+            osDetail = "Android";
+        } else if (/Redmi|Xiaomi|POCO/i.test(ua)) {
+            let model = ua.match(/(Redmi [A-Za-z0-9\s]+|POCO [A-Za-z0-9\s]+|Mi [A-Za-z0-9\s]+)/i);
+            deviceName = model ? model[0] : "Xiaomi / Redmi / POCO";
+            osDetail = "Android";
+        } else if (/CPH[0-9]+|OPPO/i.test(ua)) {
+            let model = ua.match(/(CPH[0-9]+)/i);
+            deviceName = model ? `OPPO Smartphone (${model[1]})` : "OPPO Smartphone";
+            osDetail = "Android";
+        } else if (/V[0-9]{4}[A-Z]?|vivo/i.test(ua)) {
+            deviceName = "Vivo Smartphone";
+            osDetail = "Android";
+        } else if (/Realme|RMX[0-9]+/i.test(ua)) {
+            deviceName = "Realme Smartphone";
+            osDetail = "Android";
+        } else if (/Infinix|X[0-9]{3,4}/i.test(ua)) {
+            deviceName = "Infinix Smartphone";
+            osDetail = "Android";
+        } else if (/Windows/i.test(ua)) {
+            deviceName = isTouch.includes("Touch") ? "Windows Laptop (Touchscreen)" : "Windows PC / Laptop";
+            osDetail = ua.includes("NT 10.0") ? "Windows 10/11" : "Windows OS";
+        } else if (/Macintosh|Mac OS X/i.test(ua)) {
+            deviceName = "Apple Mac / MacBook";
+            osDetail = "macOS";
+        } else if (/Linux/i.test(ua)) {
+            deviceName = "Linux Desktop / Laptop";
+            osDetail = "Linux OS";
         }
     }
 
-    return `📱 ${deviceName} - ${androidVersion} (${browser})`;
+    return {
+        device: deviceName,
+        os: osDetail,
+        gpu: gpu,
+        browser: browser,
+        screen: screenSize,
+        touch: isTouch,
+        hardware: `${cpuCores} | ${ram}`
+    };
 }
 
 
 // ==========================================
-// 6. FORM PESAN (FIREBASE & TELEGRAM)
+// 6. FORM PESAN (FIREBASE & TELEGRAM BOT)
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('firebase-form');
@@ -138,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // PROTEKSI COOLDOWN ANTI-SPAM (60 DETIK)
+            // Proteksi Cooldown Anti-Spam (60 Detik)
             const COOLDOWN_MS = 60 * 1000;
             const lastSubmitTime = localStorage.getItem('last_message_submit');
             const now = Date.now();
@@ -162,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
             statusTxt.innerText = "Mengirim pesan ke Firebase & Telegram...";
 
             try {
-                // A. Simpan Ke Firestore
+                // A. Simpan ke Firestore Database
                 await addDoc(collection(db, "pesan_pengunjung"), {
                     nama: name,
                     kontak: contact || "Tidak diisi",
@@ -170,8 +269,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     waktu: serverTimestamp()
                 });
 
-                // B. Notifikasi Telegram Bot
-                const deviceInfo = await getDeviceInfo();
+                // B. Kirim Notifikasi ke Telegram
+                const info = await getDeviceInfo();
                 const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
                 const chatId = "5983713854"; 
 
@@ -179,7 +278,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                      `👤 Nama: ${name}\n` +
                                      `📧 Kontak: ${contact || "Tidak diisi"}\n` +
                                      `💬 Pesan:\n"${message}"\n\n` +
-                                     `Perangkat: ${deviceInfo}\n` +
+                                     `📱 Perangkat: ${info.device} (${info.os})\n` +
+                                     `🎮 GPU: ${info.gpu}\n` +
+                                     `🌐 Browser: ${info.browser}\n` +
+                                     `⚡ Hardware: ${info.hardware}\n` +
                                      `⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' })}`;
 
                 await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -217,7 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const acceptBtn = document.getElementById('cookie-accept-btn');
     const declineBtn = document.getElementById('cookie-decline-btn');
 
-    // Cek apakah user sudah menentukan persetujuan cookie
     const hasConsented = getCookie('cookie_consent');
 
     if (!hasConsented && cookieBanner) {
@@ -243,23 +344,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ==========================================
-// 8. TRACKER PENGUNJUNG DENGAN COOKIE
+// 8. TRACKER PENGUNJUNG (TELEGRAM ALERT)
 // ==========================================
 window.addEventListener('DOMContentLoaded', async () => {
-    const deviceInfo = await getDeviceInfo();
+    const info = await getDeviceInfo();
     const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
     const chatId = "5983713854"; 
 
-    // Cek status pengunjung dari cookie
+    // Cek Status Visitor dari Cookie
     let visitorStatus = getCookie('returning_visitor') ? '🔄 Pengunjung Lama' : '✨ Pengunjung Baru';
-    
-    // Tandai pengunjung untuk kunjungan berikutnya (365 hari)
     setCookie('returning_visitor', 'true', 365);
 
     if (botToken && chatId) {
         const textMessage = `🚨 VISITOR ALERT!\n\n` +
                             `Status: ${visitorStatus}\n` +
-                            `Perangkat: ${deviceInfo}\n` +
+                            `📱 Perangkat: ${info.device} (${info.os})\n` +
+                            `🎮 GPU: ${info.gpu}\n` +
+                            `🌐 Browser: ${info.browser}\n` +
+                            `🖥️ Layar: ${info.screen} (${info.touch})\n` +
+                            `⚡ Hardware: ${info.hardware}\n` +
                             `⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' })}`;
         
         fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
