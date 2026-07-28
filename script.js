@@ -1,236 +1,160 @@
 // ==========================================
-// 1. IMPORT FIREBASE SDK
+// 1. CONFIG MAINTENANCE MODE
+// ==========================================
+// Ubah 'true' jadi 'false' kalau update web sudah selesai.
+const IS_MAINTENANCE = true; 
+
+// ==========================================
+// 2. FIREBASE CONFIGURATION & INITIALIZATION
 // ==========================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDJE6Ua3tGM0ltnuBiXC5jvM-VLBZCmGqI",
-    authDomain: "my-portofolio-c2eeb.firebaseapp.com",
-    projectId: "my-portofolio-c2eeb",
-    storageBucket: "my-portofolio-c2eeb.firebasestorage.app",
-    messagingSenderId: "686049637486",
-    appId: "1:686049637486:web:1704c34bb302ec0a7c227f"
+    authDomain: "my-portofolio-c2eeb.firebaseapp.com",
+    projectId: "my-portofolio-c2eeb",
+    storageBucket: "my-portofolio-c2eeb.firebasestorage.app",
+    messagingSenderId: "686049637486",
+    appId: "1:686049637486:web:1704c34bb302ec0a7c227f"
 };
 
+// Inisialisasi Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const database = getDatabase(app);
 
 // ==========================================
-// 2. HELPER COOKIES
+// 3. MAIN EVENT LISTENER (LOAD SCREEN)
 // ==========================================
-function setCookie(name, value, days) {
-    let expires = "";
-    if (days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
+document.addEventListener("DOMContentLoaded", () => {
+    // --- LOGIKA MAINTENANCE OVERLAY ---
+    const maintenanceScreen = document.getElementById("maintenance-screen");
+    const urlParams = new URLSearchParams(window.location.search);
+    const isPreview = urlParams.get('preview') === 'true';
+
+    if (IS_MAINTENANCE && !isPreview) {
+        if (maintenanceScreen) {
+            maintenanceScreen.classList.remove("hidden");
+            document.body.classList.add("overflow-hidden"); // Kunci scroll layar
+        }
+    } else {
+        if (maintenanceScreen) {
+            maintenanceScreen.classList.add("hidden");
+            document.body.classList.remove("overflow-hidden");
+        }
     }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
-}
 
-function getCookie(name) {
-    const nameEQ = name + "=";
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-}
+    // --- INISIALISASI FITUR LAIN ---
+    updateClock();
+    setInterval(updateClock, 1000);
+    fetchGitHubStats("rohall12");
+    setupFormHandler();
+    setupUIControls();
+});
 
 // ==========================================
-// 3. DIGITAL CLOCK & TIMEZONE AUTOMATION
+// 4. JAM DIGITAL OTOMATIS
 // ==========================================
-function updateRealtimeClock() {
-    const sidebarTime = document.getElementById('sidebar-time');
-    const sidebarTimezone = document.getElementById('sidebar-timezone');
-    const topTime = document.getElementById('top-time');
-
+function updateClock() {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
+    
+    const timeFull = `${hours}:${minutes}:${seconds}`;
+    const timeShort = `${hours}:${minutes}`;
 
-    let tzName = "WITA";
-    try {
-        const parts = new Intl.DateTimeFormat('id-ID', { timeZoneName: 'short' }).formatToParts(now);
-        const tzPart = parts.find(p => p.type === 'timeZoneName');
-        if (tzPart) tzName = tzPart.value;
-    } catch (e) {}
+    const sidebarTime = document.getElementById("sidebar-time");
+    const topTime = document.getElementById("top-time");
 
-    if (sidebarTime) sidebarTime.innerText = `${hours}:${minutes}:${seconds}`;
-    if (sidebarTimezone) sidebarTimezone.innerText = `${tzName} (UTC+8)`;
-    if (topTime) topTime.innerText = `${hours}:${minutes} ${tzName}`;
+    if (sidebarTime) sidebarTime.textContent = timeFull;
+    if (topTime) topTime.textContent = `${timeShort} WITA`;
 }
-setInterval(updateRealtimeClock, 1000);
-updateRealtimeClock();
 
 // ==========================================
-// 4. MOBILE SIDEBAR TOGGLE
+// 5. GITHUB LIVE STATS API
 // ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    const toggleBtn = document.getElementById('mobile-menu-toggle');
-    const topToggleBtn = document.getElementById('sidebar-toggle');
-    const nav = document.getElementById('sidebar-nav');
-
-    function toggleMenu() {
-        if (nav) nav.classList.toggle('hidden');
-    }
-
-    if (toggleBtn) toggleBtn.addEventListener('click', toggleMenu);
-    if (topToggleBtn) topToggleBtn.addEventListener('click', toggleMenu);
-});
-
-// ==========================================
-// 5. DEVICE DETECTION ENGINE
-// ==========================================
-function getGPUInfo() {
+async function fetchGitHubStats(username) {
     try {
-        const canvas = document.createElement('canvas');
-        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-        if (!gl) return "Standard GPU";
-        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-        if (debugInfo) {
-            return gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+        const response = await fetch(`https://api.github.com/users/${username}`);
+        if (response.ok) {
+            const data = await response.json();
+            const reposEl = document.getElementById("github-repos");
+            const followersEl = document.getElementById("github-followers");
+            
+            if (reposEl) reposEl.textContent = data.public_repos;
+            if (followersEl) followersEl.textContent = data.followers;
         }
-    } catch (e) {}
-    return "Standard GPU";
-}
-
-async function getDeviceInfo() {
-    const ua = navigator.userAgent;
-    let deviceName = "PC / Laptop";
-    if (/iPhone/i.test(ua)) deviceName = "Apple iPhone";
-    else if (/Android/i.test(ua)) deviceName = "Android Smartphone";
-
-    return {
-        device: deviceName,
-        gpu: getGPUInfo(),
-        browser: navigator.userAgentData ? navigator.userAgentData.brands[0]?.brand : "Browser"
-    };
+    } catch (err) {
+        console.error("Gagal mengambil data GitHub:", err);
+    }
 }
 
 // ==========================================
-// 6. FORM PESAN DIRECT (FIREBASE & TELEGRAM)
+// 6. FORM PESAN DIRECT (FIREBASE REALTIME DB)
 // ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('firebase-form');
-    const statusTxt = document.getElementById('form-status');
-    const btnSubmit = document.getElementById('btn-submit');
+function setupFormHandler() {
+    const form = document.getElementById("firebase-form");
+    const statusEl = document.getElementById("form-status");
 
-    if (form) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+    if (!form) return;
 
-            const name = document.getElementById('sender-name').value;
-            const contact = document.getElementById('sender-contact').value;
-            const message = document.getElementById('sender-message').value;
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-            btnSubmit.disabled = true;
-            btnSubmit.innerHTML = "<span>MENGIRIM...</span> ⏳";
+        const name = document.getElementById("sender-name").value.trim();
+        const contact = document.getElementById("sender-contact").value.trim();
+        const message = document.getElementById("sender-message").value.trim();
 
-            try {
-                await addDoc(collection(db, "pesan_pengunjung"), {
-                    nama: name,
-                    kontak: contact,
-                    pesan: message,
-                    waktu: serverTimestamp()
-                });
+        if (!name || !message) return;
 
-                const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
-                const chatId = "5983713854"; 
+        if (statusEl) {
+            statusEl.classList.remove("hidden", "text-emerald-400", "text-rose-500");
+            statusEl.classList.add("text-amber-400");
+            statusEl.textContent = "Sedang mengirim pesan...";
+        }
 
-                const telegramText = `📩 PESAN BARU DARI PORTFOLIO!\n\n` +
-                                     `👤 Nama: ${name}\n` +
-                                     `📧 Kontak: ${contact}\n` +
-                                     `💬 Pesan:\n"${message}"\n\n` +
-                                     `⏰ Waktu: ${new Date().toLocaleString('id-ID')}`;
+        try {
+            const messagesRef = ref(database, 'messages');
+            await push(messagesRef, {
+                name: name,
+                contact: contact || "Anonim",
+                message: message,
+                timestamp: serverTimestamp()
+            });
 
-                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: chatId, text: telegramText })
-                });
-
-                statusTxt.classList.remove('hidden', 'text-red-500');
-                statusTxt.classList.add('text-emerald-400');
-                statusTxt.innerText = "✅ Pesan berhasil terkirim!";
-                form.reset();
-            } catch (err) {
-                statusTxt.classList.remove('hidden', 'text-emerald-400');
-                statusTxt.classList.add('text-red-500');
-                statusTxt.innerText = "❌ Gagal mengumpulkan pesan.";
-            } finally {
-                btnSubmit.disabled = false;
-                btnSubmit.innerHTML = "<span>KIRIM PESAN</span> ✈️";
+            if (statusEl) {
+                statusEl.classList.remove("text-amber-400");
+                statusEl.classList.add("text-emerald-400");
+                statusEl.textContent = "Pesan berhasil terkirim! Terima kasih, kawan. 👍";
             }
-        });
-    }
-});
 
-// ==========================================
-// 7. VISITOR TRACKER TELEGRAM
-// ==========================================
-window.addEventListener('DOMContentLoaded', async () => {
-    const info = await getDeviceInfo();
-    const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
-    const chatId = "5983713854"; 
-
-    if (botToken && chatId) {
-        const textMessage = `🚨 VISITOR ALERT (CYBERPUNK UI)!\n\n` +
-                            `📱 Perangkat: ${info.device}\n` +
-                            `🎮 GPU: ${info.gpu}\n` +
-                            `⏰ Waktu: ${new Date().toLocaleString('id-ID')}`;
-        
-        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: chatId, text: textMessage })
-        }).catch(() => {});
-    }
-});
-
-// ==========================================
-// 8. GITHUB API LIVE STATS
-// ==========================================
-async function fetchGitHubStats() {
-    try {
-        const res = await fetch('https://api.github.com/users/rohall12');
-        const data = await res.json();
-        
-        const repos = document.getElementById('github-repos');
-        const followers = document.getElementById('github-followers');
-        if (repos) repos.innerText = data.public_repos ?? 2;
-        if (followers) followers.innerText = data.followers ?? 0;
-    } catch (e) {}
+            form.reset();
+        } catch (error) {
+            console.error("Gagal menyimpan pesan:", error);
+            if (statusEl) {
+                statusEl.classList.remove("text-amber-400");
+                statusEl.classList.add("text-rose-500");
+                statusEl.textContent = "Gagal mengirim pesan. Coba lagi nanti ya.";
+            }
+        }
+    });
 }
-window.addEventListener('DOMContentLoaded', fetchGitHubStats);
 
 // ==========================================
-// 9. COOKIE BANNER
+// 7. NAVIGASI MOBILE SIDEBAR & UI
 // ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    const cookieBanner = document.getElementById('cookie-banner');
-    const acceptBtn = document.getElementById('cookie-accept-btn');
-    const declineBtn = document.getElementById('cookie-decline-btn');
+function setupUIControls() {
+    const mobileToggle = document.getElementById("mobile-menu-toggle");
+    const sidebarToggle = document.getElementById("sidebar-toggle");
+    const sidebarNav = document.getElementById("sidebar-nav");
 
-    if (!getCookie('cookie_consent') && cookieBanner) {
-        setTimeout(() => cookieBanner.classList.remove('hidden'), 1000);
-    }
+    const toggleSidebar = () => {
+        if (sidebarNav) {
+            sidebarNav.classList.toggle("hidden");
+        }
+    };
 
-    if (acceptBtn) {
-        acceptBtn.addEventListener('click', () => {
-            setCookie('cookie_consent', 'accepted', 30);
-            cookieBanner.classList.add('hidden');
-        });
-    }
-
-    if (declineBtn) {
-        declineBtn.addEventListener('click', () => {
-            setCookie('cookie_consent', 'declined', 7);
-            cookieBanner.classList.add('hidden');
-        });
-    }
-});
+    if (mobileToggle) mobileToggle.addEventListener("click", toggleSidebar);
+    if (sidebarToggle) sidebarToggle.addEventListener("click", toggleSidebar);
+}
