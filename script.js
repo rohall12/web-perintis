@@ -17,7 +17,24 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 
-// 3. FUNGSI DETEKSI PERANGKAT PENGUNJUNG
+// 3. JAM LOKAL LIVE (WITA) FOR HUMAN TOUCH
+function updateLocalTime() {
+    const timeEl = document.getElementById('local-time');
+    if (timeEl) {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('id-ID', { 
+            timeZone: 'Asia/Makassar', 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+        timeEl.innerText = `(${timeString} WITA)`;
+    }
+}
+setInterval(updateLocalTime, 1000);
+updateLocalTime();
+
+
+// 4. DETEKSI PERANGKAT PENGUNJUNG
 async function getDeviceInfo() {
     let ua = navigator.userAgent;
     let browser = "Google Chrome";
@@ -75,7 +92,7 @@ async function getDeviceInfo() {
 }
 
 
-// 4. LOGIKA KIRIM PESAN KE FIRESTORE & TELEGRAM (LENGKAP DENGAN SHIELD ANTI-SPAM)
+// 5. KIRIM PESAN KE FIRESTORE & TELEGRAM (ANTI-SPAM SHIELD)
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('firebase-form');
     const statusTxt = document.getElementById('form-status');
@@ -85,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // --- PROTEKSI OTOMASI ANTI-SPAM (COOLDOWN 60 DETIK) ---
+            // PROTEKSI COOLDOWN ANTI-SPAM (60 DETIK)
             const COOLDOWN_MS = 60 * 1000;
             const lastSubmitTime = localStorage.getItem('last_message_submit');
             const now = Date.now();
@@ -94,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const remainingSec = Math.ceil((COOLDOWN_MS - (now - lastSubmitTime)) / 1000);
                 statusTxt.classList.remove('hidden', 'text-gray-400', 'text-green-400');
                 statusTxt.classList.add('text-amber-400');
-                statusTxt.innerText = `🛡️ Proteksi Anti-Spam: Mohon tunggu ${remainingSec} detik lagi sebelum mengirim pesan baru.`;
+                statusTxt.innerText = `🛡️ Anti-Spam: Tunggu ${remainingSec} detik lagi sebelum mengirim pesan baru.`;
                 return;
             }
 
@@ -102,15 +119,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const contact = document.getElementById('sender-contact').value;
             const message = document.getElementById('sender-message').value;
 
-            // Efek loading
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = "<span>Mengirim...</span> ⏳";
             statusTxt.classList.remove('hidden', 'text-green-400', 'text-red-400', 'text-amber-400');
             statusTxt.classList.add('text-gray-400');
-            statusTxt.innerText = "Sedang mengirim ke Firebase & Telegram...";
+            statusTxt.innerText = "Mengirim pesan ke Firebase & Telegram...";
 
             try {
-                // A. Simpan ke Firestore
+                // A. Save to Firestore
                 await addDoc(collection(db, "pesan_pengunjung"), {
                     nama: name,
                     kontak: contact || "Tidak diisi",
@@ -118,36 +134,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     waktu: serverTimestamp()
                 });
 
-                // B. Kirim Notifikasi ke Bot Telegram
+                // B. Telegram Bot Notification
                 const deviceInfo = await getDeviceInfo();
                 const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
                 const chatId = "5983713854"; 
 
-                const telegramText = `📩 PESAN BARU DARI WEB PORTFOLIO!\n\n` +
+                const telegramText = `📩 PESAN BARU DARI PORTFOLIO!\n\n` +
                                      `👤 Nama: ${name}\n` +
                                      `📧 Kontak: ${contact || "Tidak diisi"}\n` +
                                      `💬 Pesan:\n"${message}"\n\n` +
-                                     `Perangkat Pengirim: ${deviceInfo}\n` +
-                                     `⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}`;
+                                     `Perangkat: ${deviceInfo}\n` +
+                                     `⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' })}`;
 
                 await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: chatId,
-                        text: telegramText
-                    })
+                    body: JSON.stringify({ chat_id: chatId, text: telegramText })
                 });
 
-                // Simpan waktu pengiriman terakhir untuk anti-spam
                 localStorage.setItem('last_message_submit', Date.now());
 
-                // Notifikasi sukses
                 statusTxt.classList.remove('text-gray-400');
                 statusTxt.classList.add('text-green-400');
-                statusTxt.innerText = "✅ Pesan terkirim! Tersimpan di Firebase & Notifikasi terkirim ke Telegram.";
+                statusTxt.innerText = "✅ Pesan terkirim! Terimakasih sudah menghubungi gua.";
                 
-                // Reset form
                 form.reset();
             } catch (error) {
                 console.error("Error Firebase/Telegram: ", error);
@@ -156,14 +166,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 statusTxt.innerText = "❌ Gagal mengirim pesan. Silakan coba lagi.";
             } finally {
                 btnSubmit.disabled = false;
-                btnSubmit.innerHTML = "<span>Kirim Pesan ke Firebase</span> 🚀";
+                btnSubmit.innerHTML = "<span>Kirim Pesan</span> 🚀";
             }
         });
     }
 });
 
 
-// 5. FETCH API GITHUB STATS
+// 6. GITHUB STATS
 async function fetchGitHubStats() {
     try {
         const response = await fetch('https://api.github.com/users/rohall12');
@@ -174,20 +184,20 @@ async function fetchGitHubStats() {
         if (reposEl) reposEl.innerText = data.public_repos;
         if (followersEl) followersEl.innerText = data.followers;
     } catch (error) {
-        console.log("Gagal mengambil data GitHub:", error);
+        console.log("GitHub API Error:", error);
     }
 }
 window.addEventListener('DOMContentLoaded', fetchGitHubStats);
 
 
-// 6. SKRIP TRACKER KUNJUNGAN AWAL TELEGRAM
+// 7. TRACKER PENGUNJUNG
 window.addEventListener('DOMContentLoaded', async () => {
     const deviceInfo = await getDeviceInfo();
     const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
     const chatId = "5983713854"; 
 
     if (botToken && chatId) {
-        const textMessage = `🚨 Pengunjung Baru Membuka Web Roni!\n\nPerangkat: ${deviceInfo}\n⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })}`;
+        const textMessage = `🚨 Visitor Alert!\n\nPerangkat: ${deviceInfo}\n⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' })}`;
         fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -197,15 +207,10 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
 
-// 7. ANIMASI SCROLL INTERSECTION OBSERVER
+// 8. SCROLL ANIMATION
 document.addEventListener('DOMContentLoaded', () => {
     const reveals = document.querySelectorAll('.reveal');
-
-    const observerOptions = {
-        root: null,
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px"
-    };
+    const observerOptions = { root: null, threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
 
     const revealOnScroll = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -219,12 +224,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// 8. LOGIKA THEME ACCENT SWITCHER
+// 9. THEME ACCENT SWITCHER
 document.addEventListener('DOMContentLoaded', () => {
     const themeBtn = document.getElementById('theme-toggle-btn');
-    const themes = ['default', 'green', 'blue']; // purple (default), green, blue
+    const themes = ['default', 'green', 'blue'];
     
-    // Muat tema yang tersimpan di localStorage
     const savedTheme = localStorage.getItem('user_accent_theme') || 'default';
     if (savedTheme !== 'default') {
         document.documentElement.setAttribute('data-theme', savedTheme);
@@ -248,16 +252,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// 9. LOGIKA INSTALL PWA PROMPT & SERVICE WORKER REGISTER
+// 10. PWA PROMPT & SERVICE WORKER
 let deferredPrompt;
 const pwaBtn = document.getElementById('pwa-install-btn');
 
 window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    if (pwaBtn) {
-        pwaBtn.classList.remove('hidden');
-    }
+    if (pwaBtn) pwaBtn.classList.remove('hidden');
 });
 
 if (pwaBtn) {
@@ -265,18 +267,17 @@ if (pwaBtn) {
         if (deferredPrompt) {
             deferredPrompt.prompt();
             const { outcome } = await deferredPrompt.userChoice;
-            console.log(`User response to install prompt: ${outcome}`);
+            console.log(`User response: ${outcome}`);
             deferredPrompt = null;
             pwaBtn.classList.add('hidden');
         }
     });
 }
 
-// Registrasi Service Worker PWA
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
-            .then(reg => console.log('Service Worker Registered!', reg))
-            .catch(err => console.log('SW Reg Error:', err));
+            .then(reg => console.log('SW Registered!', reg))
+            .catch(err => console.log('SW Error:', err));
     });
 }
