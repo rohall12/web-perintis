@@ -15,6 +15,7 @@ const firebaseConfig = {
     storageBucket: "my-portofolio-c2eeb.firebasestorage.app",
     messagingSenderId: "686049637486",
     appId: "1:686049637486:web:1704c34bb302ec0a7c227f"
+
 };
 
 // Initialize Firebase & Firestore
@@ -48,18 +49,31 @@ function getCookie(name) {
 
 
 // ==========================================
-// 4. JAM LOKAL LIVE (WITA)
+// 4. JAM LOKAL DENGAN AUTO-DETEKSI ZONA WAKTU (WITA/WIB/WIT/DLL)
 // ==========================================
 function updateLocalTime() {
     const timeEl = document.getElementById('local-time');
     if (timeEl) {
         const now = new Date();
+        
+        // Mengambil jam & menit format 24 jam lokal pengunjung
         const timeString = now.toLocaleTimeString('id-ID', { 
-            timeZone: 'Asia/Makassar', 
             hour: '2-digit', 
-            minute: '2-digit' 
-        });
-        timeEl.innerText = `(${timeString} WITA)`;
+            minute: '2-digit',
+            hour12: false
+        }).replace('.', ':');
+        
+        // Deteksi singkatan zona waktu secara otomatis (WITA / WIB / WIT / dll)
+        let tzName = "";
+        try {
+            const parts = new Intl.DateTimeFormat('id-ID', { timeZoneName: 'short' }).formatToParts(now);
+            const tzPart = parts.find(p => p.type === 'timeZoneName');
+            if (tzPart) tzName = tzPart.value;
+        } catch (e) {
+            tzName = "";
+        }
+
+        timeEl.innerText = `${timeString} ${tzName}`.trim();
     }
 }
 setInterval(updateLocalTime, 1000);
@@ -67,9 +81,41 @@ updateLocalTime();
 
 
 // ==========================================
-// 5. ADVANCED HARDWARE & BROWSER DETECTION ENGINE
+// 5. LOGIC SIDEBAR MENU (OPEN / CLOSE / OVERLAY)
 // ==========================================
-// A. Deteksi GPU / Kartu Grafis (WebGL)
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const openBtn = document.getElementById('sidebar-toggle');
+    const closeBtn = document.getElementById('sidebar-close');
+    const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+    function openSidebar() {
+        overlay.classList.remove('hidden');
+        setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+        sidebar.classList.remove('-translate-x-full');
+    }
+
+    function closeSidebar() {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('opacity-0');
+        setTimeout(() => overlay.classList.add('hidden'), 300);
+    }
+
+    if (openBtn) openBtn.addEventListener('click', openSidebar);
+    if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+    if (overlay) overlay.addEventListener('click', closeSidebar);
+
+    // Otomatis tutup sidebar saat link menu diklik
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', closeSidebar);
+    });
+});
+
+
+// ==========================================
+// 6. HARDWARE & BROWSER DETECTION ENGINE
+// ==========================================
 function getGPUInfo() {
     try {
         const canvas = document.createElement('canvas');
@@ -86,7 +132,6 @@ function getGPUInfo() {
     return "Standard GPU";
 }
 
-// B. Deteksi Browser Lengkap & Versi
 function getBrowserDetail() {
     const ua = navigator.userAgent;
     let browserName = "Chrome";
@@ -124,7 +169,6 @@ function getBrowserDetail() {
     return `${browserName}${fullVersion}`;
 }
 
-// C. Engine Deteksi Seri HP & Perangkat High-Entropy (100% Akurat)
 async function getDeviceInfo() {
     const ua = navigator.userAgent;
     let deviceName = "Unknown Device";
@@ -137,7 +181,6 @@ async function getDeviceInfo() {
     let isTouch = ('ontouchstart' in window || navigator.maxTouchPoints > 0) ? "Touchscreen" : "Non-Touch";
     let screenSize = `${window.screen.width} x ${window.screen.height}`;
 
-    // 1. Client Hints (Chromium Modern / Android Terbaru)
     if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
         try {
             const hints = await navigator.userAgentData.getHighEntropyValues([
@@ -161,21 +204,12 @@ async function getDeviceInfo() {
                     osDetail = hints.platform;
                 }
             }
-        } catch (e) {
-            console.log("Client hints fallback active");
-        }
+        } catch (e) { }
     }
 
-    // 2. Fallback Regex Brand & Seri HP / Laptop
     if (deviceName === "Unknown Device" || deviceName === "") {
         if (/iPhone/i.test(ua)) {
-            if (gpu.includes("A17") || gpu.includes("A16")) {
-                deviceName = "Apple iPhone (Series 14 Pro / 15)";
-            } else if (gpu.includes("A15")) {
-                deviceName = "Apple iPhone (Series 13 / 14)";
-            } else {
-                deviceName = "Apple iPhone";
-            }
+            deviceName = "Apple iPhone";
             osDetail = "iOS";
         } else if (/iPad/i.test(ua)) {
             deviceName = "Apple iPad";
@@ -185,31 +219,14 @@ async function getDeviceInfo() {
             deviceName = `Samsung Galaxy (${model[1]})`;
             osDetail = "Android";
         } else if (/Redmi|Xiaomi|POCO/i.test(ua)) {
-            let model = ua.match(/(Redmi [A-Za-z0-9\s]+|POCO [A-Za-z0-9\s]+|Mi [A-Za-z0-9\s]+)/i);
-            deviceName = model ? model[0] : "Xiaomi / Redmi / POCO";
-            osDetail = "Android";
-        } else if (/CPH[0-9]+|OPPO/i.test(ua)) {
-            let model = ua.match(/(CPH[0-9]+)/i);
-            deviceName = model ? `OPPO Smartphone (${model[1]})` : "OPPO Smartphone";
-            osDetail = "Android";
-        } else if (/V[0-9]{4}[A-Z]?|vivo/i.test(ua)) {
-            deviceName = "Vivo Smartphone";
-            osDetail = "Android";
-        } else if (/Realme|RMX[0-9]+/i.test(ua)) {
-            deviceName = "Realme Smartphone";
-            osDetail = "Android";
-        } else if (/Infinix|X[0-9]{3,4}/i.test(ua)) {
-            deviceName = "Infinix Smartphone";
+            deviceName = "Xiaomi / Redmi / POCO";
             osDetail = "Android";
         } else if (/Windows/i.test(ua)) {
-            deviceName = isTouch.includes("Touch") ? "Windows Laptop (Touchscreen)" : "Windows PC / Laptop";
-            osDetail = ua.includes("NT 10.0") ? "Windows 10/11" : "Windows OS";
-        } else if (/Macintosh|Mac OS X/i.test(ua)) {
+            deviceName = "Windows PC / Laptop";
+            osDetail = "Windows OS";
+        } else if (/Macintosh/i.test(ua)) {
             deviceName = "Apple Mac / MacBook";
             osDetail = "macOS";
-        } else if (/Linux/i.test(ua)) {
-            deviceName = "Linux Desktop / Laptop";
-            osDetail = "Linux OS";
         }
     }
 
@@ -226,7 +243,7 @@ async function getDeviceInfo() {
 
 
 // ==========================================
-// 6. FORM PESAN (FIREBASE & TELEGRAM BOT)
+// 7. FORM PESAN (FIREBASE & TELEGRAM)
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('firebase-form');
@@ -237,7 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Cooldown Anti-Spam (60 Detik)
             const COOLDOWN_MS = 60 * 1000;
             const lastSubmitTime = localStorage.getItem('last_message_submit');
             const now = Date.now();
@@ -261,7 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
             statusTxt.innerText = "Mengirim pesan ke Firebase & Telegram...";
 
             try {
-                // A. Simpan ke Firestore Database
                 await addDoc(collection(db, "pesan_pengunjung"), {
                     nama: name,
                     kontak: contact || "Tidak diisi",
@@ -269,7 +284,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     waktu: serverTimestamp()
                 });
 
-                // B. Kirim Notifikasi Telegram
                 const info = await getDeviceInfo();
                 const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
                 const chatId = "5983713854"; 
@@ -281,8 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                      `📱 Perangkat: ${info.device} (${info.os})\n` +
                                      `🎮 GPU: ${info.gpu}\n` +
                                      `🌐 Browser: ${info.browser}\n` +
-                                     `⚡ Hardware: ${info.hardware}\n` +
-                                     `⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' })}`;
+                                     `⏰ Waktu: ${new Date().toLocaleString('id-ID')}`;
 
                 await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                     method: 'POST',
@@ -312,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ==========================================
-// 7. COOKIE BANNER & CONSENT LOGIC
+// 8. COOKIE BANNER LOGIC
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     const cookieBanner = document.getElementById('cookie-banner');
@@ -344,14 +357,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ==========================================
-// 8. TRACKER PENGUNJUNG (TELEGRAM ALERT DETIL UNTUK PENGUNJUNG BARU & LAMA)
+// 9. TRACKER PENGUNJUNG
 // ==========================================
 window.addEventListener('DOMContentLoaded', async () => {
     const info = await getDeviceInfo();
     const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
     const chatId = "5983713854"; 
 
-    // Cek Status Visitor dari Cookie
     let visitorStatus = getCookie('returning_visitor') ? '🔄 Pengunjung Lama' : '✨ Pengunjung Baru';
     setCookie('returning_visitor', 'true', 365);
 
@@ -363,7 +375,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                             `🌐 Browser: ${info.browser}\n` +
                             `🖥️ Layar: ${info.screen} (${info.touch})\n` +
                             `⚡ Hardware: ${info.hardware}\n` +
-                            `⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' })}`;
+                            `⏰ Waktu: ${new Date().toLocaleString('id-ID')}`;
         
         fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: 'POST',
@@ -375,7 +387,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 
 // ==========================================
-// 9. GITHUB STATS FETCHING
+// 10. GITHUB STATS
 // ==========================================
 async function fetchGitHubStats() {
     try {
@@ -394,7 +406,7 @@ window.addEventListener('DOMContentLoaded', fetchGitHubStats);
 
 
 // ==========================================
-// 10. SCROLL REVEAL ANIMATION
+// 11. SCROLL REVEAL & THEME SWITCHER
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     const reveals = document.querySelectorAll('.reveal');
@@ -409,13 +421,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }, observerOptions);
 
     reveals.forEach(el => revealOnScroll.observe(el));
-});
 
-
-// ==========================================
-// 11. THEME ACCENT SWITCHER
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
+    // Theme Switcher
     const themeBtn = document.getElementById('theme-toggle-btn');
     const themes = ['default', 'green', 'blue'];
     
@@ -443,7 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ==========================================
-// 12. PWA PROMPT & SERVICE WORKER AUTO-UPDATE
+// 12. PWA & GLITCH BUTTON TRIGGER
 // ==========================================
 let deferredPrompt;
 const pwaBtn = document.getElementById('pwa-install-btn');
@@ -458,37 +465,12 @@ if (pwaBtn) {
     pwaBtn.addEventListener('click', async () => {
         if (deferredPrompt) {
             deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`User response: ${outcome}`);
             deferredPrompt = null;
             pwaBtn.classList.add('hidden');
         }
     });
 }
 
-// Register Service Worker + Auto Reload On New SW
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(reg => {
-                reg.addEventListener('updatefound', () => {
-                    const newWorker = reg.installing;
-                    newWorker.addEventListener('statechange', () => {
-                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            console.log('Update baru terdeteksi! Memperbarui web...');
-                            window.location.reload();
-                        }
-                    });
-                });
-            })
-            .catch(err => console.log('SW Error:', err));
-    });
-}
-
-
-// ==========================================
-// 13. GLITCH BUTTON CLICK TRIGGER
-// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     const glitchBtns = document.querySelectorAll('.glitch-btn');
     glitchBtns.forEach(btn => {

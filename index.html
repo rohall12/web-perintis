@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Portfolio - Interactive & Smart Tracking</title>
+    <title>Web Portfolio - RoniHalla</title>
 
     <!-- PREVENT BROWSER CACHING -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -14,28 +14,75 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- STYLE CSS DENGAN VERSIONING -->
-    <link rel="stylesheet" href="style.css?v=1.0.2">
+    <link rel="stylesheet" href="style.css?v=1.0.3">
 
     <!-- PWA MANIFEST -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0f172a">
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between font-sans antialiased">
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between font-sans antialiased relative">
+
+    <!-- SIDEBAR OVERLAY (BACKDROP) -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <!-- LEFT SIDEBAR MENU -->
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-72 bg-slate-900/95 border-r border-slate-800 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out p-6 flex flex-col justify-between backdrop-blur-xl">
+        <div class="space-y-6">
+            <!-- Sidebar Header -->
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                <span class="text-base font-bold text-cyan-400">Navigasi Web</span>
+                <button id="sidebar-close" class="text-slate-400 hover:text-red-400 text-2xl font-bold transition px-2">&times;</button>
+            </div>
+
+            <!-- Sidebar Links -->
+            <nav class="space-y-2">
+                <a href="#hero" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-cyan-400 transition font-medium">
+                    <span>🏠</span> Beranda
+                </a>
+                <a href="#github-stats" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-cyan-400 transition font-medium">
+                    <span>💻</span> GitHub Activity
+                </a>
+                <a href="#contact-section" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-cyan-400 transition font-medium">
+                    <span>📬</span> Kirim Pesan Direct
+                </a>
+                
+                <div class="pt-4 border-t border-slate-800/80">
+                    <p class="text-xs text-slate-500 uppercase tracking-wider mb-2 px-4">Kontak Cepat</p>
+                    <a href="https://wa.me/628xxxxxxxxxx" target="_blank" rel="noopener noreferrer" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-300 hover:bg-emerald-500/10 hover:text-emerald-400 transition text-sm">
+                        <span>💬</span> WhatsApp
+                    </a>
+                    <a href="https://instagram.com/username_ig" target="_blank" rel="noopener noreferrer" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-300 hover:bg-pink-500/10 hover:text-pink-400 transition text-sm">
+                        <span>📸</span> Instagram
+                    </a>
+                </div>
+            </nav>
+        </div>
+
+        <div class="border-t border-slate-800 pt-4 text-xs text-slate-500 text-center font-mono">
+            &copy; 2026 RoniHalla
+        </div>
+    </aside>
 
     <!-- HEADER & NAVBAR -->
     <header class="w-full max-w-5xl mx-auto p-4 flex justify-between items-center border-b border-slate-800">
-        <div class="flex items-center gap-2">
-            <span class="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Portfolio</span>
-            <span id="local-time" class="text-xs text-slate-400 font-mono">(00.00 WITA)</span>
+        <!-- POJOK KIRI: TOMBOL SIDEBAR & JAM DENGAN ZONA WAKTU OTOMATIS -->
+        <div class="flex items-center gap-3">
+            <button id="sidebar-toggle" class="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-cyan-400 rounded-lg border border-slate-700 transition flex items-center justify-center" title="Buka Menu">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+
+            <!-- JAM DENGAN DETEKSI LOKASI & ZONA WAKTU AUTOMATIS -->
+            <span id="local-time" class="text-xs sm:text-sm font-semibold font-mono text-cyan-400 tracking-wide bg-slate-800/60 px-3 py-1.5 rounded-lg border border-slate-700/50">
+                00.00
+            </span>
         </div>
         
+        <!-- POJOK KANAN: PWA & THEME SWITCHER -->
         <div class="flex items-center gap-3">
-            <!-- PWA INSTALL BUTTON -->
             <button id="pwa-install-btn" class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 px-3 py-1.5 rounded-lg transition">
                 📲 Install App
             </button>
 
-            <!-- THEME SWITCHER -->
             <button id="theme-toggle-btn" class="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition" title="Ganti Tema Warna">
                 🎨
             </button>
@@ -45,38 +92,34 @@
     <!-- MAIN CONTENT -->
     <main class="w-full max-w-4xl mx-auto p-6 space-y-10">
         
-        <!-- HERO SECTION DENGAN FOTO PROFIL & TOMBOL KONTAK GLITCH -->
-        <section class="reveal flex flex-col items-center py-6 text-center space-y-6">
+        <!-- HERO SECTION -->
+        <section id="hero" class="reveal flex flex-col items-center py-6 text-center space-y-6">
             
             <!-- FOTO PROFIL GLOWING -->
             <div class="relative group">
                 <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-pink-500 rounded-full blur-md opacity-75 group-hover:opacity-100 transition duration-300"></div>
-                <!-- ⚠️ Ganti 'foto-kamu.jpg' dengan file foto profilmu -->
-                <img src="roni-photo.jpg" alt="Foto Profil" class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover border-2 border-slate-800 shadow-2xl">
+                <!-- ⚠️ Ganti 'foto-kamu.jpg' dengan nama file fotomu -->
+                <img src="foto-kamu.jpg" alt="Foto Profil RoniHalla" class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover border-2 border-slate-800 shadow-2xl">
             </div>
 
-            <!-- TEKS HERO -->
+            <!-- TEKS HERO DENGAN KALIMAT BARU -->
             <div class="space-y-3 max-w-xl">
-                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight">
-                    Halo, Welcome to My Space 👋
+                <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-slate-100 leading-snug">
+                    Hallo selamat datang diweb saya, semoga nyaman
                 </h1>
                 <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
                     Developer Enthusiast yang senang bereksperimen dengan web modern, otomatisasi bot, dan integrasi real-time database.
                 </p>
             </div>
 
-            <!-- TOMBOL KONTAK DENGAN EFEK GLITCH DINAMIS -->
+            <!-- TOMBOL KONTAK DENGAN EFEK GLITCH -->
             <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
-                <!-- WhatsApp Button -->
-                <!-- ⚠️ Ganti '628xxxxxxxxxx' dengan nomor WhatsApp milikmu -->
-                <a href="https://wa.me/62881038278950" target="_blank" rel="noopener noreferrer" 
+                <a href="https://wa.me/628xxxxxxxxxx" target="_blank" rel="noopener noreferrer" 
                    class="glitch-btn flex items-center gap-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 px-5 py-2.5 rounded-xl font-medium text-sm backdrop-blur">
                     <span>💬 WhatsApp</span>
                 </a>
 
-                <!-- Instagram Button -->
-                <!-- ⚠️ Ganti 'username_ig' dengan akun Instagram milikmu -->
-                <a href="https://instagram.com/ronihalla_08" target="_blank" rel="noopener noreferrer" 
+                <a href="https://instagram.com/username_ig" target="_blank" rel="noopener noreferrer" 
                    class="glitch-btn flex items-center gap-2 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 border border-pink-500/40 px-5 py-2.5 rounded-xl font-medium text-sm backdrop-blur">
                     <span>📸 Instagram</span>
                 </a>
@@ -85,7 +128,7 @@
         </section>
 
         <!-- GITHUB STATS SECTION -->
-        <section class="reveal bg-slate-800/50 border border-slate-700/60 rounded-2xl p-6 backdrop-blur">
+        <section id="github-stats" class="reveal bg-slate-800/50 border border-slate-700/60 rounded-2xl p-6 backdrop-blur">
             <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
                 <span>💻</span> GitHub Live Activity
             </h2>
@@ -102,7 +145,7 @@
         </section>
 
         <!-- CONTACT FORM SECTION -->
-        <section class="reveal bg-slate-800/50 border border-slate-700/60 rounded-2xl p-6 sm:p-8 backdrop-blur space-y-6">
+        <section id="contact-section" class="reveal bg-slate-800/50 border border-slate-700/60 rounded-2xl p-6 sm:p-8 backdrop-blur space-y-6">
             <div>
                 <h2 class="text-xl font-bold text-slate-100">Kirim Pesan Direct 📬</h2>
                 <p class="text-xs text-slate-400 mt-1">Pesan akan tersimpan aman di Cloud Firebase & terdeteksi instan via Bot Telegram.</p>
@@ -134,9 +177,9 @@
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="w-full text-center py-6 text-xs text-slate-500 border-t border-slate-800/80 mt-12">
-        <p>&copy; 2026 Portfolio. All rights reserved.</p>
+    <!-- FOOTER COPYRIGHT PERBARUAN -->
+    <footer class="w-full text-center py-6 text-xs text-slate-500 border-t border-slate-800/80 mt-12 font-mono">
+        <p>&copy; 2026 RoniHalla. All rights reserved.</p>
     </footer>
 
     <!-- COOKIE CONSENT BANNER -->
@@ -154,6 +197,6 @@
     </div>
 
     <!-- SCRIPT JS DENGAN VERSIONING & TYPE MODULE -->
-    <script type="module" src="script.js?v=1.0.2"></script>
+    <script type="module" src="script.js?v=1.0.3"></script>
 </body>
 </html>
