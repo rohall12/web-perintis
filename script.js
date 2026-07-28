@@ -75,7 +75,7 @@ async function getDeviceInfo() {
 }
 
 
-// 4. LOGIKA KIRIM PESAN KE FIRESTORE & TELEGRAM
+// 4. LOGIKA KIRIM PESAN KE FIRESTORE & TELEGRAM (LENGKAP DENGAN SHIELD ANTI-SPAM)
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('firebase-form');
     const statusTxt = document.getElementById('form-status');
@@ -85,6 +85,19 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            // --- PROTEKSI OTOMASI ANTI-SPAM (COOLDOWN 60 DETIK) ---
+            const COOLDOWN_MS = 60 * 1000;
+            const lastSubmitTime = localStorage.getItem('last_message_submit');
+            const now = Date.now();
+
+            if (lastSubmitTime && (now - lastSubmitTime < COOLDOWN_MS)) {
+                const remainingSec = Math.ceil((COOLDOWN_MS - (now - lastSubmitTime)) / 1000);
+                statusTxt.classList.remove('hidden', 'text-gray-400', 'text-green-400');
+                statusTxt.classList.add('text-amber-400');
+                statusTxt.innerText = `🛡️ Proteksi Anti-Spam: Mohon tunggu ${remainingSec} detik lagi sebelum mengirim pesan baru.`;
+                return;
+            }
+
             const name = document.getElementById('sender-name').value;
             const contact = document.getElementById('sender-contact').value;
             const message = document.getElementById('sender-message').value;
@@ -92,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Efek loading
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = "<span>Mengirim...</span> ⏳";
-            statusTxt.classList.remove('hidden', 'text-green-400', 'text-red-400');
+            statusTxt.classList.remove('hidden', 'text-green-400', 'text-red-400', 'text-amber-400');
             statusTxt.classList.add('text-gray-400');
             statusTxt.innerText = "Sedang mengirim ke Firebase & Telegram...";
 
@@ -125,6 +138,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         text: telegramText
                     })
                 });
+
+                // Simpan waktu pengiriman terakhir untuk anti-spam
+                localStorage.setItem('last_message_submit', Date.now());
 
                 // Notifikasi sukses
                 statusTxt.classList.remove('text-gray-400');
@@ -201,3 +217,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
     reveals.forEach(el => revealOnScroll.observe(el));
 });
+
+
+// 8. LOGIKA THEME ACCENT SWITCHER
+document.addEventListener('DOMContentLoaded', () => {
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const themes = ['default', 'green', 'blue']; // purple (default), green, blue
+    
+    // Muat tema yang tersimpan di localStorage
+    const savedTheme = localStorage.getItem('user_accent_theme') || 'default';
+    if (savedTheme !== 'default') {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            let currentTheme = document.documentElement.getAttribute('data-theme') || 'default';
+            let nextIndex = (themes.indexOf(currentTheme) + 1) % themes.length;
+            let nextTheme = themes[nextIndex];
+
+            if (nextTheme === 'default') {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', nextTheme);
+            }
+
+            localStorage.setItem('user_accent_theme', nextTheme);
+        });
+    }
+});
+
+
+// 9. LOGIKA INSTALL PWA PROMPT & SERVICE WORKER REGISTER
+let deferredPrompt;
+const pwaBtn = document.getElementById('pwa-install-btn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (pwaBtn) {
+        pwaBtn.classList.remove('hidden');
+    }
+});
+
+if (pwaBtn) {
+    pwaBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response to install prompt: ${outcome}`);
+            deferredPrompt = null;
+            pwaBtn.classList.add('hidden');
+        }
+    });
+}
+
+// Registrasi Service Worker PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('Service Worker Registered!', reg))
+            .catch(err => console.log('SW Reg Error:', err));
+    });
+}

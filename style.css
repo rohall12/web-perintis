@@ -1,4 +1,31 @@
-/* --- RESET & VARIABLE GLOBAL --- */
+/* --- VARIABLE TEMA DINAMIS --- */
+:root {
+    --primary-accent: #a855f7;
+    --primary-gradient: linear-gradient(135deg, #a855f7, #6366f1);
+    --primary-glow: rgba(168, 85, 247, 0.3);
+    --primary-bg-accent: rgba(168, 85, 247, 0.15);
+}
+
+[data-theme="green"] {
+    --primary-accent: #10b981;
+    --primary-gradient: linear-gradient(135deg, #10b981, #059669);
+    --primary-glow: rgba(16, 185, 129, 0.3);
+    --primary-bg-accent: rgba(16, 185, 129, 0.15);
+}
+
+[data-theme="blue"] {
+    --primary-accent: #3b82f6;
+    --primary-gradient: linear-gradient(135deg, #3b82f6, #0284c7);
+    --primary-glow: rgba(59, 130, 246, 0.3);
+    --primary-bg-accent: rgba(59, 130, 246, 0.15);
+}
+
+/* Helper Class untuk Tailwind Dynamic Override */
+.text-theme { color: var(--primary-accent) !important; }
+.bg-theme-light { background-color: var(--primary-bg-accent) !important; }
+.border-theme { border-color: var(--primary-accent) !important; }
+
+/* --- RESET & GLOBAL --- */
 * {
     margin: 0;
     padding: 0;
@@ -24,7 +51,7 @@ body {
     left: 0;
     width: 100%;
     z-index: 50;
-    background: rgba(13, 11, 20, 0.8);
+    background: rgba(13, 11, 20, 0.85);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -34,12 +61,13 @@ body {
     margin: 0 auto;
     padding: 1rem 1.5rem;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .nav-links {
     display: flex;
-    gap: 1.5rem;
+    gap: 1.25rem;
     list-style: none;
 }
 
@@ -53,17 +81,42 @@ body {
 
 .nav-links a:hover,
 .nav-links a.active {
-    color: #a855f7;
+    color: var(--primary-accent);
 }
 
-/* --- MAIN WRAPPER --- */
+/* Nav Controls (Theme & PWA Buttons) */
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-icon-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e2e8f0;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.nav-icon-btn:hover {
+    border-color: var(--primary-accent);
+    background: var(--primary-bg-accent);
+    transform: translateY(-1px);
+}
+
+/* --- MAIN WRAPPER & HERO --- */
 .main-wrapper {
     max-width: 1100px;
     margin: 0 auto;
     padding: 6rem 1.5rem 3rem 1.5rem;
 }
 
-/* --- HERO SECTION --- */
 .hero-section {
     display: grid;
     grid-template-columns: 1fr;
@@ -79,7 +132,7 @@ body {
 }
 
 .hero-content h3 {
-    color: #a855f7;
+    color: var(--primary-accent);
     font-size: 1.125rem;
     font-weight: 600;
 }
@@ -105,7 +158,6 @@ body {
     max-width: 500px;
 }
 
-/* Tech Tags */
 .tech-tags {
     display: flex;
     flex-wrap: wrap;
@@ -124,9 +176,9 @@ body {
 .tech-tag.html { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
 .tech-tag.css { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
 .tech-tag.js { background: rgba(234, 179, 8, 0.15); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.3); }
-.tech-tag.git { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+.tech-tag.git { background: var(--primary-bg-accent); color: var(--primary-accent); border: 1px solid var(--primary-accent); }
 
-/* Tombol / Buttons */
+/* Buttons */
 .hero-actions {
     display: flex;
     gap: 1rem;
@@ -137,7 +189,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: linear-gradient(135deg, #a855f7, #6366f1);
+    background: var(--primary-gradient);
     color: #ffffff;
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
@@ -149,7 +201,7 @@ body {
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px -5px rgba(168, 85, 247, 0.4);
+    box-shadow: 0 10px 20px -5px var(--primary-glow);
 }
 
 .btn-secondary {
@@ -172,7 +224,7 @@ body {
     border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Frame Foto Profil */
+/* Image Wrapper */
 .hero-image-container {
     display: flex;
     justify-content: center;
@@ -184,8 +236,8 @@ body {
     height: 260px;
     border-radius: 1.5rem;
     overflow: hidden;
-    border: 2px solid rgba(168, 85, 247, 0.3);
-    box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
+    border: 2px solid var(--primary-accent);
+    box-shadow: 0 0 30px var(--primary-glow);
 }
 
 .image-wrapper img {
@@ -200,16 +252,16 @@ body {
     right: 10px;
     background: rgba(13, 11, 20, 0.8);
     backdrop-filter: blur(8px);
-    color: #a855f7;
+    color: var(--primary-accent);
     font-family: monospace;
     font-weight: bold;
     padding: 4px 8px;
     border-radius: 6px;
     font-size: 0.75rem;
-    border: 1px solid rgba(168, 85, 247, 0.4);
+    border: 1px solid var(--primary-accent);
 }
 
-/* --- CARDS & GRID SYSTEM --- */
+/* --- CARDS & GRID --- */
 .content-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -232,7 +284,7 @@ body {
 
 .section-heading {
     font-family: monospace;
-    color: #a855f7;
+    color: var(--primary-accent);
     font-size: 0.875rem;
     font-weight: 700;
     margin-bottom: 0.75rem;
@@ -247,7 +299,7 @@ body {
 /* Bio Details */
 .bio-details {
     display: flex;
-    flex-col;
+    flex-direction: column;
     gap: 0.5rem;
     margin-top: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -328,9 +380,9 @@ footer {
 }
 
 .glitch-btn:hover {
-    border-color: #a855f7;
-    color: #a855f7;
-    background: rgba(168, 85, 247, 0.1);
+    border-color: var(--primary-accent);
+    color: var(--primary-accent);
+    background: var(--primary-bg-accent);
 }
 
 .footer-bottom-row {
@@ -348,14 +400,14 @@ footer {
     width: 32px;
     height: 32px;
     background: rgba(255, 255, 255, 0.05);
-    color: #a855f7;
+    color: var(--primary-accent);
     border-radius: 50%;
     text-decoration: none;
     font-weight: bold;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* --- ANIMASI SCROLL SMOOTH (REVEAL) --- */
+/* --- ANIMASI SCROLL REVEAL --- */
 .reveal {
     opacity: 0;
     transform: translateY(40px);
