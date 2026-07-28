@@ -3,298 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <title>Web Portfolio - Interactive & Smart Tracking</title>
+
+    <!-- PREVENT BROWSER CACHING (AUTO CACHE BUSTING) -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <!-- TAILWIND CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- STYLE CSS DENGAN VERSIONING -->
+    <link rel="stylesheet" href="style.css?v=1.0.1">
+
     <!-- PWA MANIFEST -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0d0b14">
-    
-    <!-- SEO & PRIMARY META TAGS -->
-    <title>Roni Halla — Web Developer & Automation Enthusiast</title>
-    <meta name="title" content="Roni Halla — Web Developer Portfolio">
-    <meta name="description" content="Personal space tempat Roni Halla bereksperimen dengan Frontend Web, Firebase Cloud, dan Otomasi Telegram Bot.">
-    <meta name="author" content="Roni Halla">
-    <meta name="keywords" content="Roni Halla, Web Developer, Portfolio, Frontend Developer, HTML, CSS, JavaScript, Firebase, Sumba Timur">
-
-    <!-- OPEN GRAPH -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://github.com/rohall12">
-    <meta property="og:title" content="Roni Halla — Personal Web Space">
-    <meta property="og:description" content="Eksplorasi project web interaktif, Firebase Cloud, dan integrasi Bot API oleh Roni Halla.">
-    <meta property="og:image" content="roni-photo.jpg">
-
-    <!-- TAILWIND CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            corePlugins: { preflight: false }
-        }
-    </script>
-
-    <!-- FILE CSS KITA -->
-    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#0f172a">
 </head>
-<body>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between font-sans antialiased">
 
-    <!-- Header / Navbar -->
-    <header class="navbar" id="beranda">
-        <div class="nav-container">
-            <ul class="nav-links">
-                <li><a href="#beranda" class="active">Beranda</a></li>
-                <li><a href="#tentang">Tentang</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#proyek">Proyek</a></li>
-                <li><a href="#kontak-pesan">Pesan</a></li>
-                <li><a href="#kontak">Kontak</a></li>
-            </ul>
+    <!-- HEADER & NAVBAR -->
+    <header class="w-full max-w-5xl mx-auto p-4 flex justify-between items-center border-b border-slate-800">
+        <div class="flex items-center gap-2">
+            <span class="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Portfolio</span>
+            <span id="local-time" class="text-xs text-slate-400 font-mono">(00.00 WITA)</span>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <!-- PWA INSTALL BUTTON (Hidden by default) -->
+            <button id="pwa-install-btn" class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 px-3 py-1.5 rounded-lg transition">
+                📲 Install App
+            </button>
 
-            <div class="nav-controls">
-                <button id="theme-toggle-btn" class="nav-icon-btn" title="Ganti Tema Aksen">
-                    🎨
-                </button>
-                <button id="pwa-install-btn" class="nav-icon-btn hidden" title="Install Web App">
-                    📲 <span class="text-xs ml-1 hidden md:inline">Install App</span>
-                </button>
-            </div>
+            <!-- THEME SWITCHER -->
+            <button id="theme-toggle-btn" class="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition" title="Ganti Tema Warna">
+                🎨
+            </button>
         </div>
     </header>
 
-    <!-- Main Container -->
-    <div class="main-wrapper">
+    <!-- MAIN CONTENT -->
+    <main class="w-full max-w-4xl mx-auto p-6 space-y-12">
         
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-content reveal">
-                <!-- Status Badge Human Touch -->
-                <div class="status-badge">
-                    <span class="pulse-dot"></span>
-                    <span>Available for projects & collaboration</span>
+        <!-- HERO SECTION -->
+        <section class="reveal space-y-4 text-center sm:text-left py-8">
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight">
+                Halo, Welcome to My Space 👋
+            </h1>
+            <p class="text-slate-400 max-w-2xl text-sm sm:text-base leading-relaxed">
+                Developer Enthusiast yang senang bereksperimen dengan web modern, otomatisasi bot, dan integrasi real-time database.
+            </p>
+        </section>
+
+        <!-- GITHUB STATS SECTION -->
+        <section class="reveal bg-slate-800/50 border border-slate-700/60 rounded-2xl p-6 backdrop-blur">
+            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                <span>💻</span> GitHub Live Activity
+            </h2>
+            <div class="grid grid-cols-2 gap-4 text-center">
+                <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                    <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Public Repos</p>
+                    <span id="github-repos" class="text-2xl font-bold text-cyan-400">0</span>
                 </div>
-
-                <h1>Halo, gua <span id="profile-name" class="text-theme">Roni</span> 👋</h1>
-                <div class="hero-role">Web Developer & Tech Explorer</div>
-                <p class="hero-desc">
-                    Suka ngulik kode frontend, ngoneksiin database cloud, dan ngebangun fitur otomasi bot. Web ini adalah tempat eksperimen dan jurnal karya yang lagi gua kerjain.
-                </p>
-
-                <div class="tech-tags">
-                    <span class="tech-tag html">HTML5</span>
-                    <span class="tech-tag css">Tailwind / CSS</span>
-                    <span class="tech-tag js">JavaScript ES6+</span>
-                    <span class="tech-tag git">Git & GitHub</span>
-                </div>
-
-                <div class="hero-actions">
-                    <a href="#proyek" class="btn-primary">
-                        <span>Lihat Karya Gua</span>
-                        <span>→</span>
-                    </a>
-                    <a href="https://wa.me/62881038278950" target="_blank" class="btn-secondary">
-                        <span>Ngobrol via WA</span>
-                        <span>💬</span>
-                    </a>
-                </div>
-
-                <!-- Live GitHub Stats Card -->
-                <div class="mt-6 flex items-center justify-between bg-white/5 border border-white/10 p-4 rounded-xl backdrop-blur-md max-w-sm hover:border-theme transition duration-300">
-                    <div class="flex items-center gap-4">
-                        <div class="p-3 bg-theme-light rounded-lg text-theme">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                        </div>
-                        <div>
-                            <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold">GitHub Activity</p>
-                            <p class="text-sm font-medium text-gray-200">
-                                <span id="github-repos" class="text-theme font-bold">...</span> Repositories | 
-                                <span id="github-followers" class="text-blue-400 font-bold">...</span> Followers
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Profile Photo -->
-            <div class="hero-image-container reveal">
-                <div class="image-wrapper">
-                    <div class="code-badge-icon">&lt;/&gt;</div>
-                    <img src="roni-photo.jpg" alt="Roni Halla" id="profile-photo" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80'">
+                <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                    <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">Followers</p>
+                    <span id="github-followers" class="text-2xl font-bold text-blue-400">0</span>
                 </div>
             </div>
         </section>
 
-        <!-- Content Grid (Tentang & Skills) -->
-        <div class="content-grid" id="tentang">
-            <div class="card-box reveal">
-                <div class="section-heading">01. Tentang Gua</div>
-                <p class="about-desc-text">
-                    Gua Roni, mahasiswa yang berdomisili di Sumba Timur. Gua nemuin keseruan tersendiri saat bikin tampilan web yang responsif sekaligus ngatur logika di balik layarnya.
-                </p>
-                <p class="about-desc-text">
-                    Fokus gua saat ini adalah memperdalam ekosistem JavaScript, integrasi API, serta pengelolaan version control menggunakan Git agar kodingan tetap rapi dan terstruktur.
-                </p>
-                <div class="bio-details">
-                    <div class="bio-row">
-                        <div class="bio-label">👤 Nama Lengkap</div>
-                        <div class="bio-value">Roni Halla</div>
-                    </div>
-                    <div class="bio-row">
-                        <div class="bio-label">📍 Lokasi & Waktu</div>
-                        <div class="bio-value">Sumba Timur <span id="local-time" class="text-xs text-theme"></span></div>
-                    </div>
-                    <div class="bio-row">
-                        <div class="bio-label">🎓 Status</div>
-                        <div class="bio-value">Mahasiswa & Self-Taught Dev</div>
-                    </div>
-                </div>
+        <!-- CONTACT FORM SECTION -->
+        <section class="reveal bg-slate-800/50 border border-slate-700/60 rounded-2xl p-6 sm:p-8 backdrop-blur space-y-6">
+            <div>
+                <h2 class="text-xl font-bold text-slate-100">Kirim Pesan Direct 📬</h2>
+                <p class="text-xs text-slate-400 mt-1">Pesan akan tersimpan aman di Cloud Firebase & terdeteksi instan via Bot Telegram.</p>
             </div>
 
-            <div class="card-box reveal" id="skills">
-                <div class="section-heading">02. Tech Stack</div>
-                <p class="about-desc-text">
-                    Teknologi dan *tools* yang biasa gua pakai buat ngebangun project.
-                </p>
-                <div class="skills-grid-inner">
-                    <div class="skill-item-card">
-                        <div class="skill-icon-box" style="color: #f87171;">HTML</div>
-                        <div class="skill-title-name">Semantic HTML</div>
-                        <div class="skill-desc-text">Struktur web bersih & SEO-friendly.</div>
-                    </div>
-                    <div class="skill-item-card">
-                        <div class="skill-icon-box" style="color: #60a5fa;">CSS</div>
-                        <div class="skill-title-name">Tailwind / Modern CSS</div>
-                        <div class="skill-desc-text">Tampilan rapi, fleksibel & responsif.</div>
-                    </div>
-                    <div class="skill-item-card">
-                        <div class="skill-icon-box" style="color: #facc15;">JS</div>
-                        <div class="skill-title-name">JavaScript (ES6+)</div>
-                        <div class="skill-desc-text">Logika interaktif, DOM & Async/Fetch API.</div>
-                    </div>
-                    <div class="skill-item-card">
-                        <div class="skill-icon-box" style="color: #c084fc;">GIT</div>
-                        <div class="skill-title-name">Git & GitHub</div>
-                        <div class="skill-desc-text">Manajemen kode & workflow teratur.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Proyek Section -->
-        <div class="card-box mt-8 reveal" id="proyek">
-            <div class="section-heading">03. Project pilihan</div>
-            <p class="about-desc-text mb-6">
-                Beberapa eksplorasi dan aplikasi web yang berhasil gua kembangkan.
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Proyek 1 -->
-                <div class="bg-white/5 border border-white/10 rounded-xl p-5 hover:border-theme transition duration-300 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono text-theme bg-theme-light px-2.5 py-1 rounded-md border border-theme">PWA & Cloud DB</span>
-                            <span class="text-xs text-gray-400 font-mono">2026</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-100 mb-2">Personal Web App & Firebase</h3>
-                        <p class="text-xs text-gray-400 leading-relaxed mb-4">
-                            Web portofolio yang dapat di-install langsung di HP (PWA), dilengkapi penyimpanan pesan cloud via Firebase dan sistem aksen warna dinamis.
-                        </p>
-                        <div class="flex flex-wrap gap-1.5 mb-5">
-                            <span class="text-[10px] font-mono bg-white/5 text-gray-300 px-2 py-0.5 rounded border border-white/10">Tailwind</span>
-                            <span class="text-[10px] font-mono bg-white/5 text-gray-300 px-2 py-0.5 rounded border border-white/10">JS Async</span>
-                            <span class="text-[10px] font-mono bg-theme-light text-theme px-2 py-0.5 rounded border border-theme">Firebase</span>
-                            <span class="text-[10px] font-mono bg-blue-900/40 text-blue-300 px-2 py-0.5 rounded border border-blue-500/30">PWA</span>
-                        </div>
-                    </div>
-                    <div class="flex gap-3 pt-3 border-t border-white/5">
-                        <a href="https://github.com/rohall12" target="_blank" class="text-xs text-theme hover:underline font-semibold flex items-center gap-1">
-                            <span>Lihat Repositori</span> →
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Proyek 2 -->
-                <div class="bg-white/5 border border-white/10 rounded-xl p-5 hover:border-theme transition duration-300 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-mono text-blue-400 bg-blue-500/10 px-2.5 py-1 rounded-md border border-blue-500/20">Otomasi & Bot</span>
-                            <span class="text-xs text-gray-400 font-mono">2026</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-100 mb-2">Telegram Visitor & Message Bot</h3>
-                        <p class="text-xs text-gray-400 leading-relaxed mb-4">
-                            Sistem otomasion yang secara instan mengirimkan notifikasi aktivitas pengunjung dan data form ke Telegram Bot pribadi secara *real-time*.
-                        </p>
-                        <div class="flex flex-wrap gap-1.5 mb-5">
-                            <span class="text-[10px] font-mono bg-white/5 text-gray-300 px-2 py-0.5 rounded border border-white/10">Telegram API</span>
-                            <span class="text-[10px] font-mono bg-white/5 text-gray-300 px-2 py-0.5 rounded border border-white/10">Fetch API</span>
-                            <span class="text-[10px] font-mono bg-white/5 text-gray-300 px-2 py-0.5 rounded border border-white/10">Client Hints</span>
-                        </div>
-                    </div>
-                    <div class="flex gap-3 pt-3 border-t border-white/5">
-                        <a href="https://github.com/rohall12" target="_blank" class="text-xs text-theme hover:underline font-semibold flex items-center gap-1">
-                            <span>Source Code</span> →
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Form Pesan -->
-        <div class="card-box mt-8 max-w-2xl mx-auto reveal" id="kontak-pesan">
-            <div class="section-heading">04. Kirim Pesan</div>
-            <p class="about-desc-text">
-                Punya pertanyaan, ide kolaborasi, atau sekadar mau menyapa? Tulis di bawah ini—pesanmu bakal langsung tersimpan di Firebase & terkirim ke Telegram gua.
-            </p>
-
-            <form id="firebase-form" class="flex flex-col gap-4 mt-4">
+            <form id="firebase-form" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Nama Kamu *</label>
-                    <input type="text" id="sender-name" required placeholder="Siapa nama kamu?" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-theme transition">
+                    <label class="block text-xs text-slate-300 font-medium mb-1">Nama Kamu *</label>
+                    <input type="text" id="sender-name" required placeholder="Masukkan nama kamu" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 transition">
                 </div>
+
                 <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Email / Kontak (Opsional)</label>
-                    <input type="text" id="sender-contact" placeholder="Email, No HP, atau Username IG" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-theme transition">
+                    <label class="block text-xs text-slate-300 font-medium mb-1">Kontak (WhatsApp / Email / IG)</label>
+                    <input type="text" id="sender-contact" placeholder="Boleh dikosongkan jika mau anonim" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 transition">
                 </div>
+
                 <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Pesan *</label>
-                    <textarea id="sender-message" required rows="4" placeholder="Tuliskan pesanmu di sini..." class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-theme transition resize-none"></textarea>
+                    <label class="block text-xs text-slate-300 font-medium mb-1">Pesan *</label>
+                    <textarea id="sender-message" rows="4" required placeholder="Tuliskan pesan kamu di sini..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 transition"></textarea>
                 </div>
-                <button type="submit" id="btn-submit" class="btn-primary justify-center cursor-pointer border-0 w-full">
-                    <span>Kirim Pesan</span>
-                    <span>🚀</span>
+
+                <button type="submit" id="btn-submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold py-3 rounded-lg text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/10">
+                    <span>Kirim Pesan</span> 🚀
                 </button>
-                <p id="form-status" class="text-xs text-center mt-2 hidden font-medium"></p>
+
+                <p id="form-status" class="text-xs text-center hidden font-mono"></p>
             </form>
-        </div>
+        </section>
 
-    </div>
+    </main>
 
-    <!-- Footer -->
-    <footer id="kontak" class="reveal">
-        <div class="footer-action-buttons">
-            <a href="https://github.com/rohall12" target="_blank" class="glitch-btn">
-                <span>GitHub Profil</span>
-                <span style="margin-left: 8px;">→</span>
-            </a>
-            <a href="https://instagram.com/ronihalla_08" target="_blank" class="glitch-btn">
-                <span>Instagram</span>
-                <span style="margin-left: 8px;">→</span>
-            </a>
-            <a href="https://wa.me/62881038278950" target="_blank" class="glitch-btn">
-                <span>WhatsApp</span>
-                <span style="margin-left: 8px;">→</span>
-            </a>
-        </div>
-        <div class="footer-bottom-row">
-            <div>© 2026 Designed & Built by Roni Halla</div>
-            <a href="#beranda" class="back-to-top" title="Kembali ke atas">↑</a>
-        </div>
+    <!-- FOOTER -->
+    <footer class="w-full text-center py-6 text-xs text-slate-500 border-t border-slate-800/80 mt-12">
+        <p>&copy; 2026 Portfolio. All rights reserved.</p>
     </footer>
 
-    <!-- FILE JAVASCRIPT -->
-    <script type="module" src="script.js"></script>
     <!-- COOKIE CONSENT BANNER -->
     <div id="cookie-banner" class="cookie-banner hidden">
         <div class="cookie-content">
             <span class="cookie-icon">🍪</span>
             <p class="cookie-text">
-                Web ini menggunakan cookie untuk menyimpan preferensi tema dan meningkatkan pengalaman jelajah kamu.
+                Web ini menggunakan cookie untuk menyimpan preferensi sesi dan meningkatkan pengalaman navigasi kamu.
             </p>
         </div>
         <div class="cookie-actions">
@@ -303,9 +124,7 @@
         </div>
     </div>
 
-    <!-- FILE JAVASCRIPT -->
-    <script type="module" src="script.js"></script>
-</body>
-</html>
+    <!-- SCRIPT JS DENGAN VERSIONING & TYPE MODULE -->
+    <script type="module" src="script.js?v=1.0.1"></script>
 </body>
 </html>

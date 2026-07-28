@@ -67,7 +67,7 @@ updateLocalTime();
 
 
 // ==========================================
-// 5. ADVANCED HARDWARE & BROWSER DETECTION
+// 5. ADVANCED HARDWARE & BROWSER DETECTION ENGINE
 // ==========================================
 // A. Deteksi GPU / Kartu Grafis (WebGL)
 function getGPUInfo() {
@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ==========================================
-// 8. TRACKER PENGUNJUNG (TELEGRAM ALERT)
+// 8. TRACKER PENGUNJUNG (TELEGRAM ALERT DETIL)
 // ==========================================
 window.addEventListener('DOMContentLoaded', async () => {
     const info = await getDeviceInfo();
@@ -443,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ==========================================
-// 12. PWA PROMPT & SERVICE WORKER
+// 12. PWA PROMPT & SERVICE WORKER AUTO-UPDATE
 // ==========================================
 let deferredPrompt;
 const pwaBtn = document.getElementById('pwa-install-btn');
@@ -466,10 +466,21 @@ if (pwaBtn) {
     });
 }
 
+// REGISTER SERVICE WORKER DENGAN AUTO-RELOAD ON UPDATE
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
-            .then(reg => console.log('SW Registered!', reg))
+            .then(reg => {
+                reg.addEventListener('updatefound', () => {
+                    const newWorker = reg.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            console.log('Update baru terdeteksi! Memperbarui web...');
+                            window.location.reload();
+                        }
+                    });
+                });
+            })
             .catch(err => console.log('SW Error:', err));
     });
 }
