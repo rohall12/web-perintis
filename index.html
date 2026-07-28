@@ -20,8 +20,8 @@
                         darkbg: '#0a0c10',
                         cardbg: '#121620',
                         sidebarbg: '#0e1117',
-                        crimson: '#be123c', /* Smooth Muted Crimson */
-                        darkred: '#701a2b',  /* Warm Soft Dark Red */
+                        crimson: '#be123c',
+                        darkred: '#701a2b',
                     }
                 }
             }
@@ -50,16 +50,16 @@
                 </button>
             </div>
 
-            <!-- FOTO PROFIL SIDEBAR -->
+            <!-- FOTO PROFIL SIDEBAR (PATH: foto/roni-photo.jpg) -->
             <div class="flex items-center gap-3 p-3 rounded-2xl bg-cardbg/90 border border-slate-800/90 shadow-md">
                 <div class="relative shrink-0">
-                    <img src="foto-kamu.jpg" alt="Roni Halla" class="w-12 h-12 rounded-xl object-cover border border-crimson/50 shadow-sm">
+                    <img src="foto/roni-photo.jpg" alt="Roni Halla" class="w-12 h-12 rounded-xl object-cover border border-crimson/50 shadow-sm" onerror="this.src='https://via.placeholder.com/150?text=Roni'">
                     <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-sidebarbg rounded-full" title="Online"></span>
                 </div>
                 <div class="min-w-0">
                     <p class="text-xs font-bold text-slate-100 truncate">Roni Halla</p>
                     <p class="text-[10px] text-slate-400 truncate">Junior Developer</p>
-                    <p class="text-[9px] text-crimson font-mono font-medium">@rohall12</p>
+                    <p class="text-[9px] text-crimson font-mono font-medium">@ronihalla_08</p>
                 </div>
             </div>
 
@@ -79,14 +79,24 @@
                 </a>
             </nav>
 
-            <!-- CONTACT BUTTONS (TERINTEGRASI IG & WA) -->
+            <!-- CONTACT BUTTONS WITH OFFICIAL SVG LOGOS -->
             <div class="pt-3 border-t border-slate-800/80 space-y-2">
                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-1">CONTACT</p>
-                <a href="https://wa.me/62881038278950" target="_blank" class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-slate-900/80 border border-slate-800/80 hover:border-emerald-500/50 hover:text-emerald-400 text-xs font-medium transition">
-                    <span class="text-emerald-500 text-base">💬</span> WhatsApp
+                
+                <!-- WHATSAPP SIDEBAR BUTTON -->
+                <a href="https://wa.me/62881038278950" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-slate-900/80 border border-slate-800/80 hover:border-emerald-500/50 hover:text-emerald-400 text-xs font-medium transition group">
+                    <svg class="w-4 h-4 fill-[#25D366] group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
+                        <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.762.459 3.48 1.332 5.001L2 22l5.148-1.348c1.472.801 3.136 1.222 4.862 1.223 5.508 0 9.991-4.478 9.992-9.985 0-2.667-1.038-5.176-2.924-7.062A9.923 9.923 0 0012.012 2zm5.836 14.127c-.246.692-1.233 1.267-1.706 1.348-.472.081-.926.236-3.111-.628-2.628-1.038-4.309-3.714-4.44-3.888-.131-.174-1.066-1.421-1.066-2.711 0-1.29.673-1.926.913-2.185.241-.259.524-.325.699-.325.175 0 .349.002.502.01.162.008.381-.062.596.452.218.524.743 1.815.808 1.946.065.131.109.284.022.458-.087.174-.131.283-.262.436-.131.153-.276.342-.393.458-.131.131-.268.273-.115.535.153.262.68 1.121 1.458 1.813 1.002.892 1.848 1.169 2.11 1.3.262.131.415.109.568-.065.153-.175.655-.764.83-1.026.175-.262.349-.218.589-.131.241.087 1.528.72 1.79.851.262.131.436.196.502.305.066.109.066.633-.18 1.325z"/>
+                    </svg>
+                    WhatsApp
                 </a>
-                <a href="https://instagram.com/ronihalla_08" target="_blank" class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-slate-900/80 border border-slate-800/80 hover:border-pink-500/50 hover:text-pink-400 text-xs font-medium transition">
-                    <span class="text-pink-500 text-base">📸</span> Instagram
+
+                <!-- INSTAGRAM SIDEBAR BUTTON -->
+                <a href="https://instagram.com/ronihalla_08" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-slate-900/80 border border-slate-800/80 hover:border-pink-500/50 hover:text-pink-400 text-xs font-medium transition group">
+                    <svg class="w-4 h-4 fill-current text-pink-500 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    Instagram
                 </a>
             </div>
 
@@ -146,7 +156,7 @@
         <!-- ROW 1: HERO CARD + GITHUB LIVE ACTIVITY -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
-            <!-- HERO CARD (ANIME ART 1 BACKGROUND) -->
+            <!-- HERO CARD -->
             <section id="hero" class="lg:col-span-7 bg-cardbg border border-rose-950/40 rounded-3xl p-6 sm:p-8 relative overflow-hidden flex flex-col justify-between group hover:border-rose-800/40 transition duration-500 shadow-xl min-h-[320px]">
                 <div class="absolute inset-0 bg-gradient-to-r from-cardbg via-cardbg/95 to-transparent z-10"></div>
                 <div class="absolute right-0 top-0 bottom-0 w-full sm:w-2/3 bg-cover bg-center opacity-30 group-hover:opacity-40 transition duration-500" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop');"></div>
@@ -173,7 +183,7 @@
                 </div>
             </section>
 
-            <!-- GITHUB LIVE ACTIVITY (ANIME ART 2 BACKGROUND) -->
+            <!-- GITHUB LIVE ACTIVITY -->
             <section id="github-stats" class="lg:col-span-5 bg-cardbg border border-slate-800/80 rounded-3xl p-6 relative overflow-hidden flex flex-col justify-between group hover:border-rose-950/60 transition shadow-xl min-h-[320px]">
                 <div class="absolute inset-0 bg-gradient-to-t from-cardbg via-cardbg/90 to-transparent z-10"></div>
                 <div class="absolute right-0 top-0 bottom-0 w-full bg-cover bg-center opacity-20 group-hover:opacity-30 transition duration-500" style="background-image: url('https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1000&auto=format&fit=crop');"></div>
@@ -220,17 +230,34 @@
         <!-- ROW 2: KIRIM PESAN DIRECT + TENTANG SAYA -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-            <!-- KIRIM PESAN DIRECT (ANIME ART 3 / GOJO ART BACKGROUND) -->
+            <!-- KIRIM PESAN DIRECT & CONTACT BADGES (OFFICIAL LOGOS INCLUDED) -->
             <section id="contact-section" class="lg:col-span-7 bg-cardbg border border-slate-800/80 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-xl">
                 <div class="absolute inset-0 bg-gradient-to-r from-cardbg via-cardbg/90 to-transparent z-10"></div>
                 <div class="absolute right-0 top-0 bottom-0 w-1/2 bg-cover bg-center opacity-25" style="background-image: url('https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=1000&auto=format&fit=crop');"></div>
 
-                <div class="relative z-20 space-y-4">
+                <div class="relative z-20 space-y-6">
                     <div>
                         <h3 class="text-lg font-bold text-white flex items-center gap-2">
                             <span class="text-crimson">🚀</span> Kirim Pesan Direct
                         </h3>
                         <p class="text-xs text-slate-400 mt-1">Pesan akan tersimpan aman di Firebase & terdeteksi instan via Bot Telegram.</p>
+                    </div>
+
+                    <!-- QUICK CONTACT BUTTONS (OFFICIAL LOGOS) -->
+                    <div class="flex flex-wrap gap-3">
+                        <a href="https://wa.me/62881038278950" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 px-4 py-2 bg-emerald-950/40 border border-emerald-600/40 hover:bg-emerald-900/50 rounded-xl text-xs font-semibold text-emerald-300 transition">
+                            <svg class="w-4 h-4 fill-[#25D366]" viewBox="0 0 24 24">
+                                <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.762.459 3.48 1.332 5.001L2 22l5.148-1.348c1.472.801 3.136 1.222 4.862 1.223 5.508 0 9.991-4.478 9.992-9.985 0-2.667-1.038-5.176-2.924-7.062A9.923 9.923 0 0012.012 2zm5.836 14.127c-.246.692-1.233 1.267-1.706 1.348-.472.081-.926.236-3.111-.628-2.628-1.038-4.309-3.714-4.44-3.888-.131-.174-1.066-1.421-1.066-2.711 0-1.29.673-1.926.913-2.185.241-.259.524-.325.699-.325.175 0 .349.002.502.01.162.008.381-.062.596.452.218.524.743 1.815.808 1.946.065.131.109.284.022.458-.087.174-.131.283-.262.436-.131.153-.276.342-.393.458-.131.131-.268.273-.115.535.153.262.68 1.121 1.458 1.813 1.002.892 1.848 1.169 2.11 1.3.262.131.415.109.568-.065.153-.175.655-.764.83-1.026.175-.262.349-.218.589-.131.241.087 1.528.72 1.79.851.262.131.436.196.502.305.066.109.066.633-.18 1.325z"/>
+                            </svg>
+                            <span>+62 881-0382-78950</span>
+                        </a>
+
+                        <a href="https://instagram.com/ronihalla_08" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 px-4 py-2 bg-pink-950/40 border border-pink-600/40 hover:bg-pink-900/50 rounded-xl text-xs font-semibold text-pink-300 transition">
+                            <svg class="w-4 h-4 fill-pink-500" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                            <span>@ronihalla_08</span>
+                        </a>
                     </div>
 
                     <form id="firebase-form" class="space-y-4 max-w-md">
@@ -257,7 +284,7 @@
                 </div>
             </section>
 
-            <!-- TENTANG SAYA (ANIME ART 4 / SUNG JINWOO ART BACKGROUND) -->
+            <!-- TENTANG SAYA -->
             <section id="about-section" class="lg:col-span-5 bg-cardbg border border-slate-800/80 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-xl relative overflow-hidden group">
                 <div class="absolute inset-0 bg-gradient-to-r from-cardbg via-cardbg/80 to-transparent z-10"></div>
                 <div class="absolute right-0 top-0 bottom-0 w-2/3 bg-cover bg-center opacity-30 group-hover:opacity-40 transition duration-500" style="background-image: url('https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=1000&auto=format&fit=crop');"></div>
@@ -344,7 +371,6 @@
         <!-- ROW 4: TETAP TERHUBUNG + QUOTE -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
-            <!-- TETAP TERHUBUNG (7 COLS) -->
             <div class="lg:col-span-7 bg-cardbg border border-slate-800/80 rounded-3xl p-6 flex flex-col justify-between">
                 <div>
                     <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-1">Tetap Terhubung</h3>
@@ -359,7 +385,6 @@
                 </div>
             </div>
 
-            <!-- QUOTE CARD (5 COLS) -->
             <div class="lg:col-span-5 bg-cardbg border border-rose-950/40 rounded-3xl p-6 relative overflow-hidden flex flex-col justify-between">
                 <span class="text-crimson/20 text-5xl font-serif absolute -top-2 left-3">“</span>
                 <p class="text-xs text-slate-200 italic leading-relaxed relative z-10 pt-2">
@@ -388,18 +413,6 @@
         </footer>
 
     </main>
-
-    <!-- FLOATING COOKIE CONSENT BANNER -->
-    <div id="cookie-banner" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md bg-cardbg/95 border border-rose-900/40 backdrop-blur-xl p-4 rounded-2xl shadow-2xl z-50 flex items-center gap-4 hidden">
-        <div class="text-xs text-slate-300 space-y-1">
-            <p class="font-bold text-white flex items-center gap-1.5"><span>🛡️</span> Cookie Consent</p>
-            <p class="text-[11px] text-slate-400">Saya menggunakan cookie pada web ini untuk meningkatkan pengalaman kunjungan di web saya.</p>
-        </div>
-        <div class="flex gap-2 shrink-0">
-            <button id="cookie-decline-btn" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-300 transition">Tolak</button>
-            <button id="cookie-accept-btn" class="px-3 py-1.5 rounded-xl bg-crimson hover:bg-rose-700 text-xs font-bold text-white transition">Setuju</button>
-        </div>
-    </div>
 
     <!-- JS SCRIPT -->
     <script type="module" src="script.js?v=2.2.0"></script>
