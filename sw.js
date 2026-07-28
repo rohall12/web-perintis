@@ -1,9 +1,10 @@
-const CACHE_NAME = 'roni-portfolio-v1';
+const CACHE_NAME = 'roni-portfolio-v2'; // Ubah v1 jadi v2
 const urlsToCache = [
   '/',
   '/index.html',
   '/style.css',
-  '/script.js'
+  '/script.js',
+  '/app-icon.png' // Tambahkan icon baru ke cache
 ];
 
 self.addEventListener('install', (event) => {
