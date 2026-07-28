@@ -1,8 +1,13 @@
+// ==========================================
 // 1. IMPORT FIREBASE SDK (MODULAR V10)
+// ==========================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// 2. CONFIG FIREBASE
+// ==========================================
+// 2. FIREBASE CONFIGURATION
+// ==========================================
+// ⚠️ Pastikan ganti value di bawah ini dengan kreden sial Firebase milikmu!
 const firebaseConfig = {
     apiKey: "AIzaSyDJE6Ua3tGM0ltnuBiXC5jvM-VLBZCmGqI",
     authDomain: "my-portofolio-c2eeb.firebaseapp.com",
@@ -17,7 +22,34 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 
-// 3. JAM LOKAL LIVE (WITA) FOR HUMAN TOUCH
+// ==========================================
+// 3. HELPER FUNCTIONS: COOKIE MANAGEMENT
+// ==========================================
+function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+}
+
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+
+// ==========================================
+// 4. JAM LOKAL LIVE (WITA)
+// ==========================================
 function updateLocalTime() {
     const timeEl = document.getElementById('local-time');
     if (timeEl) {
@@ -34,7 +66,9 @@ setInterval(updateLocalTime, 1000);
 updateLocalTime();
 
 
-// 4. DETEKSI PERANGKAT PENGUNJUNG
+// ==========================================
+// 5. DETEKSI PERANGKAT PENGUNJUNG
+// ==========================================
 async function getDeviceInfo() {
     let ua = navigator.userAgent;
     let browser = "Google Chrome";
@@ -92,7 +126,9 @@ async function getDeviceInfo() {
 }
 
 
-// 5. KIRIM PESAN KE FIRESTORE & TELEGRAM (ANTI-SPAM SHIELD)
+// ==========================================
+// 6. FORM PESAN (FIREBASE & TELEGRAM)
+// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('firebase-form');
     const statusTxt = document.getElementById('form-status');
@@ -126,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             statusTxt.innerText = "Mengirim pesan ke Firebase & Telegram...";
 
             try {
-                // A. Save to Firestore
+                // A. Simpan Ke Firestore
                 await addDoc(collection(db, "pesan_pengunjung"), {
                     nama: name,
                     kontak: contact || "Tidak diisi",
@@ -134,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     waktu: serverTimestamp()
                 });
 
-                // B. Telegram Bot Notification
+                // B. Notifikasi Telegram Bot
                 const deviceInfo = await getDeviceInfo();
                 const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
                 const chatId = "5983713854"; 
@@ -173,7 +209,71 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// 6. GITHUB STATS
+// ==========================================
+// 7. COOKIE BANNER & CONSENT LOGIC
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const cookieBanner = document.getElementById('cookie-banner');
+    const acceptBtn = document.getElementById('cookie-accept-btn');
+    const declineBtn = document.getElementById('cookie-decline-btn');
+
+    // Cek apakah user sudah menentukan persetujuan cookie
+    const hasConsented = getCookie('cookie_consent');
+
+    if (!hasConsented && cookieBanner) {
+        setTimeout(() => {
+            cookieBanner.classList.remove('hidden');
+        }, 1000);
+    }
+
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => {
+            setCookie('cookie_consent', 'accepted', 30);
+            cookieBanner.classList.add('hidden');
+        });
+    }
+
+    if (declineBtn) {
+        declineBtn.addEventListener('click', () => {
+            setCookie('cookie_consent', 'declined', 7);
+            cookieBanner.classList.add('hidden');
+        });
+    }
+});
+
+
+// ==========================================
+// 8. TRACKER PENGUNJUNG DENGAN COOKIE
+// ==========================================
+window.addEventListener('DOMContentLoaded', async () => {
+    const deviceInfo = await getDeviceInfo();
+    const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
+    const chatId = "5983713854"; 
+
+    // Cek status pengunjung dari cookie
+    let visitorStatus = getCookie('returning_visitor') ? '🔄 Pengunjung Lama' : '✨ Pengunjung Baru';
+    
+    // Tandai pengunjung untuk kunjungan berikutnya (365 hari)
+    setCookie('returning_visitor', 'true', 365);
+
+    if (botToken && chatId) {
+        const textMessage = `🚨 VISITOR ALERT!\n\n` +
+                            `Status: ${visitorStatus}\n` +
+                            `Perangkat: ${deviceInfo}\n` +
+                            `⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' })}`;
+        
+        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: chatId, text: textMessage })
+        }).catch(err => console.log("Tracker active"));
+    }
+});
+
+
+// ==========================================
+// 9. GITHUB STATS FETCHING
+// ==========================================
 async function fetchGitHubStats() {
     try {
         const response = await fetch('https://api.github.com/users/rohall12');
@@ -190,24 +290,9 @@ async function fetchGitHubStats() {
 window.addEventListener('DOMContentLoaded', fetchGitHubStats);
 
 
-// 7. TRACKER PENGUNJUNG
-window.addEventListener('DOMContentLoaded', async () => {
-    const deviceInfo = await getDeviceInfo();
-    const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
-    const chatId = "5983713854"; 
-
-    if (botToken && chatId) {
-        const textMessage = `🚨 Visitor Alert!\n\nPerangkat: ${deviceInfo}\n⏰ Waktu: ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' })}`;
-        fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: chatId, text: textMessage })
-        }).catch(err => console.log("Tracker active"));
-    }
-});
-
-
-// 8. SCROLL ANIMATION
+// ==========================================
+// 10. SCROLL REVEAL ANIMATION
+// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     const reveals = document.querySelectorAll('.reveal');
     const observerOptions = { root: null, threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
@@ -224,7 +309,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// 9. THEME ACCENT SWITCHER
+// ==========================================
+// 11. THEME ACCENT SWITCHER
+// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     const themeBtn = document.getElementById('theme-toggle-btn');
     const themes = ['default', 'green', 'blue'];
@@ -252,7 +339,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// 10. PWA PROMPT & SERVICE WORKER
+// ==========================================
+// 12. PWA PROMPT & SERVICE WORKER
+// ==========================================
 let deferredPrompt;
 const pwaBtn = document.getElementById('pwa-install-btn');
 
