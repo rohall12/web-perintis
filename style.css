@@ -1,174 +1,34 @@
-/* ==========================================
-   1. ROOT VARIABLES & THEMES
-   ========================================== */
-:root {
-    --accent-color: #06b6d4; /* Default Cyan */
-    --accent-glow: rgba(6, 182, 212, 0.4);
-}
-
-[data-theme="green"] {
-    --accent-color: #10b981; /* Emerald Green */
-    --accent-glow: rgba(16, 185, 129, 0.4);
-}
-
-[data-theme="blue"] {
-    --accent-color: #3b82f6; /* Royal Blue */
-    --accent-glow: rgba(59, 130, 246, 0.4);
-}
-
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 ::-webkit-scrollbar-track {
-    background: #0f172a;
+    background: #0a0c10;
 }
 ::-webkit-scrollbar-thumb {
-    background: #334155;
+    background: #1f293d;
     border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #475569;
+    background: #be123c;
 }
 
-
-/* ==========================================
-   2. SCROLL REVEAL ANIMATION
-   ========================================== */
-.reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+/* Sidebar Nav Link Active State */
+.nav-item.active {
+    background-color: rgba(190, 18, 60, 0.15);
+    color: #be123c;
+    border: 1px solid rgba(190, 18, 60, 0.3);
 }
 
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-
-/* ==========================================
-   3. DYNAMIC GLITCH BUTTON EFFECT
-   ========================================== */
-.glitch-btn {
-    position: relative;
-    transition: all 0.2s ease-in-out;
-    overflow: hidden;
-    user-select: none;
-}
-
-.glitch-btn:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 0 20px var(--accent-glow), 0 0 10px rgba(236, 72, 153, 0.3);
-}
-
-/* Trigger animasi split RGB saat ditekan/diklik */
-.glitch-btn:active, .glitch-trigger {
-    animation: glitch-anim 0.25s steps(2, start) infinite;
-}
-
-@keyframes glitch-anim {
-    0% {
-        transform: translate(2px, -2px);
-        box-shadow: -3px 0 #ff0055, 3px 0 #00ffff;
-        filter: hue-rotate(90deg);
-    }
-    25% {
-        transform: translate(-3px, 1px);
-        box-shadow: 3px 0 #ff0055, -3px 0 #00ffff;
-    }
-    50% {
-        transform: translate(2px, 2px);
-        box-shadow: -2px 0 #00ffff, 2px 0 #ff0055;
-        filter: hue-rotate(180deg);
-    }
-    75% {
-        transform: translate(-1px, -2px);
-        box-shadow: 2px 0 #ff0055, -2px 0 #00ffff;
-    }
-    100% {
-        transform: translate(0, 0);
-        box-shadow: none;
-        filter: hue-rotate(0deg);
-    }
-}
-
-
-/* ==========================================
-   4. COOKIE CONSENT BANNER STYLING
-   ========================================== */
-.cookie-banner {
-    position: fixed;
-    bottom: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 500px;
-    background-color: rgba(15, 23, 42, 0.95);
-    border: 1px solid rgba(51, 65, 85, 0.8);
-    backdrop-filter: blur(12px);
-    border-radius: 1rem;
-    padding: 1.25rem;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-    z-index: 50;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    transition: all 0.3s ease-in-out;
-}
-
-.cookie-banner.hidden {
-    display: none !important;
-}
-
-.cookie-content {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.cookie-icon {
-    font-size: 1.5rem;
-}
-
-.cookie-text {
-    font-size: 0.813rem;
+.nav-item:not(.active) {
     color: #94a3b8;
-    line-height: 1.4;
 }
 
-.cookie-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-}
-
-.cookie-btn-primary {
-    background-color: #06b6d4;
+.nav-item:not(.active):hover {
+    background-color: #121620;
     color: #ffffff;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    transition: background-color 0.2s;
 }
 
-.cookie-btn-primary:hover {
-    background-color: #0891b2;
-}
-
-.cookie-btn-secondary {
-    background-color: #1e293b;
-    color: #94a3b8;
-    font-size: 0.75rem;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid #334155;
-    transition: all 0.2s;
-}
-
-.cookie-btn-secondary:hover {
-    background-color: #334155;
-    color: #f1f5f9;
+.active-top-link {
+    color: #be123c !important;
 }
