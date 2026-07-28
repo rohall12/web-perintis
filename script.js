@@ -2,7 +2,7 @@
 // 1. CONFIG MAINTENANCE MODE
 // ==========================================
 // Ubah 'true' jadi 'false' kalau update web sudah selesai.
-const IS_MAINTENANCE = true; 
+const IS_MAINTENANCE = false;
 
 // ==========================================
 // 2. FIREBASE CONFIGURATION & INITIALIZATION
