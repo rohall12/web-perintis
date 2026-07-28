@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Portfolio - Interactive & Smart Tracking</title>
 
-    <!-- PREVENT BROWSER CACHING (AUTO CACHE BUSTING) -->
+    <!-- PREVENT BROWSER CACHING -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -14,7 +14,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- STYLE CSS DENGAN VERSIONING -->
-    <link rel="stylesheet" href="style.css?v=1.0.1">
+    <link rel="stylesheet" href="style.css?v=1.0.2">
 
     <!-- PWA MANIFEST -->
     <link rel="manifest" href="manifest.json">
@@ -43,25 +43,45 @@
     </header>
 
     <!-- MAIN CONTENT -->
-    <main class="w-full max-w-4xl mx-auto p-6 space-y-12">
+    <main class="w-full max-w-4xl mx-auto p-6 space-y-10">
         
-        <!-- HERO SECTION DENGAN FOTO PROFIL -->
-        <section class="reveal flex flex-col sm:flex-row items-center gap-6 sm:gap-8 py-8 text-center sm:text-left">
-            <!-- FOTO PROFIL (Ganti 'foto-kamu.jpg' dengan nama file foto milikmu) -->
-            <div class="relative group shrink-0">
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
-                <img src="roni-photo.jpg" alt="Foto Profil" class="relative w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover border-2 border-slate-700 shadow-xl">
+        <!-- HERO SECTION DENGAN FOTO PROFIL & TOMBOL KONTAK GLITCH -->
+        <section class="reveal flex flex-col items-center py-6 text-center space-y-6">
+            
+            <!-- FOTO PROFIL GLOWING -->
+            <div class="relative group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-pink-500 rounded-full blur-md opacity-75 group-hover:opacity-100 transition duration-300"></div>
+                <!-- ⚠️ Ganti 'foto-kamu.jpg' dengan file foto profilmu -->
+                <img src="roni-photo.jpg" alt="Foto Profil" class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full object-cover border-2 border-slate-800 shadow-2xl">
             </div>
 
             <!-- TEKS HERO -->
-            <div class="space-y-3">
+            <div class="space-y-3 max-w-xl">
                 <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight">
                     Halo, Welcome to My Space 👋
                 </h1>
-                <p class="text-slate-400 max-w-xl text-sm sm:text-base leading-relaxed">
+                <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
                     Developer Enthusiast yang senang bereksperimen dengan web modern, otomatisasi bot, dan integrasi real-time database.
                 </p>
             </div>
+
+            <!-- TOMBOL KONTAK DENGAN EFEK GLITCH DINAMIS -->
+            <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+                <!-- WhatsApp Button -->
+                <!-- ⚠️ Ganti '628xxxxxxxxxx' dengan nomor WhatsApp milikmu -->
+                <a href="https://wa.me/62881038278950" target="_blank" rel="noopener noreferrer" 
+                   class="glitch-btn flex items-center gap-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 px-5 py-2.5 rounded-xl font-medium text-sm backdrop-blur">
+                    <span>💬 WhatsApp</span>
+                </a>
+
+                <!-- Instagram Button -->
+                <!-- ⚠️ Ganti 'username_ig' dengan akun Instagram milikmu -->
+                <a href="https://instagram.com/ronihalla_08" target="_blank" rel="noopener noreferrer" 
+                   class="glitch-btn flex items-center gap-2 bg-pink-600/20 hover:bg-pink-600/30 text-pink-400 border border-pink-500/40 px-5 py-2.5 rounded-xl font-medium text-sm backdrop-blur">
+                    <span>📸 Instagram</span>
+                </a>
+            </div>
+
         </section>
 
         <!-- GITHUB STATS SECTION -->
@@ -104,7 +124,7 @@
                     <textarea id="sender-message" rows="4" required placeholder="Tuliskan pesan kamu di sini..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 transition"></textarea>
                 </div>
 
-                <button type="submit" id="btn-submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold py-3 rounded-lg text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/10">
+                <button type="submit" id="btn-submit" class="glitch-btn w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold py-3 rounded-lg text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/10">
                     <span>Kirim Pesan</span> 🚀
                 </button>
 
@@ -134,6 +154,6 @@
     </div>
 
     <!-- SCRIPT JS DENGAN VERSIONING & TYPE MODULE -->
-    <script type="module" src="script.js?v=1.0.1"></script>
+    <script type="module" src="script.js?v=1.0.2"></script>
 </body>
 </html>

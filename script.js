@@ -7,14 +7,14 @@ import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.g
 // ==========================================
 // 2. FIREBASE CONFIGURATION
 // ==========================================
-// ⚠️ Ganti value di bawah ini dengan kredensial Firebase milikmu!
+// ⚠️ Masukkan kredensial Firebase milikmu di bawah ini:
 const firebaseConfig = {
     apiKey: "AIzaSyDJE6Ua3tGM0ltnuBiXC5jvM-VLBZCmGqI",
-    authDomain: "my-portofolio-c2eeb.firebaseapp.com",
-    projectId: "my-portofolio-c2eeb",
-    storageBucket: "my-portofolio-c2eeb.firebasestorage.app",
-    messagingSenderId: "686049637486",
-    appId: "1:686049637486:web:1704c34bb302ec0a7c227f"
+    authDomain: "my-portofolio-c2eeb.firebaseapp.com",
+    projectId: "my-portofolio-c2eeb",
+    storageBucket: "my-portofolio-c2eeb.firebasestorage.app",
+    messagingSenderId: "686049637486",
+    appId: "1:686049637486:web:1704c34bb302ec0a7c227f"
 };
 
 // Initialize Firebase & Firestore
@@ -124,7 +124,7 @@ function getBrowserDetail() {
     return `${browserName}${fullVersion}`;
 }
 
-// C. Engine Deteksi Seri HP & Perangkat High-Entropy
+// C. Engine Deteksi Seri HP & Perangkat High-Entropy (100% Akurat)
 async function getDeviceInfo() {
     const ua = navigator.userAgent;
     let deviceName = "Unknown Device";
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Proteksi Cooldown Anti-Spam (60 Detik)
+            // Cooldown Anti-Spam (60 Detik)
             const COOLDOWN_MS = 60 * 1000;
             const lastSubmitTime = localStorage.getItem('last_message_submit');
             const now = Date.now();
@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     waktu: serverTimestamp()
                 });
 
-                // B. Kirim Notifikasi ke Telegram
+                // B. Kirim Notifikasi Telegram
                 const info = await getDeviceInfo();
                 const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
                 const chatId = "5983713854"; 
@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ==========================================
-// 8. TRACKER PENGUNJUNG (TELEGRAM ALERT DETIL)
+// 8. TRACKER PENGUNJUNG (TELEGRAM ALERT DETIL UNTUK PENGUNJUNG BARU & LAMA)
 // ==========================================
 window.addEventListener('DOMContentLoaded', async () => {
     const info = await getDeviceInfo();
@@ -466,7 +466,7 @@ if (pwaBtn) {
     });
 }
 
-// REGISTER SERVICE WORKER DENGAN AUTO-RELOAD ON UPDATE
+// Register Service Worker + Auto Reload On New SW
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
@@ -484,3 +484,19 @@ if ('serviceWorker' in navigator) {
             .catch(err => console.log('SW Error:', err));
     });
 }
+
+
+// ==========================================
+// 13. GLITCH BUTTON CLICK TRIGGER
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const glitchBtns = document.querySelectorAll('.glitch-btn');
+    glitchBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.classList.add('glitch-trigger');
+            setTimeout(() => {
+                btn.classList.remove('glitch-trigger');
+            }, 300);
+        });
+    });
+});
