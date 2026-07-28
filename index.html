@@ -30,7 +30,7 @@
         </div>
         
         <div class="flex items-center gap-3">
-            <!-- PWA INSTALL BUTTON (Hidden by default) -->
+            <!-- PWA INSTALL BUTTON -->
             <button id="pwa-install-btn" class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-500/30 px-3 py-1.5 rounded-lg transition">
                 📲 Install App
             </button>
@@ -45,14 +45,23 @@
     <!-- MAIN CONTENT -->
     <main class="w-full max-w-4xl mx-auto p-6 space-y-12">
         
-        <!-- HERO SECTION -->
-        <section class="reveal space-y-4 text-center sm:text-left py-8">
-            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight">
-                Halo, Welcome to My Space 👋
-            </h1>
-            <p class="text-slate-400 max-w-2xl text-sm sm:text-base leading-relaxed">
-                Developer Enthusiast yang senang bereksperimen dengan web modern, otomatisasi bot, dan integrasi real-time database.
-            </p>
+        <!-- HERO SECTION DENGAN FOTO PROFIL -->
+        <section class="reveal flex flex-col sm:flex-row items-center gap-6 sm:gap-8 py-8 text-center sm:text-left">
+            <!-- FOTO PROFIL (Ganti 'foto-kamu.jpg' dengan nama file foto milikmu) -->
+            <div class="relative group shrink-0">
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
+                <img src="roni-photo.jpg" alt="Foto Profil" class="relative w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover border-2 border-slate-700 shadow-xl">
+            </div>
+
+            <!-- TEKS HERO -->
+            <div class="space-y-3">
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight">
+                    Halo, Welcome to My Space 👋
+                </h1>
+                <p class="text-slate-400 max-w-xl text-sm sm:text-base leading-relaxed">
+                    Developer Enthusiast yang senang bereksperimen dengan web modern, otomatisasi bot, dan integrasi real-time database.
+                </p>
+            </div>
         </section>
 
         <!-- GITHUB STATS SECTION -->
