@@ -50,7 +50,7 @@
                 </button>
             </div>
 
-            <!-- FOTO PROFIL SIDEBAR (PATH: foto/roni-photo.jpg) -->
+            <!-- FOTO PROFIL SIDEBAR -->
             <div class="flex items-center gap-3 p-3 rounded-2xl bg-cardbg/90 border border-slate-800/90 shadow-md">
                 <div class="relative shrink-0">
                     <img src="foto/roni-photo.jpg" alt="Roni Halla" class="w-12 h-12 rounded-xl object-cover border border-crimson/50 shadow-sm" onerror="this.src='https://via.placeholder.com/150?text=Roni'">
@@ -230,7 +230,7 @@
         <!-- ROW 2: KIRIM PESAN DIRECT + TENTANG SAYA -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-            <!-- KIRIM PESAN DIRECT & CONTACT BADGES (OFFICIAL LOGOS INCLUDED) -->
+            <!-- KIRIM PESAN DIRECT & CONTACT BADGES (WITH OFFICIAL LOGOS) -->
             <section id="contact-section" class="lg:col-span-7 bg-cardbg border border-slate-800/80 rounded-3xl p-6 sm:p-8 relative overflow-hidden shadow-xl">
                 <div class="absolute inset-0 bg-gradient-to-r from-cardbg via-cardbg/90 to-transparent z-10"></div>
                 <div class="absolute right-0 top-0 bottom-0 w-1/2 bg-cover bg-center opacity-25" style="background-image: url('https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=1000&auto=format&fit=crop');"></div>
@@ -243,7 +243,7 @@
                         <p class="text-xs text-slate-400 mt-1">Pesan akan tersimpan aman di Firebase & terdeteksi instan via Bot Telegram.</p>
                     </div>
 
-                    <!-- QUICK CONTACT BUTTONS (OFFICIAL LOGOS) -->
+                    <!-- QUICK CONTACT BUTTONS WITH OFFICIAL SVG LOGOS -->
                     <div class="flex flex-wrap gap-3">
                         <a href="https://wa.me/62881038278950" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 px-4 py-2 bg-emerald-950/40 border border-emerald-600/40 hover:bg-emerald-900/50 rounded-xl text-xs font-semibold text-emerald-300 transition">
                             <svg class="w-4 h-4 fill-[#25D366]" viewBox="0 0 24 24">
@@ -361,9 +361,9 @@
                     <p class="text-[10px] text-slate-400">Siap digunakan di semua perangkat.</p>
                 </div>
                 <div class="bg-cardbg border border-slate-800/80 p-4 rounded-2xl space-y-2 hover:border-crimson/40 transition">
-                    <span class="text-xl text-crimson">📊</span>
-                    <h4 class="text-xs font-bold text-white">Visitor Analytics</h4>
-                    <p class="text-[10px] text-slate-400">Lihat device, OS, browser, resolusi, dan lainnya.</p>
+                    <span class="text-xl text-crimson">🛠️</span>
+                    <h4 class="text-xs font-bold text-white">Auto Maintenance</h4>
+                    <p class="text-[10px] text-slate-400">Layar khusus otomatis saat ada pembaruan sistem.</p>
                 </div>
             </div>
         </section>
@@ -413,6 +413,41 @@
         </footer>
 
     </main>
+
+    <!-- MAINTENANCE OVERLAY SCREEN -->
+    <div id="maintenance-screen" class="fixed inset-0 bg-darkbg/95 backdrop-blur-md z-[9999] flex flex-col items-center justify-center p-6 text-center hidden">
+        <div class="max-w-md bg-cardbg border border-rose-900/50 rounded-3xl p-8 shadow-2xl space-y-5 relative overflow-hidden">
+            <!-- Animated Icon -->
+            <div class="w-16 h-16 bg-rose-950/60 border border-crimson/40 rounded-2xl flex items-center justify-center mx-auto text-3xl animate-bounce">
+                🛠️
+            </div>
+            
+            <div class="space-y-2">
+                <span class="inline-block text-[10px] font-bold text-crimson tracking-widest uppercase bg-rose-950/40 border border-rose-800/30 px-3 py-1 rounded-full animate-pulse">
+                    SISTEM PEMBARUAN
+                </span>
+                <h2 class="text-2xl font-black text-white">Website Sedang Maintenance</h2>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    Halo kawan! Web ini sedang dalam pembaruan fitur agar tampil lebih optimal. Silakan balik lagi sebentar lagi ya!
+                </p>
+            </div>
+            
+            <!-- STATUS BADGE -->
+            <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-xl text-[11px] text-slate-400 font-mono">
+                Status: <span class="text-amber-400 font-bold">Sedang Dikerjakan... 🚀</span>
+            </div>
+
+            <!-- SHORTCUT WA DENGAN LOGO RESMI -->
+            <div class="pt-2 flex justify-center">
+                <a href="https://wa.me/62881038278950" target="_blank" class="flex items-center gap-2.5 px-4 py-2 bg-emerald-950/50 border border-emerald-600/40 text-emerald-300 rounded-xl text-xs font-semibold hover:bg-emerald-900/50 transition">
+                    <svg class="w-4 h-4 fill-[#25D366]" viewBox="0 0 24 24">
+                        <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.762.459 3.48 1.332 5.001L2 22l5.148-1.348c1.472.801 3.136 1.222 4.862 1.223 5.508 0 9.991-4.478 9.992-9.985 0-2.667-1.038-5.176-2.924-7.062A9.923 9.923 0 0012.012 2zm5.836 14.127c-.246.692-1.233 1.267-1.706 1.348-.472.081-.926.236-3.111-.628-2.628-1.038-4.309-3.714-4.44-3.888-.131-.174-1.066-1.421-1.066-2.711 0-1.29.673-1.926.913-2.185.241-.259.524-.325.699-.325.175 0 .349.002.502.01.162.008.381-.062.596.452.218.524.743 1.815.808 1.946.065.131.109.284.022.458-.087.174-.131.283-.262.436-.131.153-.276.342-.393.458-.131.131-.268.273-.115.535.153.262.68 1.121 1.458 1.813 1.002.892 1.848 1.169 2.11 1.3.262.131.415.109.568-.065.153-.175.655-.764.83-1.026.175-.262.349-.218.589-.131.241.087 1.528.72 1.79.851.262.131.436.196.502.305.066.109.066.633-.18 1.325z"/>
+                    </svg>
+                    <span>Hubungi via WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </div>
 
     <!-- JS SCRIPT -->
     <script type="module" src="script.js?v=2.2.0"></script>
