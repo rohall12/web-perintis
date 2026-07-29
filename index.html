@@ -26,32 +26,15 @@
     </script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Maintenance System -->
     <script src="maintenance.js"></script>
 
     <style>
-        body { 
-            font-family: system-ui, -apple-system, sans-serif;
-            overflow-x: hidden;
-        }
+        body { font-family: system-ui, -apple-system, sans-serif; overflow-x: hidden; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #090a0f; }
         ::-webkit-scrollbar-thumb { background: #232634; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #991b1b; }
-        
-        .card-cyber {
-            background-color: #11131a;
-            border: 1px solid #232634;
-            transition: all 0.3s ease;
-        }
-        .card-cyber:hover {
-            border-color: rgba(153, 27, 27, 0.4);
-            box-shadow: 0 0 20px rgba(153, 27, 27, 0.08);
-        }
-        .glitch-text {
-            position: relative;
-        }
+        .card-cyber { background-color: #11131a; border: 1px solid #232634; transition: all 0.3s ease; }
+        .card-cyber:hover { border-color: rgba(153, 27, 27, 0.4); box-shadow: 0 0 20px rgba(153, 27, 27, 0.08); }
     </style>
 </head>
 <body class="bg-darkBg text-slate-100 min-h-screen selection:bg-red-900 selection:text-white pb-20 lg:pb-0">
@@ -63,8 +46,7 @@
                 <i class="fa-solid fa-wrench"></i>
             </div>
             <h2 class="text-2xl font-bold mb-2 text-white">Mode Pemeliharaan</h2>
-            <p class="text-mutedGray text-sm mb-6">Website sedang dalam pemeliharaan dan pembaruan sistem. Kami akan segera kembali!</p>
-            <span class="inline-block px-3 py-1 bg-red-950/50 text-red-400 text-xs rounded-full border border-red-900/40">Maintenance Mode Active</span>
+            <p class="text-mutedGray text-sm mb-6">Website sedang dalam pemeliharaan. Kami akan segera kembali!</p>
         </div>
     </div>
 
@@ -72,70 +54,48 @@
         
         <!-- SIDEBAR KIRI FIXED (DESKTOP) -->
         <aside id="sidebar-nav" class="hidden lg:flex flex-col w-64 bg-surface border-r border-surfaceBorder p-6 fixed inset-y-0 z-40">
-            <!-- Logo -->
             <div class="flex items-center justify-between mb-8">
-                <a href="#" class="text-2xl font-extrabold tracking-tight text-white">
-                    RoniHalla<span class="text-red-600">.</span>
-                </a>
+                <a href="#" class="text-2xl font-extrabold tracking-tight text-white">RoniHalla<span class="text-red-600">.</span></a>
             </div>
 
-            <!-- Navigation Links -->
             <nav class="space-y-1.5 flex-1">
-                <a href="#beranda" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg bg-red-950/40 text-white border-l-2 border-red-600 font-medium transition">
-                    <i class="fa-solid fa-house text-red-500 text-sm w-4"></i>
-                    <span>Beranda</span>
+                <a href="#beranda" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg bg-red-950/40 text-white border-l-2 border-red-600 font-medium">
+                    <i class="fa-solid fa-house text-red-500 text-sm w-4"></i><span>Beranda</span>
                 </a>
-                <a href="#github-activity" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg text-mutedGray hover:bg-slate-800/60 hover:text-white transition">
-                    <i class="fa-brands fa-github text-sm w-4"></i>
-                    <span>GitHub Activity</span>
+                <a href="#github-activity" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg text-mutedGray hover:bg-slate-800/60 hover:text-white">
+                    <i class="fa-brands fa-github text-sm w-4"></i><span>GitHub Activity</span>
                 </a>
-                <a href="#kirim-pesan" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg text-mutedGray hover:bg-slate-800/60 hover:text-white transition">
-                    <i class="fa-solid fa-paper-plane text-sm w-4"></i>
-                    <span>Kirim Pesan</span>
+                <a href="#kirim-pesan" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg text-mutedGray hover:bg-slate-800/60 hover:text-white">
+                    <i class="fa-solid fa-paper-plane text-sm w-4"></i><span>Kirim Pesan</span>
                 </a>
-                <a href="#tentang-saya" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg text-mutedGray hover:bg-slate-800/60 hover:text-white transition">
-                    <i class="fa-solid fa-user text-sm w-4"></i>
-                    <span>Tentang Saya</span>
+                <a href="#tentang-saya" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg text-mutedGray hover:bg-slate-800/60 hover:text-white">
+                    <i class="fa-solid fa-user text-sm w-4"></i><span>Tentang Saya</span>
                 </a>
             </nav>
 
-            <!-- CONTACT Section in Sidebar -->
             <div class="pt-6 border-t border-surfaceBorder space-y-3 mb-6">
                 <div class="text-[11px] font-bold uppercase tracking-wider text-mutedGray">CONTACT</div>
-                <a href="https://wa.me/" target="_blank" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition">
-                    <i class="fa-brands fa-whatsapp text-emerald-500 text-base"></i>
-                    <span>WhatsApp</span>
+                <!-- WhatsApp Link (Ganti 6281234567890 dengan No WA Kamu) -->
+                <a href="https://wa.me/6281234567890" target="_blank" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 hover:text-white">
+                    <i class="fa-brands fa-whatsapp text-emerald-500 text-base"></i><span>WhatsApp</span>
                 </a>
-                <a href="https://instagram.com/" target="_blank" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition">
-                    <i class="fa-brands fa-instagram text-pink-500 text-base"></i>
-                    <span>Instagram</span>
+                <!-- Instagram Link -->
+                <a href="https://instagram.com/ronihalla_08" target="_blank" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 hover:text-white">
+                    <i class="fa-brands fa-instagram text-pink-500 text-base"></i><span>Instagram</span>
                 </a>
             </div>
 
-            <!-- Jam Otomatis & Zona Waktu -->
             <div class="card-cyber p-3.5 rounded-xl mb-6 text-center">
                 <div id="sidebar-time" class="font-mono text-lg font-bold text-white tracking-wider">20:41:26</div>
                 <div id="sidebar-tz" class="text-[11px] text-mutedGray mt-0.5">WITA (UTC+8)</div>
-            </div>
-
-            <!-- Sidebar Gojo Graphic -->
-            <div class="card-cyber p-4 rounded-xl relative overflow-hidden">
-                <div class="text-red-500 text-lg mb-1 opacity-80"><i class="fa-solid fa-quote-left"></i></div>
-                <p class="text-xs text-slate-300 italic leading-relaxed mb-3">
-                    "Code is not just what I write, it's how I solve problems."
-                </p>
-                <div class="text-right text-[11px] font-semibold text-mutedGray">— Roni Halla</div>
             </div>
         </aside>
 
         <!-- MAIN CONTENT AREA -->
         <div class="flex-1 lg:ml-64 flex flex-col min-h-screen w-full overflow-hidden">
             
-            <!-- HEADER MOBILE & DESKTOP -->
             <header class="sticky top-0 z-30 bg-darkBg/90 backdrop-blur-md border-b border-surfaceBorder px-4 lg:px-8 py-3.5 flex items-center justify-between">
-                <a href="#" class="text-xl font-extrabold text-white tracking-tight">
-                    RoniHalla<span class="text-red-600">.</span>
-                </a>
+                <a href="#" class="text-xl font-extrabold text-white tracking-tight">RoniHalla<span class="text-red-600">.</span></a>
                 
                 <div class="hidden lg:flex items-center space-x-8 text-xs font-bold tracking-wider text-mutedGray">
                     <a href="#beranda" class="hover:text-white transition">BERANDA</a>
@@ -145,232 +105,180 @@
                 </div>
 
                 <div class="flex items-center space-x-3">
-                    <div class="hidden sm:flex items-center space-x-2 card-cyber px-3 py-1.5 rounded-full text-xs">
-                        <i class="fa-regular fa-clock text-red-500"></i>
-                        <span id="top-time" class="font-mono">20:41 WITA</span>
-                    </div>
-                    
-                    <!-- Theme Toggle -->
-                    <button id="theme-toggle" class="card-cyber w-9 h-9 rounded-full flex items-center justify-center text-slate-300 hover:text-white transition" title="Toggle Theme">
+                    <button id="theme-toggle" class="card-cyber w-9 h-9 rounded-full flex items-center justify-center text-slate-300 hover:text-white">
                         <i class="fa-solid fa-sun text-sm" id="theme-icon"></i>
                     </button>
-                    
-                    <!-- Mobile Hamburger Button -->
                     <button id="mobile-menu-toggle" class="lg:hidden card-cyber w-9 h-9 rounded-full flex items-center justify-center text-slate-300 hover:text-white">
                         <i class="fa-solid fa-bars text-sm"></i>
                     </button>
                 </div>
             </header>
 
-            <!-- MOBILE HAMBURGER MENU DRAWER -->
-            <div id="mobile-menu" class="hidden lg:hidden fixed inset-x-0 top-[57px] bg-surface/98 backdrop-blur-lg border-b border-surfaceBorder p-6 z-40 space-y-5 shadow-2xl transition-all">
+            <!-- MOBILE HAMBURGER MENU -->
+            <div id="mobile-menu" class="hidden lg:hidden fixed inset-x-0 top-[57px] bg-surface/98 backdrop-blur-lg border-b border-surfaceBorder p-6 z-40 space-y-5 shadow-2xl">
                 <div class="space-y-1">
                     <div class="text-[10px] font-bold uppercase tracking-wider text-mutedGray mb-2 px-3">NAVIGATION</div>
                     <a href="#beranda" class="mobile-nav-link flex items-center space-x-3 px-3 py-2.5 rounded-xl text-slate-200 hover:bg-slate-800 font-medium">
-                        <i class="fa-solid fa-house text-red-500 w-5"></i>
-                        <span>BERANDA</span>
+                        <i class="fa-solid fa-house text-red-500 w-5"></i><span>BERANDA</span>
                     </a>
                     <a href="#github-activity" class="mobile-nav-link flex items-center space-x-3 px-3 py-2.5 rounded-xl text-slate-200 hover:bg-slate-800 font-medium">
-                        <i class="fa-brands fa-github text-red-500 w-5"></i>
-                        <span>GITHUB ACTIVITY</span>
+                        <i class="fa-brands fa-github text-red-500 w-5"></i><span>GITHUB ACTIVITY</span>
                     </a>
                     <a href="#kirim-pesan" class="mobile-nav-link flex items-center space-x-3 px-3 py-2.5 rounded-xl text-slate-200 hover:bg-slate-800 font-medium">
-                        <i class="fa-solid fa-paper-plane text-red-500 w-5"></i>
-                        <span>KIRIM PESAN</span>
+                        <i class="fa-solid fa-paper-plane text-red-500 w-5"></i><span>KIRIM PESAN</span>
                     </a>
                     <a href="#tentang-saya" class="mobile-nav-link flex items-center space-x-3 px-3 py-2.5 rounded-xl text-slate-200 hover:bg-slate-800 font-medium">
-                        <i class="fa-solid fa-user text-red-500 w-5"></i>
-                        <span>TENTANG SAYA</span>
+                        <i class="fa-solid fa-user text-red-500 w-5"></i><span>TENTANG SAYA</span>
                     </a>
                 </div>
 
-                <!-- CONTACT MENU ON MOBILE HAMBURGER -->
                 <div class="pt-4 border-t border-surfaceBorder space-y-2">
                     <div class="text-[10px] font-bold uppercase tracking-wider text-mutedGray px-3">CONTACT</div>
-                    <a href="https://wa.me/" target="_blank" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-slate-200 hover:bg-slate-800">
-                        <i class="fa-brands fa-whatsapp text-emerald-500 text-lg w-5"></i>
-                        <span class="text-sm font-medium">WhatsApp</span>
+                    <a href="https://wa.me/6281234567890" target="_blank" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-slate-200 hover:bg-slate-800">
+                        <i class="fa-brands fa-whatsapp text-emerald-500 text-lg w-5"></i><span class="text-sm font-medium">WhatsApp</span>
                     </a>
-                    <a href="https://instagram.com/" target="_blank" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-slate-200 hover:bg-slate-800">
-                        <i class="fa-brands fa-instagram text-pink-500 text-lg w-5"></i>
-                        <span class="text-sm font-medium">Instagram</span>
+                    <a href="https://instagram.com/ronihalla_08" target="_blank" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-slate-200 hover:bg-slate-800">
+                        <i class="fa-brands fa-instagram text-pink-500 text-lg w-5"></i><span class="text-sm font-medium">Instagram</span>
                     </a>
                 </div>
             </div>
 
-            <!-- BENTO GRID CONTAINER -->
+            <!-- CONTENT -->
             <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full space-y-6">
                 
-                <!-- 1. HERO / BERANDA SECTION -->
+                <!-- 1. HERO SECTION (CHA HAE-IN) -->
                 <section id="beranda" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                    <!-- Text Card -->
-                    <div class="card-cyber lg:col-span-8 rounded-2xl p-6 sm:p-8 lg:p-10 flex flex-col justify-between relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-80 h-80 bg-red-950/20 rounded-full blur-3xl pointer-events-none"></div>
-                        
-                        <div class="relative z-10">
-                            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-red-950/50 border border-red-900/50 text-red-400 text-xs font-semibold mb-4 sm:mb-6">
+                    <div class="card-cyber lg:col-span-8 rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
+                        <div>
+                            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-red-950/50 border border-red-900/50 text-red-400 text-xs font-semibold mb-4">
                                 <span>HALLO KAWAN 👋</span>
                             </div>
-                            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-4 sm:mb-6 leading-tight glitch-text">
-                                selamat berkunjung<br>
-                                ke <span class="text-red-600">web saya.</span>
+                            <h1 class="text-3xl sm:text-5xl font-black text-white mb-4 leading-tight">
+                                selamat berkunjung<br>ke <span class="text-red-600">web saya.</span>
                             </h1>
-                            <p class="text-mutedGray text-sm sm:text-base lg:text-lg max-w-xl leading-relaxed mb-6 sm:mb-8">
+                            <p class="text-mutedGray text-sm sm:text-base max-w-xl mb-6">
                                 Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan bahasa pemrograman Python.
                             </p>
                         </div>
-
-                        <!-- CTA Buttons -->
-                        <div class="flex flex-wrap gap-3 relative z-10">
-                            <a href="#kirim-pesan" class="flex-1 sm:flex-initial text-center px-5 py-3 bg-red-900 hover:bg-red-800 text-white text-sm font-semibold rounded-xl shadow-lg shadow-red-950/50 transition flex items-center justify-center space-x-2">
-                                <i class="fa-solid fa-folder-open text-xs"></i>
-                                <span>Lihat Project</span>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="#kirim-pesan" class="px-5 py-3 bg-red-900 hover:bg-red-800 text-white text-sm font-semibold rounded-xl flex items-center space-x-2">
+                                <i class="fa-solid fa-folder-open text-xs"></i><span>Lihat Project</span>
                             </a>
-                            <a href="https://github.com/rohall12" target="_blank" class="flex-1 sm:flex-initial text-center px-5 py-3 card-cyber hover:bg-slate-800 text-white text-sm font-semibold rounded-xl transition flex items-center justify-center space-x-2">
-                                <i class="fa-brands fa-github text-base"></i>
-                                <span>GitHub Saya</span>
+                            <a href="https://github.com/rohall12" target="_blank" class="px-5 py-3 card-cyber hover:bg-slate-800 text-white text-sm font-semibold rounded-xl flex items-center space-x-2">
+                                <i class="fa-brands fa-github text-base"></i><span>GitHub Saya</span>
                             </a>
                         </div>
                     </div>
 
-                    <!-- Hero Anime Character Card (Cha Hae-in Coding) -->
-                    <div class="card-cyber lg:col-span-4 rounded-2xl overflow-hidden relative min-h-[280px] sm:min-h-[350px] lg:min-h-[auto] flex items-end">
-                        <img id="heroChaHaeInImage" src="assets/cha-hae-in.jpg" alt="Cha Hae-in Coding" class="absolute inset-0 w-full h-full object-cover object-top" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop'">
+                    <!-- Gambar Cha Hae-In -->
+                    <div class="card-cyber lg:col-span-4 rounded-2xl overflow-hidden relative min-h-[280px] sm:min-h-[350px] flex items-end">
+                        <img id="heroChaHaeInImage" src="assets/cha-hae-in.jpg" alt="Cha Hae-in Coding" class="absolute inset-0 w-full h-full object-cover object-top">
                         <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-transparent"></div>
                     </div>
                 </section>
 
-                <!-- 2. GITHUB LIVE ACTIVITY SECTION -->
+                <!-- 2. GITHUB ACTIVITY SECTION (SUNG JIN-WOO) -->
                 <section id="github-activity" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                    <!-- Stats Card -->
                     <div class="card-cyber lg:col-span-7 rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
                         <div>
                             <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
-                                    <i class="fa-brands fa-github text-red-500"></i> GitHub Live Activity
-                                </h3>
-                                <span class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-red-950/60 border border-red-900/60 text-red-400 text-[10px] font-bold tracking-wider">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                                    <span>LIVE</span>
+                                <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fa-brands fa-github text-red-500"></i> GitHub Live Activity</h3>
+                                <span class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-red-950/60 border border-red-900/60 text-red-400 text-[10px] font-bold">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span><span>LIVE</span>
                                 </span>
                             </div>
-                            <p class="text-mutedGray text-xs sm:text-sm mb-6">Data realtime langsung dari GitHub API</p>
-                            
-                            <div class="grid grid-cols-2 gap-3 sm:gap-4 mb-6">
-                                <div class="bg-slate-900/60 border border-surfaceBorder p-4 sm:p-5 rounded-xl">
-                                    <div class="text-[11px] sm:text-xs text-mutedGray uppercase font-bold tracking-wider mb-1 flex items-center gap-1.5">
-                                        <i class="fa-solid fa-code-branch text-red-500"></i> Public Repositories
-                                    </div>
-                                    <div id="github-repos" class="text-2xl sm:text-3xl font-black text-white mt-1">2</div>
+                            <p class="text-mutedGray text-xs mb-6">Data realtime langsung dari GitHub API</p>
+                            <div class="grid grid-cols-2 gap-4 mb-6">
+                                <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
+                                    <div class="text-xs text-mutedGray font-bold uppercase mb-1">Public Repositories</div>
+                                    <div id="github-repos" class="text-2xl font-black text-white">2</div>
                                 </div>
-                                <div class="bg-slate-900/60 border border-surfaceBorder p-4 sm:p-5 rounded-xl">
-                                    <div class="text-[11px] sm:text-xs text-mutedGray uppercase font-bold tracking-wider mb-1 flex items-center gap-1.5">
-                                        <i class="fa-solid fa-users text-red-500"></i> Followers
-                                    </div>
-                                    <div id="github-followers" class="text-2xl sm:text-3xl font-black text-white mt-1">0</div>
+                                <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
+                                    <div class="text-xs text-mutedGray font-bold uppercase mb-1">Followers</div>
+                                    <div id="github-followers" class="text-2xl font-black text-white">0</div>
                                 </div>
                             </div>
                         </div>
-
-                        <div>
-                            <a href="https://github.com/rohall12" target="_blank" class="inline-flex items-center space-x-2 text-xs sm:text-sm font-semibold text-red-400 hover:text-red-300 transition">
-                                <span>Lihat di GitHub</span>
-                                <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                            </a>
-                        </div>
+                        <a href="https://github.com/rohall12" target="_blank" class="text-xs font-semibold text-red-400 flex items-center gap-1">
+                            <span>Lihat di GitHub</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
                     </div>
 
-                    <!-- Sung Jin-Woo Character Card -->
+                    <!-- Gambar Sung Jin-Woo -->
                     <div class="card-cyber lg:col-span-5 rounded-2xl overflow-hidden relative min-h-[250px] sm:min-h-[300px]">
-                        <img id="githubSungJinWooImage" src="assets/sung-jin-woo.jpg" alt="Sung Jin-Woo Coding" class="absolute inset-0 w-full h-full object-cover object-center" onerror="this.src='https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=800&auto=format&fit=crop'">
+                        <img id="githubSungJinWooImage" src="assets/sung-jin-woo.jpg" alt="Sung Jin-Woo Coding" class="absolute inset-0 w-full h-full object-cover object-center">
                         <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-transparent"></div>
                     </div>
                 </section>
 
-                <!-- 3. KIRIM PESAN DIRECT & TENTANG SAYA -->
+                <!-- 3. KIRIM PESAN DIRECT (GOJO) & TENTANG SAYA (ANIME MATA BIRU) -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                     
-                    <!-- KIRIM PESAN DIRECT -->
+                    <!-- KIRIM PESAN -->
                     <section id="kirim-pesan" class="card-cyber lg:col-span-7 rounded-2xl p-6 sm:p-8 relative overflow-hidden">
-                        <!-- Gojo Character Graphic overlay on the right -->
-                        <div class="absolute right-0 bottom-0 top-0 w-2/5 sm:w-1/2 opacity-25 lg:opacity-40 pointer-events-none overflow-hidden">
-                            <img id="contactGojoImage" src="assets/gojo.jpg" alt="Gojo Phone" class="w-full h-full object-cover object-center" onerror="this.src='https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop'">
+                        <!-- Overlay Gambar Gojo -->
+                        <div class="absolute right-0 bottom-0 top-0 w-1/2 opacity-40 pointer-events-none overflow-hidden">
+                            <img id="contactGojoImage" src="assets/gojo.jpg" alt="Gojo Phone" class="w-full h-full object-cover object-center">
                             <div class="absolute inset-0 bg-gradient-to-l from-transparent via-surface to-surface"></div>
                         </div>
 
                         <div class="relative z-10 max-w-lg">
-                            <h3 class="text-lg sm:text-xl font-bold text-white mb-1 flex items-center gap-2">
-                                <i class="fa-solid fa-paper-plane text-red-500"></i> Kirim Pesan Direct
-                            </h3>
-                            <p class="text-mutedGray text-xs sm:text-sm mb-6">Pesan akan tersimpan aman di Firebase & terdeteksi instan via Bot Telegram.</p>
+                            <h3 class="text-lg font-bold text-white mb-1 flex items-center gap-2"><i class="fa-solid fa-paper-plane text-red-500"></i> Kirim Pesan Direct</h3>
+                            <p class="text-mutedGray text-xs mb-6">Pesan akan tersimpan di Firebase & terdeteksi instan via Bot Telegram.</p>
 
                             <form id="firebase-form" class="space-y-4">
                                 <div>
-                                    <label class="block text-[11px] font-bold uppercase tracking-wider text-mutedGray mb-1.5 flex items-center gap-1.5">
-                                        <i class="fa-regular fa-user text-red-500"></i> Nama Kamu *
-                                    </label>
-                                    <input type="text" id="sender-name" required placeholder="Masukkan nama kamu" class="w-full bg-slate-900/90 border border-surfaceBorder rounded-xl px-4 py-3 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-red-600 transition">
+                                    <label class="block text-[11px] font-bold uppercase text-mutedGray mb-1">Nama Kamu *</label>
+                                    <input type="text" id="sender-name" required placeholder="Masukkan nama kamu" class="w-full bg-slate-900/90 border border-surfaceBorder rounded-xl px-4 py-3 text-xs text-slate-100 focus:outline-none focus:border-red-600">
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold uppercase tracking-wider text-mutedGray mb-1.5 flex items-center gap-1.5">
-                                        <i class="fa-regular fa-address-book text-red-500"></i> Kontak (WhatsApp / Email / IG) *
-                                    </label>
-                                    <input type="text" id="sender-contact" placeholder="Boleh dikosongkan jika mau anonim" class="w-full bg-slate-900/90 border border-surfaceBorder rounded-xl px-4 py-3 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-red-600 transition">
+                                    <label class="block text-[11px] font-bold uppercase text-mutedGray mb-1">Kontak (WhatsApp / Email / IG) *</label>
+                                    <input type="text" id="sender-contact" placeholder="Boleh dikosongkan jika mau anonim" class="w-full bg-slate-900/90 border border-surfaceBorder rounded-xl px-4 py-3 text-xs text-slate-100 focus:outline-none focus:border-red-600">
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold uppercase tracking-wider text-mutedGray mb-1.5 flex items-center gap-1.5">
-                                        <i class="fa-regular fa-comment text-red-500"></i> Pesan *
-                                    </label>
-                                    <textarea id="sender-message" required rows="3" placeholder="Tuliskan pesan kamu di sini..." class="w-full bg-slate-900/90 border border-surfaceBorder rounded-xl px-4 py-3 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-red-600 transition"></textarea>
+                                    <label class="block text-[11px] font-bold uppercase text-mutedGray mb-1">Pesan *</label>
+                                    <textarea id="sender-message" required rows="3" placeholder="Tuliskan pesan kamu di sini..." class="w-full bg-slate-900/90 border border-surfaceBorder rounded-xl px-4 py-3 text-xs text-slate-100 focus:outline-none focus:border-red-600"></textarea>
                                 </div>
-                                
                                 <div id="form-status" class="hidden text-xs font-semibold py-1"></div>
-
-                                <button type="submit" class="w-full bg-red-900 hover:bg-red-800 text-white font-bold py-3.5 rounded-xl transition duration-200 shadow-lg shadow-red-950/50 flex items-center justify-center space-x-2 text-xs sm:text-sm">
-                                    <span>KIRIM PESAN</span>
-                                    <i class="fa-solid fa-paper-plane text-xs"></i>
-                                </button>
+                                <button type="submit" class="w-full bg-red-900 hover:bg-red-800 text-white font-bold py-3.5 rounded-xl transition text-xs">KIRIM PESAN</button>
                             </form>
                         </div>
                     </section>
 
                     <!-- TENTANG SAYA -->
                     <section id="tentang-saya" class="card-cyber lg:col-span-5 rounded-2xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
-                        <!-- Dark Black-Haired Blue Eyes Anime Overlay -->
-                        <div class="absolute inset-0 opacity-20 pointer-events-none">
-                            <img id="aboutAnimeImage" src="assets/anime-blue-eyes.jpg" alt="About Anime Character" class="w-full h-full object-cover object-center" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop'">
+                        <!-- Overlay Gambar Anime Bermata Biru -->
+                        <div class="absolute inset-0 opacity-30 pointer-events-none">
+                            <img id="aboutAnimeImage" src="assets/anime-blue-eyes.jpg" alt="About Anime Character" class="w-full h-full object-cover object-center">
                             <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/80 to-transparent"></div>
                         </div>
 
                         <div class="relative z-10 space-y-5">
                             <div>
-                                <h3 class="text-lg sm:text-xl font-bold text-white mb-2 flex items-center gap-2">
-                                    <i class="fa-solid fa-user text-red-500"></i> Tentang Saya
-                                </h3>
-                                <p class="text-mutedGray text-xs sm:text-sm leading-relaxed">
+                                <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-user text-red-500"></i> Tentang Saya</h3>
+                                <p class="text-mutedGray text-xs leading-relaxed">
                                     Saya adalah Junior Developer yang sedang mengembangkan kemampuan dalam pemrograman Python dan membangun project bermanfaat.
                                 </p>
                             </div>
-
-                            <div class="space-y-3 border-t border-surfaceBorder pt-4 text-xs sm:text-sm">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-mutedGray flex items-center gap-2"><i class="fa-solid fa-signature text-red-500 w-4"></i> Nama</span>
+                            <div class="space-y-3 border-t border-surfaceBorder pt-4 text-xs">
+                                <div class="flex justify-between">
+                                    <span class="text-mutedGray">Nama</span>
                                     <span class="font-semibold text-white">Roni Halla</span>
                                 </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-mutedGray flex items-center gap-2"><i class="fa-solid fa-laptop-code text-red-500 w-4"></i> Peran</span>
+                                <div class="flex justify-between">
+                                    <span class="text-mutedGray">Peran</span>
                                     <span class="font-semibold text-white">Junior Developer</span>
                                 </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-mutedGray flex items-center gap-2"><i class="fa-solid fa-code text-red-500 w-4"></i> Fokus</span>
+                                <div class="flex justify-between">
+                                    <span class="text-mutedGray">Fokus</span>
                                     <span class="font-semibold text-white">Python, Web Development</span>
                                 </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-mutedGray flex items-center gap-2"><i class="fa-solid fa-location-dot text-red-500 w-4"></i> Lokasi</span>
-                                    <span class="font-semibold text-white text-right">Sumba Timur, NTT</span>
+                                <div class="flex justify-between">
+                                    <span class="text-mutedGray">Lokasi</span>
+                                    <span class="font-semibold text-white">Sumba Timur, NTT</span>
                                 </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-mutedGray flex items-center gap-2"><i class="fa-solid fa-graduation-cap text-red-500 w-4"></i> Status</span>
+                                <div class="flex justify-between">
+                                    <span class="text-mutedGray">Status</span>
                                     <span class="font-semibold text-white">Mahasiswa</span>
                                 </div>
                             </div>
@@ -379,140 +287,23 @@
 
                 </div>
 
-                <!-- 4. FITUR UNGGULAN & TETAP TERHUBUNG -->
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    
-                    <!-- FITUR UNGGULAN -->
-                    <section class="card-cyber lg:col-span-7 rounded-2xl p-6 sm:p-8">
-                        <h3 class="text-lg sm:text-xl font-bold text-white mb-6 flex items-center gap-2">
-                            <i class="fa-solid fa-star text-red-500"></i> Fitur Unggulan
-                        </h3>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-                            <div class="bg-slate-900/50 border border-surfaceBorder p-3.5 sm:p-4 rounded-xl">
-                                <i class="fa-regular fa-clock text-red-500 text-base mb-1.5"></i>
-                                <h4 class="font-bold text-white text-xs sm:text-sm">Jam Otomatis</h4>
-                                <p class="text-mutedGray text-[10px] sm:text-xs mt-1">Menyesuaikan zona waktu pengunjung.</p>
-                            </div>
-                            <div class="bg-slate-900/50 border border-surfaceBorder p-3.5 sm:p-4 rounded-xl">
-                                <i class="fa-solid fa-moon text-red-500 text-base mb-1.5"></i>
-                                <h4 class="font-bold text-white text-xs sm:text-sm">Tema Dinamis</h4>
-                                <p class="text-mutedGray text-[10px] sm:text-xs mt-1">Dark & Light mode dengan preferensi.</p>
-                            </div>
-                            <div class="bg-slate-900/50 border border-surfaceBorder p-3.5 sm:p-4 rounded-xl">
-                                <i class="fa-brands fa-github text-red-500 text-base mb-1.5"></i>
-                                <h4 class="font-bold text-white text-xs sm:text-sm">Live GitHub API</h4>
-                                <p class="text-mutedGray text-[10px] sm:text-xs mt-1">Menampilkan data secara realtime.</p>
-                            </div>
-                            <div class="bg-slate-900/50 border border-surfaceBorder p-3.5 sm:p-4 rounded-xl">
-                                <i class="fa-solid fa-shield-halved text-red-500 text-base mb-1.5"></i>
-                                <h4 class="font-bold text-white text-xs sm:text-sm">Sistem Anti Spam</h4>
-                                <p class="text-mutedGray text-[10px] sm:text-xs mt-1">Proteksi cerdas cegah spam.</p>
-                            </div>
-                            <div class="bg-slate-900/50 border border-surfaceBorder p-3.5 sm:p-4 rounded-xl">
-                                <i class="fa-solid fa-mobile-screen text-red-500 text-base mb-1.5"></i>
-                                <h4 class="font-bold text-white text-xs sm:text-sm">PWA Ready</h4>
-                                <p class="text-mutedGray text-[10px] sm:text-xs mt-1">Siap digunakan semua perangkat.</p>
-                            </div>
-                            <div class="bg-slate-900/50 border border-surfaceBorder p-3.5 sm:p-4 rounded-xl">
-                                <i class="fa-solid fa-chart-line text-red-500 text-base mb-1.5"></i>
-                                <h4 class="font-bold text-white text-xs sm:text-sm">Visitor Analytics</h4>
-                                <p class="text-mutedGray text-[10px] sm:text-xs mt-1">Lihat device, OS, browser, & lokasi.</p>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- TETAP TERHUBUNG & QUOTE CARD -->
-                    <div class="lg:col-span-5 space-y-6 flex flex-col justify-between">
-                        <section class="card-cyber rounded-2xl p-6 sm:p-8">
-                            <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Tetap Terhubung</h3>
-                            <p class="text-mutedGray text-xs sm:text-sm mb-5">Dapatkan update project terbaru langsung ke email kamu.</p>
-                            
-                            <form id="newsletter-form" class="flex flex-col sm:flex-row gap-2" onsubmit="event.preventDefault(); alert('Terima kasih telah mengikuti update!');">
-                                <input type="email" required placeholder="Masukkan email kamu" class="flex-1 bg-slate-900 border border-surfaceBorder rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-red-600">
-                                <button type="submit" class="bg-red-900 hover:bg-red-800 text-white font-semibold px-5 py-2.5 rounded-xl transition text-xs sm:text-sm flex items-center justify-center space-x-2">
-                                    <span>IKUTI</span>
-                                    <i class="fa-solid fa-paper-plane text-xs"></i>
-                                </button>
-                            </form>
-                        </section>
-
-                        <section class="card-cyber rounded-2xl p-6 relative overflow-hidden">
-                            <div class="text-red-500 text-lg mb-1 opacity-70"><i class="fa-solid fa-quote-left"></i></div>
-                            <p class="text-xs text-slate-300 italic leading-relaxed mb-3">
-                                "Terus belajar, terus berkarya, dan jadilah versi terbaik dari dirimu."
-                            </p>
-                            <div class="text-right text-[11px] font-semibold text-mutedGray">— Roni Halla</div>
-                        </section>
-                    </div>
-
-                </div>
-
             </main>
 
-            <!-- COOKIE CONSENT BAR -->
-            <div id="cookie-consent" class="fixed bottom-16 sm:bottom-4 left-4 right-4 lg:left-72 lg:right-8 max-w-4xl mx-auto z-40 bg-surface/95 backdrop-blur-md border border-surfaceBorder p-4 rounded-2xl shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div class="flex items-center space-x-2 text-xs text-mutedGray text-center sm:text-left">
-                    <i class="fa-solid fa-cookie-bite text-amber-500 text-base shrink-0"></i>
-                    <span>Saya menggunakan cookie pada web ini untuk meningkatkan pengalaman kunjungan di web saya</span>
-                </div>
-                <div class="flex items-center space-x-2 shrink-0">
-                    <button id="cookie-reject" class="px-3.5 py-1.5 text-xs font-semibold text-mutedGray hover:text-white transition">Tolak</button>
-                    <button id="cookie-accept" class="px-4 py-1.5 bg-red-900 hover:bg-red-800 text-white text-xs font-semibold rounded-lg transition">Setuju</button>
-                </div>
-            </div>
-
-            <!-- FOOTER -->
-            <footer class="bg-surface border-t border-surfaceBorder px-6 py-6 mt-12 text-center text-xs text-mutedGray space-y-3">
-                <div class="flex flex-wrap justify-center gap-x-3 gap-y-1 font-mono text-[11px]">
-                    <span class="text-slate-200">Dibangun dengan</span>
-                    <span>•</span>
-                    <span class="text-slate-200">Python</span>
-                    <span>•</span>
-                    <span class="text-slate-200">HTML5</span>
-                    <span>•</span>
-                    <span class="text-slate-200">CSS3</span>
-                    <span>•</span>
-                    <span class="text-slate-200">JavaScript</span>
-                    <span>•</span>
-                    <span class="text-slate-200">Firebase</span>
-                    <span>•</span>
-                    <span class="text-slate-200">GitHub API</span>
-                    <span>•</span>
-                    <span class="text-slate-200">Telegram Bot</span>
-                    <span>•</span>
-                    <span class="text-slate-200">PWA</span>
-                    <span>•</span>
-                    <span class="text-slate-200">Tailwind CSS</span>
-                </div>
-                <div>
-                    © 2026 Roni Halla. All rights reserved.
-                </div>
+            <footer class="bg-surface border-t border-surfaceBorder px-6 py-6 mt-12 text-center text-xs text-mutedGray">
+                © 2026 Roni Halla. All rights reserved.
             </footer>
 
         </div>
     </div>
 
-    <!-- MOBILE BOTTOM NAVIGATION BAR -->
-    <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-lg border-t border-surfaceBorder py-2 px-4 flex items-center justify-around shadow-2xl">
-        <a href="#beranda" class="flex flex-col items-center space-y-1 text-mutedGray hover:text-red-500 transition focus:text-red-500">
-            <i class="fa-solid fa-house text-base"></i>
-            <span class="text-[10px] font-medium">Beranda</span>
-        </a>
-        <a href="#github-activity" class="flex flex-col items-center space-y-1 text-mutedGray hover:text-red-500 transition focus:text-red-500">
-            <i class="fa-brands fa-github text-base"></i>
-            <span class="text-[10px] font-medium">GitHub</span>
-        </a>
-        <a href="#kirim-pesan" class="flex flex-col items-center space-y-1 text-mutedGray hover:text-red-500 transition focus:text-red-500">
-            <i class="fa-solid fa-paper-plane text-base"></i>
-            <span class="text-[10px] font-medium">Pesan</span>
-        </a>
-        <a href="#tentang-saya" class="flex flex-col items-center space-y-1 text-mutedGray hover:text-red-500 transition focus:text-red-500">
-            <i class="fa-solid fa-user text-base"></i>
-            <span class="text-[10px] font-medium">Tentang</span>
-        </a>
+    <!-- MOBILE BOTTOM NAVBAR -->
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-lg border-t border-surfaceBorder py-2 px-4 flex items-center justify-around">
+        <a href="#beranda" class="flex flex-col items-center text-mutedGray hover:text-red-500"><i class="fa-solid fa-house text-base"></i><span class="text-[10px]">Beranda</span></a>
+        <a href="#github-activity" class="flex flex-col items-center text-mutedGray hover:text-red-500"><i class="fa-brands fa-github text-base"></i><span class="text-[10px]">GitHub</span></a>
+        <a href="#kirim-pesan" class="flex flex-col items-center text-mutedGray hover:text-red-500"><i class="fa-solid fa-paper-plane text-base"></i><span class="text-[10px]">Pesan</span></a>
+        <a href="#tentang-saya" class="flex flex-col items-center text-mutedGray hover:text-red-500"><i class="fa-solid fa-user text-base"></i><span class="text-[10px]">Tentang</span></a>
     </nav>
 
-    <!-- SCRIPT UTAMA -->
-    <script type="module" src="script.js?v=1.0.0"></script>
+    <script type="module" src="script.js?v=1.0.1"></script>
 </body>
 </html>
