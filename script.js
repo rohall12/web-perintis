@@ -1,345 +1,279 @@
-// ==========================================
-// 1. CONFIG & INITIALIZATION
-// ==========================================
-const TELEGRAM_BOT_TOKEN = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
-const TELEGRAM_CHAT_ID = "5983713854"; 
+/**
+ * RoniHalla Portfolio - Security, Anti-Spam & Visitor Telemetry System
+ * Features: Deep Device Detection, IP Geolocation, Anti-Spam Honeypot, Session Cookies & Telegram Alerts.
+ */
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyDJE6Ua3tGM0ltnuBiXC5jvM-VLBZCmGqI",
-    authDomain: "my-portofolio-c2eeb.firebaseapp.com",
-    databaseURL: "https://my-portofolio-c2eeb-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "my-portofolio-c2eeb",
-    storageBucket: "my-portofolio-c2eeb.firebasestorage.app",
-    messagingSenderId: "686049637486",
-    appId: "1:686049637486:web:1704c34bb302ec0a7c227f"
+// CONFIGURASI BOT TELEGRAM (Ganti dengan Token & Chat ID milikmu)
+const TELEGRAM_CONFIG = {
+    BOT_TOKEN: '7823338870:AAEk1...', // <-- Masukkan Token Bot Telegram kamu di sini
+    CHAT_ID: '6123456789'             <!-- Masukkan Chat ID Telegram kamu di sini
 };
 
-let app, database;
-try {
-    app = initializeApp(firebaseConfig);
-    database = getDatabase(app);
-} catch (err) {
-    console.error("Firebase Init Error:", err);
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    updateClock();
-    setInterval(updateClock, 1000);
-    fetchGitHubStats("rohall12");
-    setupFormHandler();
-    setupUIControls();
-    setupThemeToggle();
-    setupCookieConsent();
-    trackVisitor();
-});
-
 // ==========================================
-// 2. CLOCK & TIMEZONE
+// 1. DETEKSI SPESIFIKASI PERANGKAT & HARDWARE
 // ==========================================
-function updateClock() {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
+function getHardwareSpecs() {
+    const ua = navigator.userAgent;
+    let deviceType = "Desktop / Laptop PC";
+    let osName = "Unknown OS";
+    let browserName = "Unknown Browser";
 
-    const sidebarTime = document.getElementById("sidebar-time");
-    const topTime = document.getElementById("top-time");
-    const sidebarTz = document.getElementById("sidebar-tz");
-
-    if (sidebarTime) sidebarTime.textContent = `${hours}:${minutes}:${seconds}`;
-    if (topTime) topTime.textContent = `${hours}:${minutes} WITA`;
-
-    if (sidebarTz) {
-        try {
-            const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            sidebarTz.textContent = `${tzName}`;
-        } catch(e) {}
-    }
-}
-
-// ==========================================
-// 3. UI NAVIGATION & HAMBURGER MENU
-// ==========================================
-function setupUIControls() {
-    const mobileToggle = document.getElementById("mobile-menu-toggle");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
-
-    if (mobileToggle && mobileMenu) {
-        mobileToggle.addEventListener("click", () => {
-            mobileMenu.classList.toggle("hidden");
-        });
-
-        // Close mobile drawer when link clicked
-        mobileNavLinks.forEach(link => {
-            link.addEventListener("click", () => {
-                mobileMenu.classList.add("hidden");
-            });
-        });
-    }
-}
-
-// ==========================================
-// 4. THEME TOGGLE (DARK / LIGHT)
-// ==========================================
-function setupThemeToggle() {
-    const toggleBtn = document.getElementById("theme-toggle");
-    const themeIcon = document.getElementById("theme-icon");
-    const htmlEl = document.documentElement;
-
-    const savedTheme = localStorage.getItem("theme") || "dark";
-    if (savedTheme === "light") {
-        htmlEl.classList.remove("dark");
-        if (themeIcon) themeIcon.className = "fa-solid fa-moon text-sm";
-    } else {
-        htmlEl.classList.add("dark");
-        if (themeIcon) themeIcon.className = "fa-solid fa-sun text-sm";
+    // 1. Deteksi Tipe Perangkat
+    if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
+        deviceType = "Smartphone / Mobile HP";
     }
 
-    if (toggleBtn) {
-        toggleBtn.addEventListener("click", () => {
-            if (htmlEl.classList.contains("dark")) {
-                htmlEl.classList.remove("dark");
-                localStorage.setItem("theme", "light");
-                if (themeIcon) themeIcon.className = "fa-solid fa-moon text-sm";
-            } else {
-                htmlEl.classList.add("dark");
-                localStorage.setItem("theme", "dark");
-                if (themeIcon) themeIcon.className = "fa-solid fa-sun text-sm";
+    // 2. Deteksi Sistem Operasi (OS)
+    if (ua.indexOf("Win") !== -1) osName = "Windows PC";
+    else if (ua.indexOf("Mac") !== -1) osName = "macOS / Apple";
+    else if (ua.indexOf("Android") !== -1) osName = "Android OS";
+    else if (ua.indexOf("iPhone") !== -1 || ua.indexOf("iPad") !== -1) osName = "iOS (iPhone/iPad)";
+    else if (ua.indexOf("Linux") !== -1) osName = "Linux OS";
+
+    // 3. Deteksi Browser
+    if (ua.indexOf("Chrome") !== -1 && ua.indexOf("Edg") === -1) browserName = "Google Chrome";
+    else if (ua.indexOf("Edg") !== -1) browserName = "Microsoft Edge";
+    else if (ua.indexOf("Firefox") !== -1) browserName = "Mozilla Firefox";
+    else if (ua.indexOf("Safari") !== -1 && ua.indexOf("Chrome") === -1) browserName = "Apple Safari";
+
+    // 4. Deteksi GPU / Kartu Grafis
+    let gpuName = "Tidak Terdeteksi";
+    try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (gl) {
+            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+            if (debugInfo) {
+                gpuName = gl.getParameter(debugInfo.UNMASKED_RENDERER_GL_STRING);
             }
-        });
-    }
-}
-
-// ==========================================
-// 5. COOKIE CONSENT BAR
-// ==========================================
-function setupCookieConsent() {
-    const cookieBar = document.getElementById("cookie-consent");
-    const acceptBtn = document.getElementById("cookie-accept");
-    const rejectBtn = document.getElementById("cookie-reject");
-
-    if (!cookieBar) return;
-
-    if (localStorage.getItem("cookie_consent")) {
-        cookieBar.classList.add("hidden");
-    }
-
-    if (acceptBtn) {
-        acceptBtn.addEventListener("click", () => {
-            localStorage.setItem("cookie_consent", "accepted");
-            cookieBar.classList.add("hidden");
-        });
-    }
-
-    if (rejectBtn) {
-        rejectBtn.addEventListener("click", () => {
-            localStorage.setItem("cookie_consent", "rejected");
-            cookieBar.classList.add("hidden");
-        });
-    }
-}
-
-// ==========================================
-// 6. GITHUB LIVE STATS API
-// ==========================================
-async function fetchGitHubStats(username) {
-    try {
-        const response = await fetch(`https://api.github.com/users/${username}`);
-        if (response.ok) {
-            const data = await response.json();
-            const reposEl = document.getElementById("github-repos");
-            const followersEl = document.getElementById("github-followers");
-            
-            if (reposEl) reposEl.textContent = data.public_repos;
-            if (followersEl) followersEl.textContent = data.followers;
-        }
-    } catch (err) {
-        console.error("GitHub API Error:", err);
-    }
-}
-
-// ==========================================
-// 7. VISITOR TRACKER (GPS & TELEGRAM)
-// ==========================================
-async function getRealLocationFromCoords(lat, lon) {
-    try {
-        const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=id`);
-        if (res.ok) {
-            const data = await res.json();
-            const city = data.city || data.locality || "";
-            const district = data.localityInfo?.administrative?.[3]?.name || data.localityInfo?.administrative?.[2]?.name || "";
-            const province = data.principalSubdivision || "";
-            
-            let locParts = [];
-            if (district) locParts.push(district);
-            if (city) locParts.push(city);
-            if (province) locParts.push(province);
-
-            return {
-                text: locParts.join(", ") || `${lat}, ${lon}`,
-                mapsUrl: `https://www.google.com/maps?q=${lat},${lon}`
-            };
         }
     } catch (e) {
-        console.error("Error reverse geocode:", e);
+        gpuName = "Blocked / Disabled";
     }
+
+    // 5. Informasi Hardware Tambahan
+    const cpuCores = navigator.hardwareConcurrency ? `${navigator.hardwareConcurrency} Cores` : 'N/A';
+    const ramMemory = navigator.deviceMemory ? `± ${navigator.deviceMemory} GB` : 'N/A';
+    const screenSize = `${window.screen.width} x ${window.screen.height} (DPR: ${window.devicePixelRatio || 1})`;
+    const isTouch = ('ontouchstart' in window || navigator.maxTouchPoints > 0) ? "Ya (Touchscreen)" : "Tidak";
+
     return {
-        text: `${lat}, ${lon}`,
-        mapsUrl: `https://www.google.com/maps?q=${lat},${lon}`
+        deviceType,
+        osName,
+        browserName,
+        gpuName,
+        cpuCores,
+        ramMemory,
+        screenSize,
+        isTouch,
+        userAgent: ua
     };
 }
 
-async function sendToTelegram(messageText) {
+// ==========================================
+// 2. LAPORAN PENGUNJUNG KETIKA LOG IN / MASUK WEB
+// ==========================================
+async function sendVisitorTelemetry() {
+    // Cek Session Cookie/Storage: Jangan kirim berulang jika user hanya melakukan Refresh halaman
+    if (sessionStorage.getItem('visitor_telemetry_sent')) {
+        console.log("Session active: Visitor telemetry already reported.");
+        return;
+    }
+
     try {
-        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        // Ambil Data Geolocation dari IP API (Gratis & Tanpa Key)
+        const ipRes = await fetch('https://ipwho.is/');
+        const ipData = await ipRes.json();
+
+        const specs = getHardwareSpecs();
+        const currentTime = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' }) + ' WITA';
+
+        // Format Pesan Laporan Lengkap untuk Telegram
+        const messageText = `
+🚨 *LAPORAN AKSES PENGUNJUNG BARU* 🚨
+-------------------------------------------
+📍 *INFORMASI LOKASI & JARINGAN:*
+• *IP Address:* \`${ipData.ip || 'Tersembunyi'}\`
+• *Lokasi:* ${ipData.city || '-'}, ${ipData.region || '-'}, ${ipData.country || '-'}
+• *ISP / Provider:* ${ipData.connection?.isp || ipData.org || '-'}
+• *Koordinat:* [Buka Google Maps](https://maps.google.com/?q=${ipData.latitude},${ipData.longitude})
+
+💻 *SPESIFIKASI PERANGKAT & HARDWARE:*
+• *Tipe Perangkat:* ${specs.deviceType}
+• *Sistem Operasi:* ${specs.osName}
+• *Browser:* ${specs.browserName}
+• *Resolusi Layar:* ${specs.screenSize}
+• *Layar Sentuh:* ${specs.isTouch}
+• *CPU Cores:* ${specs.cpuCores}
+• *Perkiraan RAM:* ${specs.ramMemory}
+• *GPU / Grafis:* \`${specs.gpuName}\`
+
+🛡️ *STATUS KEAMANAN & SAKSI:*
+• *Waktu Masuk:* ${currentTime}
+• *Status Cookie:* Session Created ✅
+-------------------------------------------
+🤖 *RoniHalla Security Shield*
+`.trim();
+
+        // Kirim Notifikasi ke Telegram
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
+                chat_id: TELEGRAM_CONFIG.CHAT_ID,
                 text: messageText,
                 parse_mode: 'Markdown',
-                disable_web_page_preview: false
+                disable_web_page_preview: true
             })
         });
+
+        // Tanda sesi bahwa laporan sudah terkirim di browser ini
+        sessionStorage.setItem('visitor_telemetry_sent', 'true');
+
     } catch (err) {
-        console.error("Gagal kirim Telegram:", err);
-    }
-}
-
-async function trackVisitor() {
-    if (sessionStorage.getItem("visited_session")) return;
-    sessionStorage.setItem("visited_session", "true");
-
-    try {
-        const ua = navigator.userAgent;
-        let deviceType = "Desktop / Laptop 💻";
-        if (/mobile/i.test(ua)) deviceType = "Smartphone / HP 📱";
-        if (/tablet|ipad/i.test(ua)) deviceType = "Tablet 📟";
-
-        let os = "Unknown OS";
-        if (ua.includes("Win")) os = "Windows 🪟";
-        else if (ua.includes("Android")) os = "Android 🤖";
-        else if (ua.includes("iPhone") || ua.includes("iPad")) os = "iOS / Apple 🍎";
-        else if (ua.includes("Mac")) os = "macOS 🍏";
-        else if (ua.includes("Linux")) os = "Linux 🐧";
-
-        let browser = "Google Chrome 🌐";
-        if (ua.includes("Firefox")) browser = "Firefox 🦊";
-        else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari 🧭";
-        else if (ua.includes("Edg")) browser = "Microsoft Edge 🌊";
-
-        const referrer = document.referrer || "Direct Link 🔗";
-        const screenSize = `${window.screen.width} x ${window.screen.height} px`;
-
-        let ipAddress = "Hidden";
-        let provider = "-";
-        let ipLocationFallback = "Mencari...";
-
-        try {
-            const ipRes = await fetch("https://ipapi.co/json/");
-            if (ipRes.ok) {
-                const ipData = await ipRes.json();
-                ipAddress = ipData.ip || "Hidden";
-                provider = ipData.org || "-";
-                ipLocationFallback = `${ipData.city || '-'}, ${ipData.region || '-'}`;
-            }
-        } catch (e) {}
-
-        const buildMessage = (locationString, mapsLink = "") => {
-            return `👁️ *PENGUNJUNG BARU MASUK WEB!*
-
-📍 *LOKASI & JARINGAN*
-• *IP Address:* \`${ipAddress}\`
-• *Lokasi:* ${locationString}${mapsLink ? `\n• *Google Maps Pin:* ${mapsLink}` : ''}
-• *Provider/ISP:* ${provider}
-
-💻 *SPESIFIKASI*
-• *Tipe:* ${deviceType}
-• *OS:* ${os}
-• *Browser:* ${browser}
-• *Layar:* ${screenSize}
-
-🌐 *SUMBER*
-• *Masuk Lewat:* ${referrer}
-• *Waktu:* ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' })} WITA`;
-        };
-
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(
-                async (position) => {
-                    const lat = position.coords.latitude;
-                    const lon = position.coords.longitude;
-                    const geoData = await getRealLocationFromCoords(lat, lon);
-                    sendToTelegram(buildMessage(`🎯 *${geoData.text}* (GPS)`, geoData.mapsUrl));
-                },
-                () => {
-                    sendToTelegram(buildMessage(`${ipLocationFallback} (IP)`));
-                },
-                { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 }
-            );
-        } else {
-            sendToTelegram(buildMessage(`${ipLocationFallback} (IP)`));
-        }
-    } catch (err) {
-        console.error("Visitor tracking error:", err);
+        console.error("Gagal mengirim telemetri pengunjung:", err);
     }
 }
 
 // ==========================================
-// 8. FORM PESAN DIRECT (FIREBASE + TELEGRAM)
+// 3. FITUR ANTI-SPAM & FORM KIRIM PESAN
 // ==========================================
-function setupFormHandler() {
-    const form = document.getElementById("firebase-form");
-    const statusEl = document.getElementById("form-status");
+let pageLoadTimestamp = Date.now(); // Catat waktu muat halaman untuk Time-Check Trap
 
+function initFormProtection() {
+    const form = document.getElementById('firebase-form');
     if (!form) return;
 
-    form.addEventListener("submit", async (e) => {
+    form.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        const name = document.getElementById("sender-name").value.trim();
-        const contact = document.getElementById("sender-contact").value.trim();
-        const message = document.getElementById("sender-message").value.trim();
+        const statusEl = document.getElementById('form-status');
+        const honeypotInput = document.getElementById('website_check_honeypot');
+        const nameInput = document.getElementById('sender-name');
+        const contactInput = document.getElementById('sender-contact');
+        const messageInput = document.getElementById('sender-message');
 
-        if (!name || !message) return;
-
-        if (statusEl) {
-            statusEl.classList.remove("hidden", "text-emerald-400", "text-rose-500");
-            statusEl.classList.add("text-amber-400");
-            statusEl.textContent = "Sedang mengirim pesan...";
+        // 🛡️ FITUR 1: HONEYPOT CHECK (Jika field tersembunyi diisi, ini pasti BOT)
+        if (honeypotInput && honeypotInput.value.trim() !== "") {
+            console.warn("Anti-Spam Triggered: Honeypot field filled.");
+            showStatus("Pesan terkirim!", "text-emerald-400"); // Pura-pura sukses agar bot bingung
+            form.reset();
+            return;
         }
 
-        try {
-            if (!database) throw new Error("Database belum siap");
+        // 🛡️ FITUR 2: TIME-CHECK TRAP (Jika terisi < 2 detik sejak halaman dibuka, ini pasti BOT)
+        if (Date.now() - pageLoadTimestamp < 2000) {
+            showStatus("❌ Terlalu cepat! Harap isi form dengan wajar.", "text-red-500");
+            return;
+        }
 
-            const messagesRef = ref(database, 'messages');
-            await push(messagesRef, {
-                name: name,
-                contact: contact || "Anonim",
-                message: message,
-                timestamp: serverTimestamp()
+        // 🛡️ FITUR 3: COOLDOWN / RATE-LIMITING (Maksimal 1 pesan per 30 detik)
+        const lastSubmitted = localStorage.getItem('last_message_timestamp');
+        if (lastSubmitted && Date.now() - parseInt(lastSubmitted) < 30000) {
+            const secondsLeft = Math.ceil((30000 - (Date.now() - parseInt(lastSubmitted))) / 1000);
+            showStatus(`⏳ Harap tunggu ${secondsLeft} detik lagi sebelum mengirim pesan baru.`, "text-amber-400");
+            return;
+        }
+
+        // Validasi Sanitasi Input Dasar
+        const senderName = sanitizeHTML(nameInput.value.trim());
+        const senderContact = sanitizeHTML(contactInput.value.trim()) || 'Anonim';
+        const senderMessage = sanitizeHTML(messageInput.value.trim());
+
+        if (!senderName || !senderMessage) {
+            showStatus("❌ Nama dan Pesan wajib diisi!", "text-red-500");
+            return;
+        }
+
+        showStatus("⏳ Mengirim pesan...", "text-slate-300");
+
+        try {
+            const specs = getHardwareSpecs();
+            const telegramMsg = `
+📩 *PESAN MASUK DARI WEBSITE* 📩
+-------------------------------------------
+👤 *Nama:* ${senderName}
+📞 *Kontak:* ${senderContact}
+💬 *Pesan:*
+"${senderMessage}"
+
+💻 *INFOS PERANGKAT PENGIRIM:*
+• *Device:* ${specs.deviceType} (${specs.osName})
+• *Browser:* ${specs.browserName}
+-------------------------------------------
+`.trim();
+
+            // Kirim Pesan ke Telegram Bot
+            const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CONFIG.CHAT_ID,
+                    text: telegramMsg,
+                    parse_mode: 'Markdown'
+                })
             });
 
-            const telegramText = `📩 *PESAN BARU DARI PORTFOLIO!*\n\n👤 *Nama:* ${name}\n📱 *Kontak:* ${contact || '-'}\n💬 *Pesan:* ${message}`;
-            await sendToTelegram(telegramText);
+            if (res.ok) {
+                showStatus("✅ Pesan berhasil terkirim!", "text-emerald-400");
+                localStorage.setItem('last_message_timestamp', Date.now().toString());
+                form.reset();
+            } else {
+                showStatus("❌ Gagal mengirim pesan. Coba lagi nanti.", "text-red-500");
+            }
 
-            if (statusEl) {
-                statusEl.classList.remove("text-amber-400");
-                statusEl.classList.add("text-emerald-400");
-                statusEl.textContent = "Pesan berhasil dikirim!";
-            }
-            form.reset();
-        } catch (error) {
-            console.error("Gagal mengirim pesan:", error);
-            if (statusEl) {
-                statusEl.classList.remove("text-amber-400");
-                statusEl.classList.add("text-rose-500");
-                statusEl.textContent = "Gagal terhubung. Coba lagi nanti ya!";
-            }
+        } catch (err) {
+            showStatus("❌ Terjadi kesalahan jaringan.", "text-red-500");
         }
     });
 }
+
+// Helper: Sanitasi Input untuk Mencegah XSS (Cross Site Scripting)
+function sanitizeHTML(str) {
+    const temp = document.createElement('div');
+    temp.textContent = str;
+    return temp.innerHTML;
+}
+
+// Helper: Tampilkan Status Form
+function showStatus(msg, colorClass) {
+    const statusEl = document.getElementById('form-status');
+    if (statusEl) {
+        statusEl.className = `text-xs font-semibold py-1.5 px-3 rounded-lg bg-slate-900/80 border border-surfaceBorder ${colorClass}`;
+        statusEl.innerText = msg;
+        statusEl.classList.remove('hidden');
+    }
+}
+
+// ==========================================
+// 4. JAM AUTOMATIS REALTIME & ZONA WAKTU
+// ==========================================
+function updateRealtimeClock() {
+    const timeEl = document.getElementById('sidebar-time');
+    const tzEl = document.getElementById('sidebar-tz');
+
+    if (timeEl) {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        
+        timeEl.textContent = `${hours}:${minutes}:${seconds}`;
+        if (tzEl) tzEl.textContent = "WITA (UTC+8)";
+    }
+}
+
+// ==========================================
+// INITIALIZATION ON PAGE LOAD
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Jalankan Telemetri Laporan Pengunjung
+    sendVisitorTelemetry();
+
+    // 2. Aktifkan Proteksi Form
+    initFormProtection();
+
+    // 3. Jalankan Jam Realtime setiap 1 detik
+    setInterval(updateRealtimeClock, 1000);
+    updateRealtimeClock();
+});

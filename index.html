@@ -75,7 +75,7 @@
 
             <div class="pt-6 border-t border-surfaceBorder space-y-3 mb-6">
                 <div class="text-[11px] font-bold uppercase tracking-wider text-mutedGray">CONTACT</div>
-                <!-- WhatsApp Link (Ganti nomor HP kamu jika perlu) -->
+                <!-- WhatsApp Link (Ganti 6281234567890 dengan Nomor WhatsApp Kamu) -->
                 <a href="https://wa.me/6281234567890" target="_blank" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 hover:text-white">
                     <i class="fa-brands fa-whatsapp text-emerald-500 text-base"></i><span>WhatsApp</span>
                 </a>
@@ -86,7 +86,7 @@
             </div>
 
             <div class="card-cyber p-3.5 rounded-xl mb-6 text-center">
-                <div id="sidebar-time" class="font-mono text-lg font-bold text-white tracking-wider">00:00:00</div>
+                <div id="sidebar-time" class="font-mono text-lg font-bold text-white tracking-wider">--:--:--</div>
                 <div id="sidebar-tz" class="text-[11px] text-mutedGray mt-0.5">WITA (UTC+8)</div>
             </div>
         </aside>
@@ -170,7 +170,7 @@
                         </div>
                     </div>
 
-                    <!-- Gambar Cha Hae-In (Sudah disesuaikan: cha_hae_in.jpg) -->
+                    <!-- Gambar Cha Hae-In (assets/cha_hae_in.jpg) -->
                     <div class="card-cyber lg:col-span-4 rounded-2xl overflow-hidden relative min-h-[280px] sm:min-h-[350px] flex items-end">
                         <img id="heroChaHaeInImage" src="assets/cha_hae_in.jpg" alt="Cha Hae-in Coding" class="absolute inset-0 w-full h-full object-cover object-top">
                         <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-transparent"></div>
@@ -204,7 +204,7 @@
                         </a>
                     </div>
 
-                    <!-- Gambar Sung Jin-Woo (Sudah disesuaikan: sung_jin_woo.jpg) -->
+                    <!-- Gambar Sung Jin-Woo (assets/sung_jin_woo.jpg) -->
                     <div class="card-cyber lg:col-span-5 rounded-2xl overflow-hidden relative min-h-[250px] sm:min-h-[300px]">
                         <img id="githubSungJinWooImage" src="assets/sung_jin_woo.jpg" alt="Sung Jin-Woo Coding" class="absolute inset-0 w-full h-full object-cover object-center">
                         <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-transparent"></div>
@@ -216,7 +216,7 @@
                     
                     <!-- KIRIM PESAN -->
                     <section id="kirim-pesan" class="card-cyber lg:col-span-7 rounded-2xl p-6 sm:p-8 relative overflow-hidden">
-                        <!-- Overlay Gambar Gojo (gojo.jpg) -->
+                        <!-- Overlay Gambar Gojo (assets/gojo.jpg) -->
                         <div class="absolute right-0 bottom-0 top-0 w-1/2 opacity-40 pointer-events-none overflow-hidden">
                             <img id="contactGojoImage" src="assets/gojo.jpg" alt="Gojo Phone" class="w-full h-full object-cover object-center">
                             <div class="absolute inset-0 bg-gradient-to-l from-transparent via-surface to-surface"></div>
@@ -227,6 +227,9 @@
                             <p class="text-mutedGray text-xs mb-6">Pesan akan tersimpan di Firebase & terdeteksi instan via Bot Telegram.</p>
 
                             <form id="firebase-form" class="space-y-4">
+                                <!-- ANTI-SPAM HONEYPOT TRAP (Hidden Field) -->
+                                <input type="text" id="website_check_honeypot" name="website_check_honeypot" class="hidden" tabindex="-1" autocomplete="off">
+
                                 <div>
                                     <label class="block text-[11px] font-bold uppercase text-mutedGray mb-1">Nama Kamu *</label>
                                     <input type="text" id="sender-name" required placeholder="Masukkan nama kamu" class="w-full bg-slate-900/90 border border-surfaceBorder rounded-xl px-4 py-3 text-xs text-slate-100 focus:outline-none focus:border-red-600">
@@ -247,7 +250,7 @@
 
                     <!-- TENTANG SAYA -->
                     <section id="tentang-saya" class="card-cyber lg:col-span-5 rounded-2xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
-                        <!-- Overlay Gambar Anime Bermata Biru (Sudah disesuaikan: blue_eyes_character.jpg) -->
+                        <!-- Overlay Gambar Anime Mata Biru (assets/blue_eyes_character.jpg) -->
                         <div class="absolute inset-0 opacity-30 pointer-events-none">
                             <img id="aboutAnimeImage" src="assets/blue_eyes_character.jpg" alt="About Anime Character" class="w-full h-full object-cover object-center">
                             <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/80 to-transparent"></div>
@@ -287,6 +290,45 @@
 
                 </div>
 
+                <!-- 4. FITUR UNGGULAN SECTION -->
+                <section class="card-cyber rounded-2xl p-6 sm:p-8">
+                    <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                        <i class="fa-solid fa-star text-red-500"></i> Fitur Unggulan
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
+                            <i class="fa-solid fa-clock text-red-500 mb-2 text-lg"></i>
+                            <h4 class="text-sm font-bold text-white">Jam Otomatis</h4>
+                            <p class="text-mutedGray text-xs mt-1">Menyesuaikan zona waktu pengunjung secara realtime.</p>
+                        </div>
+                        <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
+                            <i class="fa-solid fa-moon text-red-500 mb-2 text-lg"></i>
+                            <h4 class="text-sm font-bold text-white">Tema Dinamis</h4>
+                            <p class="text-mutedGray text-xs mt-1">Dark & Light mode tersimpan otomatis di LocalStorage.</p>
+                        </div>
+                        <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
+                            <i class="fa-brands fa-github text-red-500 mb-2 text-lg"></i>
+                            <h4 class="text-sm font-bold text-white">Live GitHub API</h4>
+                            <p class="text-mutedGray text-xs mt-1">Menampilkan data statistik repositori secara realtime.</p>
+                        </div>
+                        <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
+                            <i class="fa-solid fa-shield-halved text-red-500 mb-2 text-lg"></i>
+                            <h4 class="text-sm font-bold text-white">Sistem Anti Spam</h4>
+                            <p class="text-mutedGray text-xs mt-1">Proteksi cerdas cegah spamming pada form pesan.</p>
+                        </div>
+                        <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
+                            <i class="fa-solid fa-mobile-screen text-red-500 mb-2 text-lg"></i>
+                            <h4 class="text-sm font-bold text-white">PWA Ready</h4>
+                            <p class="text-mutedGray text-xs mt-1">Siap diinstal dan digunakan offline di semua perangkat.</p>
+                        </div>
+                        <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
+                            <i class="fa-solid fa-chart-line text-red-500 mb-2 text-lg"></i>
+                            <h4 class="text-sm font-bold text-white">Visitor Analytics</h4>
+                            <p class="text-mutedGray text-xs mt-1">Mendeteksi perangkat, OS, browser, dan lokasi pengunjung.</p>
+                        </div>
+                    </div>
+                </section>
+
             </main>
 
             <footer class="bg-surface border-t border-surfaceBorder px-6 py-6 mt-12 text-center text-xs text-mutedGray">
@@ -304,6 +346,6 @@
         <a href="#tentang-saya" class="flex flex-col items-center text-mutedGray hover:text-red-500"><i class="fa-solid fa-user text-base"></i><span class="text-[10px]">Tentang</span></a>
     </nav>
 
-    <script type="module" src="script.js?v=1.0.1"></script>
+    <script type="module" src="script.js?v=1.0.2"></script>
 </body>
 </html>
