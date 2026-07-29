@@ -1,16 +1,11 @@
 // ==========================================
-// 1. CONFIG MAINTENANCE MODE
-// ==========================================
-const IS_MAINTENANCE = false; // Ubah ke 'true' jika ingin mengaktifkan mode maintenance
-
-// ==========================================
-// 2. TELEGRAM BOT CONFIG
+// 1. TELEGRAM BOT CONFIG
 // ==========================================
 const TELEGRAM_BOT_TOKEN = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
 const TELEGRAM_CHAT_ID = "5983713854"; 
 
 // ==========================================
-// 3. FIREBASE CONFIGURATION
+// 2. FIREBASE CONFIGURATION
 // ==========================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -34,38 +29,20 @@ try {
 }
 
 // ==========================================
-// 4. MAIN EVENT LISTENER
+// 3. MAIN EVENT LISTENER
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
-    // Maintenance Handler
-    const maintenanceScreen = document.getElementById("maintenance-screen");
-    const urlParams = new URLSearchParams(window.location.search);
-    const isPreview = urlParams.get('preview') === 'true';
-
-    if (IS_MAINTENANCE && !isPreview) {
-        if (maintenanceScreen) {
-            maintenanceScreen.classList.remove("hidden");
-            document.body.classList.add("overflow-hidden");
-        }
-    } else {
-        if (maintenanceScreen) {
-            maintenanceScreen.classList.add("hidden");
-            document.body.classList.remove("overflow-hidden");
-        }
-    }
-
-    // Jalankan Jam, GitHub Stats, Form Handler, UI, dan Visitor Tracking
     updateClock();
     setInterval(updateClock, 1000);
     fetchGitHubStats("rohall12");
     setupFormHandler();
     setupUIControls();
     
-    // Kirim notifikasi pengunjung masuk (Visitor Tracker)
+    // Kirim notifikasi pengunjung masuk (Visitor Tracker GPS + IP)
     trackVisitor();
 });
 
-// Helper: Konversi Koordinat GPS ke Nama Kota/Kecamatan Real-Time
+// Helper: Konversi Koordinat GPS ke Nama Lokasi Real-Time
 async function getRealLocationFromCoords(lat, lon) {
     try {
         const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=id`);
@@ -113,14 +90,13 @@ async function sendToTelegram(messageText) {
 }
 
 // ==========================================
-// 5. VISITOR TRACKER (AKURAT 100% GPS + IP)
+// 4. VISITOR TRACKER (GPS + IP FALLBACK)
 // ==========================================
 async function trackVisitor() {
     if (sessionStorage.getItem("visited_session")) return;
     sessionStorage.setItem("visited_session", "true");
 
     try {
-        // 1. Deteksi Spesifikasi Perangkat
         const ua = navigator.userAgent;
         let deviceType = "Desktop/Laptop 💻";
         if (/mobile/i.test(ua)) deviceType = "Smartphone / HP 📱";
@@ -139,7 +115,6 @@ async function trackVisitor() {
         else if (ua.includes("Firefox")) browser = "Firefox 🦊";
         else if (ua.includes("Edg")) browser = "Microsoft Edge 🌊";
 
-        // 2. Deteksi Media / Asal Link
         const referrer = document.referrer;
         let mediaSource = "Direct Link / Pengetikan Langsung 🔗";
         if (referrer) {
@@ -155,7 +130,6 @@ async function trackVisitor() {
         const screenSize = `${window.screen.width} x ${window.screen.height} px`;
         const language = navigator.language || navigator.userLanguage;
 
-        // 3. Ambil Data IP & ISP
         let ipAddress = "Hidden";
         let provider = "-";
         let ipLocationFallback = "Mencari...";
@@ -172,7 +146,6 @@ async function trackVisitor() {
             console.log("Gagal fetch IP:", e);
         }
 
-        // Fungsi pembuat format pesan Telegram
         const buildMessage = (locationString, mapsLink = "") => {
             return `👁️ *PENGUNJUNG BARU MASUK WEB!*
 
@@ -193,28 +166,23 @@ async function trackVisitor() {
 • *Waktu:* ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' })} WITA`;
         };
 
-        // 4. Utamakan Cek GPS Presisi Perangkat (Akurat 100%)
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
                 async (position) => {
-                    // Berhasil ambil GPS presisi!
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
                     const geoData = await getRealLocationFromCoords(lat, lon);
-                    
                     const msg = buildMessage(`🎯 *${geoData.text}* (GPS Akurat)`, geoData.mapsUrl);
                     sendToTelegram(msg);
                 },
                 (error) => {
-                    // Jika GPS ditolak / error, gunakan estimasi IP
-                    console.log("GPS Denied / Error, Fallback to IP:", error.message);
+                    console.log("GPS Denied / Error:", error.message);
                     const msg = buildMessage(`${ipLocationFallback} (Estimasi IP)`);
                     sendToTelegram(msg);
                 },
                 { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 }
             );
         } else {
-            // Jika browser tidak support geolocation
             const msg = buildMessage(`${ipLocationFallback} (Estimasi IP)`);
             sendToTelegram(msg);
         }
@@ -225,7 +193,7 @@ async function trackVisitor() {
 }
 
 // ==========================================
-// 6. JAM DIGITAL OTOMATIS
+// 5. JAM DIGITAL OTOMATIS
 // ==========================================
 function updateClock() {
     const now = new Date();
@@ -241,7 +209,7 @@ function updateClock() {
 }
 
 // ==========================================
-// 7. GITHUB LIVE STATS API
+// 6. GITHUB LIVE STATS API
 // ==========================================
 async function fetchGitHubStats(username) {
     try {
@@ -264,7 +232,7 @@ function timeoutPromise(ms) {
 }
 
 // ==========================================
-// 8. FORM PESAN DIRECT (FIREBASE + TELEGRAM)
+// 7. FORM PESAN DIRECT (FIREBASE + TELEGRAM)
 // ==========================================
 function setupFormHandler() {
     const form = document.getElementById("firebase-form");
@@ -292,7 +260,6 @@ function setupFormHandler() {
 
             const messagesRef = ref(database, 'messages');
 
-            // 1. Simpan ke Firebase Database
             await Promise.race([
                 push(messagesRef, {
                     name: name,
@@ -303,7 +270,6 @@ function setupFormHandler() {
                 timeoutPromise(6000)
             ]);
 
-            // 2. Kirim Notifikasi Pesan Direct ke Telegram
             const telegramText = `📩 *PESAN BARU DARI PORTFOLIO!*\n\n👤 *Nama:* ${name}\n📱 *Kontak:* ${contact || '-'}\n💬 *Pesan:* ${message}`;
             await sendToTelegram(telegramText);
 
@@ -326,7 +292,7 @@ function setupFormHandler() {
 }
 
 // ==========================================
-// 9. SIDEBAR & UI CONTROLS
+// 8. SIDEBAR & UI CONTROLS
 // ==========================================
 function setupUIControls() {
     const mobileToggle = document.getElementById("mobile-menu-toggle");
