@@ -4,7 +4,7 @@
  * ==========================================
  */
 const MAINTENANCE_CONFIG = {
-    isMaintenance: false, // Ubah ke 'true' jika ingin mengaktifkan mode maintenance website
+    isMaintenance: true, // Ubah ke 'true' jika ingin mengaktifkan mode maintenance website
     versionEndpoint: "./version.json",
     checkInterval: 5 * 60 * 1000 // Cek pembaruan setiap 5 menit (sangat hemat resource)
 };
