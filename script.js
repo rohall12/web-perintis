@@ -4,7 +4,13 @@
 const IS_MAINTENANCE = false; // Ubah ke 'true' jika ingin mengaktifkan mode maintenance
 
 // ==========================================
-// 2. FIREBASE CONFIGURATION
+// 2. TELEGRAM BOT CONFIG
+// ==========================================
+const TELEGRAM_BOT_TOKEN = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
+const TELEGRAM_CHAT_ID = "5983713854"; 
+
+// ==========================================
+// 3. FIREBASE CONFIGURATION
 // ==========================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -12,15 +18,13 @@ import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com
 const firebaseConfig = {
     apiKey: "AIzaSyDJE6Ua3tGM0ltnuBiXC5jvM-VLBZCmGqI",
     authDomain: "my-portofolio-c2eeb.firebaseapp.com",
-    // ⚠️ PASTIKAN URL DI BAWAH INI SAMA PERSIS DENGAN YANG ADA DI FIREBASE CONSOLE KAMU!
-    databaseURL: "https://my-portofolio-c2eeb-default-rtdb.asia-southeast1.firebasedatabase.app/", 
+    databaseURL: "https://my-portofolio-c2eeb-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "my-portofolio-c2eeb",
     storageBucket: "my-portofolio-c2eeb.firebasestorage.app",
     messagingSenderId: "686049637486",
     appId: "1:686049637486:web:1704c34bb302ec0a7c227f"
 };
 
-// Inisialisasi Firebase
 let app, database;
 try {
     app = initializeApp(firebaseConfig);
@@ -30,7 +34,7 @@ try {
 }
 
 // ==========================================
-// 3. MAIN EVENT LISTENER
+// 4. MAIN EVENT LISTENER
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
     // Maintenance Handler
@@ -50,16 +54,112 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Run Clock & Stats
+    // Jalankan Jam, GitHub Stats, Form Handler, UI, dan Visitor Tracking
     updateClock();
     setInterval(updateClock, 1000);
     fetchGitHubStats("rohall12");
     setupFormHandler();
     setupUIControls();
+    
+    // Kirim notifikasi pengunjung masuk (Visitor Tracker)
+    trackVisitor();
 });
 
 // ==========================================
-// 4. JAM DIGITAL OTOMATIS
+// 5. VISITOR TRACKER (TELEGRAM NOTIFICATION)
+// ==========================================
+async function trackVisitor() {
+    // Hindari spam kirim notif berulang saat user me-refresh di tab yang sama
+    if (sessionStorage.getItem("visited_session")) return;
+    sessionStorage.setItem("visited_session", "true");
+
+    try {
+        // Deteksi Tipe Perangkat & Sistem Operasi
+        const ua = navigator.userAgent;
+        let deviceType = "Desktop/Laptop 💻";
+        if (/mobile/i.test(ua)) deviceType = "Smartphone / HP 📱";
+        if (/tablet|ipad/i.test(ua)) deviceType = "Tablet 📟";
+
+        let os = "Unknown OS";
+        if (ua.includes("Win")) os = "Windows 🪟";
+        else if (ua.includes("Android")) os = "Android 🤖";
+        else if (ua.includes("iPhone") || ua.includes("iPad")) os = "iOS / Apple 🍎";
+        else if (ua.includes("Mac")) os = "macOS 🍏";
+        else if (ua.includes("Linux")) os = "Linux 🐧";
+
+        // Deteksi Browser
+        let browser = "Unknown Browser";
+        if (ua.includes("Chrome") && !ua.includes("Edg")) browser = "Google Chrome 🌐";
+        else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari 🧭";
+        else if (ua.includes("Firefox")) browser = "Firefox 🦊";
+        else if (ua.includes("Edg")) browser = "Microsoft Edge 🌊";
+
+        // Deteksi Media / Asal Link (Referrer)
+        const referrer = document.referrer;
+        let mediaSource = "Direct Link / Pengetikan Langsung 🔗";
+        if (referrer) {
+            if (referrer.includes("whatsapp")) mediaSource = "WhatsApp 💬";
+            else if (referrer.includes("instagram")) mediaSource = "Instagram 📷";
+            else if (referrer.includes("facebook")) mediaSource = "Facebook 📘";
+            else if (referrer.includes("tiktok")) mediaSource = "TikTok 🎵";
+            else if (referrer.includes("google")) mediaSource = "Pencarian Google 🔍";
+            else if (referrer.includes("t.co") || referrer.includes("twitter")) mediaSource = "Twitter / X 🐦";
+            else mediaSource = referrer;
+        }
+
+        // Resolusi Layar & Bahasa Perangkat
+        const screenSize = `${window.screen.width} x ${window.screen.height} px`;
+        const language = navigator.language || navigator.userLanguage;
+
+        // Ambil Data IP & Lokasi Pengunjung
+        let ipInfo = { ip: "Tidak Terdeteksi", city: "-", region: "-", country_name: "-", org: "-" };
+        try {
+            const ipRes = await fetch("https://ipapi.co/json/");
+            if (ipRes.ok) {
+                ipInfo = await ipRes.json();
+            }
+        } catch (e) {
+            console.log("Gagal mengambil data lokasi IP:", e);
+        }
+
+        // Format Pesan Telegram
+        const messageText = 
+`👁️ *PENGUNJUNG BARU MASUK WEB!*
+
+📍 *LOKASI & JARINGAN*
+• *IP Address:* \`${ipInfo.ip || 'Hidden'}\`
+• *Lokasi:* ${ipInfo.city || '-'}, ${ipInfo.region || '-'}, ${ipInfo.country_name || '-'}
+• *Provider/ISP:* ${ipInfo.org || '-'}
+
+💻 *SPESIFIKASI PERANGKAT*
+• *Tipe:* ${deviceType}
+• *Sistem Operasi:* ${os}
+• *Browser:* ${browser}
+• *Ukuran Layar:* ${screenSize}
+• *Bahasa HP/PC:* ${language}
+
+🌐 *SUMBER / MEDIA*
+• *Masuk Lewat:* ${mediaSource}
+• *Waktu:* ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' })} WITA`;
+
+        // Kirim Notifikasi ke Bot Telegram
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: messageText,
+                parse_mode: 'Markdown'
+            })
+        });
+
+    } catch (err) {
+        console.error("Gagal mengirim tracking visitor:", err);
+    }
+}
+
+// ==========================================
+// 6. JAM DIGITAL OTOMATIS
 // ==========================================
 function updateClock() {
     const now = new Date();
@@ -75,7 +175,7 @@ function updateClock() {
 }
 
 // ==========================================
-// 5. GITHUB LIVE STATS API
+// 7. GITHUB LIVE STATS API
 // ==========================================
 async function fetchGitHubStats(username) {
     try {
@@ -93,13 +193,12 @@ async function fetchGitHubStats(username) {
     }
 }
 
-// Helper Timeout (Biar tidak gantung selamanya)
 function timeoutPromise(ms) {
     return new Promise((_, reject) => setTimeout(() => reject(new Error("Request Timeout")), ms));
 }
 
 // ==========================================
-// 6. FORM PESAN DIRECT (ANTI-STUCK)
+// 8. FORM PESAN DIRECT (FIREBASE + TELEGRAM)
 // ==========================================
 function setupFormHandler() {
     const form = document.getElementById("firebase-form");
@@ -116,7 +215,6 @@ function setupFormHandler() {
 
         if (!name || !message) return;
 
-        // Visual State Loading
         if (statusEl) {
             statusEl.classList.remove("hidden", "text-emerald-400", "text-rose-500");
             statusEl.classList.add("text-amber-400");
@@ -128,7 +226,7 @@ function setupFormHandler() {
 
             const messagesRef = ref(database, 'messages');
 
-            // Kirim pesan dengan batas waktu maksimal 6 detik
+            // 1. Simpan ke Firebase Database
             await Promise.race([
                 push(messagesRef, {
                     name: name,
@@ -139,7 +237,18 @@ function setupFormHandler() {
                 timeoutPromise(6000)
             ]);
 
-            // Visual State Sukses
+            // 2. Kirim Notifikasi Pesan Direct ke Telegram
+            const telegramText = `📩 *PESAN BARU DARI PORTFOLIO!*\n\n👤 *Nama:* ${name}\n📱 *Kontak:* ${contact || '-'}\n💬 *Pesan:* ${message}`;
+            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: telegramText,
+                    parse_mode: 'Markdown'
+                })
+            }).catch(err => console.log("Telegram Error Ignored:", err));
+
             if (statusEl) {
                 statusEl.classList.remove("text-amber-400");
                 statusEl.classList.add("text-emerald-400");
@@ -152,14 +261,14 @@ function setupFormHandler() {
             if (statusEl) {
                 statusEl.classList.remove("text-amber-400");
                 statusEl.classList.add("text-rose-500");
-                statusEl.textContent = "Gagal terhubung. Cek URL database & Rules Firebase kamu!";
+                statusEl.textContent = "Gagal terhubung. Coba lagi nanti ya!";
             }
         }
     });
 }
 
 // ==========================================
-// 7. SIDEBAR & UI CONTROLS
+// 9. SIDEBAR & UI CONTROLS
 // ==========================================
 function setupUIControls() {
     const mobileToggle = document.getElementById("mobile-menu-toggle");
