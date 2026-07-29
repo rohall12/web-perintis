@@ -35,6 +35,37 @@
         ::-webkit-scrollbar-thumb { background: #232634; border-radius: 3px; }
         .card-cyber { background-color: #11131a; border: 1px solid #232634; transition: all 0.3s ease; }
         .card-cyber:hover { border-color: rgba(153, 27, 27, 0.4); box-shadow: 0 0 20px rgba(153, 27, 27, 0.08); }
+
+        /* EFEK GLITCH BUTTON */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        .btn-glitch {
+            transition: all 0.2s ease;
+        }
+        .btn-glitch:hover, .btn-glitch:active {
+            animation: glitch 0.25s infinite;
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.5);
+            color: #ffffff !important;
+        }
+
+        /* ANIMASI SCROLL REVEAL HALUS */
+        .reveal {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="bg-darkBg text-slate-100 min-h-screen selection:bg-red-900 selection:text-white pb-20 lg:pb-0">
@@ -62,26 +93,25 @@
                 <a href="#beranda" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg bg-red-950/40 text-white border-l-2 border-red-600 font-medium">
                     <i class="fa-solid fa-house text-red-500 text-sm w-4"></i><span>Beranda</span>
                 </a>
-                <a href="#github-activity" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg text-mutedGray hover:bg-slate-800/60 hover:text-white">
-                    <i class="fa-brands fa-github text-sm w-4"></i><span>GitHub Activity</span>
+                <a href="#github-activity" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg text-mutedGray hover:bg-slate-800/60 hover:text-white transition">
+                    <i class="fa-brands fa-github text-sm w-4"></i><span>Aktivitas GitHub</span>
                 </a>
-                <a href="#kirim-pesan" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg text-mutedGray hover:bg-slate-800/60 hover:text-white">
+                <a href="#kirim-pesan" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg text-mutedGray hover:bg-slate-800/60 hover:text-white transition">
                     <i class="fa-solid fa-paper-plane text-sm w-4"></i><span>Kirim Pesan</span>
                 </a>
-                <a href="#tentang-saya" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg text-mutedGray hover:bg-slate-800/60 hover:text-white">
+                <a href="#tentang-saya" class="flex items-center space-x-3 px-4 py-2.5 rounded-lg text-mutedGray hover:bg-slate-800/60 hover:text-white transition">
                     <i class="fa-solid fa-user text-sm w-4"></i><span>Tentang Saya</span>
                 </a>
             </nav>
 
+            <!-- KONTAK NAVIGASI DESKTOP DENGAN EFEK GLITCH -->
             <div class="pt-6 border-t border-surfaceBorder space-y-3 mb-6">
-                <div class="text-[11px] font-bold uppercase tracking-wider text-mutedGray">CONTACT</div>
-                <!-- WhatsApp Link (Ganti 6281234567890 dengan Nomor WhatsApp Kamu) -->
-                <a href="https://wa.me/6281234567890" target="_blank" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 hover:text-white">
+                <div class="text-[11px] font-bold uppercase tracking-wider text-mutedGray">KONTAK SAYA</div>
+                <a href="https://wa.me/62881038278950" target="_blank" class="btn-glitch flex items-center space-x-3 px-3 py-2.5 rounded-xl border border-surfaceBorder bg-slate-900/60 text-sm text-slate-200">
                     <i class="fa-brands fa-whatsapp text-emerald-500 text-base"></i><span>WhatsApp</span>
                 </a>
-                <!-- Instagram Link -->
-                <a href="https://instagram.com/ronihalla_08" target="_blank" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-slate-800 hover:text-white">
-                    <i class="fa-brands fa-instagram text-pink-500 text-base"></i><span>Instagram</span>
+                <a href="https://instagram.com/ronihalla_08" target="_blank" class="btn-glitch flex items-center space-x-3 px-3 py-2.5 rounded-xl border border-surfaceBorder bg-slate-900/60 text-sm text-slate-200">
+                    <i class="fa-brands fa-instagram text-pink-500 text-base"></i><span>@ronihalla_08</span>
                 </a>
             </div>
 
@@ -99,7 +129,7 @@
                 
                 <div class="hidden lg:flex items-center space-x-8 text-xs font-bold tracking-wider text-mutedGray">
                     <a href="#beranda" class="hover:text-white transition">BERANDA</a>
-                    <a href="#github-activity" class="hover:text-white transition">GITHUB ACTIVITY</a>
+                    <a href="#github-activity" class="hover:text-white transition">AKTIVITAS GITHUB</a>
                     <a href="#kirim-pesan" class="hover:text-white transition">KIRIM PESAN</a>
                     <a href="#tentang-saya" class="hover:text-white transition">TENTANG SAYA</a>
                 </div>
@@ -108,46 +138,47 @@
                     <button id="theme-toggle" class="card-cyber w-9 h-9 rounded-full flex items-center justify-center text-slate-300 hover:text-white">
                         <i class="fa-solid fa-sun text-sm" id="theme-icon"></i>
                     </button>
-                    <button id="mobile-menu-toggle" class="lg:hidden card-cyber w-9 h-9 rounded-full flex items-center justify-center text-slate-300 hover:text-white">
+                    <!-- TOGGLE MENU MOBILE -->
+                    <button id="mobile-menu-toggle" class="lg:hidden card-cyber w-9 h-9 rounded-full flex items-center justify-center text-slate-300 hover:text-white focus:outline-none">
                         <i class="fa-solid fa-bars text-sm"></i>
                     </button>
                 </div>
             </header>
 
-            <!-- MOBILE HAMBURGER MENU -->
-            <div id="mobile-menu" class="hidden lg:hidden fixed inset-x-0 top-[57px] bg-surface/98 backdrop-blur-lg border-b border-surfaceBorder p-6 z-40 space-y-5 shadow-2xl">
+            <!-- MOBILE NAV DRAWER (FIXED TOGGLE & GLITCH CONTACTS) -->
+            <div id="mobile-menu" class="hidden lg:hidden fixed inset-x-0 top-[57px] bg-surface/98 backdrop-blur-xl border-b border-surfaceBorder p-6 z-40 space-y-5 shadow-2xl transition-all duration-300">
                 <div class="space-y-1">
-                    <div class="text-[10px] font-bold uppercase tracking-wider text-mutedGray mb-2 px-3">NAVIGATION</div>
+                    <div class="text-[10px] font-bold uppercase tracking-wider text-mutedGray mb-2 px-3">NAVIGASI</div>
                     <a href="#beranda" class="mobile-nav-link flex items-center space-x-3 px-3 py-2.5 rounded-xl text-slate-200 hover:bg-slate-800 font-medium">
-                        <i class="fa-solid fa-house text-red-500 w-5"></i><span>BERANDA</span>
+                        <i class="fa-solid fa-house text-red-500 w-5"></i><span>Beranda</span>
                     </a>
                     <a href="#github-activity" class="mobile-nav-link flex items-center space-x-3 px-3 py-2.5 rounded-xl text-slate-200 hover:bg-slate-800 font-medium">
-                        <i class="fa-brands fa-github text-red-500 w-5"></i><span>GITHUB ACTIVITY</span>
+                        <i class="fa-brands fa-github text-red-500 w-5"></i><span>Aktivitas GitHub</span>
                     </a>
                     <a href="#kirim-pesan" class="mobile-nav-link flex items-center space-x-3 px-3 py-2.5 rounded-xl text-slate-200 hover:bg-slate-800 font-medium">
-                        <i class="fa-solid fa-paper-plane text-red-500 w-5"></i><span>KIRIM PESAN</span>
+                        <i class="fa-solid fa-paper-plane text-red-500 w-5"></i><span>Kirim Pesan</span>
                     </a>
                     <a href="#tentang-saya" class="mobile-nav-link flex items-center space-x-3 px-3 py-2.5 rounded-xl text-slate-200 hover:bg-slate-800 font-medium">
-                        <i class="fa-solid fa-user text-red-500 w-5"></i><span>TENTANG SAYA</span>
+                        <i class="fa-solid fa-user text-red-500 w-5"></i><span>Tentang Saya</span>
                     </a>
                 </div>
 
                 <div class="pt-4 border-t border-surfaceBorder space-y-2">
-                    <div class="text-[10px] font-bold uppercase tracking-wider text-mutedGray px-3">CONTACT</div>
-                    <a href="https://wa.me/6281234567890" target="_blank" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-slate-200 hover:bg-slate-800">
-                        <i class="fa-brands fa-whatsapp text-emerald-500 text-lg w-5"></i><span class="text-sm font-medium">WhatsApp</span>
+                    <div class="text-[10px] font-bold uppercase tracking-wider text-mutedGray px-3 mb-1">KONTAK SAYA</div>
+                    <a href="https://wa.me/62881038278950" target="_blank" class="btn-glitch flex items-center space-x-3 px-3.5 py-2.5 rounded-xl border border-surfaceBorder bg-slate-900/80 text-slate-200">
+                        <i class="fa-brands fa-whatsapp text-emerald-500 text-lg w-5"></i><span class="text-xs font-semibold">WhatsApp (62881038278950)</span>
                     </a>
-                    <a href="https://instagram.com/ronihalla_08" target="_blank" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-slate-200 hover:bg-slate-800">
-                        <i class="fa-brands fa-instagram text-pink-500 text-lg w-5"></i><span class="text-sm font-medium">Instagram</span>
+                    <a href="https://instagram.com/ronihalla_08" target="_blank" class="btn-glitch flex items-center space-x-3 px-3.5 py-2.5 rounded-xl border border-surfaceBorder bg-slate-900/80 text-slate-200">
+                        <i class="fa-brands fa-instagram text-pink-500 text-lg w-5"></i><span class="text-xs font-semibold">Instagram (@ronihalla_08)</span>
                     </a>
                 </div>
             </div>
 
-            <!-- CONTENT -->
-            <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full space-y-6">
+            <!-- CONTENT MAIN -->
+            <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full space-y-8">
                 
                 <!-- 1. HERO SECTION (CHA HAE-IN) -->
-                <section id="beranda" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <section id="beranda" class="reveal grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
                     <div class="card-cyber lg:col-span-8 rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
                         <div>
                             <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-red-950/50 border border-red-900/50 text-red-400 text-xs font-semibold mb-4">
@@ -161,70 +192,74 @@
                             </p>
                         </div>
                         <div class="flex flex-wrap gap-3">
-                            <a href="#kirim-pesan" class="px-5 py-3 bg-red-900 hover:bg-red-800 text-white text-sm font-semibold rounded-xl flex items-center space-x-2">
-                                <i class="fa-solid fa-folder-open text-xs"></i><span>Lihat Project</span>
+                            <a href="#kirim-pesan" class="px-5 py-3 bg-red-900 hover:bg-red-800 text-white text-sm font-semibold rounded-xl flex items-center space-x-2 transition">
+                                <i class="fa-solid fa-paper-plane text-xs"></i><span>Kirim Pesan</span>
                             </a>
-                            <a href="https://github.com/rohall12" target="_blank" class="px-5 py-3 card-cyber hover:bg-slate-800 text-white text-sm font-semibold rounded-xl flex items-center space-x-2">
+                            <a href="https://github.com/rohall12" target="_blank" class="px-5 py-3 card-cyber hover:bg-slate-800 text-white text-sm font-semibold rounded-xl flex items-center space-x-2 transition">
                                 <i class="fa-brands fa-github text-base"></i><span>GitHub Saya</span>
                             </a>
                         </div>
                     </div>
 
-                    <!-- Gambar Cha Hae-In (assets/cha_hae_in.jpg) -->
+                    <!-- Gambar Cha Hae-In -->
                     <div class="card-cyber lg:col-span-4 rounded-2xl overflow-hidden relative min-h-[280px] sm:min-h-[350px] flex items-end">
                         <img id="heroChaHaeInImage" src="assets/cha_hae_in.jpg" alt="Cha Hae-in Coding" class="absolute inset-0 w-full h-full object-cover object-top">
                         <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-transparent"></div>
                     </div>
                 </section>
 
-                <!-- 2. GITHUB ACTIVITY SECTION (SUNG JIN-WOO) -->
-                <section id="github-activity" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <!-- 2. GITHUB LIVE ACTIVITY SECTION (SUNG JIN-WOO) -->
+                <section id="github-activity" class="reveal grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
                     <div class="card-cyber lg:col-span-7 rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
                         <div>
                             <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-lg font-bold text-white flex items-center gap-2"><i class="fa-brands fa-github text-red-500"></i> GitHub Live Activity</h3>
+                                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                                    <i class="fa-brands fa-github text-red-500"></i> Aktivitas Live GitHub
+                                </h3>
                                 <span class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-red-950/60 border border-red-900/60 text-red-400 text-[10px] font-bold">
                                     <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span><span>LIVE</span>
                                 </span>
                             </div>
-                            <p class="text-mutedGray text-xs mb-6">Data realtime langsung dari GitHub API</p>
+                            <p class="text-mutedGray text-xs mb-6">Data langsung secara realtime dari API GitHub</p>
                             <div class="grid grid-cols-2 gap-4 mb-6">
                                 <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
-                                    <div class="text-xs text-mutedGray font-bold uppercase mb-1">Public Repositories</div>
+                                    <div class="text-xs text-mutedGray font-bold uppercase mb-1">Repositori Publik</div>
                                     <div id="github-repos" class="text-2xl font-black text-white">2</div>
                                 </div>
                                 <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
-                                    <div class="text-xs text-mutedGray font-bold uppercase mb-1">Followers</div>
+                                    <div class="text-xs text-mutedGray font-bold uppercase mb-1">Pengikut</div>
                                     <div id="github-followers" class="text-2xl font-black text-white">0</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="https://github.com/rohall12" target="_blank" class="text-xs font-semibold text-red-400 flex items-center gap-1">
-                            <span>Lihat di GitHub</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <a href="https://github.com/rohall12" target="_blank" class="text-xs font-semibold text-red-400 flex items-center gap-1 hover:underline">
+                            <span>Lihat Profil GitHub</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                     </div>
 
-                    <!-- Gambar Sung Jin-Woo (assets/sung_jin_woo.jpg) -->
+                    <!-- Gambar Sung Jin-Woo -->
                     <div class="card-cyber lg:col-span-5 rounded-2xl overflow-hidden relative min-h-[250px] sm:min-h-[300px]">
                         <img id="githubSungJinWooImage" src="assets/sung_jin_woo.jpg" alt="Sung Jin-Woo Coding" class="absolute inset-0 w-full h-full object-cover object-center">
                         <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-transparent"></div>
                     </div>
                 </section>
 
-                <!-- 3. KIRIM PESAN DIRECT (GOJO) & TENTANG SAYA (ANIME MATA BIRU) -->
+                <!-- 3. KIRIM PESAN & TENTANG SAYA -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                     
                     <!-- KIRIM PESAN -->
-                    <section id="kirim-pesan" class="card-cyber lg:col-span-7 rounded-2xl p-6 sm:p-8 relative overflow-hidden">
-                        <!-- Overlay Gambar Gojo (assets/gojo.jpg) -->
-                        <div class="absolute right-0 bottom-0 top-0 w-1/2 opacity-40 pointer-events-none overflow-hidden">
+                    <section id="kirim-pesan" class="reveal card-cyber lg:col-span-7 rounded-2xl p-6 sm:p-8 relative overflow-hidden">
+                        <!-- Overlay Gambar Gojo -->
+                        <div class="absolute right-0 bottom-0 top-0 w-1/2 opacity-35 pointer-events-none overflow-hidden">
                             <img id="contactGojoImage" src="assets/gojo.jpg" alt="Gojo Phone" class="w-full h-full object-cover object-center">
                             <div class="absolute inset-0 bg-gradient-to-l from-transparent via-surface to-surface"></div>
                         </div>
 
                         <div class="relative z-10 max-w-lg">
-                            <h3 class="text-lg font-bold text-white mb-1 flex items-center gap-2"><i class="fa-solid fa-paper-plane text-red-500"></i> Kirim Pesan Direct</h3>
-                            <p class="text-mutedGray text-xs mb-6">Pesan akan tersimpan di Firebase & terdeteksi instan via Bot Telegram.</p>
+                            <h3 class="text-lg font-bold text-white mb-1 flex items-center gap-2">
+                                <i class="fa-solid fa-paper-plane text-red-500"></i> Kirim Pesan
+                            </h3>
+                            <p class="text-mutedGray text-xs mb-6">Pesan akan tersimpan aman dan terdeteksi instan via Bot Telegram.</p>
 
                             <form id="firebase-form" class="space-y-4">
                                 <!-- ANTI-SPAM HONEYPOT TRAP (Hidden Field) -->
@@ -235,7 +270,7 @@
                                     <input type="text" id="sender-name" required placeholder="Masukkan nama kamu" class="w-full bg-slate-900/90 border border-surfaceBorder rounded-xl px-4 py-3 text-xs text-slate-100 focus:outline-none focus:border-red-600">
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold uppercase text-mutedGray mb-1">Kontak (WhatsApp / Email / IG) *</label>
+                                    <label class="block text-[11px] font-bold uppercase text-mutedGray mb-1">Kontak (WhatsApp / Email / IG)</label>
                                     <input type="text" id="sender-contact" placeholder="Boleh dikosongkan jika mau anonim" class="w-full bg-slate-900/90 border border-surfaceBorder rounded-xl px-4 py-3 text-xs text-slate-100 focus:outline-none focus:border-red-600">
                                 </div>
                                 <div>
@@ -243,27 +278,32 @@
                                     <textarea id="sender-message" required rows="3" placeholder="Tuliskan pesan kamu di sini..." class="w-full bg-slate-900/90 border border-surfaceBorder rounded-xl px-4 py-3 text-xs text-slate-100 focus:outline-none focus:border-red-600"></textarea>
                                 </div>
                                 <div id="form-status" class="hidden text-xs font-semibold py-1"></div>
-                                <button type="submit" class="w-full bg-red-900 hover:bg-red-800 text-white font-bold py-3.5 rounded-xl transition text-xs">KIRIM PESAN</button>
+                                <button type="submit" class="w-full bg-red-900 hover:bg-red-800 text-white font-bold py-3.5 rounded-xl transition text-xs tracking-wider">KIRIM PESAN</button>
                             </form>
                         </div>
                     </section>
 
                     <!-- TENTANG SAYA -->
-                    <section id="tentang-saya" class="card-cyber lg:col-span-5 rounded-2xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
-                        <!-- Overlay Gambar Anime Mata Biru (assets/blue_eyes_character.jpg) -->
-                        <div class="absolute inset-0 opacity-30 pointer-events-none">
+                    <section id="tentang-saya" class="reveal card-cyber lg:col-span-5 rounded-2xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
+                        <!-- Overlay Gambar Anime Mata Biru -->
+                        <div class="absolute inset-0 opacity-25 pointer-events-none">
                             <img id="aboutAnimeImage" src="assets/blue_eyes_character.jpg" alt="About Anime Character" class="w-full h-full object-cover object-center">
-                            <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/80 to-transparent"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/85 to-transparent"></div>
                         </div>
 
                         <div class="relative z-10 space-y-5">
                             <div>
-                                <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2"><i class="fa-solid fa-user text-red-500"></i> Tentang Saya</h3>
-                                <p class="text-mutedGray text-xs leading-relaxed">
-                                    Saya adalah Junior Developer yang sedang mengembangkan kemampuan dalam pemrograman Python dan membangun project bermanfaat.
+                                <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                                    <i class="fa-solid fa-user text-red-500"></i> Tentang Saya
+                                </h3>
+                                <p class="text-mutedGray text-xs sm:text-sm leading-relaxed space-y-3">
+                                    Saya Roni Halla, seorang Junior Developer yang sedang terus belajar dan mengembangkan kemampuan di dunia pemrograman. Saya suka bereksperimen dengan Python dan Web Development, sambil mencoba menuangkan ide-ide saya ke dalam berbagai project nyata.
+                                    <br><br>
+                                    Buat saya, coding bukan cuma tentang menulis kode, tapi juga tentang belajar dari kesalahan, mencoba hal baru, dan mencari cara untuk membuat sesuatu yang bermanfaat. Web ini saya buat sebagai tempat untuk berbagi sedikit tentang diri saya, project yang saya kerjakan, dan perjalanan saya dalam belajar menjadi seorang developer.
                                 </p>
                             </div>
-                            <div class="space-y-3 border-t border-surfaceBorder pt-4 text-xs">
+
+                            <div class="space-y-2.5 border-t border-surfaceBorder pt-4 text-xs">
                                 <div class="flex justify-between">
                                     <span class="text-mutedGray">Nama</span>
                                     <span class="font-semibold text-white">Roni Halla</span>
@@ -280,54 +320,11 @@
                                     <span class="text-mutedGray">Lokasi</span>
                                     <span class="font-semibold text-white">Sumba Timur, NTT</span>
                                 </div>
-                                <div class="flex justify-between">
-                                    <span class="text-mutedGray">Status</span>
-                                    <span class="font-semibold text-white">Mahasiswa</span>
-                                </div>
                             </div>
                         </div>
                     </section>
 
                 </div>
-
-                <!-- 4. FITUR UNGGULAN SECTION -->
-                <section class="card-cyber rounded-2xl p-6 sm:p-8">
-                    <h3 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
-                        <i class="fa-solid fa-star text-red-500"></i> Fitur Unggulan
-                    </h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
-                            <i class="fa-solid fa-clock text-red-500 mb-2 text-lg"></i>
-                            <h4 class="text-sm font-bold text-white">Jam Otomatis</h4>
-                            <p class="text-mutedGray text-xs mt-1">Menyesuaikan zona waktu pengunjung secara realtime.</p>
-                        </div>
-                        <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
-                            <i class="fa-solid fa-moon text-red-500 mb-2 text-lg"></i>
-                            <h4 class="text-sm font-bold text-white">Tema Dinamis</h4>
-                            <p class="text-mutedGray text-xs mt-1">Dark & Light mode tersimpan otomatis di LocalStorage.</p>
-                        </div>
-                        <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
-                            <i class="fa-brands fa-github text-red-500 mb-2 text-lg"></i>
-                            <h4 class="text-sm font-bold text-white">Live GitHub API</h4>
-                            <p class="text-mutedGray text-xs mt-1">Menampilkan data statistik repositori secara realtime.</p>
-                        </div>
-                        <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
-                            <i class="fa-solid fa-shield-halved text-red-500 mb-2 text-lg"></i>
-                            <h4 class="text-sm font-bold text-white">Sistem Anti Spam</h4>
-                            <p class="text-mutedGray text-xs mt-1">Proteksi cerdas cegah spamming pada form pesan.</p>
-                        </div>
-                        <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
-                            <i class="fa-solid fa-mobile-screen text-red-500 mb-2 text-lg"></i>
-                            <h4 class="text-sm font-bold text-white">PWA Ready</h4>
-                            <p class="text-mutedGray text-xs mt-1">Siap diinstal dan digunakan offline di semua perangkat.</p>
-                        </div>
-                        <div class="bg-slate-900/60 border border-surfaceBorder p-4 rounded-xl">
-                            <i class="fa-solid fa-chart-line text-red-500 mb-2 text-lg"></i>
-                            <h4 class="text-sm font-bold text-white">Visitor Analytics</h4>
-                            <p class="text-mutedGray text-xs mt-1">Mendeteksi perangkat, OS, browser, dan lokasi pengunjung.</p>
-                        </div>
-                    </div>
-                </section>
 
             </main>
 
@@ -339,13 +336,47 @@
     </div>
 
     <!-- MOBILE BOTTOM NAVBAR -->
-    <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-lg border-t border-surfaceBorder py-2 px-4 flex items-center justify-around">
-        <a href="#beranda" class="flex flex-col items-center text-mutedGray hover:text-red-500"><i class="fa-solid fa-house text-base"></i><span class="text-[10px]">Beranda</span></a>
-        <a href="#github-activity" class="flex flex-col items-center text-mutedGray hover:text-red-500"><i class="fa-brands fa-github text-base"></i><span class="text-[10px]">GitHub</span></a>
-        <a href="#kirim-pesan" class="flex flex-col items-center text-mutedGray hover:text-red-500"><i class="fa-solid fa-paper-plane text-base"></i><span class="text-[10px]">Pesan</span></a>
-        <a href="#tentang-saya" class="flex flex-col items-center text-mutedGray hover:text-red-500"><i class="fa-solid fa-user text-base"></i><span class="text-[10px]">Tentang</span></a>
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-lg border-t border-surfaceBorder py-2.5 px-4 flex items-center justify-around">
+        <a href="#beranda" class="flex flex-col items-center text-mutedGray hover:text-red-500 transition"><i class="fa-solid fa-house text-base"></i><span class="text-[10px] mt-0.5">Beranda</span></a>
+        <a href="#github-activity" class="flex flex-col items-center text-mutedGray hover:text-red-500 transition"><i class="fa-brands fa-github text-base"></i><span class="text-[10px] mt-0.5">GitHub</span></a>
+        <a href="#kirim-pesan" class="flex flex-col items-center text-mutedGray hover:text-red-500 transition"><i class="fa-solid fa-paper-plane text-base"></i><span class="text-[10px] mt-0.5">Pesan</span></a>
+        <a href="#tentang-saya" class="flex flex-col items-center text-mutedGray hover:text-red-500 transition"><i class="fa-solid fa-user text-base"></i><span class="text-[10px] mt-0.5">Tentang</span></a>
     </nav>
 
-    <script type="module" src="script.js?v=1.0.2"></script>
+    <!-- SCRIPT TAMPILAN INTERAKTIF: MOBILE NAV TOGGLE & SCROLL ANIMATION -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Fix Mobile Menu Nav Toggle
+            const toggleBtn = document.getElementById("mobile-menu-toggle");
+            const mobileMenu = document.getElementById("mobile-menu");
+            const mobileLinks = document.querySelectorAll(".mobile-nav-link");
+
+            if (toggleBtn && mobileMenu) {
+                toggleBtn.addEventListener("click", () => {
+                    mobileMenu.classList.toggle("hidden");
+                });
+
+                mobileLinks.forEach(link => {
+                    link.addEventListener("click", () => {
+                        mobileMenu.classList.add("hidden");
+                    });
+                });
+            }
+
+            // Animasi Halus Saat Scroll (Scroll Reveal)
+            const revealElements = document.querySelectorAll(".reveal");
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+
+    <script type="module" src="script.js?v=1.0.3"></script>
 </body>
 </html>
