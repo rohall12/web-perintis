@@ -1,12 +1,9 @@
 // ==========================================
-// 1. TELEGRAM BOT CONFIG
+// 1. TELEGRAM BOT & FIREBASE CONFIG
 // ==========================================
 const TELEGRAM_BOT_TOKEN = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
 const TELEGRAM_CHAT_ID = "5983713854"; 
 
-// ==========================================
-// 2. FIREBASE CONFIGURATION
-// ==========================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
@@ -29,7 +26,7 @@ try {
 }
 
 // ==========================================
-// 3. MAIN EVENT LISTENER
+// 2. MAIN INITIALIZATION
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
     updateClock();
@@ -37,12 +34,120 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchGitHubStats("rohall12");
     setupFormHandler();
     setupUIControls();
-    
-    // Kirim notifikasi pengunjung masuk (Visitor Tracker GPS + IP)
+    setupThemeToggle();
+    setupCookieConsent();
     trackVisitor();
 });
 
-// Helper: Konversi Koordinat GPS ke Nama Lokasi Real-Time
+// ==========================================
+// 3. CLOCK & TIMEZONE
+// ==========================================
+function updateClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    const sidebarTime = document.getElementById("sidebar-time");
+    const topTime = document.getElementById("top-time");
+    const sidebarTz = document.getElementById("sidebar-tz");
+
+    if (sidebarTime) sidebarTime.textContent = `${hours}:${minutes}:${seconds}`;
+    if (topTime) topTime.textContent = `${hours}:${minutes} WITA`;
+
+    // Deteksi Zona Waktu Lokal Pengunjung
+    if (sidebarTz) {
+        try {
+            const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            sidebarTz.textContent = `${tzName}`;
+        } catch(e) {}
+    }
+}
+
+// ==========================================
+// 4. THEME TOGGLE (DARK / LIGHT)
+// ==========================================
+function setupThemeToggle() {
+    const toggleBtn = document.getElementById("theme-toggle");
+    const themeIcon = document.getElementById("theme-icon");
+    const htmlEl = document.documentElement;
+
+    // Load saved preference
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    if (savedTheme === "light") {
+        htmlEl.classList.remove("dark");
+        if (themeIcon) themeIcon.className = "fa-solid fa-moon text-sm";
+    } else {
+        htmlEl.classList.add("dark");
+        if (themeIcon) themeIcon.className = "fa-solid fa-sun text-sm";
+    }
+
+    if (toggleBtn) {
+        toggleBtn.addEventListener("click", () => {
+            if (htmlEl.classList.contains("dark")) {
+                htmlEl.classList.remove("dark");
+                localStorage.setItem("theme", "light");
+                if (themeIcon) themeIcon.className = "fa-solid fa-moon text-sm";
+            } else {
+                htmlEl.classList.add("dark");
+                localStorage.setItem("theme", "dark");
+                if (themeIcon) themeIcon.className = "fa-solid fa-sun text-sm";
+            }
+        });
+    }
+}
+
+// ==========================================
+// 5. COOKIE CONSENT BAR
+// ==========================================
+function setupCookieConsent() {
+    const cookieBar = document.getElementById("cookie-consent");
+    const acceptBtn = document.getElementById("cookie-accept");
+    const rejectBtn = document.getElementById("cookie-reject");
+
+    if (!cookieBar) return;
+
+    if (localStorage.getItem("cookie_consent")) {
+        cookieBar.classList.add("hidden");
+    }
+
+    if (acceptBtn) {
+        acceptBtn.addEventListener("click", () => {
+            localStorage.setItem("cookie_consent", "accepted");
+            cookieBar.classList.add("hidden");
+        });
+    }
+
+    if (rejectBtn) {
+        rejectBtn.addEventListener("click", () => {
+            localStorage.setItem("cookie_consent", "rejected");
+            cookieBar.classList.add("hidden");
+        });
+    }
+}
+
+// ==========================================
+// 6. GITHUB LIVE STATS API
+// ==========================================
+async function fetchGitHubStats(username) {
+    try {
+        const response = await fetch(`https://api.github.com/users/${username}`);
+        if (response.ok) {
+            const data = await response.json();
+            const reposEl = document.getElementById("github-repos");
+            const followersEl = document.getElementById("github-followers");
+            
+            if (reposEl) reposEl.textContent = data.public_repos;
+            if (followersEl) followersEl.textContent = data.followers;
+        }
+    } catch (err) {
+        console.error("GitHub API Error:", err);
+    }
+}
+
+// ==========================================
+// 7. VISITOR TRACKER (GPS + IP FALLBACK)
+// ==========================================
 async function getRealLocationFromCoords(lat, lon) {
     try {
         const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=id`);
@@ -71,7 +176,6 @@ async function getRealLocationFromCoords(lat, lon) {
     };
 }
 
-// Helper: Kirim Pesan ke Telegram
 async function sendToTelegram(messageText) {
     try {
         await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
@@ -89,9 +193,6 @@ async function sendToTelegram(messageText) {
     }
 }
 
-// ==========================================
-// 4. VISITOR TRACKER (GPS + IP FALLBACK)
-// ==========================================
 async function trackVisitor() {
     if (sessionStorage.getItem("visited_session")) return;
     sessionStorage.setItem("visited_session", "true");
@@ -109,26 +210,14 @@ async function trackVisitor() {
         else if (ua.includes("Mac")) os = "macOS 🍏";
         else if (ua.includes("Linux")) os = "Linux 🐧";
 
-        let browser = "Unknown Browser";
-        if (ua.includes("Chrome") && !ua.includes("Edg")) browser = "Google Chrome 🌐";
+        let browser = "Google Chrome 🌐";
+        if (ua.includes("Firefox")) browser = "Firefox 🦊";
         else if (ua.includes("Safari") && !ua.includes("Chrome")) browser = "Safari 🧭";
-        else if (ua.includes("Firefox")) browser = "Firefox 🦊";
         else if (ua.includes("Edg")) browser = "Microsoft Edge 🌊";
 
-        const referrer = document.referrer;
-        let mediaSource = "Direct Link / Pengetikan Langsung 🔗";
-        if (referrer) {
-            if (referrer.includes("whatsapp")) mediaSource = "WhatsApp 💬";
-            else if (referrer.includes("instagram")) mediaSource = "Instagram 📷";
-            else if (referrer.includes("facebook")) mediaSource = "Facebook 📘";
-            else if (referrer.includes("tiktok")) mediaSource = "TikTok 🎵";
-            else if (referrer.includes("google")) mediaSource = "Pencarian Google 🔍";
-            else if (referrer.includes("t.co") || referrer.includes("twitter")) mediaSource = "Twitter / X 🐦";
-            else mediaSource = referrer;
-        }
-
+        const referrer = document.referrer || "Direct Link 🔗";
         const screenSize = `${window.screen.width} x ${window.screen.height} px`;
-        const language = navigator.language || navigator.userLanguage;
+        const language = navigator.language || "id-ID";
 
         let ipAddress = "Hidden";
         let provider = "-";
@@ -140,29 +229,26 @@ async function trackVisitor() {
                 const ipData = await ipRes.json();
                 ipAddress = ipData.ip || "Hidden";
                 provider = ipData.org || "-";
-                ipLocationFallback = `${ipData.city || '-'}, ${ipData.region || '-'}, ${ipData.country_name || '-'}`;
+                ipLocationFallback = `${ipData.city || '-'}, ${ipData.region || '-'}`;
             }
-        } catch (e) {
-            console.log("Gagal fetch IP:", e);
-        }
+        } catch (e) {}
 
         const buildMessage = (locationString, mapsLink = "") => {
             return `👁️ *PENGUNJUNG BARU MASUK WEB!*
 
 📍 *LOKASI & JARINGAN*
 • *IP Address:* \`${ipAddress}\`
-• *Lokasi Real-Time:* ${locationString}${mapsLink ? `\n• *Google Maps Pin:* ${mapsLink}` : ''}
+• *Lokasi:* ${locationString}${mapsLink ? `\n• *Google Maps Pin:* ${mapsLink}` : ''}
 • *Provider/ISP:* ${provider}
 
-💻 *SPESIFIKASI PERANGKAT*
+💻 *SPESIFIKASI*
 • *Tipe:* ${deviceType}
-• *Sistem Operasi:* ${os}
+• *OS:* ${os}
 • *Browser:* ${browser}
-• *Ukuran Layar:* ${screenSize}
-• *Bahasa HP/PC:* ${language}
+• *Layar:* ${screenSize}
 
-🌐 *SUMBER / MEDIA*
-• *Masuk Lewat:* ${mediaSource}
+🌐 *SUMBER*
+• *Masuk Lewat:* ${referrer}
 • *Waktu:* ${new Date().toLocaleString('id-ID', { timeZone: 'Asia/Makassar' })} WITA`;
         };
 
@@ -172,67 +258,23 @@ async function trackVisitor() {
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
                     const geoData = await getRealLocationFromCoords(lat, lon);
-                    const msg = buildMessage(`🎯 *${geoData.text}* (GPS Akurat)`, geoData.mapsUrl);
-                    sendToTelegram(msg);
+                    sendToTelegram(buildMessage(`🎯 *${geoData.text}* (GPS)`, geoData.mapsUrl));
                 },
-                (error) => {
-                    console.log("GPS Denied / Error:", error.message);
-                    const msg = buildMessage(`${ipLocationFallback} (Estimasi IP)`);
-                    sendToTelegram(msg);
+                () => {
+                    sendToTelegram(buildMessage(`${ipLocationFallback} (IP)`));
                 },
                 { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 }
             );
         } else {
-            const msg = buildMessage(`${ipLocationFallback} (Estimasi IP)`);
-            sendToTelegram(msg);
+            sendToTelegram(buildMessage(`${ipLocationFallback} (IP)`));
         }
-
     } catch (err) {
-        console.error("Gagal mengirim tracking visitor:", err);
+        console.error("Visitor tracking error:", err);
     }
 }
 
 // ==========================================
-// 5. JAM DIGITAL OTOMATIS
-// ==========================================
-function updateClock() {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-
-    const sidebarTime = document.getElementById("sidebar-time");
-    const topTime = document.getElementById("top-time");
-
-    if (sidebarTime) sidebarTime.textContent = `${hours}:${minutes}:${seconds}`;
-    if (topTime) topTime.textContent = `${hours}:${minutes} WITA`;
-}
-
-// ==========================================
-// 6. GITHUB LIVE STATS API
-// ==========================================
-async function fetchGitHubStats(username) {
-    try {
-        const response = await fetch(`https://api.github.com/users/${username}`);
-        if (response.ok) {
-            const data = await response.json();
-            const reposEl = document.getElementById("github-repos");
-            const followersEl = document.getElementById("github-followers");
-            
-            if (reposEl) reposEl.textContent = data.public_repos;
-            if (followersEl) followersEl.textContent = data.followers;
-        }
-    } catch (err) {
-        console.error("GitHub API Error:", err);
-    }
-}
-
-function timeoutPromise(ms) {
-    return new Promise((_, reject) => setTimeout(() => reject(new Error("Request Timeout")), ms));
-}
-
-// ==========================================
-// 7. FORM PESAN DIRECT (FIREBASE + TELEGRAM)
+// 8. FORM PESAN DIRECT (FIREBASE + TELEGRAM)
 // ==========================================
 function setupFormHandler() {
     const form = document.getElementById("firebase-form");
@@ -259,16 +301,12 @@ function setupFormHandler() {
             if (!database) throw new Error("Database belum siap");
 
             const messagesRef = ref(database, 'messages');
-
-            await Promise.race([
-                push(messagesRef, {
-                    name: name,
-                    contact: contact || "Anonim",
-                    message: message,
-                    timestamp: serverTimestamp()
-                }),
-                timeoutPromise(6000)
-            ]);
+            await push(messagesRef, {
+                name: name,
+                contact: contact || "Anonim",
+                message: message,
+                timestamp: serverTimestamp()
+            });
 
             const telegramText = `📩 *PESAN BARU DARI PORTFOLIO!*\n\n👤 *Nama:* ${name}\n📱 *Kontak:* ${contact || '-'}\n💬 *Pesan:* ${message}`;
             await sendToTelegram(telegramText);
@@ -276,9 +314,8 @@ function setupFormHandler() {
             if (statusEl) {
                 statusEl.classList.remove("text-amber-400");
                 statusEl.classList.add("text-emerald-400");
-                statusEl.textContent = "Pesan berhasil terkirim! Terima kasih, kawan. 👍";
+                statusEl.textContent = "Pesan berhasil dikirim.";
             }
-
             form.reset();
         } catch (error) {
             console.error("Gagal mengirim pesan:", error);
@@ -292,17 +329,15 @@ function setupFormHandler() {
 }
 
 // ==========================================
-// 8. SIDEBAR & UI CONTROLS
+// 9. UI CONTROLS & MOBILE MENU
 // ==========================================
 function setupUIControls() {
     const mobileToggle = document.getElementById("mobile-menu-toggle");
-    const sidebarToggle = document.getElementById("sidebar-toggle");
-    const sidebarNav = document.getElementById("sidebar-nav");
+    const mobileMenu = document.getElementById("mobile-menu");
 
-    const toggleSidebar = () => {
-        if (sidebarNav) sidebarNav.classList.toggle("hidden");
-    };
-
-    if (mobileToggle) mobileToggle.addEventListener("click", toggleSidebar);
-    if (sidebarToggle) sidebarToggle.addEventListener("click", toggleSidebar);
+    if (mobileToggle && mobileMenu) {
+        mobileToggle.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+        });
+    }
 }
