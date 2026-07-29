@@ -1,5 +1,5 @@
 // ==========================================
-// 1. TELEGRAM BOT & FIREBASE CONFIG
+// 1. CONFIG & INITIALIZATION
 // ==========================================
 const TELEGRAM_BOT_TOKEN = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
 const TELEGRAM_CHAT_ID = "5983713854"; 
@@ -25,9 +25,6 @@ try {
     console.error("Firebase Init Error:", err);
 }
 
-// ==========================================
-// 2. MAIN INITIALIZATION
-// ==========================================
 document.addEventListener("DOMContentLoaded", () => {
     updateClock();
     setInterval(updateClock, 1000);
@@ -40,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ==========================================
-// 3. CLOCK & TIMEZONE
+// 2. CLOCK & TIMEZONE
 // ==========================================
 function updateClock() {
     const now = new Date();
@@ -55,12 +52,33 @@ function updateClock() {
     if (sidebarTime) sidebarTime.textContent = `${hours}:${minutes}:${seconds}`;
     if (topTime) topTime.textContent = `${hours}:${minutes} WITA`;
 
-    // Deteksi Zona Waktu Lokal Pengunjung
     if (sidebarTz) {
         try {
             const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone;
             sidebarTz.textContent = `${tzName}`;
         } catch(e) {}
+    }
+}
+
+// ==========================================
+// 3. UI NAVIGATION & HAMBURGER MENU
+// ==========================================
+function setupUIControls() {
+    const mobileToggle = document.getElementById("mobile-menu-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
+
+    if (mobileToggle && mobileMenu) {
+        mobileToggle.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+        });
+
+        // Close mobile drawer when link clicked
+        mobileNavLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                mobileMenu.classList.add("hidden");
+            });
+        });
     }
 }
 
@@ -72,7 +90,6 @@ function setupThemeToggle() {
     const themeIcon = document.getElementById("theme-icon");
     const htmlEl = document.documentElement;
 
-    // Load saved preference
     const savedTheme = localStorage.getItem("theme") || "dark";
     if (savedTheme === "light") {
         htmlEl.classList.remove("dark");
@@ -146,7 +163,7 @@ async function fetchGitHubStats(username) {
 }
 
 // ==========================================
-// 7. VISITOR TRACKER (GPS + IP FALLBACK)
+// 7. VISITOR TRACKER (GPS & TELEGRAM)
 // ==========================================
 async function getRealLocationFromCoords(lat, lon) {
     try {
@@ -199,7 +216,7 @@ async function trackVisitor() {
 
     try {
         const ua = navigator.userAgent;
-        let deviceType = "Desktop/Laptop 💻";
+        let deviceType = "Desktop / Laptop 💻";
         if (/mobile/i.test(ua)) deviceType = "Smartphone / HP 📱";
         if (/tablet|ipad/i.test(ua)) deviceType = "Tablet 📟";
 
@@ -217,7 +234,6 @@ async function trackVisitor() {
 
         const referrer = document.referrer || "Direct Link 🔗";
         const screenSize = `${window.screen.width} x ${window.screen.height} px`;
-        const language = navigator.language || "id-ID";
 
         let ipAddress = "Hidden";
         let provider = "-";
@@ -314,7 +330,7 @@ function setupFormHandler() {
             if (statusEl) {
                 statusEl.classList.remove("text-amber-400");
                 statusEl.classList.add("text-emerald-400");
-                statusEl.textContent = "Pesan berhasil dikirim.";
+                statusEl.textContent = "Pesan berhasil dikirim!";
             }
             form.reset();
         } catch (error) {
@@ -326,18 +342,4 @@ function setupFormHandler() {
             }
         }
     });
-}
-
-// ==========================================
-// 9. UI CONTROLS & MOBILE MENU
-// ==========================================
-function setupUIControls() {
-    const mobileToggle = document.getElementById("mobile-menu-toggle");
-    const mobileMenu = document.getElementById("mobile-menu");
-
-    if (mobileToggle && mobileMenu) {
-        mobileToggle.addEventListener("click", () => {
-            mobileMenu.classList.toggle("hidden");
-        });
-    }
 }
