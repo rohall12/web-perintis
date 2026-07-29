@@ -1,13 +1,17 @@
-// SETTING MODE MAINTENANCE (false = MATI / WEBSITE LIVE)
-const IS_MAINTENANCE = false; 
+// ===================================================
+// PENGATURAN MODE MAINTENANCE
+// true  = Aktifkan Maintenance (Web ditutup)
+// false = Matikan Maintenance (Web terbuka/LIVE)
+// ===================================================
+const IS_MAINTENANCE = true; 
 
 document.addEventListener("DOMContentLoaded", () => {
     const maintenanceScreen = document.getElementById("maintenance-screen");
     if (maintenanceScreen) {
         if (IS_MAINTENANCE) {
-            maintenanceScreen.classList.remove("hidden");
+            maintenanceScreen.style.setProperty("display", "flex", "important");
         } else {
-            maintenanceScreen.classList.add("hidden");
+            maintenanceScreen.style.setProperty("display", "none", "important");
         }
     }
 });
