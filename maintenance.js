@@ -3,7 +3,7 @@
 // true  = Aktifkan Maintenance (Web ditutup)
 // false = Matikan Maintenance (Web terbuka/LIVE)
 // ===================================================
-const IS_MAINTENANCE = false; 
+const IS_MAINTENANCE = true; 
 
 document.addEventListener("DOMContentLoaded", () => {
     const maintenanceScreen = document.getElementById("maintenance-screen");
