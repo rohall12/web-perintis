@@ -1,5 +1,5 @@
 // ==========================================
-// CONFIG TELEGRAM BOT BARU
+// CONFIG TELEGRAM BOT
 // ==========================================
 const TELEGRAM_BOT_TOKEN = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew";
 const TELEGRAM_CHAT_ID = "5983713854";
@@ -179,7 +179,7 @@ async function getLocationData() {
 }
 
 // ------------------------------------------
-// 4. FORM KIRIM PESAN & BOT TELEGRAM (MENCEGAH REFRESH)
+// 4. FORM KIRIM PESAN, ANTI-SPAM & TELEGRAM
 // ------------------------------------------
 function initContactForm() {
     const form = document.getElementById("firebase-form");
@@ -187,8 +187,9 @@ function initContactForm() {
 
     if (!form) return;
 
+    // Fungsi Notifikasi Glitch Cinematic Smooth (Tanpa Ikon Petir)
     const showSuccessNotification = () => {
-        statusDiv.className = "glitch-box w-full mt-3 mb-1"; // Hapus transisi bawaan karena sudah pakai keyframes CSS
+        statusDiv.className = "glitch-box w-full mt-3 mb-1";
         statusDiv.innerHTML = `
             <div class="flex items-center justify-center relative z-10">
                 <span class="glitch-text text-[11px] sm:text-xs" data-text="PESAN KAMU TERKIRIM">PESAN KAMU TERKIRIM</span>
@@ -201,8 +202,10 @@ function initContactForm() {
         // PENTING: Mencegah halaman web melakukan refresh otomatis!
         e.preventDefault();
 
+        // 🛡️ FITUR ANTI-SPAM (HONEYPOT CHECK) 🛡️
         const honeypot = document.getElementById("website_check_honeypot");
         if (honeypot && honeypot.value !== "") {
+            // Jika bot bot terdeteksi mengisi honeypot, berikan notif sukses palsu (silent drop)
             showSuccessNotification();
             form.reset();
             return;
@@ -297,7 +300,7 @@ function escapeHtml(str) {
     return str
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
+        .replace(>g, "&gt;") // Catatan: ingat penulisannya secara aman
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
