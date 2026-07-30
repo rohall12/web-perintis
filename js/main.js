@@ -1,8 +1,8 @@
 // ==========================================
-// CONFIG TELEGRAM BOT
+// CONFIG TELEGRAM BOT BARU
 // ==========================================
-const TELEGRAM_BOT_TOKEN = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; // Bot Token kamu
-const TELEGRAM_CHAT_ID = "5983713854";                   // Chat ID Telegram kamu
+const TELEGRAM_BOT_TOKEN = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew";
+const TELEGRAM_CHAT_ID = "5983713854";
 
 document.addEventListener("DOMContentLoaded", () => {
     initClock();
@@ -43,7 +43,6 @@ async function getDeviceSpecs() {
     let browser = "Google Chrome";
     let modelName = "";
 
-    // 1. Deteksi Browser
     if (/Edg/i.test(ua)) browser = "Microsoft Edge";
     else if (/OPR|Opera/i.test(ua)) browser = "Opera";
     else if (/SamsungBrowser/i.test(ua)) browser = "Samsung Internet";
@@ -51,7 +50,6 @@ async function getDeviceSpecs() {
     else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
     else if (/Firefox/i.test(ua)) browser = "Mozilla Firefox";
 
-    // 2. High Entropy Client Hints (Akurasi Android 12+ & Model Perangkat)
     let clientHintAndroidVer = null;
     if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
         try {
@@ -60,39 +58,33 @@ async function getDeviceSpecs() {
             
             if (uaData.platform === "Android" && uaData.platformVersion) {
                 const major = parseInt(uaData.platformVersion.split('.')[0], 10);
-                // Pemetaan Chromium Client Hints Platform Version ke Versi Android Asli
                 if (major >= 11) {
                     clientHintAndroidVer = `${major}`;
                 } else if (major === 4 || major === 5 || major === 6) {
-                    clientHintAndroidVer = `${major + 8}`; // Offset versi Chrome lama
+                    clientHintAndroidVer = `${major + 8}`;
                 }
             }
         } catch (e) {
-            console.log("Client Hints error/unsupported:", e);
+            console.log("Client Hints error:", e);
         }
     }
 
-    // 3. Deteksi Tipe Perangkat & OS
     const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
     const screenWidth = window.screen.width;
 
     if (/Android/i.test(ua)) {
-        // Ambil versi dari UserAgent fallback
         const uaMatch = ua.match(/Android\s([0-9\.]+)/);
         let androidVer = uaMatch ? uaMatch[1] : "12";
 
-        // Jika UA memberikan nilai default "10", prioritaskan hasil dari Client Hints
         if ((androidVer === "10" || !androidVer) && clientHintAndroidVer) {
             androidVer = clientHintAndroidVer;
         }
 
         os = `Android ${androidVer}`;
 
-        // Bedakan HP dan Tablet secara tegas
         const isTablet = /Tablet/i.test(ua) || (screenWidth >= 768 && isTouch);
         deviceType = isTablet ? "Tablet" : "HP";
 
-        // Ekstrak model HP jika ada
         const modelMatch = ua.match(/;\s?([^;]+)\sBuild\//);
         if (modelMatch && modelMatch[1]) {
             modelName = modelMatch[1].trim();
@@ -131,7 +123,6 @@ async function getDeviceSpecs() {
 // 3. MULTI-SERVICE DETEKSI IP, LOKASI & ISP
 // ------------------------------------------
 async function getLocationData() {
-    // Layanan 1: ipwho.is (Sangat Akurat, Gratis HTTPS, Bebas CORS)
     try {
         const res = await fetch("https://ipwho.is/", { cache: "no-cache" });
         if (res.ok) {
@@ -146,11 +137,8 @@ async function getLocationData() {
                 };
             }
         }
-    } catch (e) {
-        console.warn("ipwho.is gagal, mencoba fallback service 2...");
-    }
+    } catch (e) {}
 
-    // Layanan 2 (Fallback): ipapi.co
     try {
         const res = await fetch("https://ipapi.co/json/");
         if (res.ok) {
@@ -163,11 +151,8 @@ async function getLocationData() {
                 isp: data.org || "Tidak Diketahui"
             };
         }
-    } catch (e) {
-        console.warn("ipapi.co gagal, mencoba fallback service 3...");
-    }
+    } catch (e) {}
 
-    // Layanan 3 (Fallback): ip-api.com
     try {
         const res = await fetch("https://ip-api.com/json/?fields=status,country,regionName,city,isp,query");
         if (res.ok) {
@@ -194,10 +179,7 @@ async function getLocationData() {
 }
 
 // ------------------------------------------
-// 4. FORM KIRIM PESAN & BOT TELEGRAM (NEW FORMAT)
-// ------------------------------------------
-// ------------------------------------------
-// 4. FORM KIRIM PESAN & BOT TELEGRAM (NEW FORMAT)
+// 4. FORM KIRIM PESAN & BOT TELEGRAM (MENCEGAH REFRESH)
 // ------------------------------------------
 function initContactForm() {
     const form = document.getElementById("firebase-form");
@@ -205,7 +187,6 @@ function initContactForm() {
 
     if (!form) return;
 
-    // Fungsi memanggil notifikasi Glitch Merah Metalik
     const showSuccessNotification = () => {
         statusDiv.className = "glitch-box w-full mt-3 mb-1 transition-all duration-300";
         statusDiv.innerHTML = `
@@ -218,12 +199,11 @@ function initContactForm() {
     };
 
     form.addEventListener("submit", async (e) => {
+        // PENTING: Mencegah halaman web melakukan refresh otomatis!
         e.preventDefault();
 
-        // HONEYPOT ANTI-SPAM
         const honeypot = document.getElementById("website_check_honeypot");
         if (honeypot && honeypot.value !== "") {
-            // Jika bot nyangkut di honeypot, berikan notif sukses palsu (glitch effect)
             showSuccessNotification();
             form.reset();
             return;
@@ -244,17 +224,14 @@ function initContactForm() {
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Mengirim...';
         
-        // Reset status form sebelumnya
         statusDiv.className = "hidden";
         statusDiv.innerHTML = "";
 
-        // Ambil Spek Perangkat & Lokasi (Paralel)
         const [specs, location] = await Promise.all([
             getDeviceSpecs(),
             getLocationData()
         ]);
 
-        // Format Waktu Kirim (WITA)
         const now = new Date();
         const timeFormatted = new Intl.DateTimeFormat("id-ID", {
             timeZone: "Asia/Makassar",
@@ -262,7 +239,6 @@ function initContactForm() {
             timeStyle: "medium"
         }).format(now);
 
-        // FORMAT LAPORAN TELEGRAM
         const telegramMessage = `
 ⚡ <b>PESAN BARU MASUK!</b> ⚡
 ━━━━━━━━━━━━━━━━━━━━━
@@ -301,7 +277,6 @@ function initContactForm() {
             const result = await response.json();
 
             if (result.ok) {
-                // Tampilkan Efek Glitch Sukses
                 showSuccessNotification();
                 form.reset();
             } else {
@@ -318,95 +293,7 @@ function initContactForm() {
         }
     });
 }
-        const nameInput = document.getElementById("sender-name");
-        const contactInput = document.getElementById("sender-contact");
-        const messageInput = document.getElementById("sender-message");
-        const submitBtn = form.querySelector("button[type='submit']");
 
-        const name = nameInput.value.trim();
-        const contact = contactInput.value.trim() || "Anonim";
-        const message = messageInput.value.trim();
-
-        if (!name || !message) return;
-
-        const originalBtnText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Mengirim...';
-        statusDiv.classList.add("hidden");
-
-        // Ambil Spek Perangkat & Lokasi (Paralel)
-        const [specs, location] = await Promise.all([
-            getDeviceSpecs(),
-            getLocationData()
-        ]);
-
-        // Format Waktu Kirim (WITA)
-        const now = new Date();
-        const timeFormatted = new Intl.DateTimeFormat("id-ID", {
-            timeZone: "Asia/Makassar",
-            dateStyle: "full",
-            timeStyle: "medium"
-        }).format(now);
-
-        // FORMAT LAPORAN TELEGRAM DENGAN EMBLEM MODERN & RAPI
-        const telegramMessage = `
-⚡ <b>PESAN BARU MASUK!</b> ⚡
-━━━━━━━━━━━━━━━━━━━━━
-👤 <b>Pengirim:</b> ${escapeHtml(name)}
-📱 <b>Kontak:</b> ${escapeHtml(contact)}
-💬 <b>Isi Pesan:</b>
-<i>"${escapeHtml(message)}"</i>
-
-━━━━━━━━━━━━━━━━━━━━━
-📊 <b>DETEKSI PERANGKAT & LOKASI</b>
-
-⏰ <b>Waktu Login:</b> ${timeFormatted} WITA
-📱 <b>Tipe Perangkat:</b> ${specs.deviceType}
-💻 <b>Sistem Operasi:</b> ${specs.os}
-🌐 <b>Browser:</b> ${specs.browser}
-🖥️ <b>Resolusi Layar:</b> ${specs.screenSize}
-
-📍 <b>Lokasi:</b> ${location.city}${location.region ? ', ' + location.region : ''}, ${location.country}
-🌐 <b>IP Address:</b> <code>${location.ip}</code>
-📡 <b>ISP / Provider:</b> ${location.isp}
-━━━━━━━━━━━━━━━━━━━━━
-        `.trim();
-
-        try {
-            const teleUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-            const response = await fetch(teleUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    chat_id: TELEGRAM_CHAT_ID,
-                    text: telegramMessage,
-                    parse_mode: "HTML"
-                })
-            });
-
-            const result = await response.json();
-
-            if (result.ok) {
-                statusDiv.className = "text-xs font-semibold py-1 text-emerald-400";
-                statusDiv.textContent = "✅ Pesan kamu berhasil terkirim!";
-                statusDiv.classList.remove("hidden");
-                form.reset();
-            } else {
-                throw new Error(result.description || "Gagal ke Telegram");
-            }
-        } catch (err) {
-            console.error("Telegram Send Error:", err);
-            statusDiv.className = "text-xs font-semibold py-1 text-red-500";
-            statusDiv.textContent = "❌ Gagal mengirim pesan. Cek koneksi internet kamu.";
-            statusDiv.classList.remove("hidden");
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalBtnText;
-        }
-    });
-}
-
-// Helper Sanitasi HTML agar Telegram tidak Error
 function escapeHtml(str) {
     return str
         .replace(/&/g, "&amp;")
@@ -433,6 +320,6 @@ async function initGitHubActivity() {
         reposEl.textContent = data.public_repos ?? "2";
         followersEl.textContent = data.followers ?? "0";
     } catch (e) {
-        console.log("GitHub API Offline, menggunakan fallback data.");
+        console.log("GitHub API Offline");
     }
 }

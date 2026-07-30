@@ -56,6 +56,7 @@
     transform: translateY(0);
 }
 /* =========================================
+   /* =========================================
    EFEK GLITCH NOTIFIKASI (HITAM MERAH METAL)
    ========================================= */
 .glitch-box {
@@ -71,7 +72,6 @@
     transition: all 0.3s ease;
 }
 
-/* Efek pantulan cahaya metal yang lewat */
 .glitch-box::before {
     content: '';
     position: absolute;
@@ -100,21 +100,18 @@
     opacity: 0.8;
 }
 
-/* Pecahan Glitch Merah Terang */
 .glitch-text::before {
     left: 2px;
     text-shadow: -2px 0 #ff003c;
     animation: glitch-anim-1 2s infinite linear alternate-reverse;
 }
 
-/* Pecahan Glitch Merah Gelap */
 .glitch-text::after {
     left: -2px;
     text-shadow: 2px 0 #4a0000;
     animation: glitch-anim-2 2.5s infinite linear alternate-reverse;
 }
 
-/* Keyframes Animasi Glitch */
 @keyframes glitch-anim-1 {
     0% { clip-path: inset(20% 0 80% 0); }
     20% { clip-path: inset(60% 0 10% 0); }
@@ -133,13 +130,11 @@
     100% { clip-path: inset(5% 0 80% 0); }
 }
 
-/* Keyframes Box Berkedip seperti Neon */
 @keyframes cyber-pulse {
     0% { box-shadow: 0 0 10px rgba(153, 27, 27, 0.2); border-color: #4a0000; }
     100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.6); border-color: #ef4444; }
 }
 
-/* Keyframes Cahaya Metal */
 @keyframes metal-shine {
     0% { left: -100%; }
     20% { left: 200%; }
