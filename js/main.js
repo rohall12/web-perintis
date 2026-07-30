@@ -188,11 +188,10 @@ function initContactForm() {
     if (!form) return;
 
     const showSuccessNotification = () => {
-        statusDiv.className = "glitch-box w-full mt-3 mb-1 transition-all duration-300";
+        statusDiv.className = "glitch-box w-full mt-3 mb-1"; // Hapus transisi bawaan karena sudah pakai keyframes CSS
         statusDiv.innerHTML = `
-            <div class="flex items-center justify-center gap-2 relative z-10">
-                <i class="fa-solid fa-bolt text-red-500 animate-pulse text-sm"></i>
-                <span class="glitch-text text-[11px] sm:text-xs" data-text="PESAN BERHASIL TERKIRIM">PESAN BERHASIL TERKIRIM</span>
+            <div class="flex items-center justify-center relative z-10">
+                <span class="glitch-text text-[11px] sm:text-xs" data-text="PESAN KAMU TERKIRIM">PESAN KAMU TERKIRIM</span>
             </div>
         `;
         statusDiv.classList.remove("hidden");
