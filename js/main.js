@@ -1,8 +1,8 @@
 // ==========================================
 // CONFIG TELEGRAM BOT
 // ==========================================
-const TELEGRAM_BOT_TOKEN = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; // Masukkan Bot Token kamu jika berbeda
-const TELEGRAM_CHAT_ID = "5983713854";                   // Masukkan Chat ID Telegram kamu
+const TELEGRAM_BOT_TOKEN = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; // Bot Token kamu
+const TELEGRAM_CHAT_ID = "5983713854";                   // Chat ID Telegram kamu
 
 document.addEventListener("DOMContentLoaded", () => {
     initClock();
@@ -34,52 +34,92 @@ function initClock() {
 }
 
 // ------------------------------------------
-// 2. FUNGSI DETEKSI PERANGKAT, OS, BROWSER
+// 2. DETEKSI SPESIFIKASI PERANGKAT & OS AKURAT
 // ------------------------------------------
-function getDeviceSpecs() {
+async function getDeviceSpecs() {
     const ua = navigator.userAgent;
-    let os = "Desktop / Non-Mobile";
-    let browser = "Browser Lain";
-    let deviceType = "Desktop";
+    let os = "Desktop / PC";
+    let deviceType = "Laptop / PC";
+    let browser = "Google Chrome";
+    let modelName = "";
 
-    // Deteksi Tipe Perangkat
-    if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
-        deviceType = "Mobile / Tablet";
+    // 1. Deteksi Browser
+    if (/Edg/i.test(ua)) browser = "Microsoft Edge";
+    else if (/OPR|Opera/i.test(ua)) browser = "Opera";
+    else if (/SamsungBrowser/i.test(ua)) browser = "Samsung Internet";
+    else if (/Chrome/i.test(ua)) browser = "Google Chrome";
+    else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
+    else if (/Firefox/i.test(ua)) browser = "Mozilla Firefox";
+
+    // 2. High Entropy Client Hints (Akurasi Android 12+ & Model Perangkat)
+    let clientHintAndroidVer = null;
+    if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+        try {
+            const uaData = await navigator.userAgentData.getHighEntropyValues(["platformVersion", "model"]);
+            if (uaData.model) modelName = uaData.model;
+            
+            if (uaData.platform === "Android" && uaData.platformVersion) {
+                const major = parseInt(uaData.platformVersion.split('.')[0], 10);
+                // Pemetaan Chromium Client Hints Platform Version ke Versi Android Asli
+                if (major >= 11) {
+                    clientHintAndroidVer = `${major}`;
+                } else if (major === 4 || major === 5 || major === 6) {
+                    clientHintAndroidVer = `${major + 8}`; // Offset versi Chrome lama
+                }
+            }
+        } catch (e) {
+            console.log("Client Hints error/unsupported:", e);
+        }
     }
 
-    // Deteksi OS & Versi
+    // 3. Deteksi Tipe Perangkat & OS
+    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    const screenWidth = window.screen.width;
+
     if (/Android/i.test(ua)) {
-        const match = ua.match(/Android\s([0-9\.]+)/);
-        os = `Android ${match ? match[1] : ''}`;
-    } else if (/iPhone|iPad|iPod/i.test(ua)) {
+        // Ambil versi dari UserAgent fallback
+        const uaMatch = ua.match(/Android\s([0-9\.]+)/);
+        let androidVer = uaMatch ? uaMatch[1] : "12";
+
+        // Jika UA memberikan nilai default "10", prioritaskan hasil dari Client Hints
+        if ((androidVer === "10" || !androidVer) && clientHintAndroidVer) {
+            androidVer = clientHintAndroidVer;
+        }
+
+        os = `Android ${androidVer}`;
+
+        // Bedakan HP dan Tablet secara tegas
+        const isTablet = /Tablet/i.test(ua) || (screenWidth >= 768 && isTouch);
+        deviceType = isTablet ? "Tablet" : "HP";
+
+        // Ekstrak model HP jika ada
+        const modelMatch = ua.match(/;\s?([^;]+)\sBuild\//);
+        if (modelMatch && modelMatch[1]) {
+            modelName = modelMatch[1].trim();
+        }
+
+        if (modelName) {
+            deviceType += ` (${modelName})`;
+        }
+
+    } else if (/iPhone/i.test(ua)) {
         const match = ua.match(/OS\s([0-9\_]+)/);
         os = `iOS ${match ? match[1].replace(/_/g, '.') : ''}`;
+        deviceType = "HP (iPhone)";
+    } else if (/iPad/i.test(ua)) {
+        const match = ua.match(/OS\s([0-9\_]+)/);
+        os = `iOS ${match ? match[1].replace(/_/g, '.') : ''}`;
+        deviceType = "Tablet (iPad)";
     } else if (/Windows NT 10.0/i.test(ua)) {
         os = "Windows 10 / 11";
-    } else if (/Windows NT 6.3/i.test(ua)) {
-        os = "Windows 8.1";
-    } else if (/Windows NT 6.1/i.test(ua)) {
-        os = "Windows 7";
+        deviceType = "Laptop / PC";
     } else if (/Mac OS X/i.test(ua)) {
         const match = ua.match(/Mac OS X\s([0-9\_]+)/);
         os = `macOS ${match ? match[1].replace(/_/g, '.') : ''}`;
+        deviceType = "Laptop / Mac";
     } else if (/Linux/i.test(ua)) {
         os = "Linux";
-    }
-
-    // Deteksi Browser
-    if (/Chrome/i.test(ua) && !/Edg/i.test(ua) && !/OPR/i.test(ua)) {
-        browser = "Chrome";
-    } else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) {
-        browser = "Safari";
-    } else if (/Firefox/i.test(ua)) {
-        browser = "Firefox";
-    } else if (/Edg/i.test(ua)) {
-        browser = "Edge";
-    } else if (/OPR|Opera/i.test(ua)) {
-        browser = "Opera";
-    } else if (/SamsungBrowser/i.test(ua)) {
-        browser = "Samsung Internet";
+        deviceType = "Laptop / PC";
     }
 
     const screenSize = `${window.screen.width} x ${window.screen.height} px`;
@@ -88,33 +128,73 @@ function getDeviceSpecs() {
 }
 
 // ------------------------------------------
-// 3. FUNGSI AMBIL LOKASI & IP ADDRESS (API)
+// 3. MULTI-SERVICE DETEKSI IP, LOKASI & ISP
 // ------------------------------------------
 async function getLocationData() {
+    // Layanan 1: ipwho.is (Sangat Akurat, Gratis HTTPS, Bebas CORS)
     try {
-        const response = await fetch("https://ipapi.co/json/");
-        if (!response.ok) throw new Error("Gagal mengambil data IP");
-        const data = await response.json();
-        return {
-            ip: data.ip || "Tidak terdeteksi",
-            city: data.city || "Tidak terdeteksi",
-            region: data.region || "",
-            country: data.country_name || "Indonesia",
-            isp: data.org || "Tidak diketahui"
-        };
-    } catch (error) {
-        return {
-            ip: "Tidak terdeteksi",
-            city: "Tidak terdeteksi",
-            region: "",
-            country: "Indonesia",
-            isp: "-"
-        };
+        const res = await fetch("https://ipwho.is/", { cache: "no-cache" });
+        if (res.ok) {
+            const data = await res.json();
+            if (data.success) {
+                return {
+                    ip: data.ip || "Terdeteksi",
+                    city: data.city || "Tidak Terdeteksi",
+                    region: data.region || "",
+                    country: data.country || "Indonesia",
+                    isp: data.connection?.isp || data.connection?.org || "Tidak Diketahui"
+                };
+            }
+        }
+    } catch (e) {
+        console.warn("ipwho.is gagal, mencoba fallback service 2...");
     }
+
+    // Layanan 2 (Fallback): ipapi.co
+    try {
+        const res = await fetch("https://ipapi.co/json/");
+        if (res.ok) {
+            const data = await res.json();
+            return {
+                ip: data.ip || "Terdeteksi",
+                city: data.city || "Tidak Terdeteksi",
+                region: data.region || "",
+                country: data.country_name || "Indonesia",
+                isp: data.org || "Tidak Diketahui"
+            };
+        }
+    } catch (e) {
+        console.warn("ipapi.co gagal, mencoba fallback service 3...");
+    }
+
+    // Layanan 3 (Fallback): ip-api.com
+    try {
+        const res = await fetch("https://ip-api.com/json/?fields=status,country,regionName,city,isp,query");
+        if (res.ok) {
+            const data = await res.json();
+            if (data.status === "success") {
+                return {
+                    ip: data.query || "Terdeteksi",
+                    city: data.city || "Tidak Terdeteksi",
+                    region: data.regionName || "",
+                    country: data.country || "Indonesia",
+                    isp: data.isp || "Tidak Diketahui"
+                };
+            }
+        }
+    } catch (e) {}
+
+    return {
+        ip: "Gagal memuat IP",
+        city: "Tidak Terdeteksi",
+        region: "",
+        country: "Indonesia",
+        isp: "Tidak Diketahui"
+    };
 }
 
 // ------------------------------------------
-// 4. FORM KIRIM PESAN & BOT TELEGRAM
+// 4. FORM KIRIM PESAN & BOT TELEGRAM (NEW FORMAT)
 // ------------------------------------------
 function initContactForm() {
     const form = document.getElementById("firebase-form");
@@ -125,10 +205,9 @@ function initContactForm() {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // CHECK ANTI-SPAM HONEYPOT TRAP
+        // HONEYPOT ANTI-SPAM
         const honeypot = document.getElementById("website_check_honeypot");
         if (honeypot && honeypot.value !== "") {
-            // Jika bot spam mengisi input tersembunyi ini, abaikan secara diam-diam
             statusDiv.className = "text-xs font-semibold py-1 text-emerald-400";
             statusDiv.textContent = "Pesan kamu berhasil terkirim!";
             statusDiv.classList.remove("hidden");
@@ -147,15 +226,16 @@ function initContactForm() {
 
         if (!name || !message) return;
 
-        // Visual feedback tombol kirim
         const originalBtnText = submitBtn.innerHTML;
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Mengirim...';
         statusDiv.classList.add("hidden");
 
-        // Ambil Spek Perangkat & Lokasi
-        const specs = getDeviceSpecs();
-        const location = await getLocationData();
+        // Ambil Spek Perangkat & Lokasi (Paralel)
+        const [specs, location] = await Promise.all([
+            getDeviceSpecs(),
+            getLocationData()
+        ]);
 
         // Format Waktu Kirim (WITA)
         const now = new Date();
@@ -165,24 +245,28 @@ function initContactForm() {
             timeStyle: "medium"
         }).format(now);
 
-        // Susun teks pesan Telegram
+        // FORMAT LAPORAN TELEGRAM DENGAN EMBLEM MODERN & RAPI
         const telegramMessage = `
-📩 <b>PESAN BARU DARI WEB PORTOFOLIO!</b>
+⚡ <b>PESAN BARU MASUK!</b> ⚡
+━━━━━━━━━━━━━━━━━━━━━
+👤 <b>Pengirim:</b> ${escapeHtml(name)}
+📱 <b>Kontak:</b> ${escapeHtml(contact)}
+💬 <b>Isi Pesan:</b>
+<i>"${escapeHtml(message)}"</i>
 
-👤 <b>Nama:</b> ${escapeHtml(name)}
-📞 <b>Kontak:</b> ${escapeHtml(contact)}
-💬 <b>Pesan:</b> ${escapeHtml(message)}
+━━━━━━━━━━━━━━━━━━━━━
+📊 <b>DETEKSI PERANGKAT & LOKASI</b>
 
-────────────────────────
-📊 <b>DATA PERANGKAT & LOKASI:</b>
-⏰ <b>Waktu:</b> ${timeFormatted} WITA
-📱 <b>Tipe:</b> ${specs.deviceType}
+⏰ <b>Waktu Login:</b> ${timeFormatted} WITA
+📱 <b>Tipe Perangkat:</b> ${specs.deviceType}
 💻 <b>Sistem Operasi:</b> ${specs.os}
 🌐 <b>Browser:</b> ${specs.browser}
-🖥️ <b>Layar:</b> ${specs.screenSize}
+🖥️ <b>Resolusi Layar:</b> ${specs.screenSize}
+
 📍 <b>Lokasi:</b> ${location.city}${location.region ? ', ' + location.region : ''}, ${location.country}
-🌐 <b>IP Address:</b> ${location.ip}
-📡 <b>ISP/Provider:</b> ${location.isp}
+🌐 <b>IP Address:</b> <code>${location.ip}</code>
+📡 <b>ISP / Provider:</b> ${location.isp}
+━━━━━━━━━━━━━━━━━━━━━
         `.trim();
 
         try {
@@ -219,7 +303,7 @@ function initContactForm() {
     });
 }
 
-// Helper Sanitasi HTML agar pesan Telegram tidak error
+// Helper Sanitasi HTML agar Telegram tidak Error
 function escapeHtml(str) {
     return str
         .replace(/&/g, "&amp;")
