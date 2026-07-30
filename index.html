@@ -24,51 +24,15 @@
             }
         }
     </script>
+    
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- CUSTOM STYLES (EFEK GLITCH, CARD, & ANIMASI) -->
+    <link rel="stylesheet" href="css/style.css?v=1.0.0">
+    
     <!-- SCRIPT MAINTENANCE CONTROL -->
     <script src="maintenance.js?v=1.0.1"></script>
-
-    <style>
-        body { font-family: system-ui, -apple-system, sans-serif; overflow-x: hidden; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #090a0f; }
-        ::-webkit-scrollbar-thumb { background: #232634; border-radius: 3px; }
-        .card-cyber { background-color: #11131a; border: 1px solid #232634; transition: all 0.3s ease; }
-        .card-cyber:hover { border-color: rgba(153, 27, 27, 0.4); box-shadow: 0 0 20px rgba(153, 27, 27, 0.08); }
-
-        /* EFEK GLITCH BUTTON */
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
-        .btn-glitch {
-            transition: all 0.2s ease;
-        }
-        .btn-glitch:hover, .btn-glitch:active {
-            animation: glitch 0.25s infinite;
-            border-color: #ef4444 !important;
-            box-shadow: 0 0 12px rgba(239, 68, 68, 0.5);
-            color: #ffffff !important;
-        }
-
-        /* ANIMASI SCROLL REVEAL HALUS */
-        .reveal {
-            opacity: 0;
-            transform: translateY(35px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
 </head>
 <body class="bg-darkBg text-slate-100 min-h-screen selection:bg-red-900 selection:text-white pb-20 lg:pb-0">
 
@@ -106,7 +70,7 @@
                 </a>
             </nav>
 
-            <!-- KONTAK NAVIGASI DESKTOP (BERSIH TANPA USERNAME/NOMOR) -->
+            <!-- KONTAK NAVIGASI DESKTOP -->
             <div class="pt-6 border-t border-surfaceBorder space-y-3 mb-6">
                 <div class="text-[11px] font-bold uppercase tracking-wider text-mutedGray">KONTAK SAYA</div>
                 <a href="https://wa.me/62881038278950" target="_blank" class="btn-glitch flex items-center space-x-3 px-3 py-2.5 rounded-xl border border-surfaceBorder bg-slate-900/60 text-sm text-slate-200">
@@ -140,7 +104,6 @@
                     <button id="theme-toggle" class="card-cyber w-9 h-9 rounded-full flex items-center justify-center text-slate-300 hover:text-white">
                         <i class="fa-solid fa-sun text-sm" id="theme-icon"></i>
                     </button>
-                    <!-- TOGGLE MENU MOBILE -->
                     <button id="mobile-menu-toggle" class="lg:hidden card-cyber w-9 h-9 rounded-full flex items-center justify-center text-slate-300 hover:text-white focus:outline-none">
                         <i class="fa-solid fa-bars text-sm"></i>
                     </button>
@@ -179,9 +142,8 @@
             <!-- CONTENT MAIN -->
             <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full space-y-8">
                 
-                <!-- 1. HERO SECTION (KARTU UTAMA DENGAN new_hero_character.jpg DI SEBELAH KANAN) -->
+                <!-- 1. HERO SECTION -->
                 <section id="beranda" class="reveal card-cyber rounded-2xl p-6 sm:p-8 relative overflow-hidden">
-                    <!-- Overlay Gambar Karakter Cewe Menyapa -->
                     <div class="absolute right-0 bottom-0 top-0 w-full sm:w-1/2 md:w-5/12 opacity-35 sm:opacity-70 md:opacity-100 pointer-events-none overflow-hidden">
                         <img id="heroNewCharacterImage" src="assets/new_hero_character.jpg" alt="Friendly Blonde Coder Girl Waving" class="w-full h-full object-cover object-center">
                         <div class="absolute inset-0 bg-gradient-to-l from-transparent via-surface/80 to-surface"></div>
@@ -240,7 +202,6 @@
                         </a>
                     </div>
 
-                    <!-- Gambar Sung Jin-Woo (Posisi tetap) -->
                     <div class="card-cyber lg:col-span-5 rounded-2xl overflow-hidden relative min-h-[250px] sm:min-h-[300px]">
                         <img id="githubSungJinWooImage" src="assets/sung_jin_woo.jpg" alt="Sung Jin-Woo Coding" class="absolute inset-0 w-full h-full object-cover object-center">
                         <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-transparent"></div>
@@ -252,7 +213,6 @@
                     
                     <!-- KIRIM PESAN -->
                     <section id="kirim-pesan" class="reveal card-cyber lg:col-span-7 rounded-2xl p-6 sm:p-8 relative overflow-hidden">
-                        <!-- Overlay Gambar Gojo (Posisi tetap) -->
                         <div class="absolute right-0 bottom-0 top-0 w-1/2 opacity-35 pointer-events-none overflow-hidden">
                             <img id="contactGojoImage" src="assets/gojo.jpg" alt="Gojo Phone" class="w-full h-full object-cover object-center">
                             <div class="absolute inset-0 bg-gradient-to-l from-transparent via-surface to-surface"></div>
@@ -288,7 +248,6 @@
 
                     <!-- TENTANG SAYA -->
                     <section id="tentang-saya" class="reveal card-cyber lg:col-span-5 rounded-2xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
-                        <!-- Overlay Gambar Anime Mata Biru (Posisi tetap) -->
                         <div class="absolute inset-0 opacity-25 pointer-events-none">
                             <img id="aboutAnimeImage" src="assets/blue_eyes_character.jpg" alt="About Anime Character" class="w-full h-full object-cover object-center">
                             <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/85 to-transparent"></div>
@@ -346,39 +305,10 @@
         <a href="#tentang-saya" class="flex flex-col items-center text-mutedGray hover:text-red-500 transition"><i class="fa-solid fa-user text-base"></i><span class="text-[10px] mt-0.5">Tentang</span></a>
     </nav>
 
-    <!-- SCRIPT TAMPILAN INTERAKTIF -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const toggleBtn = document.getElementById("mobile-menu-toggle");
-            const mobileMenu = document.getElementById("mobile-menu");
-            const mobileLinks = document.querySelectorAll(".mobile-nav-link");
-
-            if (toggleBtn && mobileMenu) {
-                toggleBtn.addEventListener("click", () => {
-                    mobileMenu.classList.toggle("hidden");
-                });
-
-                mobileLinks.forEach(link => {
-                    link.addEventListener("click", () => {
-                        mobileMenu.classList.add("hidden");
-                    });
-                });
-            }
-
-            const revealElements = document.querySelectorAll(".reveal");
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("active");
-                    }
-                });
-            }, { threshold: 0.12 });
-
-            revealElements.forEach(el => observer.observe(el));
-        });
-    </script>
-
-    <!-- MAIN MODULE SCRIPT -->
+    <!-- SCRIPT LOGIKA UI (MOBILE MENU & SCROLL REVEAL) -->
+    <script src="js/ui.js?v=1.0.0"></script>
+    
+    <!-- MAIN MODULE SCRIPT (FIREBASE, TELEGRAM BOT, HONEYPOT, TIME, GITHUB API) -->
     <script type="module" src="js/main.js?v=1.1.1"></script>
 </body>
 </html>

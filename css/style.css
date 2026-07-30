@@ -1,0 +1,57 @@
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #090a0f;
+}
+::-webkit-scrollbar-thumb {
+    background: #232634;
+    border-radius: 3px;
+}
+
+/* Card Styling Cyber */
+.card-cyber {
+    background-color: #11131a;
+    border: 1px solid #232634;
+    transition: all 0.3s ease;
+}
+.card-cyber:hover {
+    border-color: rgba(153, 27, 27, 0.4);
+    box-shadow: 0 0 20px rgba(153, 27, 27, 0.08);
+}
+
+/* Animasi Glitch Button */
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+.btn-glitch {
+    transition: all 0.2s ease;
+}
+
+.btn-glitch:hover, 
+.btn-glitch:active {
+    animation: glitch 0.25s infinite;
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.5);
+    color: #ffffff !important;
+}
+
+/* Animasi Scroll Reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(35px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}

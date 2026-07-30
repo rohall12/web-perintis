@@ -1,24 +1,30 @@
-export function initClock() {
-    const timeEl = document.getElementById("sidebar-time");
-    if (!timeEl) return;
-    
-    const update = () => {
-        const now = new Date();
-        timeEl.textContent = new Intl.DateTimeFormat("id-ID", {
-            timeZone: "Asia/Makassar",
-            hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
-        }).format(now);
-    };
-    setInterval(update, 1000);
-    update();
-}
+document.addEventListener("DOMContentLoaded", () => {
+    // Interaksi Drawer Menu Mobile
+    const toggleBtn = document.getElementById("mobile-menu-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileLinks = document.querySelectorAll(".mobile-nav-link");
 
-export function showFormStatus(text, colorClass) {
-    const statusEl = document.getElementById("form-status");
-    if (statusEl) {
-        statusEl.className = `text-xs font-semibold py-1 ${colorClass}`;
-        statusEl.textContent = text;
-        statusEl.classList.remove("hidden");
-        setTimeout(() => statusEl.classList.add("hidden"), 5000);
+    if (toggleBtn && mobileMenu) {
+        toggleBtn.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                mobileMenu.classList.add("hidden");
+            });
+        });
     }
-}
+
+    // Observer Animasi Scroll Reveal
+    const revealElements = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+            }
+        });
+    }, { threshold: 0.12 });
+
+    revealElements.forEach(el => observer.observe(el));
+});
