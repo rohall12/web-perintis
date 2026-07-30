@@ -196,11 +196,26 @@ async function getLocationData() {
 // ------------------------------------------
 // 4. FORM KIRIM PESAN & BOT TELEGRAM (NEW FORMAT)
 // ------------------------------------------
+// ------------------------------------------
+// 4. FORM KIRIM PESAN & BOT TELEGRAM (NEW FORMAT)
+// ------------------------------------------
 function initContactForm() {
     const form = document.getElementById("firebase-form");
     const statusDiv = document.getElementById("form-status");
 
     if (!form) return;
+
+    // Fungsi memanggil notifikasi Glitch Merah Metalik
+    const showSuccessNotification = () => {
+        statusDiv.className = "glitch-box w-full mt-3 mb-1 transition-all duration-300";
+        statusDiv.innerHTML = `
+            <div class="flex items-center justify-center gap-2 relative z-10">
+                <i class="fa-solid fa-bolt text-red-500 animate-pulse text-sm"></i>
+                <span class="glitch-text text-[11px] sm:text-xs" data-text="PESAN BERHASIL TERKIRIM">PESAN BERHASIL TERKIRIM</span>
+            </div>
+        `;
+        statusDiv.classList.remove("hidden");
+    };
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -208,13 +223,101 @@ function initContactForm() {
         // HONEYPOT ANTI-SPAM
         const honeypot = document.getElementById("website_check_honeypot");
         if (honeypot && honeypot.value !== "") {
-            statusDiv.className = "text-xs font-semibold py-1 text-emerald-400";
-            statusDiv.textContent = "Pesan kamu berhasil terkirim!";
-            statusDiv.classList.remove("hidden");
+            // Jika bot nyangkut di honeypot, berikan notif sukses palsu (glitch effect)
+            showSuccessNotification();
             form.reset();
             return;
         }
 
+        const nameInput = document.getElementById("sender-name");
+        const contactInput = document.getElementById("sender-contact");
+        const messageInput = document.getElementById("sender-message");
+        const submitBtn = form.querySelector("button[type='submit']");
+
+        const name = nameInput.value.trim();
+        const contact = contactInput.value.trim() || "Anonim";
+        const message = messageInput.value.trim();
+
+        if (!name || !message) return;
+
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Mengirim...';
+        
+        // Reset status form sebelumnya
+        statusDiv.className = "hidden";
+        statusDiv.innerHTML = "";
+
+        // Ambil Spek Perangkat & Lokasi (Paralel)
+        const [specs, location] = await Promise.all([
+            getDeviceSpecs(),
+            getLocationData()
+        ]);
+
+        // Format Waktu Kirim (WITA)
+        const now = new Date();
+        const timeFormatted = new Intl.DateTimeFormat("id-ID", {
+            timeZone: "Asia/Makassar",
+            dateStyle: "full",
+            timeStyle: "medium"
+        }).format(now);
+
+        // FORMAT LAPORAN TELEGRAM
+        const telegramMessage = `
+⚡ <b>PESAN BARU MASUK!</b> ⚡
+━━━━━━━━━━━━━━━━━━━━━
+👤 <b>Pengirim:</b> ${escapeHtml(name)}
+📱 <b>Kontak:</b> ${escapeHtml(contact)}
+💬 <b>Isi Pesan:</b>
+<i>"${escapeHtml(message)}"</i>
+
+━━━━━━━━━━━━━━━━━━━━━
+📊 <b>DETEKSI PERANGKAT & LOKASI</b>
+
+⏰ <b>Waktu Login:</b> ${timeFormatted} WITA
+📱 <b>Tipe Perangkat:</b> ${specs.deviceType}
+💻 <b>Sistem Operasi:</b> ${specs.os}
+🌐 <b>Browser:</b> ${specs.browser}
+🖥️ <b>Resolusi Layar:</b> ${specs.screenSize}
+
+📍 <b>Lokasi:</b> ${location.city}${location.region ? ', ' + location.region : ''}, ${location.country}
+🌐 <b>IP Address:</b> <code>${location.ip}</code>
+📡 <b>ISP / Provider:</b> ${location.isp}
+━━━━━━━━━━━━━━━━━━━━━
+        `.trim();
+
+        try {
+            const teleUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            const response = await fetch(teleUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: telegramMessage,
+                    parse_mode: "HTML"
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.ok) {
+                // Tampilkan Efek Glitch Sukses
+                showSuccessNotification();
+                form.reset();
+            } else {
+                throw new Error(result.description || "Gagal ke Telegram");
+            }
+        } catch (err) {
+            console.error("Telegram Send Error:", err);
+            statusDiv.className = "text-xs font-bold py-3 px-4 bg-red-950/80 border border-red-700 text-red-400 rounded-xl mt-3";
+            statusDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-1"></i> Gagal mengirim pesan. Cek koneksi internet kamu.';
+            statusDiv.classList.remove("hidden");
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+        }
+    });
+}
         const nameInput = document.getElementById("sender-name");
         const contactInput = document.getElementById("sender-contact");
         const messageInput = document.getElementById("sender-message");
