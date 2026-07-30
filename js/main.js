@@ -4,7 +4,10 @@ import { trackVisitor, getCookie } from './tracker.js';
 import { fetchGitHubData } from './github.js';
 import { initClock, showFormStatus } from './ui.js';
 
-// 1. Jalankan Modul Otomatis
+// Flag Kunci untuk Mencegah Double Submit / Pesan Ganda
+let isSubmitting = false;
+
+// 1. Jalankan Fitur Otomatis
 initClock();
 fetchGitHubData();
 trackVisitor();
@@ -14,6 +17,9 @@ const form = document.getElementById("firebase-form");
 if (form) {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
+
+        // JIKA SEDANG PROSES KIRIM, HENTIKAN EKSEKUSI KEDUA (MENCEGAH DOBEL)
+        if (isSubmitting) return;
 
         // Anti-Spam Honeypot Check
         const honeypot = document.getElementById("website_check_honeypot");
@@ -33,6 +39,9 @@ if (form) {
             return;
         }
 
+        // AKTIFKAN KUNCI SUBMIT
+        isSubmitting = true;
+
         if (submitBtn) {
             submitBtn.disabled = true;
             submitBtn.textContent = "MENGIRIM PESAN...";
@@ -42,7 +51,7 @@ if (form) {
             const timestamp = new Date().toISOString();
             const localTime = new Date().toLocaleString("id-ID", { timeZone: "Asia/Makassar" });
 
-            // Simpan Firebase
+            // 1. Simpan ke Firebase Realtime Database
             await saveMessageToFirebase({
                 nama: name,
                 kontak: contact,
@@ -52,7 +61,7 @@ if (form) {
                 deviceId: getCookie("user_device_id") || "N/A"
             });
 
-            // Kirim Telegram Notif
+            // 2. Kirim Notifikasi ke Telegram Bot
             const telegramMsg = `📬 *PESAN BARU DARI WEBSITE!*\n\n` +
                                 `👤 *Nama:* ${name}\n` +
                                 `📱 *Kontak:* ${contact}\n` +
@@ -67,6 +76,8 @@ if (form) {
             console.error("Submit Error:", err);
             showFormStatus("❌ Gagal mengirim pesan.", "text-red-500");
         } finally {
+            // BUKA KUNCI SUBMIT KEMBALI
+            isSubmitting = false;
             if (submitBtn) {
                 submitBtn.disabled = false;
                 submitBtn.textContent = "KIRIM PESAN";
