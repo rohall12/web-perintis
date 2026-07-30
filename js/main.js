@@ -1,8 +1,8 @@
 // ==========================================
 // CONFIG TELEGRAM BOT
 // ==========================================
-const TELEGRAM_BOT_TOKEN = "7953282200:AAFn_O1M7yG0u6-P89zJpZAn-c_R9yK-m30"; // Masukkan Bot Token kamu jika berbeda
-const TELEGRAM_CHAT_ID = "5806307137";                   // Masukkan Chat ID Telegram kamu
+const TELEGRAM_BOT_TOKEN = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; // Masukkan Bot Token kamu jika berbeda
+const TELEGRAM_CHAT_ID = "5983713854";                   // Masukkan Chat ID Telegram kamu
 
 document.addEventListener("DOMContentLoaded", () => {
     initClock();
