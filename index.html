@@ -27,7 +27,7 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- SCRIPT MAINTENANCE CONTROL (DENGAN CACHE BUSTING VERSIONING) -->
+    <!-- SCRIPT MAINTENANCE CONTROL -->
     <script src="maintenance.js?v=1.0.1"></script>
 
     <style>
@@ -72,7 +72,7 @@
 </head>
 <body class="bg-darkBg text-slate-100 min-h-screen selection:bg-red-900 selection:text-white pb-20 lg:pb-0">
 
-    <!-- MAINTENANCE SCREEN OVERLAY (DIKONTROL OTOMATIS OLEH maintenance.js) -->
+    <!-- MAINTENANCE SCREEN OVERLAY -->
     <div id="maintenance-screen" class="hidden fixed inset-0 z-50 flex flex-col items-center justify-center bg-darkBg text-center p-6">
         <div class="card-cyber p-8 rounded-2xl max-w-md w-full shadow-2xl">
             <div class="w-16 h-16 bg-red-950/50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-red-900/50">
@@ -106,14 +106,14 @@
                 </a>
             </nav>
 
-            <!-- KONTAK NAVIGASI DESKTOP DENGAN EFEK GLITCH -->
+            <!-- KONTAK NAVIGASI DESKTOP -->
             <div class="pt-6 border-t border-surfaceBorder space-y-3 mb-6">
                 <div class="text-[11px] font-bold uppercase tracking-wider text-mutedGray">KONTAK SAYA</div>
                 <a href="https://wa.me/62881038278950" target="_blank" class="btn-glitch flex items-center space-x-3 px-3 py-2.5 rounded-xl border border-surfaceBorder bg-slate-900/60 text-sm text-slate-200">
-                    <i class="fa-brands fa-whatsapp text-emerald-500 text-base"></i><span>WhatsApp</span> <!-- Teks diperpendek -->
+                    <i class="fa-brands fa-whatsapp text-emerald-500 text-base"></i><span>WhatsApp</span>
                 </a>
                 <a href="https://instagram.com/ronihalla_08" target="_blank" class="btn-glitch flex items-center space-x-3 px-3 py-2.5 rounded-xl border border-surfaceBorder bg-slate-900/60 text-sm text-slate-200">
-                    <i class="fa-brands fa-instagram text-pink-500 text-base"></i><span>Instagram</span> <!-- Teks diperpendek -->
+                    <i class="fa-brands fa-instagram text-pink-500 text-base"></i><span>Instagram</span>
                 </a>
             </div>
 
@@ -168,10 +168,10 @@
                 <div class="pt-4 border-t border-surfaceBorder space-y-2">
                     <div class="text-[10px] font-bold uppercase tracking-wider text-mutedGray px-3 mb-1">KONTAK SAYA</div>
                     <a href="https://wa.me/62881038278950" target="_blank" class="btn-glitch flex items-center space-x-3 px-3.5 py-2.5 rounded-xl border border-surfaceBorder bg-slate-900/80 text-slate-200">
-                        <i class="fa-brands fa-whatsapp text-emerald-500 text-lg w-5"></i><span class="text-xs font-semibold">WhatsApp</span> <!-- Teks diperpendek -->
+                        <i class="fa-brands fa-whatsapp text-emerald-500 text-lg w-5"></i><span class="text-xs font-semibold">WhatsApp</span>
                     </a>
                     <a href="https://instagram.com/ronihalla_08" target="_blank" class="btn-glitch flex items-center space-x-3 px-3.5 py-2.5 rounded-xl border border-surfaceBorder bg-slate-900/80 text-slate-200">
-                        <i class="fa-brands fa-instagram text-pink-500 text-lg w-5"></i><span class="text-xs font-semibold">Instagram</span> <!-- Teks diperpendek -->
+                        <i class="fa-brands fa-instagram text-pink-500 text-lg w-5"></i><span class="text-xs font-semibold">Instagram</span>
                     </a>
                 </div>
             </div>
@@ -179,9 +179,16 @@
             <!-- CONTENT MAIN -->
             <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full space-y-8">
                 
-                <!-- 1. HERO SECTION -->
-                <section id="beranda" class="reveal grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                    <div class="card-cyber lg:col-span-8 rounded-2xl p-6 sm:p-8 flex flex-col justify-between">
+                <!-- 1. HERO SECTION (1 KARTU UTAMA DENGAN GAMBAR CEWE DI DALAMNYA) -->
+                <section id="beranda" class="reveal card-cyber rounded-2xl p-6 sm:p-8 relative overflow-hidden">
+                    <!-- Overlay Gambar Karakter Cewe Menyapa (Di Sebelah Kanan Dalam Kartu Hero) -->
+                    <div class="absolute right-0 bottom-0 top-0 w-full sm:w-1/2 md:w-5/12 opacity-35 sm:opacity-70 md:opacity-100 pointer-events-none overflow-hidden">
+                        <img id="heroChaHaeInImage" src="assets/cha_hae_in.jpg" alt="Anime Coder Girl Waving" class="w-full h-full object-cover object-center">
+                        <div class="absolute inset-0 bg-gradient-to-l from-transparent via-surface/80 to-surface"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent sm:hidden"></div>
+                    </div>
+
+                    <div class="relative z-10 max-w-xl flex flex-col justify-between min-h-[280px] sm:min-h-[320px]">
                         <div>
                             <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-red-950/50 border border-red-900/50 text-red-400 text-xs font-semibold mb-4">
                                 <span>HALLO KAWAN 👋</span>
@@ -189,7 +196,7 @@
                             <h1 class="text-3xl sm:text-5xl font-black text-white mb-4 leading-tight">
                                 selamat berkunjung<br>ke <span class="text-red-600">web saya.</span>
                             </h1>
-                            <p class="text-mutedGray text-sm sm:text-base max-w-xl mb-6">
+                            <p class="text-mutedGray text-sm sm:text-base max-w-md mb-6">
                                 Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan bahasa pemrograman Python.
                             </p>
                         </div>
@@ -201,12 +208,6 @@
                                 <i class="fa-brands fa-github text-base"></i><span>GitHub Saya</span>
                             </a>
                         </div>
-                    </div>
-
-                    <!-- Kolom Gambar Hero (Karakter Cewe Waving Baru) -->
-                    <div class="card-cyber lg:col-span-4 rounded-2xl overflow-hidden relative min-h-[280px] sm:min-h-[350px] flex items-end">
-                        <img id="heroNewCharacterImage" src="assets/new_hero_character.jpg" alt="Friendly Blonde Coder Girl Waving" class="absolute inset-0 w-full h-full object-cover object-center"> <!-- Gambar diperbarui -->
-                        <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-transparent"></div>
                     </div>
                 </section>
 
@@ -264,7 +265,7 @@
                             <p class="text-mutedGray text-xs mb-6">Pesan akan tersimpan aman dan terdeteksi instan via Bot Telegram.</p>
 
                             <form id="firebase-form" class="space-y-4">
-                                <!-- ANTI-SPAM HONEYPOT TRAP (Hidden Field) -->
+                                <!-- ANTI-SPAM HONEYPOT TRAP -->
                                 <input type="text" id="website_check_honeypot" name="website_check_honeypot" class="hidden" tabindex="-1" autocomplete="off">
 
                                 <div>
@@ -287,7 +288,7 @@
 
                     <!-- TENTANG SAYA -->
                     <section id="tentang-saya" class="reveal card-cyber lg:col-span-5 rounded-2xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
-                        <!-- Overlay Gambar Anime Mata Biru -->
+                        <!-- Overlay Gambar Anime Mata Biru (Posisi tetap) -->
                         <div class="absolute inset-0 opacity-25 pointer-events-none">
                             <img id="aboutAnimeImage" src="assets/blue_eyes_character.jpg" alt="About Anime Character" class="w-full h-full object-cover object-center">
                             <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/85 to-transparent"></div>
@@ -345,10 +346,9 @@
         <a href="#tentang-saya" class="flex flex-col items-center text-mutedGray hover:text-red-500 transition"><i class="fa-solid fa-user text-base"></i><span class="text-[10px] mt-0.5">Tentang</span></a>
     </nav>
 
-    <!-- SCRIPT TAMPILAN INTERAKTIF: MOBILE NAV TOGGLE & SCROLL ANIMATION -->
+    <!-- SCRIPT TAMPILAN INTERAKTIF -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // Fix Mobile Menu Nav Toggle
             const toggleBtn = document.getElementById("mobile-menu-toggle");
             const mobileMenu = document.getElementById("mobile-menu");
             const mobileLinks = document.querySelectorAll(".mobile-nav-link");
@@ -365,7 +365,6 @@
                 });
             }
 
-            // Animasi Halus Saat Scroll (Scroll Reveal)
             const revealElements = document.querySelectorAll(".reveal");
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
