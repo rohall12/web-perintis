@@ -1,87 +1,132 @@
-import { saveMessageToFirebase } from './firebase.js';
-import { sendTelegramMessage } from './telegram.js';
-import { trackVisitor, getCookie } from './tracker.js';
-import { fetchGitHubData } from './github.js';
-import { initClock, showFormStatus } from './ui.js';
+// Import Firebase SDK (Versi CDN Module)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-// Flag Kunci untuk Mencegah Double Submit / Pesan Ganda
-let isSubmitting = false;
+// 1. CONFIG FIREBASE TERHUBUNG
+const firebaseConfig = {
+    apiKey: "AIzaSyDJE6Ua3tGM0ltnuBiXC5jvM-VLBZCmGqI",
+    authDomain: "my-portofolio-c2eeb.firebaseapp.com",
+    databaseURL: "https://my-portofolio-c2eeb-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "my-portofolio-c2eeb",
+    storageBucket: "my-portofolio-c2eeb.firebasestorage.app",
+    messagingSenderId: "686049637486",
+    appId: "1:686049637486:web:1704c34bb302ec0a7c227f",
+    measurementId: "G-SQ8F1Z00SS"
+};
 
-// 1. Jalankan Fitur Otomatis
-initClock();
-fetchGitHubData();
-trackVisitor();
+// 2. CONFIG TELEGRAM BOT TERHUBUNG
+const TELEGRAM_BOT_TOKEN = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew";
+const TELEGRAM_CHAT_ID = "5983713854";
 
-// 2. Event Listener Form Kirim Pesan
-const form = document.getElementById("firebase-form");
-if (form) {
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
-        // JIKA SEDANG PROSES KIRIM, HENTIKAN EKSEKUSI KEDUA (MENCEGAH DOBEL)
-        if (isSubmitting) return;
+document.addEventListener("DOMContentLoaded", () => {
+    // Jam Realtime Sidebar
+    updateSidebarTime();
+    setInterval(updateSidebarTime, 1000);
 
-        // Anti-Spam Honeypot Check
-        const honeypot = document.getElementById("website_check_honeypot");
-        if (honeypot && honeypot.value !== "") return;
+    // Ambil Data Live GitHub
+    fetchGitHubStats();
 
-        const nameInput = document.getElementById("sender-name");
-        const contactInput = document.getElementById("sender-contact");
-        const messageInput = document.getElementById("sender-message");
-        const submitBtn = form.querySelector("button[type='submit']");
+    // Event Listener Form Kirim Pesan
+    const form = document.getElementById("firebase-form");
+    if (form) {
+        form.addEventListener("submit", handleFormSubmit);
+    }
+});
 
-        const name = nameInput ? nameInput.value.trim() : "";
-        const contact = contactInput && contactInput.value.trim() !== "" ? contactInput.value.trim() : "Anonim";
-        const message = messageInput ? messageInput.value.trim() : "";
+// FUNGSI UTAMA KIRIM PESAN (FIREBASE & TELEGRAM)
+async function handleFormSubmit(e) {
+    e.preventDefault();
 
-        if (!name || !message) {
-            showFormStatus("Mohon isi nama dan pesan kamu!", "text-red-500");
-            return;
+    const statusDiv = document.getElementById("form-status");
+    const submitBtn = e.target.querySelector("button[type='submit']");
+
+    // 1. Jebakan Anti-Spam Honeypot
+    const honeypot = document.getElementById("website_check_honeypot")?.value;
+    if (honeypot && honeypot.trim() !== "") {
+        console.warn("Spam terdeteksi via Honeypot!");
+        return; // Hentikan pengiriman jika diisi bot
+    }
+
+    const name = document.getElementById("sender-name").value.trim();
+    const contact = document.getElementById("sender-contact").value.trim() || "Anonim";
+    const message = document.getElementById("sender-message").value.trim();
+
+    if (!name || !message) {
+        showStatus(statusDiv, "Nama dan pesan wajib diisi!", "text-red-500");
+        return;
+    }
+
+    // Indicator Loading
+    submitBtn.disabled = true;
+    submitBtn.innerText = "MENGIRIM...";
+    showStatus(statusDiv, "Sedang mengirim pesan...", "text-yellow-500");
+
+    try {
+        // A. SIMPAN KE FIREBASE REALTIME DATABASE
+        const messagesRef = ref(database, 'messages');
+        await push(messagesRef, {
+            name: name,
+            contact: contact,
+            message: message,
+            timestamp: serverTimestamp()
+        });
+
+        // B. KIRIM NOTIFIKASI LANGSUNG KE TELEGRAM BOT
+        const telegramText = `📩 <b>PESAN BARU DARI WEB PORTOFOLIO!</b>\n\n👤 <b>Nama:</b> ${name}\n📞 <b>Kontak:</b> ${contact}\n💬 <b>Pesan:</b>\n${message}`;
+        
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: telegramText,
+                parse_mode: 'HTML'
+            })
+        });
+
+        showStatus(statusDiv, "✓ Pesan berhasil terkirim ke Firebase & Telegram!", "text-emerald-500");
+        form.reset();
+    } catch (error) {
+        console.error("Error sending message:", error);
+        showStatus(statusDiv, "Gagal mengirim pesan. Cek koneksi atau konsol browser.", "text-red-500");
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "KIRIM PESAN";
+    }
+}
+
+function showStatus(el, message, colorClass) {
+    if (!el) return;
+    el.className = `text-xs font-semibold py-1 block ${colorClass}`;
+    el.innerText = message;
+}
+
+// FUNGSI LIVE DATA GITHUB
+async function fetchGitHubStats() {
+    try {
+        const response = await fetch("https://api.github.com/users/rohall12");
+        if (response.ok) {
+            const data = await response.json();
+            const reposEl = document.getElementById("github-repos");
+            const followersEl = document.getElementById("github-followers");
+
+            if (reposEl) reposEl.innerText = data.public_repos ?? 0;
+            if (followersEl) followersEl.innerText = data.followers ?? 0;
         }
+    } catch (err) {
+        console.error("Gagal mengambil data GitHub:", err);
+    }
+}
 
-        // AKTIFKAN KUNCI SUBMIT
-        isSubmitting = true;
-
-        if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.textContent = "MENGIRIM PESAN...";
-        }
-
-        try {
-            const timestamp = new Date().toISOString();
-            const localTime = new Date().toLocaleString("id-ID", { timeZone: "Asia/Makassar" });
-
-            // 1. Simpan ke Firebase Realtime Database
-            await saveMessageToFirebase({
-                nama: name,
-                kontak: contact,
-                pesan: message,
-                waktu: timestamp,
-                waktuLokal: localTime,
-                deviceId: getCookie("user_device_id") || "N/A"
-            });
-
-            // 2. Kirim Notifikasi ke Telegram Bot
-            const telegramMsg = `📬 *PESAN BARU DARI WEBSITE!*\n\n` +
-                                `👤 *Nama:* ${name}\n` +
-                                `📱 *Kontak:* ${contact}\n` +
-                                `💬 *Pesan:* ${message}\n\n` +
-                                `⏰ *Waktu:* ${localTime} WITA`;
-
-            await sendTelegramMessage(telegramMsg);
-
-            form.reset();
-            showFormStatus("✅ Pesan berhasil terkirim!", "text-emerald-400");
-        } catch (err) {
-            console.error("Submit Error:", err);
-            showFormStatus("❌ Gagal mengirim pesan.", "text-red-500");
-        } finally {
-            // BUKA KUNCI SUBMIT KEMBALI
-            isSubmitting = false;
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.textContent = "KIRIM PESAN";
-            }
-        }
-    });
+// FUNGSI JAM SIDEBAR (WITA / UTC+8)
+function updateSidebarTime() {
+    const timeEl = document.getElementById("sidebar-time");
+    if (timeEl) {
+        const now = new Date();
+        timeEl.innerText = now.toLocaleTimeString("id-ID", { timeZone: "Asia/Makassar", hour12: false });
+    }
 }
