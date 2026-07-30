@@ -205,7 +205,6 @@ function initContactForm() {
         // 🛡️ FITUR ANTI-SPAM (HONEYPOT CHECK) 🛡️
         const honeypot = document.getElementById("website_check_honeypot");
         if (honeypot && honeypot.value !== "") {
-            // Jika bot bot terdeteksi mengisi honeypot, berikan notif sukses palsu (silent drop)
             showSuccessNotification();
             form.reset();
             return;
@@ -300,7 +299,7 @@ function escapeHtml(str) {
     return str
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
-        .replace(>g, "&gt;") // Catatan: ingat penulisannya secara aman
+        .replace(/>/g, "&gt;") // <--- FIXED: Tanda kurung siku penutup sudah diperbaiki dengan benar
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
