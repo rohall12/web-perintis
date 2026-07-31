@@ -39,7 +39,6 @@
             color: #f3f4f6;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-        /* Efek Glitch Sukses */
         .glitch-box {
             position: relative;
             background: rgba(20, 22, 30, 0.95);
@@ -72,7 +71,6 @@
             RoniHalla<span class="w-2 h-2 rounded-full bg-cyber-red animate-pulse"></span>
         </a>
         <div class="flex items-center gap-2">
-            <!-- Tombol Install PWA (Otomatis Muncul/Hilang) -->
             <button id="pwa-install-btn" class="hidden items-center gap-1.5 bg-cyber-red hover:bg-red-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition-all shadow-md active:scale-95">
                 <i class="fa-solid fa-download"></i> Install
             </button>
@@ -130,11 +128,17 @@
     <!-- MAIN CONTENT CONTAINER -->
     <main class="max-w-md mx-auto px-4 pt-5 space-y-6">
 
-        <!-- SECTION BERANDA / HERO -->
+        <!-- SECTION BERANDA / HERO (Gambar Cha Hae-In yang menyapa / new_hero_character.jpg) -->
         <section id="beranda" class="bg-cyber-card border border-cyber-border rounded-3xl p-6 shadow-xl space-y-5 relative overflow-hidden">
             <div class="absolute -right-8 -bottom-8 opacity-5 pointer-events-none">
                 <i class="fa-solid fa-terminal text-9xl text-cyber-red"></i>
             </div>
+            
+            <!-- Gambar HD di dalam Card Beranda -->
+            <div class="overflow-hidden rounded-2xl border border-cyber-border shadow-md">
+                <img src="assets/new_hero_character.jpg" alt="Cha Hae-In Waving" class="w-full h-52 object-cover object-center transform hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=800&auto=format&fit=crop'">
+            </div>
+
             <div class="inline-flex items-center gap-2 px-3 py-1 bg-red-950/60 border border-red-900/60 rounded-full">
                 <span class="w-2 h-2 rounded-full bg-cyber-red animate-pulse"></span>
                 <span class="text-[11px] font-semibold text-red-400">HALLO KAWAN 👋</span>
@@ -159,12 +163,7 @@
             </div>
         </section>
 
-        <!-- ANIME BANNER 1 (`blue_eyes_character.jpg`) -->
-        <div class="bg-cyber-card border border-cyber-border rounded-2xl overflow-hidden shadow-lg p-2">
-            <img src="assets/blue_eyes_character.jpg" alt="Blue Eyes Character" class="w-full h-48 object-cover rounded-xl" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop'">
-        </div>
-
-        <!-- SECTION GITHUB STATS -->
+        <!-- SECTION GITHUB STATS (Gambar Sung Jin-Woo main komputer / sung_jin_woo.jpg) -->
         <section id="github-stats" class="bg-cyber-card border border-cyber-border rounded-3xl p-6 shadow-xl space-y-4">
             <div class="flex items-center justify-between">
                 <div>
@@ -176,6 +175,11 @@
                 <span class="px-2.5 py-1 bg-red-950/80 border border-red-900 text-[10px] font-bold text-red-400 rounded-lg flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span> LIVE
                 </span>
+            </div>
+
+            <!-- Gambar HD Sung Jin-Woo di Card GitHub Stats -->
+            <div class="overflow-hidden rounded-2xl border border-cyber-border shadow-md">
+                <img src="assets/sung_jin_woo.jpg" alt="Sung Jin Woo Coding" class="w-full h-48 object-cover object-center transform hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop'">
             </div>
 
             <div class="grid grid-cols-2 gap-3 pt-1">
@@ -194,18 +198,18 @@
             </a>
         </section>
 
-        <!-- ANIME BANNER 2 (`new_hero_character.jpg`) -->
-        <div class="bg-cyber-card border border-cyber-border rounded-2xl overflow-hidden shadow-lg p-2">
-            <img src="assets/new_hero_character.jpg" alt="New Hero Character" class="w-full h-48 object-cover rounded-xl" onerror="this.src='https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop'">
-        </div>
-
-        <!-- SECTION CONTACT FORM (TERHUBUNG KE TELEGRAM BOT TERPISAH) -->
+        <!-- SECTION CONTACT FORM (Gambar Gojo main HP / gojo.jpg) -->
         <section id="contact" class="bg-cyber-card border border-cyber-border rounded-3xl p-6 shadow-xl space-y-4">
             <div class="space-y-1">
                 <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <i class="fa-solid fa-paper-plane text-cyber-red"></i> Kirim Pesan
                 </h2>
                 <p class="text-[11px] text-gray-400">Pesan akan tersimpan aman dan terdeteksi instan via Bot Telegram.</p>
+            </div>
+
+            <!-- Gambar HD Gojo di Card Kontak -->
+            <div class="overflow-hidden rounded-2xl border border-cyber-border shadow-md">
+                <img src="assets/gojo.jpg" alt="Gojo Phone" class="w-full h-48 object-cover object-center transform hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=800&auto=format&fit=crop'">
             </div>
 
             <form id="telegram-form" class="space-y-4 pt-1">
@@ -237,17 +241,18 @@
             </form>
         </section>
 
-        <!-- ANIME BANNER 3 (`sung_jin_woo.jpg`) -->
-        <div class="bg-cyber-card border border-cyber-border rounded-2xl overflow-hidden shadow-lg p-2">
-            <img src="assets/sung_jin_woo.jpg" alt="Sung Jin Woo Character" class="w-full h-48 object-cover rounded-xl" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=600&auto=format&fit=crop'">
-        </div>
-
-        <!-- SECTION ABOUT ME -->
+        <!-- SECTION ABOUT ME (Gambar Blue Eyes Character / blue_eyes_character.jpg) -->
         <section id="about" class="bg-cyber-card border border-cyber-border rounded-3xl p-6 shadow-xl space-y-4">
             <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                 <i class="fa-solid fa-user text-cyber-red"></i> Tentang Saya
             </h2>
-            <div class="space-y-3 text-xs text-gray-300 leading-relaxed">
+
+            <!-- Gambar HD Blue Eyes Character di Card Tentang Saya -->
+            <div class="overflow-hidden rounded-2xl border border-cyber-border shadow-md">
+                <img src="assets/blue_eyes_character.jpg" alt="Blue Eyes Character" class="w-full h-48 object-cover object-center transform hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop'">
+            </div>
+
+            <div class="space-y-3 text-xs text-gray-300 leading-relaxed pt-1">
                 <p>
                     Saya Roni Halla, seorang Junior Developer yang sedang terus belajar dan mengembangkan kemampuan di dunia pemrograman. Saya suka bereksperimen dengan Python dan Web Development, sambil mencoba menuangkan ide-ide saya ke dalam berbagai project nyata.
                 </p>
@@ -256,11 +261,6 @@
                 </p>
             </div>
         </section>
-
-        <!-- ANIME BANNER 4 (`gojo.jpg`) -->
-        <div class="bg-cyber-card border border-cyber-border rounded-2xl overflow-hidden shadow-lg p-2">
-            <img src="assets/gojo.jpg" alt="Gojo Character" class="w-full h-48 object-cover rounded-xl" onerror="this.src='https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop'">
-        </div>
 
     </main>
 
@@ -284,7 +284,7 @@
         </a>
     </nav>
 
-    <!-- JAVASCRIPT: DRAWER, GITHUB STATS, PWA & EKsternal Telegram Bot Script -->
+    <!-- JAVASCRIPT: DRAWER, GITHUB STATS, PWA -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             initDrawerMenu();
@@ -292,7 +292,6 @@
             initPWA();
         });
 
-        // 1. Drawer Menu Control
         function initDrawerMenu() {
             const menuBtn = document.getElementById("menu-btn");
             const settingsBtn = document.getElementById("settings-btn");
@@ -317,7 +316,6 @@
             });
         }
 
-        // 2. GitHub Public Stats
         async function initGitHubStats() {
             const reposEl = document.getElementById("github-repos");
             const followersEl = document.getElementById("github-followers");
@@ -333,7 +331,6 @@
             } catch (e) {}
         }
 
-        // 3. PWA Service Worker & Install Logic
         function initPWA() {
             const installBtn = document.getElementById("pwa-install-btn");
             let deferredPrompt;
