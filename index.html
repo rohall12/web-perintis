@@ -348,28 +348,36 @@
             let deferredPrompt;
 
             if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
-    });
-}
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('./sw.js').catch(() => {});
+                });
+            }
+
+            // Paksa tombol agar selalu muncul agar bisa dites langsung di PC/HP
+            if (installBtn) {
+                installBtn.classList.remove("hidden");
+                installBtn.classList.add("flex");
+            }
 
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
-                if (installBtn) {
-                    installBtn.classList.remove("hidden");
-                    installBtn.classList.add("flex");
-                }
             });
 
             if (installBtn) {
                 installBtn.addEventListener('click', async () => {
-                    if (!deferredPrompt) return;
-                    deferredPrompt.prompt();
-                    await deferredPrompt.userChoice;
-                    deferredPrompt = null;
-                    installBtn.classList.add("hidden");
-                    installBtn.classList.remove("flex");
+                    if (deferredPrompt) {
+                        deferredPrompt.prompt();
+                        const { outcome } = await deferredPrompt.userChoice;
+                        if (outcome === 'accepted') {
+                            deferredPrompt = null;
+                            installBtn.classList.add("hidden");
+                            installBtn.classList.remove("flex");
+                        }
+                    } else {
+                        // Fallback jika event prompt belum siap di PC
+                        alert("Cara Install di PC: Klik ikon komputer/download di sebelah kanan Address Bar browser Chrome/Edge, atau klik titik tiga di pojok kanan atas browser lalu pilih 'Simpan halaman ini' / 'Install RoniHalla'.");
+                    }
                 });
             }
 
