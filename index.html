@@ -83,44 +83,45 @@
         </div>
     </header>
 
-    <!-- SIDEBAR / MENU DRAWER -->
-    <div id="drawer-menu" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden transition-opacity">
-        <div class="absolute top-0 right-0 w-80 h-full bg-cyber-card border-l border-cyber-border p-6 flex flex-col justify-between shadow-2xl overflow-y-auto">
+    <!-- SIDEBAR / MENU DRAWER (UPDATED: TRANSPARAN & GLASSMORPHISM) -->
+    <div id="drawer-menu" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden transition-opacity">
+        <!-- bg-cyber-dark/70 dan backdrop-blur-xl membuat efek kaca transparan -->
+        <div class="absolute top-0 right-0 w-80 h-full bg-cyber-dark/70 backdrop-blur-xl border-l border-white/10 p-6 flex flex-col justify-between shadow-2xl overflow-y-auto">
             <div>
                 <div class="flex items-center justify-between mb-8">
                     <h3 class="font-extrabold text-white tracking-wider">MENU NAVIGASI</h3>
-                    <button id="close-drawer" class="w-8 h-8 rounded-lg bg-cyber-dark border border-cyber-border flex items-center justify-center text-gray-400 hover:text-white">
+                    <button id="close-drawer" class="w-8 h-8 rounded-lg bg-black/50 border border-white/10 flex items-center justify-center text-gray-300 hover:text-white transition-all">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
                 <nav class="space-y-2 mb-8">
-                    <p class="text-[10px] uppercase font-semibold text-gray-500 tracking-wider mb-2">Navigasi</p>
-                    <a href="#beranda" class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-300 hover:bg-red-950/40 hover:text-cyber-red transition-all border border-transparent hover:border-red-900/50">
+                    <p class="text-[10px] uppercase font-semibold text-gray-400 tracking-wider mb-2">Navigasi</p>
+                    <a href="#beranda" class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-200 hover:bg-red-950/60 hover:text-cyber-red transition-all border border-transparent hover:border-red-900/50">
                         <i class="fa-solid fa-house text-cyber-red w-5"></i> Beranda
                     </a>
-                    <a href="#github-stats" class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-300 hover:bg-red-950/40 hover:text-cyber-red transition-all border border-transparent hover:border-red-900/50">
+                    <a href="#github-stats" class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-200 hover:bg-red-950/60 hover:text-cyber-red transition-all border border-transparent hover:border-red-900/50">
                         <i class="fa-brands fa-github text-cyber-red w-5"></i> Aktivitas GitHub
                     </a>
-                    <a href="#contact" class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-300 hover:bg-red-950/40 hover:text-cyber-red transition-all border border-transparent hover:border-red-900/50">
+                    <a href="#contact" class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-200 hover:bg-red-950/60 hover:text-cyber-red transition-all border border-transparent hover:border-red-900/50">
                         <i class="fa-solid fa-paper-plane text-cyber-red w-5"></i> Kirim Pesan
                     </a>
-                    <a href="#about" class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-300 hover:bg-red-950/40 hover:text-cyber-red transition-all border border-transparent hover:border-red-900/50">
+                    <a href="#about" class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-200 hover:bg-red-950/60 hover:text-cyber-red transition-all border border-transparent hover:border-red-900/50">
                         <i class="fa-solid fa-user text-cyber-red w-5"></i> Tentang Saya
                     </a>
                 </nav>
 
-                <div class="space-y-2 pt-4 border-t border-cyber-border">
-                    <p class="text-[10px] uppercase font-semibold text-gray-500 tracking-wider mb-2">Kontak Saya</p>
-                    <a href="https://wa.me/62881038278950" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-medium text-gray-300 bg-cyber-dark border border-cyber-border hover:border-green-600 transition-all">
+                <div class="space-y-2 pt-4 border-t border-white/10">
+                    <p class="text-[10px] uppercase font-semibold text-gray-400 tracking-wider mb-2">Kontak Saya</p>
+                    <a href="https://wa.me/62881038278950" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-medium text-gray-200 bg-black/40 border border-white/10 hover:border-green-500/50 transition-all">
                         <i class="fa-brands fa-whatsapp text-green-500 text-base"></i> WhatsApp (62881038278950)
                     </a>
-                    <a href="https://instagram.com/ronihalla_08" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-medium text-gray-300 bg-cyber-dark border border-cyber-border hover:border-pink-600 transition-all">
+                    <a href="https://instagram.com/ronihalla_08" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-medium text-gray-200 bg-black/40 border border-white/10 hover:border-pink-500/50 transition-all">
                         <i class="fa-brands fa-instagram text-pink-500 text-base"></i> Instagram (@ronihalla_08)
                     </a>
                 </div>
             </div>
-            <div class="pt-4 border-t border-cyber-border text-center">
-                <p class="text-[11px] text-gray-500 font-mono">WITA Timezone active</p>
+            <div class="pt-4 border-t border-white/10 text-center">
+                <p class="text-[11px] text-gray-400 font-mono">WITA Timezone active</p>
             </div>
         </div>
     </div>
@@ -204,7 +205,8 @@
                 <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <i class="fa-solid fa-paper-plane text-cyber-red"></i> Kirim Pesan
                 </h2>
-                <p class="text-[11px] text-gray-400">Pesan akan tersimpan aman dan terdeteksi instan via Bot Telegram.</p>
+                <!-- Teks yang baru saja diperbarui -->
+                <p class="text-[11px] text-gray-400 leading-relaxed">Kirim pesan kamu dan pesan kamu akan diteruskan menggunakan Bot telegram ke develop R.H</p>
             </div>
 
             <!-- Gambar HD Gojo di Card Kontak -->
