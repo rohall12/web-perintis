@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roni Halla | Cyberpunk Portfolio</title>
+    <title>Roni Halla - Portfolio & Web Perintis</title>
     
-    <!-- PWA Config & Theme Color -->
+    <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ff003c">
+    <link rel="apple-touch-icon" href="assets/gojo.jpg">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,12 +18,10 @@
             theme: {
                 extend: {
                     colors: {
-                        cyber: {
-                            dark: '#090a0f',
-                            card: '#111217',
-                            red: '#ff003c',
-                            darkred: '#4a0000'
-                        }
+                        cyberRed: '#ff003c',
+                        darkBg: '#0b0f19',
+                        cardBg: '#131827',
+                        cardBorder: '#1f293d'
                     }
                 }
             }
@@ -32,145 +31,248 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom CSS Style -->
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .glow-red {
+            box-shadow: 0 0 25px rgba(255, 0, 60, 0.15);
+        }
+    </style>
 </head>
-<body class="bg-cyber-dark text-gray-100 font-sans antialiased selection:bg-red-600 selection:text-white">
+<body class="min-h-screen pb-16 antialiased">
 
-    <div class="min-h-screen flex flex-col md:flex-row">
-        
-        <!-- SIDEBAR / MENU UTAMA -->
-        <aside class="w-full md:w-80 bg-cyber-card border-r border-red-950 p-6 flex flex-col justify-between shrink-0">
-            <div>
-                <!-- Profil & Judul -->
-                <div class="flex items-center gap-4 mb-8">
-                    <div class="relative w-16 h-16 rounded-2xl overflow-hidden border-2 border-red-600 shadow-lg shadow-red-900/50">
-                        <!-- Gambar Tema Anime / Profil -->
-                        <img src="assets/anime-avatar.jpg" alt="Roni Halla" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200&auto=format&fit=crop'">
+    <!-- Container Utama -->
+    <div class="max-w-md mx-auto px-4 pt-6 space-y-6">
+
+        <!-- Header Profil & PWA Install Button -->
+        <header class="bg-[#131827] border border-[#1f293d] rounded-2xl p-5 shadow-lg relative overflow-hidden">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <!-- Avatar Gojo (Sesuai Gambar Utama) -->
+                    <div class="relative">
+                        <img src="assets/gojo.jpg" alt="Roni Halla" class="w-14 h-14 rounded-2xl object-cover border-2 border-cyberRed shadow-md">
+                        <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-[#131827] rounded-full animate-pulse"></span>
                     </div>
                     <div>
-                        <h1 class="font-extrabold text-lg text-white tracking-wider">RONI HALLA</h1>
-                        <p class="text-xs text-red-500 font-semibold flex items-center gap-1 mt-0.5">
-                            <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> Online
+                        <h1 class="font-bold text-lg text-white tracking-wide">RONI HALLA</h1>
+                        <p class="text-xs text-cyberRed font-semibold flex items-center gap-1.5 mt-0.5">
+                            <span class="w-2 h-2 rounded-full bg-cyberRed inline-block"></span> Online
                         </p>
                     </div>
                 </div>
 
-                <!-- Navigasi Menu -->
-                <nav class="space-y-2 mb-8">
-                    <a href="#about" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-300 hover:bg-red-950/40 hover:text-red-400 transition-all border border-transparent hover:border-red-900/50">
-                        <i class="fa-solid fa-user text-red-500"></i> Tentang Saya
-                    </a>
-                    <a href="#projects" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-300 hover:bg-red-950/40 hover:text-red-400 transition-all border border-transparent hover:border-red-900/50">
-                        <i class="fa-solid fa-code text-red-500"></i> Portofolio & Proyek
-                    </a>
-                    <a href="#github-stats" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-300 hover:bg-red-950/40 hover:text-red-400 transition-all border border-transparent hover:border-red-900/50">
-                        <i class="fa-brands fa-github text-red-500"></i> Statistik GitHub
-                    </a>
-                    <a href="#contact" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-300 hover:bg-red-950/40 hover:text-red-400 transition-all border border-transparent hover:border-red-900/50">
-                        <i class="fa-solid fa-paper-plane text-red-500"></i> Kontak
-                    </a>
-                </nav>
-            </div>
-
-            <!-- Footer Sidebar: Jam Realtime & Tombol Install PWA -->
-            <div class="space-y-4 pt-4 border-t border-red-950/60">
-                <!-- Tombol Install PWA (Otomatis Muncul/Hilang) -->
-                <button id="pwa-install-btn" class="hidden w-full items-center justify-center gap-2 px-4 py-3 bg-red-600/20 border border-red-600 text-red-400 rounded-xl font-semibold text-xs hover:bg-red-600 hover:text-white transition-all shadow-lg shadow-red-950">
-                    <i class="fa-solid fa-download"></i> Install Aplikasi Web
+                <!-- Tombol Install PWA (Otomatis Muncul) -->
+                <button id="pwa-install-btn" class="hidden items-center gap-1.5 bg-cyberRed hover:bg-red-700 text-white text-xs font-bold px-3 py-2 rounded-xl transition-all shadow-md active:scale-95">
+                    <i class="fa-solid fa-download"></i> Install
                 </button>
+            </div>
+        </header>
 
-                <!-- Jam WITA Realtime -->
-                <div class="bg-cyber-dark/80 px-4 py-3 rounded-xl border border-red-950 text-center">
-                    <p class="text-[10px] uppercase tracking-widest text-gray-500 mb-0.5">Waktu WITA (UTC+8)</p>
-                    <span id="sidebar-time" class="text-sm font-mono font-bold text-red-500 tracking-wider">00:00:00</span>
+        <!-- Navigasi Menu Sesuai Layout Asli -->
+        <nav class="space-y-2.5">
+            <a href="#tentang" class="flex items-center gap-3 bg-[#131827] hover:bg-[#1a2236] border border-[#1f293d] px-4 py-3.5 rounded-xl text-sm font-medium text-gray-200 transition-all">
+                <i class="fa-solid fa-user text-cyberRed w-5"></i> Tentang Saya
+            </a>
+            <a href="#portofolio" class="flex items-center gap-3 bg-[#131827] hover:bg-[#1a2236] border border-[#1f293d] px-4 py-3.5 rounded-xl text-sm font-medium text-gray-200 transition-all">
+                <i class="fa-solid fa-code text-cyberRed w-5"></i> Portofolio & Proyek
+            </a>
+            <a href="#github" class="flex items-center gap-3 bg-[#131827] hover:bg-[#1a2236] border border-[#1f293d] px-4 py-3.5 rounded-xl text-sm font-medium text-gray-200 transition-all">
+                <i class="fa-brands fa-github text-cyberRed w-5"></i> Statistik GitHub
+            </a>
+            <a href="#kontak" class="flex items-center gap-3 bg-[#131827] hover:bg-[#1a2236] border border-[#1f293d] px-4 py-3.5 rounded-xl text-sm font-medium text-gray-200 transition-all">
+                <i class="fa-solid fa-paper-plane text-cyberRed w-5"></i> Kontak
+            </a>
+        </nav>
+
+        <!-- Widget Waktu WITA -->
+        <div class="bg-[#131827] border border-[#1f293d] rounded-2xl py-3 px-4 text-center shadow-md">
+            <p class="text-[10px] tracking-widest uppercase text-gray-400 font-medium">Waktu WITA (UTC+8)</p>
+            <div id="live-clock" class="text-xl font-bold text-cyberRed mt-0.5 tracking-wider font-mono">00.00.00</div>
+        </div>
+
+        <!-- Section Tentang Saya / Hero Bio -->
+        <section id="tentang" class="bg-[#131827] border border-[#1f293d] rounded-2xl p-5 space-y-4 shadow-lg">
+            <h2 class="text-lg font-extrabold text-white leading-snug">
+                HALO, SAYA <span class="text-cyberRed">RONI HALLA</span>
+            </h2>
+            <p class="text-xs text-gray-300 leading-relaxed">
+                Seorang pengembang web dengan sentuhan gaya desain modern, futuristik, dan bernuansa cyber. Berfokus pada performa tinggi, keamanan, serta pengalaman pengguna (UI/UX) yang memukau.
+            </p>
+            <div class="flex flex-wrap gap-2 pt-1">
+                <span class="bg-[#1f293d] text-cyberRed text-[11px] font-semibold px-3 py-1.5 rounded-lg border border-red-500/20">JavaScript / Frontend</span>
+                <span class="bg-[#1f293d] text-cyberRed text-[11px] font-semibold px-3 py-1.5 rounded-lg border border-red-500/20">Tailwind CSS</span>
+                <span class="bg-[#1f293d] text-cyberRed text-[11px] font-semibold px-3 py-1.5 rounded-lg border border-red-500/20">Cyberpunk UI</span>
+            </div>
+        </section>
+
+        <!-- Section Portofolio & Karakter Anime (Mengembalikan 4 Karakter Sesuai Folder Assets) -->
+        <section id="portofolio" class="bg-[#131827] border border-[#1f293d] rounded-2xl p-5 space-y-4 shadow-lg">
+            <div class="flex items-center justify-between">
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-images text-cyberRed"></i> Galeri Karakter Anime
+                </h3>
+                <span class="text-[10px] text-gray-400">4 Karakter Aktif</span>
+            </div>
+            
+            <!-- Grid 4 Karakter Anime -->
+            <div class="grid grid-cols-2 gap-3 pt-1">
+                <!-- Karakter 1 -->
+                <div class="group relative bg-[#0b0f19] border border-[#1f293d] rounded-xl overflow-hidden p-2 text-center">
+                    <img src="assets/gojo.jpg" alt="Gojo" class="w-full h-28 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300">
+                    <p class="text-[11px] font-medium text-gray-200 mt-2 truncate">Gojo</p>
+                </div>
+                <!-- Karakter 2 -->
+                <div class="group relative bg-[#0b0f19] border border-[#1f293d] rounded-xl overflow-hidden p-2 text-center">
+                    <img src="assets/sung_jin_woo.jpg" alt="Sung Jin Woo" class="w-full h-28 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300">
+                    <p class="text-[11px] font-medium text-gray-200 mt-2 truncate">Sung Jin Woo</p>
+                </div>
+                <!-- Karakter 3 -->
+                <div class="group relative bg-[#0b0f19] border border-[#1f293d] rounded-xl overflow-hidden p-2 text-center">
+                    <img src="assets/blue_eyes_character.jpg" alt="Blue Eyes" class="w-full h-28 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300">
+                    <p class="text-[11px] font-medium text-gray-200 mt-2 truncate">Blue Eyes</p>
+                </div>
+                <!-- Karakter 4 -->
+                <div class="group relative bg-[#0b0f19] border border-[#1f293d] rounded-xl overflow-hidden p-2 text-center">
+                    <img src="assets/new_hero_character.jpg" alt="New Hero" class="w-full h-28 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300">
+                    <p class="text-[11px] font-medium text-gray-200 mt-2 truncate">New Hero</p>
                 </div>
             </div>
-        </aside>
+        </section>
 
-        <!-- KONTEN UTAMA -->
-        <main class="flex-1 p-6 md:p-12 overflow-y-auto space-y-12 max-w-5xl mx-auto w-full">
-            
-            <!-- SECTION ABOUT / HERO -->
-            <section id="about" class="bg-cyber-card p-8 rounded-3xl border border-red-950 shadow-xl relative overflow-hidden">
-                <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
-                    <i class="fa-solid fa-terminal text-9xl text-red-600"></i>
-                </div>
-                <h2 class="text-2xl md:text-3xl font-black text-white mb-4 uppercase tracking-wide">
-                    Halo, Saya <span class="text-red-600">Roni Halla</span>
-                </h2>
-                <p class="text-gray-300 leading-relaxed text-sm md:text-base mb-6">
-                    Seorang pengembang web dengan sentuhan gaya desain modern, futuristik, dan bernuansa cyber. Berfokus pada performa tinggi, keamanan, serta pengalaman pengguna (UI/UX) yang memukau.
-                </p>
-                <div class="flex flex-wrap gap-4 text-xs font-semibold">
-                    <span class="px-3 py-1.5 bg-red-950/60 border border-red-900 text-red-400 rounded-lg">JavaScript / Frontend</span>
-                    <span class="px-3 py-1.5 bg-red-950/60 border border-red-900 text-red-400 rounded-lg">Tailwind CSS</span>
-                    <span class="px-3 py-1.5 bg-red-950/60 border border-red-900 text-red-400 rounded-lg">Cyberpunk UI</span>
-                </div>
-            </section>
-
-            <!-- SECTION GITHUB STATS -->
-            <section id="github-stats" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div class="bg-cyber-card p-6 rounded-2xl border border-red-950 flex items-center gap-4">
-                    <div class="p-4 bg-red-950/50 rounded-xl text-red-500 text-2xl border border-red-900">
-                        <i class="fa-solid fa-code-branch"></i>
+        <!-- Statistik GitHub Sesuai Tampilan Asli -->
+        <section id="github" class="space-y-3">
+            <div class="bg-[#131827] border border-[#1f293d] rounded-2xl p-4 flex items-center justify-between shadow-lg">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-cyberRed/10 border border-cyberRed/20 flex items-center justify-center text-cyberRed">
+                        <i class="fa-solid fa-code-fork text-base"></i>
                     </div>
                     <div>
-                        <p class="text-xs text-gray-400 uppercase">Public Repositories</p>
-                        <h3 id="github-repos" class="text-2xl font-black text-white">Loading...</h3>
+                        <p class="text-[10px] uppercase font-semibold text-gray-400 tracking-wider">Public Repositories</p>
+                        <h4 class="text-xl font-bold text-white mt-0.5">2</h4>
                     </div>
                 </div>
-                <div class="bg-cyber-card p-6 rounded-2xl border border-red-950 flex items-center gap-4">
-                    <div class="p-4 bg-red-950/50 rounded-xl text-red-500 text-2xl border border-red-900">
-                        <i class="fa-solid fa-users"></i>
+            </div>
+
+            <div class="bg-[#131827] border border-[#1f293d] rounded-2xl p-4 flex items-center justify-between shadow-lg">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-cyberRed/10 border border-cyberRed/20 flex items-center justify-center text-cyberRed">
+                        <i class="fa-solid fa-users text-base"></i>
                     </div>
                     <div>
-                        <p class="text-xs text-gray-400 uppercase">GitHub Followers</p>
-                        <h3 id="github-followers" class="text-2xl font-black text-white">Loading...</h3>
+                        <p class="text-[10px] uppercase font-semibold text-gray-400 tracking-wider">GitHub Followers</p>
+                        <h4 class="text-xl font-bold text-white mt-0.5">0</h4>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- SECTION CONTACT FORM (DENGAN EFEK GLITCH & ANTI-SPAM) -->
-            <section id="contact" class="bg-cyber-card p-8 rounded-3xl border border-red-950 shadow-xl">
-                <h2 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-bolt text-red-500"></i> Kirim Pesan Langsung
-                </h2>
-                <p class="text-xs text-gray-400 mb-6">Pesan kamu akan terkirim secara aman langsung ke pusat kendali Telegram saya.</p>
-                
-                <form id="firebase-form" class="space-y-4">
-                    <!-- HONEYPOT ANTI-SPAM (Tersembunyi dari manusia) -->
-                    <div class="hidden" aria-hidden="true">
-                        <label for="website_check_honeypot">Jangan isi kolom ini jika Anda manusia:</label>
-                        <input type="text" id="website_check_honeypot" name="website_check_honeypot" tabindex="-1" autocomplete="off">
-                    </div>
+        <!-- Kirim Pesan Langsung (Kontak) -->
+        <section id="kontak" class="bg-[#131827] border border-[#1f293d] rounded-2xl p-5 space-y-4 shadow-lg">
+            <div class="space-y-1">
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-bolt text-cyberRed"></i> Kirim Pesan Langsung
+                </h3>
+                <p class="text-[11px] text-gray-400">Pesan kamu akan terkirim secara aman langsung ke pusat kendali Telegram saya.</p>
+            </div>
 
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Nama Kamu</label>
-                        <input type="text" id="sender-name" required placeholder="Contoh: Alex" class="w-full bg-cyber-dark border border-red-950 focus:border-red-600 px-4 py-3 rounded-xl text-sm text-white focus:outline-none transition-colors">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Kontak / Email (Opsional)</label>
-                        <input type="text" id="sender-contact" placeholder="Contoh: alex@email.com / No HP" class="w-full bg-cyber-dark border border-red-950 focus:border-red-600 px-4 py-3 rounded-xl text-sm text-white focus:outline-none transition-colors">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-300 uppercase mb-1">Pesan</label>
-                        <textarea id="sender-message" rows="4" required placeholder="Tulis pesan atau proyek di sini..." class="w-full bg-cyber-dark border border-red-950 focus:border-red-600 px-4 py-3 rounded-xl text-sm text-white focus:outline-none transition-colors resize-none"></textarea>
-                    </div>
+            <form action="#" method="POST" class="space-y-3.5 pt-1" onsubmit="event.preventDefault(); alert('Fitur kirim pesan siap dihubungkan ke bot Telegram!');">
+                <div>
+                    <label class="block text-[11px] font-semibold uppercase text-gray-400 mb-1.5">Nama Kamu</label>
+                    <input type="text" placeholder="Contoh: Alex" required class="w-full bg-[#0b0f19] border border-[#1f293d] focus:border-cyberRed rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-gray-600 focus:outline-none transition-colors">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold uppercase text-gray-400 mb-1.5">Kontak / Email (Opsional)</label>
+                    <input type="text" placeholder="Contoh: alex@email.com / No HP" class="w-full bg-[#0b0f19] border border-[#1f293d] focus:border-cyberRed rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-gray-600 focus:outline-none transition-colors">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold uppercase text-gray-400 mb-1.5">Pesan</label>
+                    <textarea rows="3" placeholder="Tulis pesan atau proyek di sini..." required class="w-full bg-[#0b0f19] border border-[#1f293d] focus:border-cyberRed rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-gray-600 focus:outline-none transition-colors resize-none"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-cyberRed hover:bg-red-700 text-white font-bold text-xs py-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 active:scale-98">
+                    <i class="fa-solid fa-paper-plane"></i> KIRIM PESAN
+                </button>
+            </form>
+        </section>
 
-                    <button type="submit" class="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-sm transition-all shadow-lg shadow-red-950 uppercase tracking-wider flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-paper-plane"></i> Kirim Pesan
-                    </button>
-
-                    <!-- Tempat Notifikasi Glitch Sukses / Error -->
-                    <div id="form-status" class="hidden"></div>
-                </form>
-            </section>
-
-        </main>
     </div>
 
-    <!-- Main JavaScript -->
-    <script src="js/main.js"></script>
+    <!-- Script Jam Live & PWA Logic -->
+    <script>
+        // Live Clock WITA
+        function updateClock() {
+            const now = new Date();
+            // WITA is UTC+8
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const witaTime = new Date(utc + (3600000 * 8));
+            
+            const hours = String(witaTime.getHours()).padStart(2, '0');
+            const minutes = String(witaTime.getMinutes()).padStart(2, '0');
+            const seconds = String(witaTime.getSeconds()).padStart(2, '0');
+            
+            const clockElement = document.getElementById('live-clock');
+            if (clockElement) {
+                clockElement.textContent = `${hours}.${minutes}.${seconds}`;
+            }
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // PWA Install & Service Worker Logic
+        document.addEventListener("DOMContentLoaded", () => {
+            let deferredPrompt;
+            const installBtn = document.getElementById("pwa-install-btn");
+
+            // Register Service Worker
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('sw.js')
+                        .then((reg) => console.log('Service Worker terdaftar:', reg.scope))
+                        .catch((err) => console.log('Service Worker gagal:', err));
+                });
+            }
+
+            // Tangkap event sebelum install prompt muncul
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                if (installBtn) {
+                    installBtn.classList.remove("hidden");
+                    installBtn.classList.add("flex");
+                }
+            });
+
+            // Tombol Install diklik
+            if (installBtn) {
+                installBtn.addEventListener('click', async () => {
+                    if (!deferredPrompt) return;
+                    deferredPrompt.prompt();
+                    const choiceResult = await deferredPrompt.userChoice;
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Pengguna menerima instalasi PWA');
+                    }
+                    deferredPrompt = null;
+                    installBtn.classList.add("hidden");
+                    installBtn.classList.remove("flex");
+                });
+            }
+
+            // Sembunyikan tombol jika sudah terinstal
+            window.addEventListener('appinstalled', () => {
+                if (installBtn) {
+                    installBtn.classList.add("hidden");
+                    installBtn.classList.remove("flex");
+                }
+            });
+
+            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+                if (installBtn) {
+                    installBtn.classList.add("hidden");
+                }
+            }
+        });
+    </script>
 </body>
 </html>

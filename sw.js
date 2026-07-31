@@ -1,11 +1,13 @@
 self.addEventListener('install', (e) => {
     e.waitUntil(
-        caches.open('roni-pwa-v1').then((cache) => {
+        caches.open('roni-halla-v1').then((cache) => {
             return cache.addAll([
                 '/',
                 '/index.html',
-                '/css/style.css',
-                '/js/main.js'
+                'assets/gojo.jpg',
+                'assets/sung_jin_woo.jpg',
+                'assets/blue_eyes_character.jpg',
+                'assets/new_hero_character.jpg'
             ]);
         })
     );
