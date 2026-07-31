@@ -353,7 +353,7 @@
                 });
             }
 
-            // Paksa tombol agar selalu muncul agar bisa dites langsung di PC/HP
+            // Paksa tombol agar selalu muncul
             if (installBtn) {
                 installBtn.classList.remove("hidden");
                 installBtn.classList.add("flex");
@@ -375,8 +375,14 @@
                             installBtn.classList.remove("flex");
                         }
                     } else {
-                        // Fallback jika event prompt belum siap di PC
-                        alert("Cara Install di PC: Klik ikon komputer/download di sebelah kanan Address Bar browser Chrome/Edge, atau klik titik tiga di pojok kanan atas browser lalu pilih 'Simpan halaman ini' / 'Install RoniHalla'.");
+                        // Deteksi otomatis perangkat (HP atau Laptop)
+                        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                        
+                        if (isMobile) {
+                            alert("Cara Install di HP:\n1. Klik ikon titik tiga (⋮) di pojok kanan atas browser Chrome.\n2. Pilih menu 'Tambahkan ke Layar Utama' atau 'Install aplikasi'.");
+                        } else {
+                            alert("Cara Install di PC:\nKlik ikon komputer/download di sebelah kanan Address Bar browser, atau klik titik tiga di pojok kanan atas lalu pilih 'Install RoniHalla'.");
+                        }
                     }
                 });
             }
