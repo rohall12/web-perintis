@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initClock();
     initGitHubActivity();
     initContactForm();
+    initPWA();
 });
 
 // ------------------------------------------
@@ -299,7 +300,7 @@ function escapeHtml(str) {
     return str
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;") // <--- FIXED: Tanda kurung siku penutup sudah diperbaiki dengan benar
+        .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
@@ -322,5 +323,65 @@ async function initGitHubActivity() {
         followersEl.textContent = data.followers ?? "0";
     } catch (e) {
         console.log("GitHub API Offline");
+    }
+}
+
+// ------------------------------------------
+// 6. PWA INSTALL & SERVICE WORKER LOGIC
+// ------------------------------------------
+function initPWA() {
+    let deferredPrompt;
+    const installBtn = document.getElementById("pwa-install-btn");
+
+    // Daftarkan Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then((reg) => console.log('Service Worker terdaftar:', reg.scope))
+                .catch((err) => console.log('Service Worker gagal:', err));
+        });
+    }
+
+    // Tangkap event saat PWA memenuhi syarat untuk diinstal
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        if (installBtn) {
+            installBtn.classList.remove("hidden");
+            installBtn.classList.add("flex");
+        }
+    });
+
+    // Ketika tombol install diklik
+    if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                console.log('PWA diterima pengguna');
+            }
+            deferredPrompt = null;
+            
+            installBtn.classList.add("hidden");
+            installBtn.classList.remove("flex");
+        });
+    }
+
+    // Jika sudah terinstal, sembunyikan tombol
+    window.addEventListener('appinstalled', () => {
+        if (installBtn) {
+            installBtn.classList.add("hidden");
+            installBtn.classList.remove("flex");
+        }
+    });
+
+    // Jika dibuka dalam mode standalone (sudah jadi aplikasi)
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+        if (installBtn) {
+            installBtn.classList.add("hidden");
+        }
     }
 }
