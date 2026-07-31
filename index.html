@@ -34,11 +34,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* === EFEK SCROLL HALUS === */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* === MENGHILANGKAN SCROLLBAR === */
+        /* Untuk Chrome, Safari, dan Opera */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Untuk Firefox dan IE/Edge */
+        * {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
         body {
             background-color: #090a0f;
             color: #f3f4f6;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
+        
         .glitch-box {
             position: relative;
             background: rgba(20, 22, 30, 0.95);
@@ -83,9 +101,8 @@
         </div>
     </header>
 
-    <!-- SIDEBAR / MENU DRAWER (Sekarang dibuat transparan dengan efek Blur) -->
+    <!-- SIDEBAR / MENU DRAWER -->
     <div id="drawer-menu" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden transition-opacity">
-        <!-- Background Drawer dengan bg-cyber-card/60 dan backdrop-blur-xl untuk efek tembus pandang -->
         <div class="absolute top-0 right-0 w-80 h-full bg-cyber-card/60 backdrop-blur-xl border-l border-cyber-border/50 p-6 flex flex-col justify-between shadow-2xl overflow-y-auto">
             <div>
                 <div class="flex items-center justify-between mb-8">
@@ -112,7 +129,6 @@
 
                 <div class="space-y-2 pt-4 border-t border-cyber-border/50">
                     <p class="text-[10px] uppercase font-semibold text-gray-400 tracking-wider mb-2">Kontak Saya</p>
-                    <!-- Username & Nomor Dihapus -->
                     <a href="https://wa.me/62881038278950" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-medium text-gray-200 bg-cyber-dark/40 border border-cyber-border/50 hover:border-green-600 transition-all">
                         <i class="fa-brands fa-whatsapp text-green-500 text-base"></i> WhatsApp
                     </a>
@@ -130,13 +146,12 @@
     <!-- MAIN CONTENT CONTAINER -->
     <main class="max-w-md mx-auto px-4 pt-5 space-y-6">
 
-        <!-- SECTION BERANDA / HERO (Gambar Cha Hae-In yang menyapa / new_hero_character.jpg) -->
+        <!-- SECTION BERANDA / HERO -->
         <section id="beranda" class="bg-cyber-card border border-cyber-border rounded-3xl p-6 shadow-xl space-y-5 relative overflow-hidden">
             <div class="absolute -right-8 -bottom-8 opacity-5 pointer-events-none">
                 <i class="fa-solid fa-terminal text-9xl text-cyber-red"></i>
             </div>
             
-            <!-- Gambar HD di dalam Card Beranda -->
             <div class="overflow-hidden rounded-2xl border border-cyber-border shadow-md">
                 <img src="assets/new_hero_character.jpg" alt="Cha Hae-In Waving" class="w-full h-52 object-cover object-center transform hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=800&auto=format&fit=crop'">
             </div>
@@ -165,7 +180,7 @@
             </div>
         </section>
 
-        <!-- SECTION GITHUB STATS (Gambar Sung Jin-Woo main komputer / sung_jin_woo.jpg) -->
+        <!-- SECTION GITHUB STATS -->
         <section id="github-stats" class="bg-cyber-card border border-cyber-border rounded-3xl p-6 shadow-xl space-y-4">
             <div class="flex items-center justify-between">
                 <div>
@@ -179,7 +194,6 @@
                 </span>
             </div>
 
-            <!-- Gambar HD Sung Jin-Woo di Card GitHub Stats -->
             <div class="overflow-hidden rounded-2xl border border-cyber-border shadow-md">
                 <img src="assets/sung_jin_woo.jpg" alt="Sung Jin Woo Coding" class="w-full h-48 object-cover object-center transform hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop'">
             </div>
@@ -200,23 +214,20 @@
             </a>
         </section>
 
-        <!-- SECTION CONTACT FORM (Gambar Gojo main HP / gojo.jpg) -->
+        <!-- SECTION CONTACT FORM -->
         <section id="contact" class="bg-cyber-card border border-cyber-border rounded-3xl p-6 shadow-xl space-y-4">
             <div class="space-y-1">
                 <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <i class="fa-solid fa-paper-plane text-cyber-red"></i> Kirim Pesan
                 </h2>
-                <!-- Teks diperbarui sesuai permintaan -->
                 <p class="text-[11px] text-gray-400">Kirim pesan kamu dan pesan kamu akan diteruskan ke develop R.H.</p>
             </div>
 
-            <!-- Gambar HD Gojo di Card Kontak -->
             <div class="overflow-hidden rounded-2xl border border-cyber-border shadow-md">
                 <img src="assets/gojo.jpg" alt="Gojo Phone" class="w-full h-48 object-cover object-center transform hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=800&auto=format&fit=crop'">
             </div>
 
             <form id="telegram-form" class="space-y-4 pt-1">
-                <!-- Honeypot Anti-Spam -->
                 <div class="hidden" aria-hidden="true">
                     <label for="honeypot_check">Jangan diisi:</label>
                     <input type="text" id="honeypot_check" tabindex="-1" autocomplete="off">
@@ -235,7 +246,6 @@
                     <textarea id="sender-message" rows="3" required placeholder="Tuliskan pesan kamu di sini..." class="w-full bg-cyber-dark border border-cyber-border focus:border-cyber-red rounded-xl px-4 py-3 text-xs text-white placeholder-gray-600 focus:outline-none transition-colors resize-none"></textarea>
                 </div>
 
-                <!-- Notifikasi Status -->
                 <div id="form-status" class="hidden"></div>
 
                 <button type="submit" class="w-full bg-cyber-red hover:bg-red-700 text-white font-bold text-xs py-3.5 rounded-xl transition-all shadow-lg shadow-red-950 flex items-center justify-center gap-2 active:scale-98 tracking-wider uppercase">
@@ -244,13 +254,12 @@
             </form>
         </section>
 
-        <!-- SECTION ABOUT ME (Gambar Blue Eyes Character / blue_eyes_character.jpg) -->
+        <!-- SECTION ABOUT ME -->
         <section id="about" class="bg-cyber-card border border-cyber-border rounded-3xl p-6 shadow-xl space-y-4">
             <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                 <i class="fa-solid fa-user text-cyber-red"></i> Tentang Saya
             </h2>
 
-            <!-- Gambar HD Blue Eyes Character di Card Tentang Saya -->
             <div class="overflow-hidden rounded-2xl border border-cyber-border shadow-md">
                 <img src="assets/blue_eyes_character.jpg" alt="Blue Eyes Character" class="w-full h-48 object-cover object-center transform hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop'">
             </div>
