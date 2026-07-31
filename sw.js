@@ -1,22 +1,34 @@
-self.addEventListener('install', (e) => {
-    e.waitUntil(
-        caches.open('roni-halla-v1').then((cache) => {
-            return cache.addAll([
-                '/',
-                '/index.html',
-                'assets/gojo.jpg',
-                'assets/sung_jin_woo.jpg',
-                'assets/blue_eyes_character.jpg',
-                'assets/new_hero_character.jpg'
-            ]);
-        })
-    );
+const CACHE_NAME = 'ronihalla-pwa-v1';
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/assets/gojo.jpg',
+  '/assets/new_hero_character.jpg',
+  '/assets/sung_jin_woo.jpg',
+  '/assets/blue_eyes_character.jpg',
+  '/js/telegram-bot.js'
+];
+
+// Install Service Worker & Cache file penting
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        return cache.addAll(urlsToCache);
+      })
+  );
 });
 
-self.addEventListener('fetch', (e) => {
-    e.respondWith(
-        caches.match(e.request).then((response) => {
-            return response || fetch(e.request);
-        })
-    );
+// Fetch dari Cache kalau ada, kalau nggak ambil dari internet
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        if (response) {
+          return response;
+        }
+        return fetch(event.request);
+      })
+  );
 });
