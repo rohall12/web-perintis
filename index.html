@@ -402,5 +402,78 @@
 
     <!-- Memuat Logika Telegram Bot secara Terpisah di Folder js/ -->
     <script src="js/telegram-bot.js"></script>
+    <!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyDJE6Ua3tGM0ltnuBiXC5jvM-VLBZCmGqI",
+        authDomain: "my-portofolio-c2eeb.firebaseapp.com",
+        databaseURL: "https://my-portofolio-c2eeb-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "my-portofolio-c2eeb",
+        storageBucket: "my-portofolio-c2eeb.firebasestorage.app",
+        messagingSenderId: "686049637486",
+        appId: "1:686049637486:web:6362caafe9ed4fb37c227f",
+        measurementId: "G-PW4ZTPWMF2"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
+
+    // 1. Fungsi Registrasi Service Worker & Deteksi Update Versi Baru (In-App Update)
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+            try {
+                const registration = await navigator.serviceWorker.register('./sw.js');
+                
+                registration.onupdatefound = () => {
+                    const installingWorker = registration.installing;
+                    installingWorker.onstatechange = () => {
+                        if (installingWorker.state === 'installed') {
+                            if (navigator.serviceWorker.controller) {
+                                showUpdateBanner();
+                            }
+                        }
+                    };
+                };
+            } catch (error) {
+                console.error('Service Worker error:', error);
+            }
+        });
+    }
+
+    // Banner konfirmasi saat ada versi update baru
+    function showUpdateBanner() {
+        const update = confirm("Versi baru RoniHalla tersedia! Klik OK untuk memuat ulang dan memperbarui aplikasi.");
+        if (update) {
+            window.location.reload();
+        }
+    }
+
+    // 2. Fungsi Meminta Izin Real-time Push Notification (Dengan VAPID Key Lu)
+    async function requestNotificationPermission() {
+        try {
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') {
+                const token = await messaging.getToken({ 
+                    vapidKey: 'BIEffuCWQhyCdiEtCQf4IDg8sQb97BEDUloMlx920PzdHM-S7R1U9_pp6umwrp_G56pdXvGW7nzbc-MxjQ8AglY' 
+                });
+                if (token) {
+                    console.log('FCM Token Berhasil Didapat:', token);
+                }
+            } else {
+                console.log('Izin notifikasi ditolak pengguna.');
+            }
+        } catch (error) {
+            console.error('Gagal minta izin notifikasi:', error);
+        }
+    }
+
+    // Jalankan permintaan izin saat halaman selesai dimuat
+    window.addEventListener('load', () => {
+        requestNotificationPermission();
+    });
+</script>
 </body>
 </html>
