@@ -27,19 +27,19 @@
             Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan bahasa pemrograman Python dan web development.
         </p>
 
-        <!-- Panel Test Notifikasi Instan (Vercel Serverless) -->
+        <!-- Panel Test Notifikasi Broadcast (Vercel + Firestore) -->
         <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 max-w-md mx-auto text-left shadow-lg">
-            <h3 class="font-bold text-lg mb-2 text-red-400">🚀 Panel Test Notifikasi Instan</h3>
-            <p class="text-xs text-slate-400 mb-4">Pastikan izin notifikasi sudah aktif di browser/HP lu.</p>
+            <h3 class="font-bold text-lg mb-2 text-red-400">🚀 Panel Broadcast Notifikasi</h3>
+            <p class="text-xs text-slate-400 mb-4">Klik kirim untuk menyebar notifikasi serentak ke semua perangkat yang terdaftar di database.</p>
             
             <label class="block text-xs text-slate-300 mb-1">Judul Notifikasi:</label>
-            <input type="text" id="notifTitle" class="w-full p-2.5 mb-3 bg-slate-900 border border-slate-700 rounded text-sm text-white focus:outline-none focus:border-red-500" value="Halo dari Vercel! 🔥">
+            <input type="text" id="notifTitle" class="w-full p-2.5 mb-3 bg-slate-900 border border-slate-700 rounded text-sm text-white focus:outline-none focus:border-red-500" value="Broadcast RoniHalla! 🔥">
             
             <label class="block text-xs text-slate-300 mb-1">Isi Pesan:</label>
-            <input type="text" id="notifBody" class="w-full p-2.5 mb-4 bg-slate-900 border border-slate-700 rounded text-sm text-white focus:outline-none focus:border-red-500" value="Notifikasi instan berhasil dikirim lewat backend Vercel!">
+            <input type="text" id="notifBody" class="w-full p-2.5 mb-4 bg-slate-900 border border-slate-700 rounded text-sm text-white focus:outline-none focus:border-red-500" value="Notifikasi massal berhasil disebar ke banyak perangkat!">
             
-            <button onclick="kirimNotifInstan()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-2.5 rounded text-sm transition">
-                Kirim Notif Sekarang 🔔
+            <button onclick="kirimNotifBroadcast()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-2.5 rounded text-sm transition">
+                Kirim Broadcast Sekarang 🔔
             </button>
         </div>
     </main>
@@ -52,17 +52,18 @@
     <!-- Firebase SDK (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <!-- Skrip Konfigurasi & Push Notification -->
     <script>
-        // Konfigurasi Firebase lu
+        // Konfigurasi Firebase lu (Pastikan apiKey asli lu terpasang di sini)
         const firebaseConfig = {
-            apiKey: "AIzaSyDJE6Ua3tGM0ltnuBiXC5jvM-VLBZCmGqI",
-            authDomain: "my-portofolio-c2eeb.firebaseapp.com",
-            projectId: "my-portofolio-c2eeb",
-            storageBucket: "my-portofolio-c2eeb.firebasestorage.app",
-            messagingSenderId: "686049637486",
-            appId: "1:686049637486:web:6362caafe9ed4fb37c227f"
+            apiKey: "AIzaSyD-ContohApiKeyFirebaseLu", 
+            authDomain: "web-perintis.firebaseapp.com",
+            projectId: "web-perintis",
+            storageBucket: "web-perintis.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:123:web:abc"
         };
 
         // Inisialisasi Firebase
@@ -71,42 +72,52 @@
         }
 
         const messaging = firebase.messaging();
+        const db = firebase.firestore();
 
-        // Variabel global penampung token FCM
-        window.savedFCMToken = null;
-
-        // 1. Daftarkan Service Worker & Minta Izin Notifikasi (Dilengkapi Alert Debug)
+        // 1. Daftarkan Service Worker, Minta Izin, & Simpan ke Firestore
         async function initPushNotification() {
-    try {
-        if ('serviceWorker' in navigator) {
-            // 1. Daftarkan Service Worker
-            const registration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
-            console.log('Service Worker terdaftar:', registration.scope);
+            try {
+                if ('serviceWorker' in navigator) {
+                    const registration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
+                    await navigator.serviceWorker.ready;
 
-            // 2. TUNGGU SAMPAI SERVICE WORKER BENAR-BENAR AKTIF (Ini kuncinya!)
-            await navigator.serviceWorker.ready;
+                    const currentToken = await messaging.getToken({
+                        vapidKey: 'BIEffuCWQhyCdiEtCQf4IDg8sQb97BEDUloMlx920PzdHM-S7R1U9_pp6umwrp_G56pdXvGW7nzbc-MxjQ8AglY',
+                        serviceWorkerRegistration: registration
+                    });
 
-            // 3. Minta izin token FCM dengan menyertakan registrasi yang sudah ready
-            const currentToken = await messaging.getToken({
-                vapidKey: 'BIEffuCWQhyCdiEtCQf4IDg8sQb97BEDUloMlx920PzdHM-S7R1U9_pp6umwrp_G56pdXvGW7nzbc-MxjQ8AglY',
-                serviceWorkerRegistration: registration
-            });
-
-            if (currentToken) {
-                console.log('FCM Token Berhasil Didapat:', currentToken);
-                window.savedFCMToken = currentToken;
-                alert("SUKSES! Token FCM didapat.");
-            } else {
-                alert("WARNING: Token kosong (null).");
+                    if (currentToken) {
+                        console.log('FCM Token Didapat:', currentToken);
+                        // Simpan otomatis ke Firestore
+                        simpanTokenKeDatabase(currentToken);
+                    } else {
+                        console.warn('Token kosong.');
+                    }
+                }
+            } catch (error) {
+                console.error('Gagal inisialisasi notifikasi:', error);
             }
-        } else {
-            alert("WARNING: Browser tidak mendukung Service Worker.");
         }
-    } catch (error) {
-        alert("GAGAL TOKEN: " + error.message);
-        console.error('Gagal minta izin notifikasi / Service Worker:', error);
-    }
-}
+
+        // Fungsi bantu untuk nyimpen token ke Firestore
+        async function simpanTokenKeDatabase(token) {
+            try {
+                // Cek apakah token sudah ada sebelumnya agar tidak duplikat menumpuk
+                const snapshot = await db.collection("fcm_tokens").where("token", "==", token).get();
+                if (snapshot.empty) {
+                    await db.collection("fcm_tokens").add({
+                        token: token,
+                        device: navigator.userAgent,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    console.log("Token baru berhasil diamankan ke database!");
+                } else {
+                    console.log("Token sudah terdaftar di database.");
+                }
+            } catch (err) {
+                console.error("Gagal simpan token ke database:", err);
+            }
+        }
 
         // Jalankan saat halaman dibuka
         initPushNotification();
@@ -114,22 +125,15 @@
         // 2. Tangkap pesan saat web sedang dibuka (Foreground)
         messaging.onMessage((payload) => {
             console.log('Notif masuk saat web dibuka: ', payload);
-            alert(`🚨 NOTIFIKASI MASUK!\n\nJudul: ${payload.notification.title}\nPesan: ${payload.notification.body}`);
+            alert(`🚨 BROADCAST MASUK!\n\nJudul: ${payload.notification.title}\nPesan: ${payload.notification.body}`);
         });
 
-        // 3. Fungsi Tombol Tes Kirim Instan lewat Backend Vercel (/api/send-notif)
-        async function kirimNotifInstan() {
-            const tokenTarget = window.savedFCMToken;
-
-            if (!tokenTarget) {
-                alert("Token FCM belum siap! Coba refresh halaman dan pastikan izin notifikasi sudah di-klik.");
-                return;
-            }
-
+        // 3. Fungsi Tombol Broadcast ke Backend Vercel (/api/send-notif)
+        async function kirimNotifBroadcast() {
             const judul = document.getElementById('notifTitle').value;
             const pesan = document.getElementById('notifBody').value;
 
-            alert("Mengirim notifikasi instan via Vercel...");
+            alert("Mengirim broadcast ke semua perangkat via Vercel...");
 
             try {
                 const response = await fetch('/api/send-notif', {
@@ -138,7 +142,6 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        token: tokenTarget,
                         title: judul,
                         body: pesan
                     })
@@ -148,7 +151,7 @@
                 
                 if (response.ok) {
                     console.log("Berhasil:", result);
-                    alert("✅ Notifikasi berhasil dikirim instan oleh Vercel!");
+                    alert("✅ " + result.message);
                 } else {
                     console.error("Gagal dari server:", result);
                     alert("❌ Gagal mengirim: " + (result.error || 'Unknown error'));

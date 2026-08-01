@@ -1,6 +1,5 @@
 var admin = require("firebase-admin");
 
-// Inisialisasi Firebase Admin pakai environment variables dari Vercel
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
@@ -11,31 +10,45 @@ if (!admin.apps.length) {
   });
 }
 
+const db = admin.firestore();
+
 export default async function handler(req, res) {
-  // Hanya izinkan metode POST
   if (req.method !== 'POST') {
-    return res.status(405.0).json({ error: 'Method not allowed' });
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { token, title, body } = req.body;
-
-  if (!token) {
-    return res.status(400.0).json({ error: 'FCM Token wajib diisi!' });
-  }
-
-  var message = {
-    notification: {
-      title: title || "Update Terbaru RoniHalla!",
-      body: body || "Ada info seru nih di web portofolio!",
-    },
-    token: token,
-  };
+  const { title, body } = req.body;
 
   try {
-    // Tembak notifikasi secara instan langsung ke perangkat target!
-    var response = await admin.messaging().send(message);
-    return res.status(200.0).json({ success: true, messageId: response });
+    const snapshot = await db.collection('fcm_tokens').get();
+
+    if (snapshot.empty) {
+      return res.status(400).json({ error: 'Belum ada perangkat terdaftar!' });
+    }
+
+    let tokens = [];
+    snapshot.forEach(doc => {
+      tokens.push(doc.data().token);
+    });
+
+    tokens = [...new Set(tokens)]; // Hapus duplikat
+
+    var message = {
+      notification: {
+        title: title || "Broadcast RoniHalla!",
+        body: body || "Notifikasi massal dari Vercel!",
+      },
+      tokens: tokens, // Kirim ke banyak perangkat sekaligus
+    };
+
+    const response = await admin.messaging().sendEachForMulticast(message);
+
+    return res.status(200).json({ 
+      success: true, 
+      message: `Disebar ke ${response.successCount} perangkat!` 
+    });
+
   } catch (error) {
-    return res.status(500.0).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 }
