@@ -3,131 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoniHalla | Cyberpunk Portfolio</title>
-    <!-- Tailwind CSS CDN -->
+    <title>RoniHalla | Portofolio</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-white font-sans">
+<body class="bg-slate-900 text-white min-h-screen flex flex-col justify-between">
 
-    <!-- Navbar / Menu Navigasi -->
-    <nav class="bg-gray-800 border-b border-gray-700 p-4 sticky top-0 z-50 flex justify-between items-center">
-        <div class="text-xl font-bold tracking-wider text-red-500">RoniHalla<span class="text-white">.</span></div>
-        <div class="flex gap-6 text-sm">
-            <a href="#beranda" class="hover:text-red-400 transition">Beranda</a>
-            <a href="#github" class="hover:text-red-400 transition">GitHub</a>
-            <a href="#pesan" class="hover:text-red-400 transition">Pesan</a>
-            <a href="#tentang" class="hover:text-red-400 transition">Tentang</a>
-        </div>
-    </nav>
-
-    <!-- Header / Banner Utama -->
-    <header id="beranda" class="p-6 md:p-12 flex flex-col md:flex-row items-center justify-between">
-        <div class="max-w-xl">
-            <span class="bg-red-900/50 text-red-400 text-xs px-3 py-1 rounded-full border border-red-700">⚡ HALLO KAWAN</span>
-            <h1 class="text-4xl md:text-5xl font-extrabold mt-4 mb-4 leading-tight">
-                selamat berkunjung ke <span class="text-red-500">web saya.</span>
-            </h1>
-            <p class="text-gray-400 mb-6 text-sm md:text-base">
-                Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan bahasa pemrograman Python dan web development.
-            </p>
-            <div class="flex gap-4">
-                <a href="#pesan" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition">Kirim Pesan</a>
-                <a href="https://github.com" target="_blank" class="border border-gray-700 hover:border-gray-500 px-6 py-2.5 rounded-lg text-sm font-semibold transition">GitHub Saya</a>
-            </div>
-        </div>
-        
-        <!-- Gambar Anime Keren -->
-        <div class="mt-8 md:mt-0">
-            <div class="w-64 md:w-80 rounded-2xl overflow-hidden border-2 border-red-500/30 shadow-lg shadow-red-500/2of0">
-                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500&auto=format&fit=crop&q=60" alt="Anime Theme" class="w-full h-full object-cover">
-            </div>
-        </div>
+    <!-- Header / Navbar Sederhana -->
+    <header class="p-6 flex justify-between items-center max-w-4xl mx-auto w-full">
+        <h1 class="text-xl font-bold text-red-500">RoniHalla<span class="text-white">.</span></h1>
+        <nav class="space-x-6 text-sm text-slate-300">
+            <a href="#" class="hover:text-white">Beranda</a>
+            <a href="https://github.com/ronihalla" target="_blank" class="hover:text-white">GitHub</a>
+            <a href="#" class="hover:text-white">Pesan</a>
+            <a href="#" class="hover:text-white">Tentang</a>
+        </nav>
     </header>
 
-    <hr class="border-gray-800 my-6">
+    <!-- Konten Utama -->
+    <main class="max-w-4xl mx-auto px-6 py-10 w-full text-center">
+        <h2 class="text-3xl font-bold mb-4">Selamat Berkunjung ke Web Saya.</h2>
+        <p class="text-slate-400 mb-8 max-w-xl mx-auto">
+            Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan bahasa pemrograman Python dan web development.
+        </p>
 
-    <!-- Bagian Panel Test Notifikasi Instan (Fitur Baru Vercel Backend) -->
-    <section id="pesan" class="p-6 md:p-12 max-w-2xl mx-auto">
-        <div style="background: #1e1e2f; padding: 25px; border-radius: 12px; border: 1px solid #3f3f56; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
-            <h3 class="text-lg font-bold text-red-400 mb-2">🚀 Panel Test Notifikasi Instan (Vercel API)</h3>
-            <p style="font-size: 13px; color: #a1a1aa;" class="mb-4">
-                Pastikan izin notifikasi aktif dan token FCM sudah tercetak di Console browser.
-            </p>
+        <!-- Panel Test Notifikasi Instan (Vercel Serverless) -->
+        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 max-w-md mx-auto text-left shadow-lg">
+            <h3 class="font-bold text-lg mb-2 text-red-400">🚀 Panel Test Notifikasi Instan</h3>
+            <p class="text-xs text-slate-400 mb-4">Pastikan izin notifikasi sudah aktif di browser/HP lu.</p>
             
-            <label class="block text-xs text-gray-400 mb-1">Judul Notifikasi:</label>
-            <input type="text" id="notifTitle" placeholder="Judul Notifikasi..." style="width: 100%; padding: 10px; margin-bottom: 12px; border-radius: 6px; border: none; background: #2a2a3d; color: white;" value="Update Terbaru RoniHalla! 🔥">
+            <label class="block text-xs text-slate-300 mb-1">Judul Notifikasi:</label>
+            <input type="text" id="notifTitle" class="w-full p-2.5 mb-3 bg-slate-900 border border-slate-700 rounded text-sm text-white focus:outline-none focus:border-red-500" value="Halo dari Vercel! 🔥">
             
-            <label class="block text-xs text-gray-400 mb-1">Isi Pesan:</label>
-            <input type="text" id="notifBody" placeholder="Isi Pesan Notifikasi..." style="width: 100%; padding: 10px; margin-bottom: 16px; border-radius: 6px; border: none; background: #2a2a3d; color: white;" value="Notifikasi instan berhasil dikirim lewat backend Vercel!">
+            <label class="block text-xs text-slate-300 mb-1">Isi Pesan:</label>
+            <input type="text" id="notifBody" class="w-full p-2.5 mb-4 bg-slate-900 border border-slate-700 rounded text-sm text-white focus:outline-none focus:border-red-500" value="Notifikasi instan berhasil dikirim lewat backend Vercel!">
             
-            <button onclick="kirimNotifInstan()" style="background: #ef4444; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; transition: background 0.2s;" onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'">
+            <button onclick="kirimNotifInstan()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-2.5 rounded text-sm transition">
                 Kirim Notif Sekarang 🔔
             </button>
         </div>
-    </section>
+    </main>
 
-    <!-- Footer / Tentang -->
-    <footer id="tentang" class="bg-gray-950 p-6 text-center text-xs text-gray-500 border-t border-gray-800 mt-12">
-        <p>&copy; 2026 RoniHalla. Built with passion, Python, and Vercel.</p>
+    <!-- Footer -->
+    <footer class="text-center p-6 text-xs text-slate-500 border-t border-slate-800">
+        &copy; 2026 RoniHalla. Built with passion, Python, and Vercel.
     </footer>
 
-    <!-- Firebase SDK & Script Integrasi Notifikasi -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging.js";
+    <!-- Firebase SDK (Compat Version) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
 
-        // Konfigurasi Firebase lu (Sesuaikan jika ada perubahan)
+    <!-- Skrip Konfigurasi & Push Notification -->
+    <script>
+        // Konfigurasi Firebase lu
         const firebaseConfig = {
-            apiKey: "AIzaSy...",
+            apiKey: "AIzaSyD-ContohApiKeyFirebaseLu", // Biarkan atau sesuaikan jika punya config lengkap
             authDomain: "web-perintis.firebaseapp.com",
             projectId: "web-perintis",
             storageBucket: "web-perintis.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef"
+            messagingSenderId: "1234567890",
+            appId: "1:123:web:abc"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const messaging = getMessaging(app);
+        // Inisialisasi Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
 
-        // Variabel global untuk menyimpan token FCM browser ini
+        const messaging = firebase.messaging();
+
+        // Variabel global penampung token FCM
         window.savedFCMToken = null;
 
-        // Minta Izin & Ambil Token Otomatis saat Halaman Dibuka
-        async function mintaIzinNotif() {
+        // 1. Daftarkan Service Worker & Minta Izin Notifikasi
+        async function initPushNotification() {
             try {
-                const permission = await Notification.requestPermission();
-                if (permission === 'granted') {
+                if ('serviceWorker' in navigator) {
                     const registration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
-                    const token = await getToken(messaging, {
+                    console.log('Service Worker terdaftar:', registration.scope);
+
+                    // Minta izin token FCM menggunakan VAPID Key lu
+                    const currentToken = await messaging.getToken({
                         vapidKey: 'BIEffuCWQhyCdiEtCQf4IDg8sQb97BEDUloMlx920PzdHM-S7R1U9_pp6umwrp_G56pdXvGW7nzbc-MxjQ8AglY',
                         serviceWorkerRegistration: registration
                     });
 
-                    if (token) {
-                        window.savedFCMToken = token;
-                        console.log("FCM Token Berhasil Didapat: ", token);
+                    if (currentToken) {
+                        console.log('FCM Token Berhasil Didapat:', currentToken);
+                        // Simpan token ke variabel global agar siap dipakai tombol tes
+                        window.savedFCMToken = currentToken;
                     } else {
-                        console.warn("Gagal mendapatkan token FCM.");
+                        console.warn('Gagal mendapatkan token FCM.');
                     }
-                } else {
-                    console.log("Izin notifikasi ditolak oleh pengguna.");
                 }
             } catch (error) {
-                console.error("Gagal minta izin notifikasi: ", error);
+                console.error('Gagal minta izin notifikasi / Service Worker:', error);
             }
         }
 
-        mintaIzinNotif();
+        // Jalankan saat halaman dibuka
+        initPushNotification();
 
-        // Tangkap pesan saat web sedang dibuka (Foreground)
-        onMessage(messaging, (payload) => {
+        // 2. Tangkap pesan saat web sedang dibuka (Foreground)
+        messaging.onMessage((payload) => {
             console.log('Notif masuk saat web dibuka: ', payload);
-            alert(`NOTIFIKASI MASUK!\n\nJudul: ${payload.notification.title}\nPesan: ${payload.notification.body}`);
+            alert(`🚨 NOTIFIKASI MASUK!\n\nJudul: ${payload.notification.title}\nPesan: ${payload.notification.body}`);
         });
-    </script>
 
-    <!-- Fungsi Kirim Instan lewat Backend Vercel -->
-    <script>
+        // 3. Fungsi Tombol Tes Kirim Instan lewat Backend Vercel (/api/send-notif)
         async function kirimNotifInstan() {
             const tokenTarget = window.savedFCMToken;
 
@@ -139,7 +122,7 @@
             const judul = document.getElementById('notifTitle').value;
             const pesan = document.getElementById('notifBody').value;
 
-            alert("Mengirim notifikasi instan melalui server Vercel...");
+            alert("Mengirim notifikasi instan via Vercel...");
 
             try {
                 const response = await fetch('/api/send-notif', {
@@ -158,14 +141,14 @@
                 
                 if (response.ok) {
                     console.log("Berhasil:", result);
-                    alert("✅ Sukses! Notifikasi instan berhasil dikirim oleh Vercel.");
+                    alert("✅ Notifikasi berhasil dikirim instan oleh Vercel!");
                 } else {
-                    console.error("Gagal:", result);
-                    alert("❌ Gagal mengirim: " + (result.error || 'Terjadi kesalahan sistem'));
+                    console.error("Gagal dari server:", result);
+                    alert("❌ Gagal mengirim: " + (result.error || 'Unknown error'));
                 }
             } catch (err) {
                 console.error("Error koneksi:", err);
-                alert("❌ Terjadi kesalahan jaringan ke server backend Vercel.");
+                alert("❌ Terjadi kesalahan jaringan ke server Vercel.");
             }
         }
     </script>
