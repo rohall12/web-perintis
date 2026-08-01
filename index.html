@@ -7,66 +7,189 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-900 text-white min-h-screen flex flex-col justify-between">
+<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between font-sans pb-20">
 
-    <!-- Header / Navbar Sederhana -->
-    <header class="p-6 flex justify-between items-center max-w-4xl mx-auto w-full">
-        <h1 class="text-xl font-bold text-red-500">RoniHalla<span class="text-white">.</span></h1>
-        <nav class="space-x-6 text-sm text-slate-300">
-            <a href="#" class="hover:text-white">Beranda</a>
-            <a href="https://github.com/ronihalla" target="_blank" class="hover:text-white">GitHub</a>
-            <a href="#" class="hover:text-white">Pesan</a>
-            <a href="#" class="hover:text-white">Tentang</a>
-        </nav>
-    </header>
-
-    <!-- Konten Utama -->
-    <main class="max-w-4xl mx-auto px-6 py-10 w-full text-center">
-        <h2 class="text-3xl font-bold mb-4">Selamat Berkunjung ke Web Saya.</h2>
-        <p class="text-slate-400 mb-8 max-w-xl mx-auto">
-            Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan bahasa pemrograman Python dan web development.
-        </p>
-
-        <!-- Panel Test Notifikasi Broadcast (Vercel + Firestore) -->
-        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 max-w-md mx-auto text-left shadow-lg">
-            <h3 class="font-bold text-lg mb-2 text-red-400">🚀 Panel Broadcast Notifikasi</h3>
-            <p class="text-xs text-slate-400 mb-4">Klik kirim untuk menyebar notifikasi serentak ke semua perangkat yang terdaftar di database.</p>
-            
-            <label class="block text-xs text-slate-300 mb-1">Judul Notifikasi:</label>
-            <input type="text" id="notifTitle" class="w-full p-2.5 mb-3 bg-slate-900 border border-slate-700 rounded text-sm text-white focus:outline-none focus:border-red-500" value="Broadcast RoniHalla! 🔥">
-            
-            <label class="block text-xs text-slate-300 mb-1">Isi Pesan:</label>
-            <input type="text" id="notifBody" class="w-full p-2.5 mb-4 bg-slate-900 border border-slate-700 rounded text-sm text-white focus:outline-none focus:border-red-500" value="Notifikasi massal berhasil disebar ke banyak perangkat!">
-            
-            <button onclick="kirimNotifBroadcast()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-2.5 rounded text-sm transition">
-                Kirim Broadcast Sekarang 🔔
+    <!-- Header / Navbar Atas -->
+    <header class="p-4 flex justify-between items-center max-w-md mx-auto w-full bg-slate-950/80 backdrop-blur sticky top-0 z-45 border-b border-slate-800/50">
+        <h1 class="text-lg font-bold text-red-500 tracking-wider">RoniHalla<span class="text-white">.</span></h1>
+        <div class="flex items-center space-x-3">
+            <button onclick="bukaMenu()" class="p-2 bg-slate-900 rounded-lg border border-slate-800 text-slate-300 hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
             </button>
         </div>
+    </header>
+
+    <!-- Sidebar Menu Navigasi Transparan -->
+    <div id="sideMenu" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden transition-opacity opacity-0">
+        <div class="absolute right-0 top-0 bottom-0 w-72 bg-slate-900/95 border-l border-slate-800 p-6 flex flex-col justify-between shadow-2xl">
+            <div>
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="font-bold text-red-500 text-base tracking-wider">MENU NAVIGASI</h2>
+                    <button onclick="tutupMenu()" class="p-2 text-slate-400 hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <nav class="space-y-4 text-sm">
+                    <a href="#beranda" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                        <span class="text-red-500">🏠</span> <span>Beranda</span>
+                    </a>
+                    <a href="#github" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                        <span class="text-red-500">💻</span> <span>Aktivitas GitHub</span>
+                    </a>
+                    <a href="#pesan" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                        <span class="text-red-500">✉️</span> <span>Kirim Pesan</span>
+                    </a>
+                    <a href="#tentang" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                        <span class="text-red-500">👤</span> <span>Tentang Saya</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="text-xs text-slate-500 text-center border-t border-slate-800 pt-4">
+                WITA Timezone active
+            </div>
+        </div>
+    </div>
+
+    <!-- Konten Utama -->
+    <main class="max-w-md mx-auto px-4 py-6 w-full space-y-6">
+
+        <!-- Card 1: Beranda (Karakter Wanita) -->
+        <section id="beranda" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl overflow-hidden">
+            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video">
+                <img src="./assets/blue_eyes_character.jpg" alt="Beranda" class="w-full h-full object-cover">
+            </div>
+            <span class="inline-block px-2.5 py-1 bg-red-500/10 text-red-400 text-xs font-semibold rounded-full mb-2 border border-red-500/20">HALLO KAWAN 🔥</span>
+            <h2 class="text-2xl font-black mb-2 text-white">selamat berkunjung ke <span class="text-red-500">web</span> saya.</h2>
+            <p class="text-xs text-slate-400 mb-4 leading-relaxed">
+                Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan Python dan Web Development.
+            </p>
+            <div class="flex gap-2">
+                <a href="#pesan" class="flex-1 bg-red-600 hover:bg-red-700 text-center text-xs font-bold py-2.5 rounded-xl text-white transition">Kirim Pesan</a>
+                <a href="https://github.com/ronihalla" target="_blank" class="flex-1 bg-slate-800 hover:bg-slate-700 text-center text-xs font-bold py-2.5 rounded-xl text-white transition border border-slate-700">GitHub Saya</a>
+            </div>
+        </section>
+
+        <!-- Panel Broadcast Notifikasi FCM -->
+        <section class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
+            <h3 class="font-bold text-sm mb-1 text-red-400">🚀 Panel Broadcast Notifikasi</h3>
+            <p class="text-[11px] text-slate-400 mb-3">Kirim notifikasi serentak ke semua perangkat terdaftar.</p>
+            
+            <input type="text" id="notifTitle" class="w-full p-2 mb-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" value="Broadcast RoniHalla! 🔥">
+            <input type="text" id="notifBody" class="w-full p-2 mb-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" value="Notifikasi massal berhasil disebar ke banyak perangkat!">
+            
+            <button onclick="kirimNotifBroadcast()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-2.5 rounded-xl text-xs transition">
+                Kirim Broadcast Sekarang 🔔
+            </button>
+        </section>
+
+        <!-- Card 2: Aktivitas GitHub (Karakter Hoodie/Coding) -->
+        <section id="github" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-xs font-bold text-red-500 tracking-wider">AKTIVITAS LIVE GITHUB</span>
+                <span class="px-2 py-0.5 bg-red-500/20 text-red-400 text-[10px] font-bold rounded">LIVE</span>
+            </div>
+            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video">
+                <img src="./assets/new_hero_character.jpg" alt="GitHub Activity" class="w-full h-full object-cover">
+            </div>
+            <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <span class="text-[10px] text-slate-500 block">REPOSITORI PUBLIK</span>
+                    <span class="text-lg font-bold text-white">2</span>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <span class="text-[10px] text-slate-500 block">PENGGIAT</span>
+                    <span class="text-lg font-bold text-white">0</span>
+                </div>
+            </div>
+            <a href="https://github.com/ronihalla" target="_blank" class="block w-full text-center bg-slate-800 hover:bg-slate-700 text-xs font-bold py-2.5 rounded-xl text-white border border-slate-700 transition">Lihat Profil GitHub ↗</a>
+        </section>
+
+        <!-- Card 3: Kirim Pesan (Karakter Gojo) -->
+        <section id="pesan" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
+            <span class="text-xs font-bold text-red-500 tracking-wider block mb-3">KIRIM PESAN</span>
+            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video">
+                <img src="./assets/gojo.jpg" alt="Kirim Pesan" class="w-full h-full object-cover">
+            </div>
+            <form class="space-y-3">
+                <div>
+                    <label class="block text-[10px] text-slate-400 mb-1">NAMA KAMU *</label>
+                    <input type="text" class="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" placeholder="Masukkan nama kamu">
+                </div>
+                <div>
+                    <label class="block text-[10px] text-slate-400 mb-1">KONTAK (WHATSAPP / EMAIL / IG)</label>
+                    <input type="text" class="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" placeholder="Boleh dikosongkan jika mau anonim">
+                </div>
+                <div>
+                    <label class="block text-[10px] text-slate-400 mb-1">PESAN *</label>
+                    <textarea rows="3" class="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
+                </div>
+                <button type="button" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-2.5 rounded-xl text-xs transition">KIRIM PESAN</button>
+            </form>
+        </section>
+
+        <!-- Card 4: Tentang Saya (Karakter Mata Biru / Sung Jin Woo) -->
+        <section id="tentang" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
+            <span class="text-xs font-bold text-red-500 tracking-wider block mb-3">TENTANG SAYA</span>
+            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video">
+                <img src="./assets/sung_jin_woo.jpg" alt="Tentang Saya" class="w-full h-full object-cover">
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed space-y-2">
+                Saya Roni Halla, seorang Junior Developer yang sedang terus belajar dan mengembangkan kemampuan di dunia pemrograman. Saya suka bereksperimen dengan Python dan Web Development, sambil mencoba menuangkan ide-ide saya ke dalam berbagai project nyata.<br><br>
+                Buat saya, coding bukan cuma tentang menulis kode, tapi juga tentang belajar dari kesalahan, mencoba hal baru, dan mencari cara untuk membuat sesuatu yang bermanfaat. Web ini saya buat sebagai tempat untuk berbagi sedikit tentang diri saya, project yang saya kerjakan, dan perjalanan saya dalam belajar menjadi seorang developer.
+            </p>
+        </section>
+
     </main>
 
-    <!-- Footer -->
-    <footer class="text-center p-6 text-xs text-slate-500 border-t border-slate-800">
-        &copy; 2026 RoniHalla. Built with passion, Python, and Vercel.
-    </footer>
+    <!-- Bottom Navigation Bar (Navbar Bawah) -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-slate-950/90 backdrop-blur border-t border-slate-800 py-3 px-6 flex justify-around items-center z-40 max-w-md mx-auto">
+        <a href="#beranda" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px]">
+            <span class="text-lg">🏠</span> Beranda
+        </a>
+        <a href="#github" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px]">
+            <span class="text-lg">💻</span> GitHub
+        </a>
+        <a href="#pesan" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px]">
+            <span class="text-lg">✉️</span> Pesan
+        </a>
+        <a href="#tentang" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px]">
+            <span class="text-lg">👤</span> Tentang
+        </a>
+    </nav>
 
     <!-- Firebase SDK (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-    <!-- Skrip Konfigurasi & Push Notification -->
+    <!-- Skrip Sidebar & Push Notification Firebase -->
     <script>
-        // Konfigurasi Firebase lu (Pastikan apiKey asli lu terpasang di sini)
+        function bukaMenu() {
+            const menu = document.getElementById('sideMenu');
+            menu.classList.remove('hidden');
+            setTimeout(() => menu.classList.remove('opacity-0'), 10);
+        }
+
+        function tutupMenu() {
+            const menu = document.getElementById('sideMenu');
+            menu.classList.add('opacity-0');
+            setTimeout(() => menu.classList.add('hidden'), 300);
+        }
+
+        // Konfigurasi Firebase Asli Lu
         const firebaseConfig = {
             apiKey: "AIzaSyDJE6Ua3tGM0ltnuBiXC5jvM-VLBZCmGqI",
             authDomain: "my-portofolio-c2eeb.firebaseapp.com",
             projectId: "my-portofolio-c2eeb",
-             storageBucket: "my-portofolio-c2eeb.firebasestorage.app",
+            storageBucket: "my-portofolio-c2eeb.firebasestorage.app",
             messagingSenderId: "686049637486",
             appId: "1:686049637486:web:6362caafe9ed4fb37c227f",
         };
 
-        // Inisialisasi Firebase
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
@@ -74,7 +197,7 @@
         const messaging = firebase.messaging();
         const db = firebase.firestore();
 
-        // 1. Daftarkan Service Worker, Minta Izin, & Simpan ke Firestore
+        // Daftarkan Service Worker & Simpan Token ke Firestore
         async function initPushNotification() {
             try {
                 if ('serviceWorker' in navigator) {
@@ -87,11 +210,7 @@
                     });
 
                     if (currentToken) {
-                        console.log('FCM Token Didapat:', currentToken);
-                        // Simpan otomatis ke Firestore
                         simpanTokenKeDatabase(currentToken);
-                    } else {
-                        console.warn('Token kosong.');
                     }
                 }
             } catch (error) {
@@ -99,10 +218,8 @@
             }
         }
 
-        // Fungsi bantu untuk nyimpen token ke Firestore
         async function simpanTokenKeDatabase(token) {
             try {
-                // Cek apakah token sudah ada sebelumnya agar tidak duplikat menumpuk
                 const snapshot = await db.collection("fcm_tokens").where("token", "==", token).get();
                 if (snapshot.empty) {
                     await db.collection("fcm_tokens").add({
@@ -110,25 +227,18 @@
                         device: navigator.userAgent,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
-                    console.log("Token baru berhasil diamankan ke database!");
-                } else {
-                    console.log("Token sudah terdaftar di database.");
                 }
             } catch (err) {
-                console.error("Gagal simpan token ke database:", err);
+                console.error("Gagal simpan token:", err);
             }
         }
 
-        // Jalankan saat halaman dibuka
         initPushNotification();
 
-        // 2. Tangkap pesan saat web sedang dibuka (Foreground)
         messaging.onMessage((payload) => {
-            console.log('Notif masuk saat web dibuka: ', payload);
             alert(`🚨 BROADCAST MASUK!\n\nJudul: ${payload.notification.title}\nPesan: ${payload.notification.body}`);
         });
 
-        // 3. Fungsi Tombol Broadcast ke Backend Vercel (/api/send-notif)
         async function kirimNotifBroadcast() {
             const judul = document.getElementById('notifTitle').value;
             const pesan = document.getElementById('notifBody').value;
@@ -138,26 +248,17 @@
             try {
                 const response = await fetch('/api/send-notif', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        title: judul,
-                        body: pesan
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: judul, body: pesan })
                 });
 
                 const result = await response.json();
-                
                 if (response.ok) {
-                    console.log("Berhasil:", result);
                     alert("✅ " + result.message);
                 } else {
-                    console.error("Gagal dari server:", result);
                     alert("❌ Gagal mengirim: " + (result.error || 'Unknown error'));
                 }
             } catch (err) {
-                console.error("Error koneksi:", err);
                 alert("❌ Terjadi kesalahan jaringan ke server Vercel.");
             }
         }
