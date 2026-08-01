@@ -1,11 +1,31 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoniHalla | Portofolio</title>
+    <title>RoniHalla | Professional Portfolio</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Menghilangkan garis scrollbar abu-abu di semua browser */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        html {
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+        
+        /* Efek Glitch & Animasi Merah Metalik */
+        @keyframes glitchSmooth {
+            0% { opacity: 0; transform: scale(0.95); text-shadow: 2px 0 red; }
+            50% { opacity: 0.8; text-shadow: -2px 0 darkred; }
+            100% { opacity: 1; transform: scale(1); text-shadow: 0 0 10px rgba(239, 68, 68, 0.8); }
+        }
+        .glitch-metalic {
+            animation: glitchSmooth 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+    </style>
 </head>
 <body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between font-sans pb-24">
 
@@ -21,43 +41,63 @@
         </div>
     </header>
 
-    <!-- Sidebar Menu Navigasi Transparan Warna Hitam -->
+    <!-- Sidebar Menu Navigasi Terstruktur & Transparan -->
     <div id="sideMenu" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden transition-opacity opacity-0">
-        <div class="absolute right-0 top-0 bottom-0 w-72 bg-slate-950/95 border-l border-slate-800 p-6 flex flex-col justify-between shadow-2xl">
+        <div class="absolute right-0 top-0 bottom-0 w-72 bg-slate-950/95 border-l border-slate-800 p-6 flex flex-col justify-between shadow-2xl backdrop-blur-xl">
             <div>
-                <div class="flex justify-between items-center mb-8">
-                    <h2 class="font-bold text-red-500 text-sm tracking-wider">MENU NAVIGASI</h2>
-                    <button onclick="tutupMenu()" class="p-2 text-slate-400 hover:text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="flex justify-between items-center mb-8 border-b border-slate-800/60 pb-4">
+                    <div>
+                        <h2 class="font-bold text-red-500 text-xs tracking-widest uppercase">Navigasi Utama</h2>
+                        <p class="text-[10px] text-slate-400">Direktori Portofolio</p>
+                    </div>
+                    <button onclick="tutupMenu()" class="p-2 text-slate-400 hover:text-white bg-slate-900/50 rounded-lg border border-slate-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
-                <nav class="space-y-3 text-sm mb-8">
-                    <a href="#beranda" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2.5 rounded-xl hover:bg-slate-900/80 transition">
-                        <span class="text-red-500">🏠</span> <span>Beranda</span>
+                
+                <nav class="space-y-2 text-xs mb-8">
+                    <a href="#beranda" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-slate-900/80 border border-transparent hover:border-slate-800 transition">
+                        <span class="p-1.5 bg-red-500/10 text-red-400 rounded-lg">🏛️</span> 
+                        <div>
+                            <span class="block font-semibold">Beranda Utama</span>
+                            <span class="text-[10px] text-slate-500">Halaman pengantar portofolio</span>
+                        </div>
                     </a>
-                    <a href="#github" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2.5 rounded-xl hover:bg-slate-900/80 transition">
-                        <span class="text-red-500">💻</span> <span>Aktivitas GitHub</span>
+                    <a href="#github" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-slate-900/80 border border-transparent hover:border-slate-800 transition">
+                        <span class="p-1.5 bg-red-500/10 text-red-400 rounded-lg">📊</span> 
+                        <div>
+                            <span class="block font-semibold">Aktivitas Repositori</span>
+                            <span class="text-[10px] text-slate-500">Statistik kode sumber live</span>
+                        </div>
                     </a>
-                    <a href="#pesan" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2.5 rounded-xl hover:bg-slate-900/80 transition">
-                        <span class="text-red-500">✉️</span> <span>Kirim Pesan</span>
+                    <a href="#pesan" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-slate-900/80 border border-transparent hover:border-slate-800 transition">
+                        <span class="p-1.5 bg-red-500/10 text-red-400 rounded-lg">📨</span> 
+                        <div>
+                            <span class="block font-semibold">Kirim Pesan</span>
+                            <span class="text-[10px] text-slate-500">Hubungi via Telegram Bot</span>
+                        </div>
                     </a>
-                    <a href="#tentang" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2.5 rounded-xl hover:bg-slate-900/80 transition">
-                        <span class="text-red-500">👤</span> <span>Tentang Saya</span>
+                    <a href="#tentang" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-slate-900/80 border border-transparent hover:border-slate-800 transition">
+                        <span class="p-1.5 bg-red-500/10 text-red-400 rounded-lg">💼</span> 
+                        <div>
+                            <span class="block font-semibold">Profil Profesional</span>
+                            <span class="text-[10px] text-slate-500">Informasi latar belakang</span>
+                        </div>
                     </a>
                 </nav>
 
-                <!-- Kontak Saya (Logo Asli Tanpa Teks Nomor/Username) -->
+                <!-- Kontak Saya (Logo Asli Tanpa Nomor/Username) -->
                 <div class="border-t border-slate-800/80 pt-4">
-                    <span class="text-[10px] text-slate-500 font-bold tracking-wider block mb-3">KONTAK SAYA</span>
-                    <div class="flex items-center space-x-4">
+                    <span class="text-[10px] text-slate-500 font-bold tracking-wider block mb-3 uppercase">Media Sosial & Kontak</span>
+                    <div class="flex items-center space-x-3">
                         <!-- Logo WhatsApp Asli -->
-                        <a href="https://wa.me/62881038278950" target="_blank" class="p-2.5 bg-slate-900/80 hover:bg-slate-800 rounded-xl border border-slate-800 transition text-emerald-400 flex items-center justify-center" title="WhatsApp">
+                        <a href="https://wa.me/62881038278950" target="_blank" class="p-2.5 bg-slate-900/80 hover:bg-slate-800 rounded-xl border border-slate-800 transition text-emerald-400 flex items-center justify-center" title="WhatsApp Official">
                             <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.124-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                         </a>
                         <!-- Logo Instagram Asli -->
-                        <a href="https://instagram.com/roihalla_08" target="_blank" class="p-2.5 bg-slate-900/80 hover:bg-slate-800 rounded-xl border border-slate-800 transition text-pink-400 flex items-center justify-center" title="Instagram">
+                        <a href="https://instagram.com/roihalla_08" target="_blank" class="p-2.5 bg-slate-900/80 hover:bg-slate-800 rounded-xl border border-slate-800 transition text-pink-400 flex items-center justify-center" title="Instagram Official">
                             <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                         </a>
                     </div>
@@ -72,12 +112,12 @@
     <!-- Konten Utama dengan Efek Transparan Glassmorphism -->
     <main class="max-w-md mx-auto px-4 py-6 w-full space-y-6">
 
-        <!-- Card 1: Beranda (Karakter New Hero / Anime Sapa) -->
+        <!-- Card 1: Beranda Utama (Visual: new_hero_character.jpg) -->
         <section id="beranda" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl overflow-hidden">
             <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-slate-800/50">
-                <img src="./assets/new_hero_character.jpg" alt="Beranda" class="w-full h-full object-cover">
+                <img src="./assets/new_hero_character.jpg" alt="Beranda Utama" class="w-full h-full object-cover">
             </div>
-            <span class="inline-block px-2.5 py-1 bg-red-500/10 text-red-400 text-xs font-semibold rounded-full mb-2 border border-red-500/20">HALLO KAWAN 🔥</span>
+            <span class="inline-block px-2.5 py-1 bg-red-500/10 text-red-400 text-xs font-semibold rounded-full mb-2 border border-red-500/20">🏛️ BERANDA UTAMA</span>
             <h2 class="text-2xl font-black mb-2 text-white">selamat berkunjung ke <span class="text-red-500">web</span> saya.</h2>
             <p class="text-xs text-slate-400 mb-4 leading-relaxed">
                 Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan Python dan Web Development.
@@ -88,10 +128,10 @@
             </div>
         </section>
 
-        <!-- Panel Developer Broadcast (Hanya Muncul Otomatis di Perangkat Developer) -->
+        <!-- Panel Developer Broadcast (Hanya Muncul di Perangkat Developer) -->
         <section id="devBroadcastPanel" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl hidden">
             <h3 class="font-bold text-sm mb-1 text-emerald-400">🚀 Panel Developer Broadcast</h3>
-            <p class="text-[11px] text-slate-400 mb-3">Panel ini tersembunyi dan hanya tampil di perangkat Anda.</p>
+            <p class="text-[11px] text-slate-400 mb-3">Panel rahasia pengiriman notifikasi massal.</p>
             
             <div class="space-y-2.5">
                 <input type="text" id="notifTitle" class="w-full p-2 bg-slate-950/90 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" value="Broadcast RoniHalla! 🔥">
@@ -103,14 +143,14 @@
             </div>
         </section>
 
-        <!-- Card 2: Aktivitas GitHub (Karakter Sung Jin Woo Main Komputer) -->
+        <!-- Card 2: Aktivitas Repositori (Visual: sung_jin_woo.jpg) -->
         <section id="github" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl">
             <div class="flex justify-between items-center mb-3">
-                <span class="text-xs font-bold text-red-500 tracking-wider">AKTIVITAS LIVE GITHUB</span>
+                <span class="text-xs font-bold text-red-500 tracking-wider">📊 AKTIVITAS REPOSITORI</span>
                 <span class="px-2 py-0.5 bg-red-500/20 text-red-400 text-[10px] font-bold rounded">LIVE</span>
             </div>
             <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-slate-800/50">
-                <img src="./assets/sung_jin_woo.jpg" alt="GitHub Activity" class="w-full h-full object-cover">
+                <img src="./assets/sung_jin_woo.jpg" alt="Aktivitas Repositori" class="w-full h-full object-cover">
             </div>
             <div class="grid grid-cols-2 gap-3 mb-4">
                 <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
@@ -125,9 +165,9 @@
             <a href="https://github.com/ronihalla" target="_blank" class="block w-full text-center bg-slate-800 hover:bg-slate-700 text-xs font-bold py-2.5 rounded-xl text-white border border-slate-700 transition">Lihat Profil GitHub ↗</a>
         </section>
 
-        <!-- Card 3: Kirim Pesan (Karakter Gojo Pegang HP) -->
+        <!-- Card 3: Kirim Pesan (Visual: gojo.jpg) -->
         <section id="pesan" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl">
-            <span class="text-xs font-bold text-red-500 tracking-wider block mb-3">KIRIM PESAN KE TELEGRAM</span>
+            <span class="text-xs font-bold text-red-500 tracking-wider block mb-3">📨 KIRIM PESAN</span>
             <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-slate-800/50">
                 <img src="./assets/gojo.jpg" alt="Kirim Pesan" class="w-full h-full object-cover">
             </div>
@@ -146,13 +186,15 @@
                 </div>
                 <button type="submit" id="submitBtn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-2.5 rounded-xl text-xs transition shadow-lg shadow-red-600/20">KIRIM PESAN SEKARANG</button>
             </form>
+            <!-- Kontainer Notifikasi Glitch Metalik -->
+            <div id="statusNotifContainer" class="mt-3"></div>
         </section>
 
-        <!-- Card 4: Tentang Saya (Karakter Blue Eyes) -->
+        <!-- Card 4: Profil Profesional (Visual: blue_eyes_character.jpg) -->
         <section id="tentang" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl">
-            <span class="text-xs font-bold text-red-500 tracking-wider block mb-3">TENTANG SAYA</span>
+            <span class="text-xs font-bold text-red-500 tracking-wider block mb-3">💼 PROFIL PROFESIONAL</span>
             <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-slate-800/50">
-                <img src="./assets/blue_eyes_character.jpg" alt="Tentang Saya" class="w-full h-full object-cover">
+                <img src="./assets/blue_eyes_character.jpg" alt="Profil Profesional" class="w-full h-full object-cover">
             </div>
             <p class="text-xs text-slate-300 leading-relaxed space-y-2">
                 Saya Roni Halla, seorang Junior Developer yang sedang terus belajar dan mengembangkan kemampuan di dunia pemrograman. Saya suka bereksperimen dengan Python dan Web Development, sambil mencoba menuangkan ide-ide saya ke dalam berbagai project nyata.<br><br>
@@ -165,16 +207,16 @@
     <!-- Bottom Navigation Bar Transparan Warna Hitam -->
     <nav class="fixed bottom-0 left-0 right-0 bg-slate-950/90 backdrop-blur-md border-t border-slate-800/80 py-3 px-6 flex justify-around items-center z-40 max-w-md mx-auto">
         <a href="#beranda" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px] transition">
-            <span class="text-lg">🏠</span> Beranda
+            <span class="text-lg">🏛️</span> Beranda
         </a>
         <a href="#github" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px] transition">
-            <span class="text-lg">💻</span> GitHub
+            <span class="text-lg">📊</span> GitHub
         </a>
         <a href="#pesan" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px] transition">
-            <span class="text-lg">✉️</span> Pesan
+            <span class="text-lg">📨</span> Pesan
         </a>
         <a href="#tentang" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px] transition">
-            <span class="text-lg">👤</span> Tentang
+            <span class="text-lg">💼</span> Profil
         </a>
     </nav>
 
@@ -197,8 +239,7 @@
             setTimeout(() => menu.classList.add('hidden'), 300);
         }
 
-        // AUTO-DETEKSI PERANGKAT DEVELOPER (Tanpa Input Password Terlihat)
-        // Cara aktivasi: Buka console browser (F12) di perangkat lu lalu ketik: localStorage.setItem('isDevRoni', 'true') lalu refresh.
+        // Auto-deteksi Perangkat Developer
         function cekStatusDeveloper() {
             const isDev = localStorage.getItem('isDevRoni');
             if (isDev === 'true') {
@@ -206,6 +247,28 @@
             }
         }
         cekStatusDeveloper();
+
+        // Fungsi menampilkan notifikasi efek glitch metalik halus
+        function tampilkanGlitchNotif(pesanTeks, tipe = 'sukses') {
+            const container = document.getElementById('statusNotifContainer');
+            const warnaBorder = tipe === 'sukses' ? 'border-red-500/50 text-red-400' : 'border-red-800 text-red-500';
+            
+            container.innerHTML = `
+                <div class="p-3 bg-slate-950/90 border ${warnaBorder} rounded-xl text-xs text-center font-bold glitch-metalic shadow-lg shadow-red-950/50">
+                    ${pesanTeks}
+                </div>
+            `;
+
+            // Efek hilang perlahan setelah 4 detik
+            setTimeout(() => {
+                container.style.transition = "opacity 0.8s ease";
+                container.style.opacity = "0";
+                setTimeout(() => {
+                    container.innerHTML = "";
+                    container.style.opacity = "1";
+                }, 800);
+            }, 4000);
+        }
 
         // Konfigurasi Firebase Asli
         const firebaseConfig = {
@@ -224,7 +287,6 @@
         const messaging = firebase.messaging();
         const db = firebase.firestore();
 
-        // Daftarkan Service Worker & Simpan Token ke Firestore
         async function initPushNotification() {
             try {
                 if ('serviceWorker' in navigator) {
@@ -263,7 +325,7 @@
         initPushNotification();
 
         messaging.onMessage((payload) => {
-            alert(`🚨 BROADCAST MASUK!\n\nJudul: ${payload.notification.title}\nPesan: ${payload.notification.body}`);
+            tampilkanGlitchNotif(`🚨 BROADCAST: ${payload.notification.title} - ${payload.notification.body}`);
         });
 
         // Kirim Broadcast ke Backend Vercel
@@ -271,7 +333,7 @@
             const judul = document.getElementById('notifTitle').value;
             const pesan = document.getElementById('notifBody').value;
 
-            alert("Mengirim broadcast ke semua perangkat via Vercel...");
+            tampilkanGlitchNotif("⚡ Mengirim broadcast ke semua perangkat...");
 
             try {
                 const response = await fetch('/api/send-notif', {
@@ -282,16 +344,16 @@
 
                 const result = await response.json();
                 if (response.ok) {
-                    alert("✅ " + result.message);
+                    tampilkanGlitchNotif("✅ Broadcast Berhasil Disebar ke Seluruh Perangkat!");
                 } else {
-                    alert("❌ Gagal mengirim: " + (result.error || 'Unknown error'));
+                    tampilkanGlitchNotif("❌ Gagal mengirim broadcast.", 'gagal');
                 }
             } catch (err) {
-                alert("❌ Terjadi kesalahan jaringan ke server Vercel.");
+                tampilkanGlitchNotif("❌ Terjadi kesalahan jaringan server.", 'gagal');
             }
         }
 
-        // Fitur Kirim Pesan Langsung ke Telegram Bot
+        // Fitur Kirim Pesan Langsung ke Telegram Bot (Token & ID Terpasang)
         async function kirimPesanTelegram(event) {
             event.preventDefault();
             
@@ -321,14 +383,14 @@
                 });
 
                 if (response.ok) {
-                    alert("✅ Pesan berhasil terkirim ke Telegram RoniHalla!");
+                    tampilkanGlitchNotif("⚡ PESAN KE TELEGRAM BERHASIL TERKIRIM!");
                     document.getElementById('telegramForm').reset();
                 } else {
-                    alert("❌ Gagal mengirim pesan ke Telegram. Pastikan Bot Token & Chat ID sudah benar.");
+                    tampilkanGlitchNotif("❌ Gagal mengirim pesan ke Telegram.", 'gagal');
                 }
             } catch (err) {
                 console.error(err);
-                alert("❌ Terjadi kesalahan koneksi saat mengirim pesan.");
+                tampilkanGlitchNotif("❌ Terjadi kesalahan koneksi jaringan.", 'gagal');
             } finally {
                 btn.disabled = false;
                 btn.innerText = "KIRIM PESAN SEKARANG";
