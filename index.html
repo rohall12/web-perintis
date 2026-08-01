@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +7,13 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between font-sans pb-20">
+<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between font-sans pb-24">
 
     <!-- Header / Navbar Atas -->
-    <header class="p-4 flex justify-between items-center max-w-md mx-auto w-full bg-slate-950/80 backdrop-blur sticky top-0 z-45 border-b border-slate-800/50">
+    <header class="p-4 flex justify-between items-center max-w-md mx-auto w-full bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 border-b border-slate-800/40">
         <h1 class="text-lg font-bold text-red-500 tracking-wider">RoniHalla<span class="text-white">.</span></h1>
         <div class="flex items-center space-x-3">
-            <button onclick="bukaMenu()" class="p-2 bg-slate-900 rounded-lg border border-slate-800 text-slate-300 hover:text-white">
+            <button onclick="bukaMenu()" class="p-2 bg-slate-900/80 rounded-xl border border-slate-800 text-slate-300 hover:text-white transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -21,45 +21,58 @@
         </div>
     </header>
 
-    <!-- Sidebar Menu Navigasi Transparan -->
-    <div id="sideMenu" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden transition-opacity opacity-0">
-        <div class="absolute right-0 top-0 bottom-0 w-72 bg-slate-900/95 border-l border-slate-800 p-6 flex flex-col justify-between shadow-2xl">
+    <!-- Sidebar Menu Navigasi Transparan Warna Hitam -->
+    <div id="sideMenu" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden transition-opacity opacity-0">
+        <div class="absolute right-0 top-0 bottom-0 w-72 bg-slate-950/95 border-l border-slate-800 p-6 flex flex-col justify-between shadow-2xl">
             <div>
                 <div class="flex justify-between items-center mb-8">
-                    <h2 class="font-bold text-red-500 text-base tracking-wider">MENU NAVIGASI</h2>
+                    <h2 class="font-bold text-red-500 text-sm tracking-wider">MENU NAVIGASI</h2>
                     <button onclick="tutupMenu()" class="p-2 text-slate-400 hover:text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
-                <nav class="space-y-4 text-sm">
-                    <a href="#beranda" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                <nav class="space-y-3 text-sm mb-8">
+                    <a href="#beranda" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2.5 rounded-xl hover:bg-slate-900/80 transition">
                         <span class="text-red-500">🏠</span> <span>Beranda</span>
                     </a>
-                    <a href="#github" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                    <a href="#github" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2.5 rounded-xl hover:bg-slate-900/80 transition">
                         <span class="text-red-500">💻</span> <span>Aktivitas GitHub</span>
                     </a>
-                    <a href="#pesan" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                    <a href="#pesan" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2.5 rounded-xl hover:bg-slate-900/80 transition">
                         <span class="text-red-500">✉️</span> <span>Kirim Pesan</span>
                     </a>
-                    <a href="#tentang" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                    <a href="#tentang" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-2.5 rounded-xl hover:bg-slate-900/80 transition">
                         <span class="text-red-500">👤</span> <span>Tentang Saya</span>
                     </a>
                 </nav>
+
+                <!-- Kontak Saya -->
+                <div class="border-t border-slate-800/80 pt-4">
+                    <span class="text-[10px] text-slate-500 font-bold tracking-wider block mb-3">KONTAK SAYA</span>
+                    <div class="space-y-2 text-xs">
+                        <a href="https://wa.me/62881038278950" target="_blank" class="flex items-center space-x-2 text-slate-300 hover:text-emerald-400 p-2 bg-slate-900/50 rounded-xl border border-slate-800 transition">
+                            <span>📱</span> <span>WhatsApp: 0881038278950</span>
+                        </a>
+                        <a href="https://instagram.com/roihalla_08" target="_blank" class="flex items-center space-x-2 text-slate-300 hover:text-pink-400 p-2 bg-slate-900/50 rounded-xl border border-slate-800 transition">
+                            <span>📸</span> <span>Instagram: roihalla_08</span>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="text-xs text-slate-500 text-center border-t border-slate-800 pt-4">
+            <div class="text-[10px] text-slate-500 text-center border-t border-slate-800/80 pt-4">
                 WITA Timezone active
             </div>
         </div>
     </div>
 
-    <!-- Konten Utama -->
+    <!-- Konten Utama dengan Efek Transparan Glassmorphism -->
     <main class="max-w-md mx-auto px-4 py-6 w-full space-y-6">
 
-        <!-- Card 1: Beranda (Karakter Wanita) -->
-        <section id="beranda" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl overflow-hidden">
-            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video">
+        <!-- Card 1: Beranda (Karakter Wanita Menyapa) -->
+        <section id="beranda" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl overflow-hidden">
+            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-slate-800/50">
                 <img src="./assets/blue_eyes_character.jpg" alt="Beranda" class="w-full h-full object-cover">
             </div>
             <span class="inline-block px-2.5 py-1 bg-red-500/10 text-red-400 text-xs font-semibold rounded-full mb-2 border border-red-500/20">HALLO KAWAN 🔥</span>
@@ -68,39 +81,54 @@
                 Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan Python dan Web Development.
             </p>
             <div class="flex gap-2">
-                <a href="#pesan" class="flex-1 bg-red-600 hover:bg-red-700 text-center text-xs font-bold py-2.5 rounded-xl text-white transition">Kirim Pesan</a>
+                <a href="#pesan" class="flex-1 bg-red-600 hover:bg-red-700 text-center text-xs font-bold py-2.5 rounded-xl text-white transition shadow-lg shadow-red-600/20">Kirim Pesan</a>
                 <a href="https://github.com/ronihalla" target="_blank" class="flex-1 bg-slate-800 hover:bg-slate-700 text-center text-xs font-bold py-2.5 rounded-xl text-white transition border border-slate-700">GitHub Saya</a>
             </div>
         </section>
 
-        <!-- Panel Broadcast Notifikasi FCM -->
-        <section class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
-            <h3 class="font-bold text-sm mb-1 text-red-400">🚀 Panel Broadcast Notifikasi</h3>
-            <p class="text-[11px] text-slate-400 mb-3">Kirim notifikasi serentak ke semua perangkat terdaftar.</p>
+        <!-- Panel Developer Broadcast (Tersembunyi & Diproteksi Password) -->
+        <section class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl">
+            <h3 class="font-bold text-sm mb-1 text-red-400">🔒 Panel Developer Broadcast</h3>
+            <p class="text-[11px] text-slate-400 mb-3">Panel rahasia khusus developer untuk menyebar notifikasi.</p>
             
-            <input type="text" id="notifTitle" class="w-full p-2 mb-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" value="Broadcast RoniHalla! 🔥">
-            <input type="text" id="notifBody" class="w-full p-2 mb-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" value="Notifikasi massal berhasil disebar ke banyak perangkat!">
-            
-            <button onclick="kirimNotifBroadcast()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-2.5 rounded-xl text-xs transition">
-                Kirim Broadcast Sekarang 🔔
-            </button>
+            <!-- Form Login Developer -->
+            <div id="devLoginForm" class="space-y-2">
+                <input type="password" id="devPassword" placeholder="Masukkan Password Developer" class="w-full p-2.5 bg-slate-950/90 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500">
+                <button onclick="bukaPanelDeveloper()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold p-2.5 rounded-xl text-xs transition border border-slate-700">
+                    Buka Panel 🔓
+                </button>
+            </div>
+
+            <!-- Panel Kontrol Broadcast (Muncul Jika Password Benar) -->
+            <div id="devControlPanel" class="hidden space-y-2.5 mt-3 pt-3 border-t border-slate-800">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-[10px] font-bold text-emerald-400">STATUS: DEVELOPER AKTIF</span>
+                    <button onclick="tutupPanelDeveloper()" class="text-[10px] text-slate-400 hover:text-white underline">Kunci</button>
+                </div>
+                <input type="text" id="notifTitle" class="w-full p-2 bg-slate-950/90 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" value="Broadcast RoniHalla! 🔥">
+                <input type="text" id="notifBody" class="w-full p-2 bg-slate-950/90 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" value="Notifikasi massal berhasil disebar ke banyak perangkat!">
+                
+                <button onclick="kirimNotifBroadcast()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-2.5 rounded-xl text-xs transition shadow-lg shadow-red-600/20">
+                    Kirim Broadcast Sekarang 🔔
+                </button>
+            </div>
         </section>
 
-        <!-- Card 2: Aktivitas GitHub (Karakter Hoodie/Coding) -->
-        <section id="github" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
+        <!-- Card 2: Aktivitas GitHub (Karakter Sung Jin Woo Main Komputer) -->
+        <section id="github" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl">
             <div class="flex justify-between items-center mb-3">
                 <span class="text-xs font-bold text-red-500 tracking-wider">AKTIVITAS LIVE GITHUB</span>
                 <span class="px-2 py-0.5 bg-red-500/20 text-red-400 text-[10px] font-bold rounded">LIVE</span>
             </div>
-            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video">
-                <img src="./assets/new_hero_character.jpg" alt="GitHub Activity" class="w-full h-full object-cover">
+            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-slate-800/50">
+                <img src="./assets/sung_jin_woo.jpg" alt="GitHub Activity" class="w-full h-full object-cover">
             </div>
             <div class="grid grid-cols-2 gap-3 mb-4">
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
                     <span class="text-[10px] text-slate-500 block">REPOSITORI PUBLIK</span>
                     <span class="text-lg font-bold text-white">2</span>
                 </div>
-                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
                     <span class="text-[10px] text-slate-500 block">PENGGIAT</span>
                     <span class="text-lg font-bold text-white">0</span>
                 </div>
@@ -108,34 +136,34 @@
             <a href="https://github.com/ronihalla" target="_blank" class="block w-full text-center bg-slate-800 hover:bg-slate-700 text-xs font-bold py-2.5 rounded-xl text-white border border-slate-700 transition">Lihat Profil GitHub ↗</a>
         </section>
 
-        <!-- Card 3: Kirim Pesan (Karakter Gojo) -->
-        <section id="pesan" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
-            <span class="text-xs font-bold text-red-500 tracking-wider block mb-3">KIRIM PESAN</span>
-            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video">
+        <!-- Card 3: Kirim Pesan (Karakter Gojo Pegang HP) -->
+        <section id="pesan" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl">
+            <span class="text-xs font-bold text-red-500 tracking-wider block mb-3">KIRIM PESAN KE TELEGRAM</span>
+            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-slate-800/50">
                 <img src="./assets/gojo.jpg" alt="Kirim Pesan" class="w-full h-full object-cover">
             </div>
-            <form class="space-y-3">
+            <form id="telegramForm" onsubmit="kirimPesanTelegram(event)" class="space-y-3">
                 <div>
                     <label class="block text-[10px] text-slate-400 mb-1">NAMA KAMU *</label>
-                    <input type="text" class="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" placeholder="Masukkan nama kamu">
+                    <input type="text" id="senderName" required class="w-full p-2.5 bg-slate-950/90 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" placeholder="Masukkan nama kamu">
                 </div>
                 <div>
                     <label class="block text-[10px] text-slate-400 mb-1">KONTAK (WHATSAPP / EMAIL / IG)</label>
-                    <input type="text" class="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" placeholder="Boleh dikosongkan jika mau anonim">
+                    <input type="text" id="senderContact" class="w-full p-2.5 bg-slate-950/90 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" placeholder="Boleh dikosongkan jika mau anonim">
                 </div>
                 <div>
                     <label class="block text-[10px] text-slate-400 mb-1">PESAN *</label>
-                    <textarea rows="3" class="w-full p-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
+                    <textarea id="senderMessage" rows="3" required class="w-full p-2.5 bg-slate-950/90 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
                 </div>
-                <button type="button" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-2.5 rounded-xl text-xs transition">KIRIM PESAN</button>
+                <button type="submit" id="submitBtn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-2.5 rounded-xl text-xs transition shadow-lg shadow-red-600/20">KIRIM PESAN SEKARANG</button>
             </form>
         </section>
 
-        <!-- Card 4: Tentang Saya (Karakter Mata Biru / Sung Jin Woo) -->
-        <section id="tentang" class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl">
+        <!-- Card 4: Tentang Saya (Karakter Mata Biru / New Hero Character) -->
+        <section id="tentang" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl">
             <span class="text-xs font-bold text-red-500 tracking-wider block mb-3">TENTANG SAYA</span>
-            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video">
-                <img src="./assets/sung_jin_woo.jpg" alt="Tentang Saya" class="w-full h-full object-cover">
+            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-slate-800/50">
+                <img src="./assets/new_hero_character.jpg" alt="Tentang Saya" class="w-full h-full object-cover">
             </div>
             <p class="text-xs text-slate-300 leading-relaxed space-y-2">
                 Saya Roni Halla, seorang Junior Developer yang sedang terus belajar dan mengembangkan kemampuan di dunia pemrograman. Saya suka bereksperimen dengan Python dan Web Development, sambil mencoba menuangkan ide-ide saya ke dalam berbagai project nyata.<br><br>
@@ -145,18 +173,18 @@
 
     </main>
 
-    <!-- Bottom Navigation Bar (Navbar Bawah) -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-slate-950/90 backdrop-blur border-t border-slate-800 py-3 px-6 flex justify-around items-center z-40 max-w-md mx-auto">
-        <a href="#beranda" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px]">
+    <!-- Bottom Navigation Bar Transparan Warna Hitam -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-slate-950/90 backdrop-blur-md border-t border-slate-800/80 py-3 px-6 flex justify-around items-center z-40 max-w-md mx-auto">
+        <a href="#beranda" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px] transition">
             <span class="text-lg">🏠</span> Beranda
         </a>
-        <a href="#github" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px]">
+        <a href="#github" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px] transition">
             <span class="text-lg">💻</span> GitHub
         </a>
-        <a href="#pesan" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px]">
+        <a href="#pesan" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px] transition">
             <span class="text-lg">✉️</span> Pesan
         </a>
-        <a href="#tentang" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px]">
+        <a href="#tentang" class="flex flex-col items-center text-slate-400 hover:text-red-500 text-[10px] transition">
             <span class="text-lg">👤</span> Tentang
         </a>
     </nav>
@@ -166,7 +194,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-    <!-- Skrip Sidebar & Push Notification Firebase -->
+    <!-- Skrip Aplikasi -->
     <script>
         function bukaMenu() {
             const menu = document.getElementById('sideMenu');
@@ -180,7 +208,27 @@
             setTimeout(() => menu.classList.add('hidden'), 300);
         }
 
-        // Konfigurasi Firebase Asli Lu
+        // Login Panel Developer
+        function bukaPanelDeveloper() {
+            const passInput = document.getElementById('devPassword').value;
+            const passwordRahasia = "ronihalla123"; // Password khusus lu
+
+            if (passInput === passwordRahasia) {
+                document.getElementById('devLoginForm').classList.add('hidden');
+                document.getElementById('devControlPanel').classList.remove('hidden');
+                alert("✅ Akses Diterima! Selamat datang, Developer.");
+            } else {
+                alert("❌ Password Salah!");
+            }
+        }
+
+        function tutupPanelDeveloper() {
+            document.getElementById('devControlPanel').classList.add('hidden');
+            document.getElementById('devLoginForm').classList.remove('hidden');
+            document.getElementById('devPassword').value = "";
+        }
+
+        // Konfigurasi Firebase Asli
         const firebaseConfig = {
             apiKey: "AIzaSyDJE6Ua3tGM0ltnuBiXC5jvM-VLBZCmGqI",
             authDomain: "my-portofolio-c2eeb.firebaseapp.com",
@@ -239,6 +287,7 @@
             alert(`🚨 BROADCAST MASUK!\n\nJudul: ${payload.notification.title}\nPesan: ${payload.notification.body}`);
         });
 
+        // Kirim Broadcast ke Backend Vercel
         async function kirimNotifBroadcast() {
             const judul = document.getElementById('notifTitle').value;
             const pesan = document.getElementById('notifBody').value;
@@ -260,6 +309,51 @@
                 }
             } catch (err) {
                 alert("❌ Terjadi kesalahan jaringan ke server Vercel.");
+            }
+        }
+
+        // Fitur Kirim Pesan Langsung ke Telegram Bot
+        async function kirimPesanTelegram(event) {
+            event.preventDefault();
+            
+            const nama = document.getElementById('senderName').value;
+            const kontak = document.getElementById('senderContact').value || "Tidak diisi";
+            const pesan = document.getElementById('senderMessage').value;
+            const btn = document.getElementById('submitBtn');
+
+            btn.disabled = true;
+            btn.innerText = "MENGIRIM PESAN...";
+
+            // ⚠️ Masukkan token bot telegram dan chat id lu di bawah ini jika belum aktif
+            const botToken = "MASUKKAN_BOT_TOKEN_TELEGRAM_LU"; 
+            const chatId = "MASUKKAN_CHAT_ID_LU";
+
+            const textPesan = `📩 *PESAN BARU DARI PORTOFOLIO*\n\n👤 *Nama:* ${nama}\n📞 *Kontak:* ${kontak}\n💬 *Pesan:* ${pesan}`;
+
+            try {
+                const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+                const response = await fetch(telegramUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: textPesan,
+                        parse_mode: 'Markdown'
+                    })
+                });
+
+                if (response.ok) {
+                    alert("✅ Pesan berhasil terkirim ke Telegram RoniHalla!");
+                    document.getElementById('telegramForm').reset();
+                } else {
+                    alert("❌ Gagal mengirim pesan ke Telegram. Pastikan Bot Token & Chat ID sudah benar.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("❌ Terjadi kesalahan koneksi saat mengirim pesan.");
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "KIRIM PESAN SEKARANG";
             }
         }
     </script>
