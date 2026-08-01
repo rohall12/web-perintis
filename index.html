@@ -77,32 +77,36 @@
 
         // 1. Daftarkan Service Worker & Minta Izin Notifikasi (Dilengkapi Alert Debug)
         async function initPushNotification() {
-            try {
-                if ('serviceWorker' in navigator) {
-                    const registration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
-                    console.log('Service Worker terdaftar:', registration.scope);
+    try {
+        if ('serviceWorker' in navigator) {
+            // 1. Daftarkan Service Worker
+            const registration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
+            console.log('Service Worker terdaftar:', registration.scope);
 
-                    // Minta izin token FCM menggunakan VAPID Key lu
-                    const currentToken = await messaging.getToken({
-                        vapidKey: 'BIEffuCWQhyCdiEtCQf4IDg8sQb97BEDUloMlx920PzdHM-S7R1U9_pp6umwrp_G56pdXvGW7nzbc-MxjQ8AglY',
-                        serviceWorkerRegistration: registration
-                    });
+            // 2. TUNGGU SAMPAI SERVICE WORKER BENAR-BENAR AKTIF (Ini kuncinya!)
+            await navigator.serviceWorker.ready;
 
-                    if (currentToken) {
-                        console.log('FCM Token Berhasil Didapat:', currentToken);
-                        window.savedFCMToken = currentToken;
-                        alert("SUKSES! Token FCM didapat.");
-                    } else {
-                        alert("WARNING: Token kosong (null).");
-                    }
-                } else {
-                    alert("WARNING: Browser tidak mendukung Service Worker.");
-                }
-            } catch (error) {
-                alert("GAGAL TOKEN: " + error.message);
-                console.error('Gagal minta izin notifikasi / Service Worker:', error);
+            // 3. Minta izin token FCM dengan menyertakan registrasi yang sudah ready
+            const currentToken = await messaging.getToken({
+                vapidKey: 'BIEffuCWQhyCdiEtCQf4IDg8sQb97BEDUloMlx920PzdHM-S7R1U9_pp6umwrp_G56pdXvGW7nzbc-MxjQ8AglY',
+                serviceWorkerRegistration: registration
+            });
+
+            if (currentToken) {
+                console.log('FCM Token Berhasil Didapat:', currentToken);
+                window.savedFCMToken = currentToken;
+                alert("SUKSES! Token FCM didapat.");
+            } else {
+                alert("WARNING: Token kosong (null).");
             }
+        } else {
+            alert("WARNING: Browser tidak mendukung Service Worker.");
         }
+    } catch (error) {
+        alert("GAGAL TOKEN: " + error.message);
+        console.error('Gagal minta izin notifikasi / Service Worker:', error);
+    }
+}
 
         // Jalankan saat halaman dibuka
         initPushNotification();
