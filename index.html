@@ -57,7 +57,7 @@
     <script>
         // Konfigurasi Firebase lu
         const firebaseConfig = {
-            apiKey: "AIzaSyD-ContohApiKeyFirebaseLu", // Biarkan atau sesuaikan jika punya config lengkap
+            apiKey: "AIzaSyD-ContohApiKeyFirebaseLu",
             authDomain: "web-perintis.firebaseapp.com",
             projectId: "web-perintis",
             storageBucket: "web-perintis.appspot.com",
@@ -75,7 +75,7 @@
         // Variabel global penampung token FCM
         window.savedFCMToken = null;
 
-        // 1. Daftarkan Service Worker & Minta Izin Notifikasi
+        // 1. Daftarkan Service Worker & Minta Izin Notifikasi (Dilengkapi Alert Debug)
         async function initPushNotification() {
             try {
                 if ('serviceWorker' in navigator) {
@@ -90,13 +90,16 @@
 
                     if (currentToken) {
                         console.log('FCM Token Berhasil Didapat:', currentToken);
-                        // Simpan token ke variabel global agar siap dipakai tombol tes
                         window.savedFCMToken = currentToken;
+                        alert("SUKSES! Token FCM didapat.");
                     } else {
-                        console.warn('Gagal mendapatkan token FCM.');
+                        alert("WARNING: Token kosong (null).");
                     }
+                } else {
+                    alert("WARNING: Browser tidak mendukung Service Worker.");
                 }
             } catch (error) {
+                alert("GAGAL TOKEN: " + error.message);
                 console.error('Gagal minta izin notifikasi / Service Worker:', error);
             }
         }
