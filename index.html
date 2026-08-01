@@ -1,485 +1,173 @@
 <!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roni Halla | Cyberpunk Portfolio</title>
-    
-    <!-- PWA Manifest & Theme -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ff003c">
-    <link rel="apple-touch-icon" href="assets/gojo.jpg">
-
+    <title>RoniHalla | Cyberpunk Portfolio</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        cyber: {
-                            dark: '#090a0f',
-                            card: '#111217',
-                            red: '#ff003c',
-                            border: '#1f2430'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* === EFEK SCROLL HALUS === */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* === MENGHILANGKAN SCROLLBAR === */
-        /* Untuk Chrome, Safari, dan Opera */
-        ::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Untuk Firefox dan IE/Edge */
-        * {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-        }
-
-        body {
-            background-color: #090a0f;
-            color: #f3f4f6;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-        
-        .glitch-box {
-            position: relative;
-            background: rgba(20, 22, 30, 0.95);
-            border: 1px solid #ff003c;
-            padding: 12px 16px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(255, 0, 60, 0.2);
-        }
-        .glitch-text {
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #ff003c;
-            text-shadow: 2px 0 #00ffff, -2px 0 #ff003c;
-            animation: glitch-anim 1s infinite linear alternate-reverse;
-        }
-        @keyframes glitch-anim {
-            0% { text-shadow: 2px 0 #00ffff, -2px 0 #ff003c; }
-            50% { text-shadow: -2px 0 #00ffff, 2px 0 #ff003c; }
-            100% { text-shadow: 2px -2px #00ffff, -2px 2px #ff003c; }
-        }
-    </style>
 </head>
-<body class="min-h-screen pb-24 antialiased selection:bg-red-600 selection:text-white">
+<body class="bg-gray-900 text-white font-sans">
 
-    <!-- TOP BAR (HEADER) -->
-    <header class="sticky top-0 z-40 bg-cyber-dark/90 backdrop-blur-md border-b border-cyber-border px-4 py-3.5 flex items-center justify-between max-w-md mx-auto">
-        <a href="#" class="font-black text-lg text-white tracking-wider flex items-center gap-1.5">
-            RoniHalla<span class="w-2 h-2 rounded-full bg-cyber-red animate-pulse"></span>
-        </a>
-        <div class="flex items-center gap-2">
-            <button id="pwa-install-btn" class="hidden items-center gap-1.5 bg-cyber-red hover:bg-red-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition-all shadow-md active:scale-95">
-                <i class="fa-solid fa-download"></i> Install
-            </button>
-            <button id="settings-btn" class="w-9 h-9 rounded-xl bg-cyber-card border border-cyber-border flex items-center justify-center text-gray-300 hover:text-white hover:border-cyber-red transition-all">
-                <i class="fa-solid fa-gear text-sm"></i>
-            </button>
-            <button id="menu-btn" class="w-9 h-9 rounded-xl bg-cyber-card border border-cyber-border flex items-center justify-center text-gray-300 hover:text-white hover:border-cyber-red transition-all">
-                <i class="fa-solid fa-bars text-sm"></i>
-            </button>
+    <!-- Navbar / Menu Navigasi -->
+    <nav class="bg-gray-800 border-b border-gray-700 p-4 sticky top-0 z-50 flex justify-between items-center">
+        <div class="text-xl font-bold tracking-wider text-red-500">RoniHalla<span class="text-white">.</span></div>
+        <div class="flex gap-6 text-sm">
+            <a href="#beranda" class="hover:text-red-400 transition">Beranda</a>
+            <a href="#github" class="hover:text-red-400 transition">GitHub</a>
+            <a href="#pesan" class="hover:text-red-400 transition">Pesan</a>
+            <a href="#tentang" class="hover:text-red-400 transition">Tentang</a>
+        </div>
+    </nav>
+
+    <!-- Header / Banner Utama -->
+    <header id="beranda" class="p-6 md:p-12 flex flex-col md:flex-row items-center justify-between">
+        <div class="max-w-xl">
+            <span class="bg-red-900/50 text-red-400 text-xs px-3 py-1 rounded-full border border-red-700">⚡ HALLO KAWAN</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold mt-4 mb-4 leading-tight">
+                selamat berkunjung ke <span class="text-red-500">web saya.</span>
+            </h1>
+            <p class="text-gray-400 mb-6 text-sm md:text-base">
+                Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan bahasa pemrograman Python dan web development.
+            </p>
+            <div class="flex gap-4">
+                <a href="#pesan" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition">Kirim Pesan</a>
+                <a href="https://github.com" target="_blank" class="border border-gray-700 hover:border-gray-500 px-6 py-2.5 rounded-lg text-sm font-semibold transition">GitHub Saya</a>
+            </div>
+        </div>
+        
+        <!-- Gambar Anime Keren -->
+        <div class="mt-8 md:mt-0">
+            <div class="w-64 md:w-80 rounded-2xl overflow-hidden border-2 border-red-500/30 shadow-lg shadow-red-500/2of0">
+                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500&auto=format&fit=crop&q=60" alt="Anime Theme" class="w-full h-full object-cover">
+            </div>
         </div>
     </header>
 
-    <!-- SIDEBAR / MENU DRAWER -->
-    <div id="drawer-menu" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden transition-opacity">
-        <div class="absolute top-0 right-0 w-80 h-full bg-cyber-card/60 backdrop-blur-xl border-l border-cyber-border/50 p-6 flex flex-col justify-between shadow-2xl overflow-y-auto">
-            <div>
-                <div class="flex items-center justify-between mb-8">
-                    <h3 class="font-extrabold text-white tracking-wider">MENU NAVIGASI</h3>
-                    <button id="close-drawer" class="w-8 h-8 rounded-lg bg-cyber-dark/50 border border-cyber-border flex items-center justify-center text-gray-400 hover:text-white">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                <nav class="space-y-2 mb-8">
-                    <p class="text-[10px] uppercase font-semibold text-gray-400 tracking-wider mb-2">Navigasi</p>
-                    <a href="#beranda" class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-200 hover:bg-red-950/40 hover:text-cyber-red transition-all border border-transparent hover:border-red-900/50">
-                        <i class="fa-solid fa-house text-cyber-red w-5"></i> Beranda
-                    </a>
-                    <a href="#github-stats" class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-200 hover:bg-red-950/40 hover:text-cyber-red transition-all border border-transparent hover:border-red-900/50">
-                        <i class="fa-brands fa-github text-cyber-red w-5"></i> Aktivitas GitHub
-                    </a>
-                    <a href="#contact" class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-200 hover:bg-red-950/40 hover:text-cyber-red transition-all border border-transparent hover:border-red-900/50">
-                        <i class="fa-solid fa-paper-plane text-cyber-red w-5"></i> Kirim Pesan
-                    </a>
-                    <a href="#about" class="drawer-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-200 hover:bg-red-950/40 hover:text-cyber-red transition-all border border-transparent hover:border-red-900/50">
-                        <i class="fa-solid fa-user text-cyber-red w-5"></i> Tentang Saya
-                    </a>
-                </nav>
+    <hr class="border-gray-800 my-6">
 
-                <div class="space-y-2 pt-4 border-t border-cyber-border/50">
-                    <p class="text-[10px] uppercase font-semibold text-gray-400 tracking-wider mb-2">Kontak Saya</p>
-                    <a href="https://wa.me/62881038278950" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-medium text-gray-200 bg-cyber-dark/40 border border-cyber-border/50 hover:border-green-600 transition-all">
-                        <i class="fa-brands fa-whatsapp text-green-500 text-base"></i> WhatsApp
-                    </a>
-                    <a href="https://instagram.com/ronihalla_08" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-medium text-gray-200 bg-cyber-dark/40 border border-cyber-border/50 hover:border-pink-600 transition-all">
-                        <i class="fa-brands fa-instagram text-pink-500 text-base"></i> Instagram
-                    </a>
-                </div>
-            </div>
-            <div class="pt-4 border-t border-cyber-border/50 text-center">
-                <p class="text-[11px] text-gray-400 font-mono">WITA Timezone active</p>
-            </div>
+    <!-- Bagian Panel Test Notifikasi Instan (Fitur Baru Vercel Backend) -->
+    <section id="pesan" class="p-6 md:p-12 max-w-2xl mx-auto">
+        <div style="background: #1e1e2f; padding: 25px; border-radius: 12px; border: 1px solid #3f3f56; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+            <h3 class="text-lg font-bold text-red-400 mb-2">🚀 Panel Test Notifikasi Instan (Vercel API)</h3>
+            <p style="font-size: 13px; color: #a1a1aa;" class="mb-4">
+                Pastikan izin notifikasi aktif dan token FCM sudah tercetak di Console browser.
+            </p>
+            
+            <label class="block text-xs text-gray-400 mb-1">Judul Notifikasi:</label>
+            <input type="text" id="notifTitle" placeholder="Judul Notifikasi..." style="width: 100%; padding: 10px; margin-bottom: 12px; border-radius: 6px; border: none; background: #2a2a3d; color: white;" value="Update Terbaru RoniHalla! 🔥">
+            
+            <label class="block text-xs text-gray-400 mb-1">Isi Pesan:</label>
+            <input type="text" id="notifBody" placeholder="Isi Pesan Notifikasi..." style="width: 100%; padding: 10px; margin-bottom: 16px; border-radius: 6px; border: none; background: #2a2a3d; color: white;" value="Notifikasi instan berhasil dikirim lewat backend Vercel!">
+            
+            <button onclick="kirimNotifInstan()" style="background: #ef4444; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; transition: background 0.2s;" onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'">
+                Kirim Notif Sekarang 🔔
+            </button>
         </div>
-    </div>
+    </section>
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="max-w-md mx-auto px-4 pt-5 space-y-6">
+    <!-- Footer / Tentang -->
+    <footer id="tentang" class="bg-gray-950 p-6 text-center text-xs text-gray-500 border-t border-gray-800 mt-12">
+        <p>&copy; 2026 RoniHalla. Built with passion, Python, and Vercel.</p>
+    </footer>
 
-        <!-- SECTION BERANDA / HERO -->
-        <section id="beranda" class="bg-cyber-card border border-cyber-border rounded-3xl p-6 shadow-xl space-y-5 relative overflow-hidden">
-            <div class="absolute -right-8 -bottom-8 opacity-5 pointer-events-none">
-                <i class="fa-solid fa-terminal text-9xl text-cyber-red"></i>
-            </div>
-            
-            <div class="overflow-hidden rounded-2xl border border-cyber-border shadow-md">
-                <img src="assets/new_hero_character.jpg" alt="Cha Hae-In Waving" class="w-full h-52 object-cover object-center transform hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=800&auto=format&fit=crop'">
-            </div>
+    <!-- Firebase SDK & Script Integrasi Notifikasi -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging.js";
 
-            <div class="inline-flex items-center gap-2 px-3 py-1 bg-red-950/60 border border-red-900/60 rounded-full">
-                <span class="w-2 h-2 rounded-full bg-cyber-red animate-pulse"></span>
-                <span class="text-[11px] font-semibold text-red-400">HALLO KAWAN 👋</span>
-            </div>
-            
-            <div class="space-y-2">
-                <h1 class="text-2xl sm:text-3xl font-black text-white leading-snug tracking-wide">
-                    selamat berkunjung ke <span class="text-cyber-red">web saya.</span>
-                </h1>
-                <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
-                    Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan bahasa pemrograman Python dan web development.
-                </p>
-            </div>
+        // Konfigurasi Firebase lu (Sesuaikan jika ada perubahan)
+        const firebaseConfig = {
+            apiKey: "AIzaSy...",
+            authDomain: "web-perintis.firebaseapp.com",
+            projectId: "web-perintis",
+            storageBucket: "web-perintis.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef"
+        };
 
-            <div class="flex flex-wrap gap-3 pt-1">
-                <a href="#contact" class="px-5 py-2.5 bg-cyber-red hover:bg-red-700 text-white font-bold rounded-xl text-xs transition-all shadow-lg shadow-red-950 flex items-center gap-2">
-                    <i class="fa-solid fa-paper-plane"></i> Kirim Pesan
-                </a>
-                <a href="https://github.com/rohall12" target="_blank" class="px-5 py-2.5 bg-cyber-dark border border-cyber-border hover:border-cyber-red text-gray-200 font-semibold rounded-xl text-xs transition-all flex items-center gap-2">
-                    <i class="fa-brands fa-github"></i> GitHub Saya
-                </a>
-            </div>
-        </section>
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
 
-        <!-- SECTION GITHUB STATS -->
-        <section id="github-stats" class="bg-cyber-card border border-cyber-border rounded-3xl p-6 shadow-xl space-y-4">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                        <i class="fa-brands fa-github text-cyber-red"></i> Aktivitas Live GitHub
-                    </h2>
-                    <p class="text-[11px] text-gray-400 mt-0.5">Data langsung secara realtime dari API GitHub</p>
-                </div>
-                <span class="px-2.5 py-1 bg-red-950/80 border border-red-900 text-[10px] font-bold text-red-400 rounded-lg flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span> LIVE
-                </span>
-            </div>
+        // Variabel global untuk menyimpan token FCM browser ini
+        window.savedFCMToken = null;
 
-            <div class="overflow-hidden rounded-2xl border border-cyber-border shadow-md">
-                <img src="assets/sung_jin_woo.jpg" alt="Sung Jin Woo Coding" class="w-full h-48 object-cover object-center transform hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=800&auto=format&fit=crop'">
-            </div>
+        // Minta Izin & Ambil Token Otomatis saat Halaman Dibuka
+        async function mintaIzinNotif() {
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    const registration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
+                    const token = await getToken(messaging, {
+                        vapidKey: 'BIEffuCWQhyCdiEtCQf4IDg8sQb97BEDUloMlx920PzdHM-S7R1U9_pp6umwrp_G56pdXvGW7nzbc-MxjQ8AglY',
+                        serviceWorkerRegistration: registration
+                    });
 
-            <div class="grid grid-cols-2 gap-3 pt-1">
-                <div class="bg-cyber-dark border border-cyber-border p-4 rounded-2xl">
-                    <p class="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">REPOSITORI PUBLIK</p>
-                    <h3 id="github-repos" class="text-2xl font-black text-white mt-1">2</h3>
-                </div>
-                <div class="bg-cyber-dark border border-cyber-border p-4 rounded-2xl">
-                    <p class="text-[10px] text-gray-400 uppercase font-semibold tracking-wider">PENGIKUT</p>
-                    <h3 id="github-followers" class="text-2xl font-black text-white mt-1">0</h3>
-                </div>
-            </div>
-
-            <a href="https://github.com/rohall12" target="_blank" class="block text-center w-full py-2.5 bg-cyber-dark border border-cyber-border hover:border-cyber-red text-cyber-red text-xs font-bold rounded-xl transition-all">
-                Lihat Profil GitHub <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]"></i>
-            </a>
-        </section>
-
-        <!-- SECTION CONTACT FORM -->
-        <section id="contact" class="bg-cyber-card border border-cyber-border rounded-3xl p-6 shadow-xl space-y-4">
-            <div class="space-y-1">
-                <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                    <i class="fa-solid fa-paper-plane text-cyber-red"></i> Kirim Pesan
-                </h2>
-                <p class="text-[11px] text-gray-400">Kirim pesan kamu dan pesan kamu akan diteruskan ke develop R.H.</p>
-            </div>
-
-            <div class="overflow-hidden rounded-2xl border border-cyber-border shadow-md">
-                <img src="assets/gojo.jpg" alt="Gojo Phone" class="w-full h-48 object-cover object-center transform hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=800&auto=format&fit=crop'">
-            </div>
-
-            <form id="telegram-form" class="space-y-4 pt-1">
-                <div class="hidden" aria-hidden="true">
-                    <label for="honeypot_check">Jangan diisi:</label>
-                    <input type="text" id="honeypot_check" tabindex="-1" autocomplete="off">
-                </div>
-
-                <div>
-                    <label class="block text-[11px] font-semibold uppercase text-gray-400 mb-1.5">NAMA KAMU *</label>
-                    <input type="text" id="sender-name" required placeholder="Masukkan nama kamu" class="w-full bg-cyber-dark border border-cyber-border focus:border-cyber-red rounded-xl px-4 py-3 text-xs text-white placeholder-gray-600 focus:outline-none transition-colors">
-                </div>
-                <div>
-                    <label class="block text-[11px] font-semibold uppercase text-gray-400 mb-1.5">KONTAK (WHATSAPP / EMAIL / IG)</label>
-                    <input type="text" id="sender-contact" placeholder="Boleh dikosongkan jika mau anonim" class="w-full bg-cyber-dark border border-cyber-border focus:border-cyber-red rounded-xl px-4 py-3 text-xs text-white placeholder-gray-600 focus:outline-none transition-colors">
-                </div>
-                <div>
-                    <label class="block text-[11px] font-semibold uppercase text-gray-400 mb-1.5">PESAN *</label>
-                    <textarea id="sender-message" rows="3" required placeholder="Tuliskan pesan kamu di sini..." class="w-full bg-cyber-dark border border-cyber-border focus:border-cyber-red rounded-xl px-4 py-3 text-xs text-white placeholder-gray-600 focus:outline-none transition-colors resize-none"></textarea>
-                </div>
-
-                <div id="form-status" class="hidden"></div>
-
-                <button type="submit" class="w-full bg-cyber-red hover:bg-red-700 text-white font-bold text-xs py-3.5 rounded-xl transition-all shadow-lg shadow-red-950 flex items-center justify-center gap-2 active:scale-98 tracking-wider uppercase">
-                    KIRIM PESAN
-                </button>
-            </form>
-        </section>
-
-        <!-- SECTION ABOUT ME -->
-        <section id="about" class="bg-cyber-card border border-cyber-border rounded-3xl p-6 shadow-xl space-y-4">
-            <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <i class="fa-solid fa-user text-cyber-red"></i> Tentang Saya
-            </h2>
-
-            <div class="overflow-hidden rounded-2xl border border-cyber-border shadow-md">
-                <img src="assets/blue_eyes_character.jpg" alt="Blue Eyes Character" class="w-full h-48 object-cover object-center transform hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop'">
-            </div>
-
-            <div class="space-y-3 text-xs text-gray-300 leading-relaxed pt-1">
-                <p>
-                    Saya Roni Halla, seorang Junior Developer yang sedang terus belajar dan mengembangkan kemampuan di dunia pemrograman. Saya suka bereksperimen dengan Python dan Web Development, sambil mencoba menuangkan ide-ide saya ke dalam berbagai project nyata.
-                </p>
-                <p>
-                    Buat saya, coding bukan cuma tentang menulis kode, tapi juga tentang belajar dari kesalahan, mencoba hal baru, dan mencari cara untuk membuat sesuatu yang bermanfaat. Web ini saya buat sebagai tempat untuk berbagi sedikit tentang diri saya, project yang saya kerjakan, dan perjalanan saya dalam belajar menjadi seorang developer.
-                </p>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- FIXED BOTTOM NAVIGATION BAR -->
-    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-cyber-card/95 backdrop-blur-md border-t border-cyber-border py-2.5 px-6 max-w-md mx-auto flex items-center justify-between text-center">
-        <a href="#beranda" class="flex flex-col items-center gap-1 text-gray-400 hover:text-cyber-red transition-colors">
-            <i class="fa-solid fa-house text-base"></i>
-            <span class="text-[10px] font-medium">Beranda</span>
-        </a>
-        <a href="#github-stats" class="flex flex-col items-center gap-1 text-gray-400 hover:text-cyber-red transition-colors">
-            <i class="fa-brands fa-github text-base"></i>
-            <span class="text-[10px] font-medium">GitHub</span>
-        </a>
-        <a href="#contact" class="flex flex-col items-center gap-1 text-gray-400 hover:text-cyber-red transition-colors">
-            <i class="fa-solid fa-paper-plane text-base"></i>
-            <span class="text-[10px] font-medium">Pesan</span>
-        </a>
-        <a href="#about" class="flex flex-col items-center gap-1 text-gray-400 hover:text-cyber-red transition-colors">
-            <i class="fa-solid fa-user text-base"></i>
-            <span class="text-[10px] font-medium">Tentang</span>
-        </a>
-    </nav>
-
-    <!-- JAVASCRIPT: DRAWER, GITHUB STATS, PWA -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            initDrawerMenu();
-            initGitHubStats();
-            initPWA();
-        });
-
-        function initDrawerMenu() {
-            const menuBtn = document.getElementById("menu-btn");
-            const settingsBtn = document.getElementById("settings-btn");
-            const drawer = document.getElementById("drawer-menu");
-            const closeDrawer = document.getElementById("close-drawer");
-            const drawerLinks = document.querySelectorAll(".drawer-link");
-
-            function toggleDrawer() {
-                drawer.classList.toggle("hidden");
+                    if (token) {
+                        window.savedFCMToken = token;
+                        console.log("FCM Token Berhasil Didapat: ", token);
+                    } else {
+                        console.warn("Gagal mendapatkan token FCM.");
+                    }
+                } else {
+                    console.log("Izin notifikasi ditolak oleh pengguna.");
+                }
+            } catch (error) {
+                console.error("Gagal minta izin notifikasi: ", error);
             }
-
-            if (menuBtn) menuBtn.addEventListener("click", toggleDrawer);
-            if (settingsBtn) settingsBtn.addEventListener("click", toggleDrawer);
-            if (closeDrawer) closeDrawer.addEventListener("click", toggleDrawer);
-            
-            drawerLinks.forEach(link => {
-                link.addEventListener("click", () => drawer.classList.add("hidden"));
-            });
-
-            drawer.addEventListener("click", (e) => {
-                if (e.target === drawer) drawer.classList.add("hidden");
-            });
         }
 
-        async function initGitHubStats() {
-            const reposEl = document.getElementById("github-repos");
-            const followersEl = document.getElementById("github-followers");
-            if (!reposEl || !followersEl) return;
+        mintaIzinNotif();
+
+        // Tangkap pesan saat web sedang dibuka (Foreground)
+        onMessage(messaging, (payload) => {
+            console.log('Notif masuk saat web dibuka: ', payload);
+            alert(`NOTIFIKASI MASUK!\n\nJudul: ${payload.notification.title}\nPesan: ${payload.notification.body}`);
+        });
+    </script>
+
+    <!-- Fungsi Kirim Instan lewat Backend Vercel -->
+    <script>
+        async function kirimNotifInstan() {
+            const tokenTarget = window.savedFCMToken;
+
+            if (!tokenTarget) {
+                alert("Token FCM belum siap! Coba refresh halaman dan pastikan izin notifikasi sudah di-klik.");
+                return;
+            }
+
+            const judul = document.getElementById('notifTitle').value;
+            const pesan = document.getElementById('notifBody').value;
+
+            alert("Mengirim notifikasi instan melalui server Vercel...");
 
             try {
-                const res = await fetch("https://api.github.com/users/rohall12");
-                if (res.ok) {
-                    const data = await res.json();
-                    reposEl.textContent = data.public_repos ?? "2";
-                    followersEl.textContent = data.followers ?? "0";
-                }
-            } catch (e) {}
-        }
-
-        function initPWA() {
-            const installBtn = document.getElementById("pwa-install-btn");
-            let deferredPrompt;
-
-            if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                    navigator.serviceWorker.register('./sw.js').catch(() => {});
+                const response = await fetch('/api/send-notif', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        token: tokenTarget,
+                        title: judul,
+                        body: pesan
+                    })
                 });
-            }
 
-            // Paksa tombol agar selalu muncul
-            if (installBtn) {
-                installBtn.classList.remove("hidden");
-                installBtn.classList.add("flex");
-            }
-
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-            });
-
-            if (installBtn) {
-                installBtn.addEventListener('click', async () => {
-                    if (deferredPrompt) {
-                        deferredPrompt.prompt();
-                        const { outcome } = await deferredPrompt.userChoice;
-                        if (outcome === 'accepted') {
-                            deferredPrompt = null;
-                            installBtn.classList.add("hidden");
-                            installBtn.classList.remove("flex");
-                        }
-                    } else {
-                        // Deteksi otomatis perangkat (HP atau Laptop)
-                        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                        
-                        if (isMobile) {
-                            alert("Cara Install di HP:\n1. Klik ikon titik tiga (⋮) di pojok kanan atas browser Chrome.\n2. Pilih menu 'Tambahkan ke Layar Utama' atau 'Install aplikasi'.");
-                        } else {
-                            alert("Cara Install di PC:\nKlik ikon komputer/download di sebelah kanan Address Bar browser, atau klik titik tiga di pojok kanan atas lalu pilih 'Install RoniHalla'.");
-                        }
-                    }
-                });
-            }
-
-            window.addEventListener('appinstalled', () => {
-                if (installBtn) {
-                    installBtn.classList.add("hidden");
-                    installBtn.classList.remove("flex");
+                const result = await response.json();
+                
+                if (response.ok) {
+                    console.log("Berhasil:", result);
+                    alert("✅ Sukses! Notifikasi instan berhasil dikirim oleh Vercel.");
+                } else {
+                    console.error("Gagal:", result);
+                    alert("❌ Gagal mengirim: " + (result.error || 'Terjadi kesalahan sistem'));
                 }
-            });
-
-            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-                if (installBtn) installBtn.classList.add("hidden");
+            } catch (err) {
+                console.error("Error koneksi:", err);
+                alert("❌ Terjadi kesalahan jaringan ke server backend Vercel.");
             }
         }
     </script>
-
-    <!-- Memuat Logika Telegram Bot secara Terpisah di Folder js/ -->
-    <script src="js/telegram-bot.js"></script>
-    <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js"></script>
-
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyDJE6Ua3tGM0ltnuBiXC5jvM-VLBZCmGqI",
-        authDomain: "my-portofolio-c2eeb.firebaseapp.com",
-        databaseURL: "https://my-portofolio-c2eeb-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "my-portofolio-c2eeb",
-        storageBucket: "my-portofolio-c2eeb.firebasestorage.app",
-        messagingSenderId: "686049637486",
-        appId: "1:686049637486:web:6362caafe9ed4fb37c227f",
-        measurementId: "G-PW4ZTPWMF2"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const messaging = firebase.messaging();
-    // Menangkap pesan saat web sedang dibuka (Foreground)
-    messaging.onMessage((payload) => {
-        console.log('Notif masuk saat web dibuka: ', payload);
-        // Memunculkan alert di layar
-        alert(`BOM NOTIFIKASI!\n\nJudul: ${payload.notification.title}\nPesan: ${payload.notification.body}`);
-    });
-
-    // 1. Fungsi Registrasi Service Worker & Deteksi Update Versi Baru (In-App Update)
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', async () => {
-            try {
-                const registration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
-                
-                registration.onupdatefound = () => {
-                    const installingWorker = registration.installing;
-                    installingWorker.onstatechange = () => {
-                        if (installingWorker.state === 'installed') {
-                            if (navigator.serviceWorker.controller) {
-                                showUpdateBanner();
-                            }
-                        }
-                    };
-                };
-            } catch (error) {
-                console.error('Service Worker error:', error);
-            }
-        });
-    }
-
-    // Banner konfirmasi saat ada versi update baru
-    function showUpdateBanner() {
-        const update = confirm("Versi baru RoniHalla tersedia! Klik OK untuk memuat ulang dan memperbarui aplikasi.");
-        if (update) {
-            window.location.reload();
-        }
-    }
-
-    // 2. Fungsi Meminta Izin Real-time Push Notification (Dengan VAPID Key Lu)
-    async function requestNotificationPermission() {
-        try {
-            const permission = await Notification.requestPermission();
-            if (permission === 'granted') {
-                const token = await messaging.getToken({ 
-                    vapidKey: 'BIEffuCWQhyCdiEtCQf4IDg8sQb97BEDUloMlx920PzdHM-S7R1U9_pp6umwrp_G56pdXvGW7nzbc-MxjQ8AglY' 
-                });
-                if (token) {
-                    console.log('FCM Token Berhasil Didapat:', token);
-                }
-            } else {
-                console.log('Izin notifikasi ditolak pengguna.');
-            }
-        } catch (error) {
-            console.error('Gagal minta izin notifikasi:', error);
-        }
-    }
-
-    // Jalankan permintaan izin saat halaman selesai dimuat
-    window.addEventListener('load', () => {
-        requestNotificationPermission();
-    });
-</script>
 </body>
 </html>
