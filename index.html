@@ -420,6 +420,12 @@
 
     firebase.initializeApp(firebaseConfig);
     const messaging = firebase.messaging();
+    // Menangkap pesan saat web sedang dibuka (Foreground)
+    messaging.onMessage((payload) => {
+        console.log('Notif masuk saat web dibuka: ', payload);
+        // Memunculkan alert di layar
+        alert(`BOM NOTIFIKASI!\n\nJudul: ${payload.notification.title}\nPesan: ${payload.notification.body}`);
+    });
 
     // 1. Fungsi Registrasi Service Worker & Deteksi Update Versi Baru (In-App Update)
     if ('serviceWorker' in navigator) {
