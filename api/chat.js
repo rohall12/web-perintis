@@ -57,7 +57,7 @@ export default async function handler(req, res) {
     }
 
     // PANGGIL GEMINI AI
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     const promptContext = `Kamu adalah asisten AI di website portofolio milik Roni Halla. Tugasmu menjawab pertanyaan pengunjung dengan gaya bahasa santai, ramah, dan profesional. Jawab pertanyaan ini dengan singkat dan padat (maksimal 3-4 kalimat): "${message}"`;
 
     const result = await model.generateContent(promptContext);
