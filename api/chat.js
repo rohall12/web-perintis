@@ -35,7 +35,7 @@ export default async function handler(req, res) {
     
     const NOW = Date.now();
     const ONE_HOUR = 60 * 60 * 1000;
-    const MAX_REQUESTS_PER_HOUR = 15; // Maksimal 15 pesan per jam
+    const MAX_REQUESTS_PER_HOUR = 100; // Maksimal 100 pesan per jam
 
     if (rateLimitDoc.exists) {
       const data = rateLimitDoc.data();
