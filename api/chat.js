@@ -1,3 +1,21 @@
+const fs = require('fs');
+const path = require('path');
+
+// Fungsi membaca updates.json secara dinamis saat ada request
+function getLatestUpdates() {
+  try {
+    const filePath = path.join(process.cwd(), 'updates.json');
+    if (fs.existsSync(filePath)) {
+      const fileData = fs.readFileSync(filePath, 'utf8');
+      const updates = JSON.parse(fileData);
+      return updates.map(item => `- [${item.date}] ${item.update}`).join('\n');
+    }
+  } catch (err) {
+    console.error('Gagal membaca updates.json:', err.message);
+  }
+  return 'Belum ada catatan pembaruan terbaru.';
+}
+
 module.exports = async (req, res) => {
   // Set CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,20 +28,29 @@ module.exports = async (req, res) => {
   const { message } = req.body;
   if (!message) return res.status(400).json({ error: 'Message is required' });
 
-  // System Prompt untuk memberi konteks & persona pada AI
+  // Ambil list update terbaru dari updates.json
+  const webUpdatesText = getLatestUpdates();
+
+  // Persona & Prompt
   const systemPrompt = {
     role: 'system',
-    content: `Kamu adalah AI Assistant di website portofolio milik Roni (Roni Halla / Rohall).
-Website ini ("web ronihalla" / "web-perintis") adalah situs portofolio interaktif Roni.
+    content: `Lu adalah asisten AI pribadi dari Roni (Roni Halla / Rohall) di situs "web ronihalla".
 
-Fungsi utama website ini:
-1. Menampilkan profil, skill/keahlian, dan daftar project yang pernah dibuat Roni.
-2. Memfasilitasi pengunjung untuk berdiskusi, bertanya tentang project, skill, latar belakang Roni, maupun topik pemrograman & teknologi.
-3. Menampilkan informasi kontak dan tautan media sosial Roni.
+GAYA BAHASA & PERSONA:
+- Bicara SANGAT SANTAI, CASUAL, dan NATURAL kaya temen sendiri lagi chat di WhatsApp / DM IG.
+- Pakai kosa kata gaul/santai sehari-hari (contoh: "gw", "lu", "bree", "bro", "sih", "gitu", "anjay", "bebas", "palingan").
+- Boleh pakai singkatan wajar orang chat (contoh: "yg", "aja", "buat", "gajadi", "bisa bgt").
+- HINDARI gaya bahasa kaku, formal, atau bertele-tele kaya robot customer service (JANGAN pakai frasa kaya "Tentu!", "Saya adalah AI", "Ada yang bisa saya bantu?").
+- Jawab langsung to the point, agak woles, tapi tetep ramah dan ngebantu.
 
-Instruksi gaya bahasa:
-- Gunakan bahasa Indonesia yang santai, akrab, ramah, dan responsif (boleh gunakan panggilan "bree" atau "bro" jika pengguna menyapa secara santai).
-- Jika pengguna bertanya cara menggunakan web ini, jelaskan navigasinya (melihat project, skill, kontak, dan menggunakan fitur chat ini untuk berdiskusi/bertanya).`
+INFORMASI WEB & UPDATE TERBARU:
+Situs ini adalah web portofolio interaktif Roni.
+Daftar update / pembaruan fitur web terbaru saat ini:
+${webUpdatesText}
+
+TUGAS:
+1. Jawab pertanyaan soal Roni, skill, project, atau navigasi web.
+2. Kalau ada yg nanya "ada update apa?", "fitur baru apa?", atau sejenisnya, jelasin update terbaru di atas pakai gaya bahasa santai lu sendiri.`
   };
 
   const payloadMessages = [
@@ -31,7 +58,7 @@ Instruksi gaya bahasa:
     { role: 'user', content: message }
   ];
 
-  // 1. OPSI UTAMA: Call Groq API
+  // 1. OPSI UTAMA: Groq API
   try {
     const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
@@ -50,13 +77,11 @@ Instruksi gaya bahasa:
       const reply = data.choices[0]?.message?.content;
       if (reply) return res.status(200).json({ reply });
     }
-
-    console.warn('Groq API gagal/rate limit. Beralih ke OpenRouter...');
   } catch (err) {
-    console.warn('Error koneksi Groq:', err.message);
+    console.warn('Groq Error:', err.message);
   }
 
-  // 2. OPSI CADANGAN: Fallback ke OpenRouter
+  // 2. OPSI CADANGAN: Fallback OpenRouter
   try {
     const openRouterResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
@@ -71,17 +96,12 @@ Instruksi gaya bahasa:
     });
 
     const data = await openRouterResponse.json();
-
-    if (!openRouterResponse.ok) {
-      throw new Error(data.error?.message || 'Gagal terhubung ke OpenRouter API');
-    }
+    if (!openRouterResponse.ok) throw new Error(data.error?.message || 'OpenRouter Error');
 
     const reply = data.choices[0]?.message?.content;
     return res.status(200).json({ reply });
 
   } catch (error) {
-    return res.status(500).json({
-      error: `Gagal memproses pesan. Detail: ${error.message}`
-    });
+    return res.status(500).json({ error: `Gagal memproses pesan: ${error.message}` });
   }
 };
