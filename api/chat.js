@@ -69,7 +69,7 @@ module.exports = async function handler(req, res) {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     
     const promptContext = `Kamu adalah asisten AI di website portofolio milik Roni Halla. Jawab pertanyaan pengunjung dengan gaya santai, ramah, dan ringkas (maksimal 3 kalimat): "${message}"`;
 
