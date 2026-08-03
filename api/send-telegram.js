@@ -9,30 +9,33 @@ export default async function handler(req, res) {
 
   const { name, email, message } = req.body;
 
-  // Mengambil data dari Environment Variables Vercel
+  // Read environment variables
   const rawToken = process.env.TELEGRAM_BOT_TOKEN;
-  const rawChatId = process.env.TELEGRAM_ADMIN_CHAT_ID || process.env.TELEGRAM_CHAT_ID;
+  const rawChatId = process.env.TELEGRAM_ADMIN_CHAT_ID;
 
-  // Proteksi jika variabel belum diisi di Vercel
+  // 1. Cek apakah Environment Variable benar-benar terbaca di Vercel
   if (!rawToken || rawToken.trim() === '') {
-    return res.status(500).json({ error: 'TELEGRAM_BOT_TOKEN belum diisi atau tidak terbaca di Vercel!' });
+    return res.status(500).json({
+      error: 'DIAGNOSTIC ERROR: TELEGRAM_BOT_TOKEN tidak terbaca di Vercel (kosong/undefined). Pastikan nama variabel di Vercel Settings persis "TELEGRAM_BOT_TOKEN".'
+    });
   }
 
   if (!rawChatId || rawChatId.trim() === '') {
-    return res.status(500).json({ error: 'TELEGRAM_ADMIN_CHAT_ID belum diisi atau tidak terbaca di Vercel!' });
+    return res.status(500).json({
+      error: 'DIAGNOSTIC ERROR: TELEGRAM_ADMIN_CHAT_ID tidak terbaca di Vercel (kosong/undefined).'
+    });
   }
 
-  // Bersihkan token dari kata "bot" jika tidak sengaja terikut di Vercel
+  // Clean values
   const botToken = rawToken.trim().replace(/^bot/i, '');
   const chatId = rawChatId.trim();
 
   const text = `📩 *Pesan Baru dari Website Portofolio*\n\n👤 *Nama:* ${name || 'Anonim'}\n📧 *Email:* ${email || '-'}\n💬 *Pesan:* ${message || '-'}`;
 
-  // Konstruksi URL Telegram yang presisi
-  const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+  const apiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
   try {
-    const telegramRes = await fetch(telegramUrl, {
+    const telegramRes = await fetch(apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -46,13 +49,14 @@ export default async function handler(req, res) {
 
     if (!telegramRes.ok) {
       return res.status(telegramRes.status).json({
-        error: `Telegram Error: ${data.description || 'Gagal mengirim pesan'}`,
-        details: data
+        error: `Telegram Response Error (${telegramRes.status})`,
+        telegram_response: data,
+        called_url_snippet: `https://api.telegram.org/bot${botToken.substring(0, 5)}.../sendMessage`
       });
     }
 
     return res.status(200).json({ success: true, message: 'Pesan berhasil dikirim ke Telegram!' });
   } catch (error) {
-    return res.status(500).json({ error: `Server Error: ${error.message}` });
+    return res.status(500).json({ error: `Server catch error: ${error.message}` });
   }
 }
