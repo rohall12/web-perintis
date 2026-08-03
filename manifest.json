@@ -1,19 +1,19 @@
 {
-  "name": "Roni Halla Portfolio",
+  "name": "RoniHalla Portfolio",
   "short_name": "RoniHalla",
-  "start_url": "./index.html",
+  "description": "Portofolio Roni Halla - Junior Developer",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#090a0f",
-  "theme_color": "#ff003c",
-  "description": "Portfolio of Roni Halla, Junior Developer",
+  "background_color": "#020617",
+  "theme_color": "#020617",
   "icons": [
     {
-      "src": "assets/gojo.jpg",
+      "src": "./assets/new_hero_character.jpg",
       "sizes": "192x192",
       "type": "image/jpeg"
     },
     {
-      "src": "assets/gojo.jpg",
+      "src": "./assets/new_hero_character.jpg",
       "sizes": "512x512",
       "type": "image/jpeg"
     }
