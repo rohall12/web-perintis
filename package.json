@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Portofolio Roni Halla dengan Firebase dan Gemini AI",
   "dependencies": {
-    "firebase-admin": "^11.10.0",
-    "@google/generative-ai": "^0.22.0"
+    "@google/generative-ai": "^0.22.0",
+    "firebase-admin": "^11.11.1"
   }
 }
