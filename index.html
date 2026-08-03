@@ -274,60 +274,60 @@
     </div>
 
     <script>
-        // --- LOGIKA PWA INSTALLATION DETECTOR ---
-        let deferredPrompt;
-        const pwaInstallBtn = document.getElementById('pwaInstallBtn');
+        // --- LOGIKA PWA INSTALLATION (WEBAPK ASLI) ---
+let deferredPrompt;
+const pwaInstallBtn = document.getElementById('pwaInstallBtn');
 
-        // Deteksi apakah web sedang dibuka DI DALAM aplikasi PWA yang sudah terinstall (Standalone mode)
-        const isAppInstalled = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+// Sembunyikan tombol secara default saat pertama kali dimuat
+if (pwaInstallBtn) {
+    pwaInstallBtn.classList.add('hidden');
+}
 
-        // Jika BUKAN dibuka di dalam aplikasi PWA (artinya dibuka lewat browser biasa)
-        if (!isAppInstalled) {
-            // Tampilkan tombol "Install App"
-            if (pwaInstallBtn) {
-                pwaInstallBtn.classList.remove('hidden');
-            }
+// Tangkap event resmi dari Chrome ketika syarat WebAPK sudah terpenuhi
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Tahan prompt bawaan
+    e.preventDefault();
+    deferredPrompt = e;
 
-            // Tangkap event install dari browser jika Chrome mengizinkan
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-            });
+    // KARENA CHROME SUDAH SIAP, BARU TAMPILKAN TOMBOL INSTALL
+    if (pwaInstallBtn) {
+        pwaInstallBtn.classList.remove('hidden');
+    }
+});
 
-            // Event saat tombol Install diklik
-            if (pwaInstallBtn) {
-                pwaInstallBtn.addEventListener('click', async () => {
-                    if (deferredPrompt) {
-                        deferredPrompt.prompt();
-                        const { outcome } = await deferredPrompt.userChoice;
-                        if (outcome === 'accepted') {
-                            pwaInstallBtn.classList.add('hidden');
-                        }
-                        deferredPrompt = null;
-                    } else {
-                        alert('Untuk meng-install aplikasi ini:\n\n1. Klik ikon Titik Tiga (⋮) di kanan atas browser Chrome kamu.\n2. Pilih "Tambahkan ke Layar Utama" / "Install Aplikasi".');
-                    }
-                });
-            }
+// Ketika tombol diklik, LANGSUNG memicu pop-up install APK Android
+if (pwaInstallBtn) {
+    pwaInstallBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+
+        // Tampilkan dialog instalasi resmi dari Android / Chrome
+        deferredPrompt.prompt();
+
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            // Sembunyikan tombol jika pengguna menyetujui install
+            pwaInstallBtn.classList.add('hidden');
         }
+        deferredPrompt = null;
+    });
+}
 
-        // Sembunyikan tombol secara otomatis setelah proses instalasi selesai
-        window.addEventListener('appinstalled', () => {
-            if (pwaInstallBtn) {
-                pwaInstallBtn.classList.add('hidden');
-            }
-            deferredPrompt = null;
-        });
+// Sembunyikan tombol jika aplikasi dibuka dari dalam PWA yang sudah terinstall
+window.addEventListener('appinstalled', () => {
+    if (pwaInstallBtn) {
+        pwaInstallBtn.classList.add('hidden');
+    }
+    deferredPrompt = null;
+});
 
-        // Register Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker Registered!', reg))
-                    .catch(err => console.log('Service Worker Registration Failed!', err));
-            });
-        }
-
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('Service Worker Registered!', reg))
+            .catch(err => console.log('Service Worker Registration Failed!', err));
+    });
+}
         // --- SCRIPT UI PORTFOLIO & CHATBOT ---
         function bukaMenu() {
             const menu = document.getElementById('sideMenu');
