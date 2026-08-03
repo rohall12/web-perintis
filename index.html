@@ -88,7 +88,7 @@
                     </a>
                 </nav>
 
-                <!-- Kontak Resmi (Tanpa Nomor/Username Terbuka) -->
+                <!-- Kontak Resmi -->
                 <div class="border-t border-slate-800/80 pt-4">
                     <span class="text-[10px] text-slate-500 font-bold tracking-wider block mb-3 uppercase">Media Sosial & Kontak</span>
                     <div class="flex items-center space-x-3">
@@ -217,6 +217,33 @@
             <span class="text-lg">💼</span> Profil
         </a>
     </nav>
+
+    <!-- Tombol Floating Chat -->
+    <button id="chat-toggle-btn" class="fixed bottom-6 right-6 p-4 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition-all z-50">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+    </button>
+
+    <!-- Widget Chat Window -->
+    <div id="chat-widget" class="fixed bottom-24 right-6 w-80 h-96 bg-black/70 backdrop-blur-md border border-gray-600 rounded-xl shadow-2xl flex-col hidden z-50 overflow-hidden text-sm">
+        <div class="bg-gray-800/80 p-3 border-b border-gray-600 flex justify-between items-center text-white">
+            <div class="flex items-center space-x-2">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="font-semibold">AI Assistant Roni</span>
+            </div>
+            <button id="close-chat-btn" class="text-gray-400 hover:text-white">&times;</button>
+        </div>
+
+        <div id="chat-messages" class="flex-1 p-3 overflow-y-auto flex flex-col space-y-3 text-white">
+            <div class="self-start bg-gray-700/80 p-2 rounded-lg max-w-[85%]">
+                Halo! Gw AI asistennya Roni. Ada yang mau ditanyain soal project, skill, atau pengalaman Roni?
+            </div>
+        </div>
+
+        <div class="p-3 border-t border-gray-600 bg-gray-900/50 flex">
+            <input type="text" id="chat-input" placeholder="Ketik pesan..." class="flex-1 bg-transparent text-white border-none outline-none placeholder-gray-400 px-2" autocomplete="off">
+            <button id="send-chat-btn" class="text-blue-400 hover:text-blue-300 font-semibold px-2 transition-all">Kirim</button>
+        </div>
+    </div>
 
     <!-- Firebase SDK (Compat Version) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -350,7 +377,7 @@
             }
         }
 
-        // Kirim Pesan ke Telegram Bot
+        // Kirim Pesan ke Telegram Bot via Serverless API (/api/send-telegram)
         async function kirimPesanTelegram(event) {
             event.preventDefault();
             
@@ -362,28 +389,20 @@
             btn.disabled = true;
             btn.innerText = "MENGIRIM PESAN...";
 
-            const botToken = "8886940858:AAEMAdvWAyfK0vi6Rpx-qmME3pvwyM8Q6Ew"; 
-            const chatId = "5983713854";
-
-            const textPesan = `📩 *PESAN BARU DARI PORTOFOLIO*\n\n👤 *Nama:* ${nama}\n📞 *Kontak:* ${kontak}\n💬 *Pesan:* ${pesan}`;
-
             try {
-                const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-                const response = await fetch(telegramUrl, {
+                const response = await fetch('/api/send-telegram', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: chatId,
-                        text: textPesan,
-                        parse_mode: 'Markdown'
-                    })
+                    body: JSON.stringify({ nama, kontak, pesan })
                 });
+
+                const result = await response.json();
 
                 if (response.ok) {
                     tampilkanGlitchNotif("⚡ PESAN KE TELEGRAM BERHASIL TERKIRIM!");
                     document.getElementById('telegramForm').reset();
                 } else {
-                    tampilkanGlitchNotif("❌ Gagal mengirim pesan ke Telegram.", 'gagal');
+                    tampilkanGlitchNotif("❌ Gagal: " + (result.error || "Gagal mengirim pesan ke Telegram."), 'gagal');
                 }
             } catch (err) {
                 console.error(err);
@@ -393,122 +412,84 @@
                 btn.innerText = "KIRIM PESAN SEKARANG";
             }
         }
+
+        // === LOGIKA FRONTEND AI CHAT ASSISTANT ===
+        const chatToggleBtn = document.getElementById('chat-toggle-btn');
+        const closeChatBtn = document.getElementById('close-chat-btn');
+        const chatWidget = document.getElementById('chat-widget');
+        const chatInput = document.getElementById('chat-input');
+        const sendChatBtn = document.getElementById('send-chat-btn');
+        const chatMessages = document.getElementById('chat-messages');
+
+        chatToggleBtn.addEventListener('click', () => {
+            chatWidget.classList.remove('hidden');
+            chatWidget.classList.add('flex');
+        });
+        closeChatBtn.addEventListener('click', () => {
+            chatWidget.classList.add('hidden');
+            chatWidget.classList.remove('flex');
+        });
+
+        function addMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `p-2 rounded-lg max-w-[85%] ${sender === 'user' ? 'self-end bg-blue-600' : 'self-start bg-gray-700/80'}`;
+            msgDiv.innerText = text;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        sendChatBtn.addEventListener('click', async () => {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            chatInput.value = '';
+            
+            sendChatBtn.disabled = true;
+            chatInput.disabled = true;
+            sendChatBtn.innerText = '⏳';
+
+            const loadingId = 'loading-' + Date.now();
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = loadingId;
+            loadingDiv.className = 'self-start bg-gray-700/80 p-2 rounded-lg text-gray-300 italic text-xs';
+            loadingDiv.innerText = 'AI sedang mengetik...';
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+
+                const data = await response.json();
+                document.getElementById(loadingId).remove();
+
+                if (response.status === 429) {
+                    addMessage('⚠️ Tunggu bentar ya bree, lu ngirim pesan terlalu cepat (Anti-Spam aktif).', 'ai');
+                } else if (response.ok) {
+                    addMessage(data.reply, 'ai');
+                } else {
+                    addMessage('Maaf, AI lagi error. Coba lagi nanti.', 'ai');
+                }
+            } catch (error) {
+                document.getElementById(loadingId).remove();
+                addMessage('Koneksi terputus.', 'ai');
+            }
+
+            setTimeout(() => {
+                sendChatBtn.disabled = false;
+                chatInput.disabled = false;
+                sendChatBtn.innerText = 'Kirim';
+            }, 5000);
+        });
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendChatBtn.click();
+        });
     </script>
-    <!-- Tombol Floating Chat -->
-<button id="chat-toggle-btn" class="fixed bottom-6 right-6 p-4 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition-all z-50">
-  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
-</button>
 
-<!-- Widget Chat Window (Disembunyikan secara default) -->
-<div id="chat-widget" class="fixed bottom-24 right-6 w-80 h-96 bg-black/70 backdrop-blur-md border border-gray-600 rounded-xl shadow-2xl flex-col hidden z-50 overflow-hidden text-sm">
-  
-  <!-- Header Chat -->
-  <div class="bg-gray-800/80 p-3 border-b border-gray-600 flex justify-between items-center text-white">
-    <div class="flex items-center space-x-2">
-      <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-      <span class="font-semibold">AI Assistant Roni</span>
-    </div>
-    <button id="close-chat-btn" class="text-gray-400 hover:text-white">&times;</button>
-  </div>
-
-  <!-- Area Pesan -->
-  <div id="chat-messages" class="flex-1 p-3 overflow-y-auto flex flex-col space-y-3 text-white">
-    <!-- Pesan Selamat Datang -->
-    <div class="self-start bg-gray-700/80 p-2 rounded-lg max-w-[85%]">
-      Halo! Gw AI asistennya Roni. Ada yang mau ditanyain soal project, skill, atau pengalaman Roni?
-    </div>
-  </div>
-
-  <!-- Input Area -->
-  <div class="p-3 border-t border-gray-600 bg-gray-900/50 flex">
-    <input type="text" id="chat-input" placeholder="Ketik pesan..." class="flex-1 bg-transparent text-white border-none outline-none placeholder-gray-400 px-2" autocomplete="off">
-    <button id="send-chat-btn" class="text-blue-400 hover:text-blue-300 font-semibold px-2 transition-all">Kirim</button>
-  </div>
-</div>
-<!-- ... (kode HTML lu yang lain di atas) ... -->
-
-<!-- Floating Chat HTML (Langkah 1 yang tadi) ditaruh di sini -->
-
-<script>
-  // === TARUH KODE JAVASCRIPT FRONTEND DI SINI ===
-  const chatToggleBtn = document.getElementById('chat-toggle-btn');
-  const closeChatBtn = document.getElementById('close-chat-btn');
-  const chatWidget = document.getElementById('chat-widget');
-  const chatInput = document.getElementById('chat-input');
-  const sendChatBtn = document.getElementById('send-chat-btn');
-  const chatMessages = document.getElementById('chat-messages');
-
-  chatToggleBtn.addEventListener('click', () => {
-    chatWidget.classList.remove('hidden');
-    chatWidget.classList.add('flex');
-  });
-  closeChatBtn.addEventListener('click', () => {
-    chatWidget.classList.add('hidden');
-    chatWidget.classList.remove('flex');
-  });
-
-  function addMessage(text, sender) {
-    const msgDiv = document.createElement('div');
-    msgDiv.className = `p-2 rounded-lg max-w-[85%] ${sender === 'user' ? 'self-end bg-blue-600' : 'self-start bg-gray-700/80'}`;
-    msgDiv.innerText = text;
-    chatMessages.appendChild(msgDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  sendChatBtn.addEventListener('click', async () => {
-    const message = chatInput.value.trim();
-    if (!message) return;
-
-    addMessage(message, 'user');
-    chatInput.value = '';
-    
-    sendChatBtn.disabled = true;
-    chatInput.disabled = true;
-    sendChatBtn.innerText = '⏳';
-
-    const loadingId = 'loading-' + Date.now();
-    const loadingDiv = document.createElement('div');
-    loadingDiv.id = loadingId;
-    loadingDiv.className = 'self-start bg-gray-700/80 p-2 rounded-lg text-gray-300 italic text-xs';
-    loadingDiv.innerText = 'AI sedang mengetik...';
-    chatMessages.appendChild(loadingDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: message })
-      });
-
-      const data = await response.json();
-      document.getElementById(loadingId).remove();
-
-      if (response.status === 429) {
-        addMessage('⚠️ Tunggu bentar ya bree, lu ngirim pesan terlalu cepat (Anti-Spam aktif).', 'ai');
-      } else if (response.ok) {
-        addMessage(data.reply, 'ai');
-      } else {
-        addMessage('Maaf, AI lagi error. Coba lagi nanti.', 'ai');
-      }
-    } catch (error) {
-      document.getElementById(loadingId).remove();
-      addMessage('Koneksi terputus.', 'ai');
-    }
-
-    setTimeout(() => {
-      sendChatBtn.disabled = false;
-      chatInput.disabled = false;
-      sendChatBtn.innerText = 'Kirim';
-    }, 5000);
-  });
-
-  chatInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendChatBtn.click();
-  });
-</script>
-
-</body>
-</html>
 </body>
 </html>
