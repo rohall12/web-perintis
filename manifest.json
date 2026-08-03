@@ -2,7 +2,8 @@
   "name": "RoniHalla Portfolio",
   "short_name": "RoniHalla",
   "description": "Portofolio Roni Halla - Junior Developer",
-  "start_url": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#020617",
   "theme_color": "#020617",
@@ -10,12 +11,14 @@
     {
       "src": "./assets/new_hero_character.jpg",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/jpeg",
+      "purpose": "any maskable"
     },
     {
       "src": "./assets/new_hero_character.jpg",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/jpeg",
+      "purpose": "any maskable"
     }
   ]
 }

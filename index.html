@@ -274,52 +274,60 @@
 
     <script>
         // --- LOGIKA PWA INSTALLATION DETECTOR ---
-        let deferredPrompt;
-        const pwaInstallBtn = document.getElementById('pwaInstallBtn');
+let deferredPrompt;
+const pwaInstallBtn = document.getElementById('pwaInstallBtn');
 
-        // Check apakah web sedang berjalan dalam mode standalone (aplikasi PWA sudah terinstall)
-        const isAppInstalled = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+// Deteksi apakah web sedang dibuka DI DALAM aplikasi PWA yang sudah terinstall (Standalone mode)
+const isAppInstalled = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
-        if (!isAppInstalled) {
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                // Tampilkan tombol install jika PWA belum terinstall
-                if (pwaInstallBtn) {
-                    pwaInstallBtn.classList.remove('hidden');
+// Jika BUKAN dibuka di dalam aplikasi PWA (artinya dibuka lewat browser biasa)
+if (!isAppInstalled) {
+    // Tampilkan tombol "Install App"
+    if (pwaInstallBtn) {
+        pwaInstallBtn.classList.remove('hidden');
+    }
+
+    // Tangkap event install dari browser jika Chrome mengizinkan
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+    });
+
+    // Event saat tombol Install diklik
+    if (pwaInstallBtn) {
+        pwaInstallBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // Jika Chrome mengizinkan install otomatis
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    pwaInstallBtn.classList.add('hidden');
                 }
-            });
-        }
-
-        if (pwaInstallBtn) {
-            pwaInstallBtn.addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    if (outcome === 'accepted') {
-                        pwaInstallBtn.classList.add('hidden');
-                    }
-                    deferredPrompt = null;
-                }
-            });
-        }
-
-        // Sembunyikan tombol secara otomatis setelah proses instalasi selesai
-        window.addEventListener('appinstalled', () => {
-            if (pwaInstallBtn) {
-                pwaInstallBtn.classList.add('hidden');
+                deferredPrompt = null;
+            } else {
+                // Jika Chrome sedang cooldown / di iOS Safari, beri panduan langsung
+                alert('Untuk meng-install aplikasi ini:\n\n1. Klik ikon Titik Tiga (⋮) di kanan atas browser Chrome kamu.\n2. Pilih "Tambahkan ke Layar Utama" / "Install Aplikasi".');
             }
-            deferredPrompt = null;
         });
+    }
+}
 
-        // Register Service Worker untuk PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker Registered!', reg))
-                    .catch(err => console.log('Service Worker Registration Failed!', err));
-            });
-        }
+// Sembunyikan tombol secara otomatis setelah proses instalasi selesai
+window.addEventListener('appinstalled', () => {
+    if (pwaInstallBtn) {
+        pwaInstallBtn.classList.add('hidden');
+    }
+    deferredPrompt = null;
+});
+
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('Service Worker Registered!', reg))
+            .catch(err => console.log('Service Worker Registration Failed!', err));
+    });
+}
 
         // --- SCRIPT UI PORTFOLIO & CHATBOT ---
         function bukaMenu() {
