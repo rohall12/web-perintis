@@ -1,493 +1,259 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoniHalla | Portfolio</title>
-    
-    <!-- PWA & Theme Settings -->
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#020617">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RoniHalla">
-
-    <!-- Tailwind CSS -->
+    <meta name="theme-color" content="#090d16">
+    <meta name="description" content="RoniHalla Portfolio - Developer & AI Specialist">
+    <title>RoniHalla Portfolio</title>
+    <link rel="manifest" href="/manifest.json">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#ef4444',
+                            dark: '#090d16',
+                            card: '#111827'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        ::-webkit-scrollbar {
-            display: none;
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.6); }
         }
-        
-        html, body {
-            scrollbar-width: none;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch; 
-            overscroll-behavior-y: none;
-        }
-        
-        @keyframes glitchSmooth {
-            0% { opacity: 0; transform: scale(0.95); text-shadow: 2px 0 red; }
-            50% { opacity: 0.8; text-shadow: -2px 0 darkred; }
-            100% { opacity: 1; transform: scale(1); text-shadow: 0 0 10px rgba(239, 68, 68, 0.8); }
-        }
-        .glitch-metalic {
-            animation: glitchSmooth 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
+        .glow-red { animation: pulseGlow 3s infinite; }
     </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between font-sans pb-24">
+<body class="bg-[#090d16] text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-red-500 selection:text-white">
 
-    <!-- Header / Navbar Atas -->
-    <header class="p-4 flex justify-between items-center max-w-md mx-auto w-full bg-slate-900/30 backdrop-blur-xl sticky top-0 z-40 border-b border-white/10 shadow-lg shadow-black/20">
-        <h1 class="text-lg font-bold text-red-500 tracking-wider">RoniHalla<span class="text-white">.</span></h1>
-        
-        <div class="flex items-center space-x-2">
-            <!-- Tombol Install PWA (Awalnya tersembunyi, hanya muncul jika WebAPK siap) -->
-            <button id="pwaInstallBtn" class="hidden bg-red-600/80 hover:bg-red-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-red-500/30 backdrop-blur-md transition shadow-md shadow-red-600/20 flex items-center space-x-1.5 animate-pulse">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                </svg>
-                <span>Install App</span>
-            </button>
-
-            <!-- Tombol Menu Sidebar -->
-            <button onclick="bukaMenu()" class="p-2 bg-white/5 rounded-xl border border-white/10 text-slate-300 hover:text-white transition shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-[#090d16]/80 backdrop-blur-md">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="#" class="text-xl font-bold tracking-wider text-red-500 flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-red-500 inline-block shadow-[0_0_10px_#ef4444]"></span>
+                RoniHalla
+            </a>
+            <nav class="hidden md:flex gap-6 text-sm font-medium text-slate-300">
+                <a href="#about" class="hover:text-red-500 transition-colors">Tentang</a>
+                <a href="#projects" class="hover:text-red-500 transition-colors">Proyek</a>
+                <a href="#contact" class="hover:text-red-500 transition-colors">Kontak</a>
+            </nav>
         </div>
     </header>
 
-    <!-- Sidebar Menu Navigasi -->
-    <div id="sideMenu" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 hidden transition-opacity opacity-0">
-        <div class="absolute right-0 top-0 bottom-0 w-72 bg-slate-900/40 border-l border-white/10 p-6 flex flex-col justify-between shadow-[-10px_0_30px_rgba(0,0,0,0.3)] backdrop-blur-2xl">
-            <div>
-                <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
-                    <div>
-                        <h2 class="font-bold text-slate-300 text-xs tracking-widest uppercase">NAVIGASI</h2>
-                        <p class="text-[10px] text-slate-400">Direktori Portofolio</p>
-                    </div>
-                    <button onclick="tutupMenu()" class="p-2 text-slate-400 hover:text-white bg-white/5 rounded-lg border border-white/10 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-12 space-y-24">
+        <!-- Hero Section -->
+        <section id="about" class="py-12 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="space-y-6 max-w-2xl">
+                <div class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/20">
+                    Full-Stack & AI Developer
                 </div>
-                
-                <nav class="space-y-2 text-xs mb-8">
-                    <a href="#beranda" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition">
-                        <div class="p-2 bg-white/5 border border-white/10 text-slate-300 rounded-lg">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                        </div> 
-                        <div>
-                            <span class="block font-semibold">Beranda Utama</span>
-                            <span class="text-[10px] text-slate-400">Halaman pengantar portofolio</span>
-                        </div>
-                    </a>
-                    <a href="#github" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition">
-                        <div class="p-2 bg-white/5 border border-white/10 text-slate-300 rounded-lg">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                        </div> 
-                        <div>
-                            <span class="block font-semibold">Aktivitas Repositori</span>
-                            <span class="text-[10px] text-slate-400">Statistik kode sumber live</span>
-                        </div>
-                    </a>
-                    <a href="#pesan" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition">
-                        <div class="p-2 bg-white/5 border border-white/10 text-slate-300 rounded-lg">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                        </div> 
-                        <div>
-                            <span class="block font-semibold">Kirim Pesan</span>
-                            <span class="text-[10px] text-slate-400">Hubungi via Telegram Bot</span>
-                        </div>
-                    </a>
-                    <a href="#tentang" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition">
-                        <div class="p-2 bg-white/5 border border-white/10 text-slate-300 rounded-lg">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                        </div> 
-                        <div>
-                            <span class="block font-semibold">Profil</span>
-                            <span class="text-[10px] text-slate-400">Informasi latar belakang</span>
-                        </div>
-                    </a>
-                </nav>
-
-                <!-- Kontak Resmi -->
-                <div class="border-t border-white/10 pt-4">
-                    <span class="text-[10px] text-slate-400 font-bold tracking-wider block mb-3 uppercase">MEDIA SOSIAL & KONTAK</span>
-                    <div class="flex items-center space-x-3">
-                        <a href="https://wa.me/62881038278950" target="_blank" class="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 transition text-emerald-400 flex items-center justify-center" title="WhatsApp Official">
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.124-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                        </a>
-                        <a href="https://instagram.com/ronihalla_08" target="_blank" class="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 transition text-pink-400 flex items-center justify-center" title="Instagram Official">
-                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                        </a>
-                    </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight">
+                    Halo, Saya <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-400">RoniHalla</span>
+                </h1>
+                <p class="text-slate-400 text-lg leading-relaxed">
+                    Membangun pengalaman web modern, responsif, dan terintegrasi dengan kecerdasan buatan. Berfokus pada performa tinggi dan desain interaktif.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#contact" class="px-6 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-medium shadow-[0_0_20px_rgba(239,68,68,0.4)] transition-all">Hubungi Saya</a>
+                    <a href="#projects" class="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-medium transition-all">Lihat Karya</a>
                 </div>
-            </div>
-            <div class="text-[10px] text-slate-500 text-center border-t border-white/10 pt-4">
-                WITA Timezone active
-            </div>
-        </div>
-    </div>
-
-    <!-- Konten Utama -->
-    <main class="max-w-md mx-auto px-4 py-6 w-full space-y-6">
-
-        <!-- Card 1: Beranda Utama -->
-        <section id="beranda" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl overflow-hidden">
-            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-slate-800/50">
-                <img src="./assets/new_hero_character.jpg" alt="Beranda Utama" class="w-full h-full object-cover">
-            </div>
-            <div class="flex items-center space-x-2 mb-2 text-slate-400">
-                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                <span class="text-xs font-bold tracking-wider text-slate-300 uppercase">BERANDA UTAMA</span>
-            </div>
-            <h2 class="text-2xl font-black mb-2 text-white">selamat berkunjung ke <span class="text-red-500">web</span> saya.</h2>
-            <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-                Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan Python dan Web Development.
-            </p>
-            <div class="flex gap-2">
-                <a href="#pesan" class="flex-1 bg-red-600 hover:bg-red-700 text-center text-xs font-bold py-2.5 rounded-xl text-white transition shadow-lg shadow-red-600/20">Kirim Pesan</a>
-                <a href="https://github.com/ronihalla" target="_blank" class="flex-1 bg-slate-800 hover:bg-slate-700 text-center text-xs font-bold py-2.5 rounded-xl text-white transition border border-slate-700">GitHub Saya</a>
             </div>
         </section>
 
-        <!-- Card 2: Aktivitas Repositori -->
-        <section id="github" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl">
-            <div class="flex justify-between items-center mb-3">
-                <div class="flex items-center space-x-2 text-slate-400">
-                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                    <span class="text-xs font-bold text-slate-300 tracking-wider uppercase">AKTIVITAS REPOSITORI</span>
+        <!-- Projects Section -->
+        <section id="projects" class="space-y-6">
+            <h2 class="text-2xl font-bold text-slate-100 flex items-center gap-2">
+                <span class="w-2 h-6 bg-red-500 rounded-full"></span>
+                Proyek Unggulan
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-red-500/40 transition-all space-y-3">
+                    <h3 class="text-xl font-semibold text-red-400">AI Assistant Integration</h3>
+                    <p class="text-slate-400 text-sm">Integrasi widget AI pintar langsung di dalam portofolio web menggunakan API Gemini & Vercel Functions.</p>
                 </div>
-                <span class="px-2 py-0.5 bg-red-500/20 text-red-400 text-[10px] font-bold rounded">LIVE</span>
-            </div>
-            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-slate-800/50">
-                <img src="./assets/sung_jin_woo.jpg" alt="Aktivitas Repositori" class="w-full h-full object-cover">
-            </div>
-            <div class="grid grid-cols-2 gap-3 mb-4">
-                <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
-                    <span class="text-[10px] text-slate-500 block">REPOSITORI PUBLIK</span>
-                    <span class="text-lg font-bold text-white">2</span>
-                </div>
-                <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800">
-                    <span class="text-[10px] text-slate-500 block">PENGGIAT</span>
-                    <span class="text-lg font-bold text-white">0</span>
+                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-red-500/40 transition-all space-y-3">
+                    <h3 class="text-xl font-semibold text-red-400">PWA Mobile WebAPK</h3>
+                    <p class="text-slate-400 text-sm">Aplikasi web yang dapat diinstal langsung di smartphone layaknya aplikasi native Android/iOS.</p>
                 </div>
             </div>
-            <a href="https://github.com/ronihalla" target="_blank" class="block w-full text-center bg-slate-800 hover:bg-slate-700 text-xs font-bold py-2.5 rounded-xl text-white border border-slate-700 transition">Lihat Profil GitHub ↗</a>
         </section>
 
-        <!-- Card 3: Kirim Pesan -->
-        <section id="pesan" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl">
-            <div class="flex items-center space-x-2 mb-3 text-slate-400">
-                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                <span class="text-xs font-bold text-slate-300 tracking-wider uppercase">KIRIM PESAN</span>
-            </div>
-            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-slate-800/50">
-                <img src="./assets/gojo.jpg" alt="Kirim Pesan" class="w-full h-full object-cover">
-            </div>
-            <form id="telegramForm" onsubmit="kirimPesanTelegram(event)" class="space-y-3">
+        <!-- Contact Form Section -->
+        <section id="contact" class="space-y-6">
+            <h2 class="text-2xl font-bold text-slate-100 flex items-center gap-2">
+                <span class="w-2 h-6 bg-red-500 rounded-full"></span>
+                Kirim Pesan
+            </h2>
+            <form id="telegram-form" class="max-w-xl space-y-4 p-6 rounded-2xl bg-slate-900/80 border border-slate-800">
                 <div>
-                    <label class="block text-[10px] text-slate-400 mb-1">NAMA KAMU *</label>
-                    <input type="text" id="senderName" required class="w-full p-2.5 bg-slate-950/90 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" placeholder="Masukkan nama kamu">
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Nama</label>
+                    <input type="text" id="sender-name" required class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 focus:outline-none focus:border-red-500 transition-colors" placeholder="Nama Anda">
                 </div>
                 <div>
-                    <label class="block text-[10px] text-slate-400 mb-1">KONTAK (WHATSAPP / EMAIL / IG)</label>
-                    <input type="text" id="senderContact" class="w-full p-2.5 bg-slate-950/90 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" placeholder="Boleh dikosongkan jika mau anonim">
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Pesan</label>
+                    <textarea id="sender-message" rows="4" required class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-100 focus:outline-none focus:border-red-500 transition-colors" placeholder="Tulis pesan Anda di sini..."></textarea>
                 </div>
-                <div>
-                    <label class="block text-[10px] text-slate-400 mb-1">PESAN *</label>
-                    <textarea id="senderMessage" rows="3" required class="w-full p-2.5 bg-slate-950/90 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
-                </div>
-                <button type="submit" id="submitBtn" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-2.5 rounded-xl text-xs transition shadow-lg shadow-red-600/20">KIRIM PESAN SEKARANG</button>
+                <button type="submit" id="form-submit-btn" class="w-full py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-medium shadow-[0_0_15px_rgba(239,68,68,0.3)] transition-all">Kirim ke Telegram</button>
+                <p id="form-status" class="text-sm text-center hidden"></p>
             </form>
-            <div id="statusNotifContainer" class="mt-3"></div>
         </section>
-
-        <!-- Card 4: Profil -->
-        <section id="tentang" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl">
-            <div class="flex items-center space-x-2 mb-3 text-slate-400">
-                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                <span class="text-xs font-bold text-slate-300 tracking-wider uppercase">PROFIL</span>
-            </div>
-            <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-slate-800/50">
-                <img src="./assets/blue_eyes_character.jpg" alt="Profil" class="w-full h-full object-cover">
-            </div>
-            <p class="text-xs text-slate-300 leading-relaxed space-y-2">
-                Saya Roni Halla, seorang Junior Developer yang sedang terus belajar dan mengembangkan kemampuan di dunia pemrograman. Saya suka bereksperimen dengan Python dan Web Development, sambil mencoba menuangkan ide-ide saya ke dalam berbagai project nyata.<br><br>
-                Buat saya, coding bukan cuma tentang menulis kode, tapi juga tentang belajar dari kesalahan, mencoba hal baru, dan mencari cara untuk membuat sesuatu yang bermanfaat. Web ini saya buat sebagai tempat untuk berbagi sedikit tentang diri saya, project yang saya kerjakan, dan perjalanan saya dalam belajar menjadi seorang developer.
-            </p>
-        </section>
-
     </main>
 
-    <!-- Bottom Navigation Bar -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-slate-900/30 backdrop-blur-xl border-t border-white/10 py-2.5 px-6 flex justify-around items-center z-40 max-w-md mx-auto shadow-[0_-10px_30px_rgba(0,0,0,0.2)]">
-        <a href="#beranda" class="flex flex-col items-center text-slate-400 hover:text-white text-[10px] transition group">
-            <svg class="w-5 h-5 mb-1 stroke-slate-400 group-hover:stroke-white transition-colors" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-            Beranda
-        </a>
-        <a href="#github" class="flex flex-col items-center text-slate-400 hover:text-white text-[10px] transition group">
-            <svg class="w-5 h-5 mb-1 stroke-slate-400 group-hover:stroke-white transition-colors" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-            GitHub
-        </a>
-        <a href="#pesan" class="flex flex-col items-center text-slate-400 hover:text-white text-[10px] transition group">
-            <svg class="w-5 h-5 mb-1 stroke-slate-400 group-hover:stroke-white transition-colors" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-            Pesan
-        </a>
-        <a href="#tentang" class="flex flex-col items-center text-slate-400 hover:text-white text-[10px] transition group">
-            <svg class="w-5 h-5 mb-1 stroke-slate-400 group-hover:stroke-white transition-colors" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            Profil
-        </a>
-    </nav>
-
-    <!-- Tombol Floating Chat -->
-    <button id="chat-toggle-btn" class="fixed bottom-6 right-6 p-4 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition-all z-50">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
-    </button>
-
-    <!-- Widget Chat Window -->
-    <div id="chat-widget" class="fixed bottom-24 right-6 w-80 h-96 bg-black/70 backdrop-blur-md border border-gray-600 rounded-xl shadow-2xl flex-col hidden z-50 overflow-hidden text-sm">
-        <div class="bg-gray-800/80 p-3 border-b border-gray-600 flex justify-between items-center text-white">
-            <div class="flex items-center space-x-2">
-                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span class="font-semibold">AI Assistant Roni</span>
+    <!-- Floating AI Chat Widget -->
+    <div id="chat-window" class="fixed bottom-24 right-6 w-[90vw] max-w-[380px] h-[480px] bg-slate-900/95 border border-red-500/30 rounded-2xl shadow-2xl backdrop-blur-lg flex flex-col overflow-hidden hidden z-50">
+        <div class="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+                <span class="font-semibold text-sm text-slate-200">AI Assistant</span>
             </div>
-            <button id="close-chat-btn" class="text-gray-400 hover:text-white">&times;</button>
+            <button id="close-chat-btn" class="text-slate-400 hover:text-white transition-colors text-lg">&times;</button>
         </div>
-
-        <div id="chat-messages" class="flex-1 p-3 overflow-y-auto flex flex-col space-y-3 text-white">
-            <div class="self-start bg-gray-700/80 p-2 rounded-lg max-w-[85%]">
-                Halo! Gw AI asistennya Roni. Ada yang mau ditanyain soal project, skill, atau pengalaman Roni?
+        <div id="chat-messages" class="flex-grow p-4 overflow-y-auto space-y-3 text-sm">
+            <div class="bg-slate-800/80 p-3 rounded-xl text-slate-300 max-w-[85%] border border-slate-700/50">
+                Halo! Ada yang bisa saya bantu terkait proyek atau layanan RoniHalla?
             </div>
         </div>
-
-        <div class="p-3 border-t border-gray-600 bg-gray-900/50 flex">
-            <input type="text" id="chat-input" placeholder="Ketik pesan..." class="flex-1 bg-transparent text-white border-none outline-none placeholder-gray-400 px-2" autocomplete="off">
-            <button id="send-chat-btn" class="text-blue-400 hover:text-blue-300 font-semibold px-2 transition-all">Kirim</button>
-        </div>
+        <form id="chat-form" class="p-3 bg-slate-950 border-t border-slate-800 flex gap-2">
+            <input type="text" id="chat-input" placeholder="Ketik pesan..." class="flex-grow px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-100 text-sm focus:outline-none focus:border-red-500" required>
+            <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-xl text-sm font-medium transition-colors">Kirim</button>
+        </form>
     </div>
 
+    <!-- Tombol Floating Chat (AI Sparkle Neural Stars) -->
+    <button id="chat-toggle-btn" aria-label="Buka Chat AI" class="fixed bottom-6 right-6 p-3.5 rounded-2xl bg-slate-900/90 text-red-500 border border-red-500/40 shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.55)] hover:scale-105 active:scale-95 transition-all z-50 group backdrop-blur-md flex items-center justify-center">
+        <svg class="w-6 h-6 transition-transform duration-300 group-hover:rotate-12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Sparkle Utama -->
+            <path d="M12 2L13.8 8.2L20 10L13.8 11.8L12 18L10.2 11.8L4 10L10.2 8.2L12 2Z" fill="currentColor" class="text-red-500" />
+            <!-- Sparkle Kecil Kanan -->
+            <path d="M19 14L19.6 16.4L22 17L19.6 17.6L19 20L18.4 17.6L16 17L18.4 16.4L19 14Z" fill="currentColor" class="text-red-400 opacity-80" />
+            <!-- Sparkle Kecil Kiri -->
+            <path d="M5 15L5.5 17L7.5 17.5L5.5 18L5 20L4.5 18L2.5 17.5L4.5 17L5 15Z" fill="currentColor" class="text-red-400 opacity-60" />
+        </svg>
+    </button>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500">
+        &copy; 2026 RoniHalla Portfolio. All Rights Reserved.
+    </footer>
+
+    <!-- JavaScript Integrasi -->
     <script>
-        // --- LOGIKA PWA INSTALLATION (WEBAPK DIREKTORI LANGSUNG) ---
-        let deferredPrompt;
-        const pwaInstallBtn = document.getElementById('pwaInstallBtn');
-
-        if (pwaInstallBtn) pwaInstallBtn.classList.add('hidden');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            if (pwaInstallBtn) pwaInstallBtn.classList.remove('hidden');
-        });
-
-        if (pwaInstallBtn) {
-            pwaInstallBtn.addEventListener('click', async () => {
-                if (!deferredPrompt) return;
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    pwaInstallBtn.classList.add('hidden');
-                }
-                deferredPrompt = null;
-            });
-        }
-
-        window.addEventListener('appinstalled', () => {
-            if (pwaInstallBtn) pwaInstallBtn.classList.add('hidden');
-            deferredPrompt = null;
-        });
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker Registered!', reg))
-                    .catch(err => console.log('Service Worker Registration Failed!', err));
-            });
-        }
-
-        // --- SCRIPT UI PORTFOLIO & CHATBOT WITH ADVANCED ANTI-SPAM ---
-        function bukaMenu() {
-            const menu = document.getElementById('sideMenu');
-            menu.classList.remove('hidden');
-            setTimeout(() => menu.classList.remove('opacity-0'), 10);
-        }
-
-        function tutupMenu() {
-            const menu = document.getElementById('sideMenu');
-            menu.classList.add('opacity-0');
-            setTimeout(() => menu.classList.add('hidden'), 300);
-        }
-
-        function tampilkanGlitchNotif(pesanTeks, tipe = 'sukses') {
-            const container = document.getElementById('statusNotifContainer');
-            const warnaBorder = tipe === 'sukses' ? 'border-red-500/50 text-red-400' : 'border-red-800 text-red-500';
-            
-            container.innerHTML = `
-                <div class="p-3 bg-slate-950/90 border ${warnaBorder} rounded-xl text-xs text-center font-bold glitch-metalic shadow-lg shadow-red-950/50">
-                    ${pesanTeks}
-                </div>
-            `;
-
-            setTimeout(() => {
-                container.style.transition = "opacity 0.8s ease";
-                container.style.opacity = "0";
-                setTimeout(() => {
-                    container.innerHTML = "";
-                    container.style.opacity = "1";
-                }, 800);
-            }, 4000);
-        }
-
-        async function kirimPesanTelegram(event) {
-            event.preventDefault();
-            
-            const nama = document.getElementById('senderName').value;
-            const kontak = document.getElementById('senderContact').value || "Tidak diisi";
-            const pesan = document.getElementById('senderMessage').value;
-            const btn = document.getElementById('submitBtn');
-
-            btn.disabled = true;
-            btn.innerText = "MENGIRIM PESAN...";
-
-            try {
-                const response = await fetch('/api/send-telegram', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ nama, kontak, pesan })
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    tampilkanGlitchNotif("⚡ PESAN KE TELEGRAM BERHASIL TERKIRIM!");
-                    document.getElementById('telegramForm').reset();
-                } else {
-                    tampilkanGlitchNotif("❌ Gagal: " + (result.error || "Gagal mengirim pesan ke Telegram."), 'gagal');
-                }
-            } catch (err) {
-                console.error(err);
-                tampilkanGlitchNotif("❌ Terjadi kesalahan koneksi jaringan.", 'gagal');
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "KIRIM PESAN SEKARANG";
-            }
-        }
-
-        // --- CHATBOT & ANTI-SPAM LOGIC ---
+        // Toggle Chat Window
         const chatToggleBtn = document.getElementById('chat-toggle-btn');
+        const chatWindow = document.getElementById('chat-window');
         const closeChatBtn = document.getElementById('close-chat-btn');
-        const chatWidget = document.getElementById('chat-widget');
-        const chatInput = document.getElementById('chat-input');
-        const sendChatBtn = document.getElementById('send-chat-btn');
-        const chatMessages = document.getElementById('chat-messages');
 
         chatToggleBtn.addEventListener('click', () => {
-            chatWidget.classList.remove('hidden');
-            chatWidget.classList.add('flex');
+            chatWindow.classList.toggle('hidden');
         });
+
         closeChatBtn.addEventListener('click', () => {
-            chatWidget.classList.add('hidden');
-            chatWidget.classList.remove('flex');
+            chatWindow.classList.add('hidden');
         });
 
-        function addMessage(text, sender) {
-            const msgDiv = document.createElement('div');
-            msgDiv.className = `p-2 rounded-lg max-w-[85%] ${sender === 'user' ? 'self-end bg-blue-600' : 'self-start bg-gray-700/80'}`;
-            msgDiv.innerText = text;
-            chatMessages.appendChild(msgDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
+        // AI Chat Form Handler
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const chatMessages = document.getElementById('chat-messages');
 
-        // FUNGSIONALITAS ANTI-SPAM DENGAN LOCALSTORAGE (Tahan Refresh Page)
-        function cekFiturAntiSpam() {
-            const SEKARANG = Date.now();
-            const JEDA_WAKTU = 60000; // 1 Menit (60 detik)
-            const BATAS_PESAN = 5;    // Maksimal 5 pesan per menit
-
-            // Ambil histori kirim pesan dari LocalStorage
-            let riwayatPesan = JSON.parse(localStorage.getItem('ai_spam_history') || '[]');
-
-            // Filter hanya pesan dalam 1 menit terakhir
-            riwayatPesan = riwayatPesan.filter(timestamp => (SEKARANG - timestamp) < JEDA_WAKTU);
-
-            // Jika riwayat sudah melebihi batas 5 pesan
-            if (riwayatPesan.length >= BATAS_PESAN) {
-                const pesanTerlama = riwayatPesan[0];
-                const sisaWaktuTunggu = Math.ceil((JEDA_WAKTU - (SEKARANG - pesanTerlama)) / 1000);
-                return { terblokir: true, detikTunggu: sisaWaktuTunggu };
-            }
-
-            // Catat pesan baru ke histori
-            riwayatPesan.push(SEKARANG);
-            localStorage.setItem('ai_spam_history', JSON.stringify(riwayatPesan));
-            return { terblokir: false };
-        }
-
-        sendChatBtn.addEventListener('click', async () => {
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
             const message = chatInput.value.trim();
             if (!message) return;
 
-            // 1. Cek Anti-Spam LocalStorage (Mencakup penanganan jika user meng-refresh)
-            const antiSpam = cekFiturAntiSpam();
-            if (antiSpam.terblokir) {
-                addMessage(`⚠️ Lu ngirim pesan terlalu cepat! Tunggu ${antiSpam.detikTunggu} detik lagi ya bree (Maks 5 pesan/menit).`, 'ai');
-                return;
-            }
+            // User Message
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = 'bg-red-600/80 text-white p-3 rounded-xl max-w-[85%] ml-auto border border-red-500/30';
+            userMsgDiv.textContent = message;
+            chatMessages.appendChild(userMsgDiv);
 
-            // Tampilkan pesan pengguna di layar
-            addMessage(message, 'user');
             chatInput.value = '';
-            
-            // Lock UI (Mencegah double click)
-            sendChatBtn.disabled = true;
-            chatInput.disabled = true;
-            sendChatBtn.innerText = '⏳';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
 
-            const loadingId = 'loading-' + Date.now();
+            // Loading state
             const loadingDiv = document.createElement('div');
-            loadingDiv.id = loadingId;
-            loadingDiv.className = 'self-start bg-gray-700/80 p-2 rounded-lg text-gray-300 italic text-xs';
-            loadingDiv.innerText = 'AI sedang mengetik...';
+            loadingDiv.className = 'bg-slate-800/80 text-slate-400 p-3 rounded-xl max-w-[85%] border border-slate-700/50';
+            loadingDiv.textContent = 'Mengetik...';
             chatMessages.appendChild(loadingDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
             try {
-                const response = await fetch('/api/chat', {
+                const res = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: message })
+                    body: JSON.stringify({ message })
                 });
+                const data = await res.json();
+                loadingDiv.textContent = data.reply || 'Maaf, terjadi kesalahan.';
+                loadingDiv.className = 'bg-slate-800/80 text-slate-300 p-3 rounded-xl max-w-[85%] border border-slate-700/50';
+            } catch (err) {
+                loadingDiv.textContent = 'Gagal terhubung ke AI server.';
+            }
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
 
-                const data = await response.json();
-                const elemLoading = document.getElementById(loadingId);
-                if (elemLoading) elemLoading.remove();
+        // Anti-Spam Telegram Form Handler
+        const telegramForm = document.getElementById('telegram-form');
+        const formStatus = document.getElementById('form-status');
 
-                if (response.status === 429) {
-                    addMessage('⚠️ Anti-Spam Server Aktif: Lu ngirim pesan terlalu cepat. Coba lagi dalam 1 menit.', 'ai');
-                } else if (response.ok) {
-                    addMessage(data.reply, 'ai');
-                } else {
-                    addMessage('Maaf, AI lagi error. Coba lagi nanti.', 'ai');
-                }
-            } catch (error) {
-                const elemLoading = document.getElementById(loadingId);
-                if (elemLoading) elemLoading.remove();
-                addMessage('Koneksi terputus.', 'ai');
+        telegramForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const lastSent = localStorage.getItem('last_telegram_sent');
+            const now = Date.now();
+            const cooldown = 60 * 1000; // 1 menit
+
+            if (lastSent && (now - parseInt(lastSent)) < cooldown) {
+                const remaining = Math.ceil((cooldown - (now - parseInt(lastSent))) / 1000);
+                formStatus.textContent = `Mohon tunggu ${remaining} detik sebelum mengirim pesan lagi.`;
+                formStatus.className = 'text-sm text-center text-yellow-400';
+                formStatus.classList.remove('hidden');
+                return;
             }
 
-            // Lock tombol selama 5 detik setelah setiap kiriman
-            setTimeout(() => {
-                sendChatBtn.disabled = false;
-                chatInput.disabled = false;
-                sendChatBtn.innerText = 'Kirim';
-            }, 5000);
+            const name = document.getElementById('sender-name').value;
+            const message = document.getElementById('sender-message').value;
+
+            formStatus.textContent = 'Mengirim pesan...';
+            formStatus.className = 'text-sm text-center text-slate-400';
+            formStatus.classList.remove('hidden');
+
+            try {
+                const res = await fetch('/api/send-telegram', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, message })
+                });
+
+                if (res.ok) {
+                    localStorage.setItem('last_telegram_sent', Date.now().toString());
+                    formStatus.textContent = 'Pesan berhasil terkirim!';
+                    formStatus.className = 'text-sm text-center text-green-400';
+                    telegramForm.reset();
+                } else {
+                    throw new Error();
+                }
+            } catch (err) {
+                formStatus.textContent = 'Gagal mengirim pesan. Silakan coba lagi.';
+                formStatus.className = 'text-sm text-center text-red-400';
+            }
         });
+
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW reg error:', err));
+            });
+        }
     </script>
 </body>
 </html>
