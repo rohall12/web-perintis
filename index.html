@@ -126,21 +126,6 @@
             </div>
         </section>
 
-        <!-- Panel Developer Broadcast (Otomatis Muncul Hanya di Localhost) -->
-        <section id="devBroadcastPanel" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl hidden">
-            <h3 class="font-bold text-sm mb-1 text-emerald-400">🚀 Panel Developer Broadcast</h3>
-            <p class="text-[11px] text-slate-400 mb-3">Panel khusus lokal pengiriman notifikasi massal.</p>
-            
-            <div class="space-y-2.5">
-                <input type="text" id="notifTitle" class="w-full p-2 bg-slate-950/90 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" value="Broadcast RoniHalla! 🔥">
-                <input type="text" id="notifBody" class="w-full p-2 bg-slate-950/90 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-red-500" value="Notifikasi massal berhasil disebar ke banyak perangkat!">
-                
-                <button onclick="kirimNotifBroadcast()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold p-2.5 rounded-xl text-xs transition shadow-lg shadow-red-600/20">
-                    Kirim Broadcast Sekarang 🔔
-                </button>
-            </div>
-        </section>
-
         <!-- Card 2: Aktivitas Repositori -->
         <section id="github" class="bg-slate-900/80 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl">
             <div class="flex justify-between items-center mb-3">
@@ -245,11 +230,6 @@
         </div>
     </div>
 
-    <!-- Firebase SDK (Compat Version) -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
     <!-- Skrip Aplikasi -->
     <script>
         function bukaMenu() {
@@ -263,15 +243,6 @@
             menu.classList.add('opacity-0');
             setTimeout(() => menu.classList.add('hidden'), 300);
         }
-
-        // DETEKSI OTOMATIS: Panel Broadcast hanya tampil di lingkungan lokal
-        function cekLingkunganDeveloper() {
-            const hostname = window.location.hostname;
-            if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '') {
-                document.getElementById('devBroadcastPanel').classList.remove('hidden');
-            }
-        }
-        cekLingkunganDeveloper();
 
         // Fungsi menampilkan notifikasi efek glitch metalik halus
         function tampilkanGlitchNotif(pesanTeks, tipe = 'sukses') {
@@ -292,89 +263,6 @@
                     container.style.opacity = "1";
                 }, 800);
             }, 4000);
-        }
-
-        // Konfigurasi Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyDJE6Ua3tGM0ltnuBiXC5jvM-VLBZCmGqI",
-            authDomain: "my-portofolio-c2eeb.firebaseapp.com",
-            projectId: "my-portofolio-c2eeb",
-            storageBucket: "my-portofolio-c2eeb.firebasestorage.app",
-            messagingSenderId: "686049637486",
-            appId: "1:686049637486:web:6362caafe9ed4fb37c227f",
-        };
-
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-
-        const messaging = firebase.messaging();
-        const db = firebase.firestore();
-
-        async function initPushNotification() {
-            try {
-                if ('serviceWorker' in navigator) {
-                    const registration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
-                    await navigator.serviceWorker.ready;
-
-                    const currentToken = await messaging.getToken({
-                        vapidKey: 'BIEffuCWQhyCdiEtCQf4IDg8sQb97BEDUloMlx920PzdHM-S7R1U9_pp6umwrp_G56pdXvGW7nzbc-MxjQ8AglY',
-                        serviceWorkerRegistration: registration
-                    });
-
-                    if (currentToken) {
-                        simpanTokenKeDatabase(currentToken);
-                    }
-                }
-            } catch (error) {
-                console.error('Gagal inisialisasi notifikasi:', error);
-            }
-        }
-
-        async function simpanTokenKeDatabase(token) {
-            try {
-                const snapshot = await db.collection("fcm_tokens").where("token", "==", token).get();
-                if (snapshot.empty) {
-                    await db.collection("fcm_tokens").add({
-                        token: token,
-                        device: navigator.userAgent,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                }
-            } catch (err) {
-                console.error("Gagal simpan token:", err);
-            }
-        }
-
-        initPushNotification();
-
-        messaging.onMessage((payload) => {
-            tampilkanGlitchNotif(`🚨 BROADCAST: ${payload.notification.title} - ${payload.notification.body}`);
-        });
-
-        // Kirim Broadcast ke Backend Vercel
-        async function kirimNotifBroadcast() {
-            const judul = document.getElementById('notifTitle').value;
-            const pesan = document.getElementById('notifBody').value;
-
-            tampilkanGlitchNotif("⚡ Mengirim broadcast ke semua perangkat...");
-
-            try {
-                const response = await fetch('/api/send-notif', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ title: judul, body: pesan })
-                });
-
-                const result = await response.json();
-                if (response.ok) {
-                    tampilkanGlitchNotif("✅ Broadcast Berhasil Disebar ke Seluruh Perangkat!");
-                } else {
-                    tampilkanGlitchNotif("❌ Gagal: " + (result.error || "Periksa konfigurasi server"), 'gagal');
-                }
-            } catch (err) {
-                tampilkanGlitchNotif("❌ Terjadi kesalahan jaringan server.", 'gagal');
-            }
         }
 
         // Kirim Pesan ke Telegram Bot via Serverless API (/api/send-telegram)
@@ -485,11 +373,6 @@
                 sendChatBtn.innerText = 'Kirim';
             }, 5000);
         });
-
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendChatBtn.click();
-        });
     </script>
-
 </body>
 </html>
