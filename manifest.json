@@ -2,9 +2,10 @@
   "name": "RoniHalla Portfolio",
   "short_name": "RoniHalla",
   "description": "Portofolio Roni Halla - Junior Developer",
-  "start_url": "./",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#020617",
   "theme_color": "#020617",
   "icons": [
