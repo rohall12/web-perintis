@@ -9,19 +9,30 @@ export default async function handler(req, res) {
 
   const { name, email, message } = req.body;
 
-  const botToken = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_ADMIN_CHAT_ID || process.env.TELEGRAM_CHAT_ID;
+  // Mengambil data dari Environment Variables Vercel
+  const rawToken = process.env.TELEGRAM_BOT_TOKEN;
+  const rawChatId = process.env.TELEGRAM_ADMIN_CHAT_ID || process.env.TELEGRAM_CHAT_ID;
 
-  if (!botToken || !chatId) {
-    return res.status(500).json({ 
-      error: 'Variabel TELEGRAM_BOT_TOKEN atau TELEGRAM_ADMIN_CHAT_ID belum dipasang di Vercel!' 
-    });
+  // Proteksi jika variabel belum diisi di Vercel
+  if (!rawToken || rawToken.trim() === '') {
+    return res.status(500).json({ error: 'TELEGRAM_BOT_TOKEN belum diisi atau tidak terbaca di Vercel!' });
   }
+
+  if (!rawChatId || rawChatId.trim() === '') {
+    return res.status(500).json({ error: 'TELEGRAM_ADMIN_CHAT_ID belum diisi atau tidak terbaca di Vercel!' });
+  }
+
+  // Bersihkan token dari kata "bot" jika tidak sengaja terikut di Vercel
+  const botToken = rawToken.trim().replace(/^bot/i, '');
+  const chatId = rawChatId.trim();
 
   const text = `📩 *Pesan Baru dari Website Portofolio*\n\n👤 *Nama:* ${name || 'Anonim'}\n📧 *Email:* ${email || '-'}\n💬 *Pesan:* ${message || '-'}`;
 
+  // Konstruksi URL Telegram yang presisi
+  const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
   try {
-    const telegramRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+    const telegramRes = await fetch(telegramUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -34,12 +45,14 @@ export default async function handler(req, res) {
     const data = await telegramRes.json();
 
     if (!telegramRes.ok) {
-      throw new Error(data.description || 'Gagal mengirim pesan ke Telegram');
+      return res.status(telegramRes.status).json({
+        error: `Telegram Error: ${data.description || 'Gagal mengirim pesan'}`,
+        details: data
+      });
     }
 
-    return res.status(200).json({ success: true, message: 'Pesan berhasil dikirim!' });
+    return res.status(200).json({ success: true, message: 'Pesan berhasil dikirim ke Telegram!' });
   } catch (error) {
-    console.error('Telegram Error:', error.message);
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: `Server Error: ${error.message}` });
   }
 }
