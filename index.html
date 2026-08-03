@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RoniHalla | Portfolio</title>
     
-    <!-- PWA & Theme Settings (Meta Tag Terbaru) -->
+    <!-- PWA & Theme Settings -->
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#020617">
     <meta name="mobile-web-app-capable" content="yes">
@@ -39,12 +39,12 @@
 </head>
 <body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between font-sans pb-24">
 
-    <!-- Header / Navbar Atas (Efek Glassmorphism) -->
+    <!-- Header / Navbar Atas -->
     <header class="p-4 flex justify-between items-center max-w-md mx-auto w-full bg-slate-900/30 backdrop-blur-xl sticky top-0 z-40 border-b border-white/10 shadow-lg shadow-black/20">
         <h1 class="text-lg font-bold text-red-500 tracking-wider">RoniHalla<span class="text-white">.</span></h1>
         
         <div class="flex items-center space-x-2">
-            <!-- Tombol Install PWA (Awalnya tersembunyi) -->
+            <!-- Tombol Install PWA (Awalnya tersembunyi, hanya muncul jika WebAPK siap) -->
             <button id="pwaInstallBtn" class="hidden bg-red-600/80 hover:bg-red-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl border border-red-500/30 backdrop-blur-md transition shadow-md shadow-red-600/20 flex items-center space-x-1.5 animate-pulse">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
@@ -274,61 +274,44 @@
     </div>
 
     <script>
-        // --- LOGIKA PWA INSTALLATION (WEBAPK ASLI) ---
-let deferredPrompt;
-const pwaInstallBtn = document.getElementById('pwaInstallBtn');
+        // --- LOGIKA PWA INSTALLATION (WEBAPK DIREKTORI LANGSUNG) ---
+        let deferredPrompt;
+        const pwaInstallBtn = document.getElementById('pwaInstallBtn');
 
-// Sembunyikan tombol secara default saat pertama kali dimuat
-if (pwaInstallBtn) {
-    pwaInstallBtn.classList.add('hidden');
-}
+        if (pwaInstallBtn) pwaInstallBtn.classList.add('hidden');
 
-// Tangkap event resmi dari Chrome ketika syarat WebAPK sudah terpenuhi
-window.addEventListener('beforeinstallprompt', (e) => {
-    // Tahan prompt bawaan
-    e.preventDefault();
-    deferredPrompt = e;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (pwaInstallBtn) pwaInstallBtn.classList.remove('hidden');
+        });
 
-    // KARENA CHROME SUDAH SIAP, BARU TAMPILKAN TOMBOL INSTALL
-    if (pwaInstallBtn) {
-        pwaInstallBtn.classList.remove('hidden');
-    }
-});
-
-// Ketika tombol diklik, LANGSUNG memicu pop-up install APK Android
-if (pwaInstallBtn) {
-    pwaInstallBtn.addEventListener('click', async () => {
-        if (!deferredPrompt) return;
-
-        // Tampilkan dialog instalasi resmi dari Android / Chrome
-        deferredPrompt.prompt();
-
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-            // Sembunyikan tombol jika pengguna menyetujui install
-            pwaInstallBtn.classList.add('hidden');
+        if (pwaInstallBtn) {
+            pwaInstallBtn.addEventListener('click', async () => {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    pwaInstallBtn.classList.add('hidden');
+                }
+                deferredPrompt = null;
+            });
         }
-        deferredPrompt = null;
-    });
-}
 
-// Sembunyikan tombol jika aplikasi dibuka dari dalam PWA yang sudah terinstall
-window.addEventListener('appinstalled', () => {
-    if (pwaInstallBtn) {
-        pwaInstallBtn.classList.add('hidden');
-    }
-    deferredPrompt = null;
-});
+        window.addEventListener('appinstalled', () => {
+            if (pwaInstallBtn) pwaInstallBtn.classList.add('hidden');
+            deferredPrompt = null;
+        });
 
-// Register Service Worker
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('Service Worker Registered!', reg))
-            .catch(err => console.log('Service Worker Registration Failed!', err));
-    });
-}
-        // --- SCRIPT UI PORTFOLIO & CHATBOT ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker Registered!', reg))
+                    .catch(err => console.log('Service Worker Registration Failed!', err));
+            });
+        }
+
+        // --- SCRIPT UI PORTFOLIO & CHATBOT WITH ADVANCED ANTI-SPAM ---
         function bukaMenu() {
             const menu = document.getElementById('sideMenu');
             menu.classList.remove('hidden');
@@ -396,6 +379,7 @@ if ('serviceWorker' in navigator) {
             }
         }
 
+        // --- CHATBOT & ANTI-SPAM LOGIC ---
         const chatToggleBtn = document.getElementById('chat-toggle-btn');
         const closeChatBtn = document.getElementById('close-chat-btn');
         const chatWidget = document.getElementById('chat-widget');
@@ -420,13 +404,47 @@ if ('serviceWorker' in navigator) {
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
+        // FUNGSIONALITAS ANTI-SPAM DENGAN LOCALSTORAGE (Tahan Refresh Page)
+        function cekFiturAntiSpam() {
+            const SEKARANG = Date.now();
+            const JEDA_WAKTU = 60000; // 1 Menit (60 detik)
+            const BATAS_PESAN = 5;    // Maksimal 5 pesan per menit
+
+            // Ambil histori kirim pesan dari LocalStorage
+            let riwayatPesan = JSON.parse(localStorage.getItem('ai_spam_history') || '[]');
+
+            // Filter hanya pesan dalam 1 menit terakhir
+            riwayatPesan = riwayatPesan.filter(timestamp => (SEKARANG - timestamp) < JEDA_WAKTU);
+
+            // Jika riwayat sudah melebihi batas 5 pesan
+            if (riwayatPesan.length >= BATAS_PESAN) {
+                const pesanTerlama = riwayatPesan[0];
+                const sisaWaktuTunggu = Math.ceil((JEDA_WAKTU - (SEKARANG - pesanTerlama)) / 1000);
+                return { terblokir: true, detikTunggu: sisaWaktuTunggu };
+            }
+
+            // Catat pesan baru ke histori
+            riwayatPesan.push(SEKARANG);
+            localStorage.setItem('ai_spam_history', JSON.stringify(riwayatPesan));
+            return { terblokir: false };
+        }
+
         sendChatBtn.addEventListener('click', async () => {
             const message = chatInput.value.trim();
             if (!message) return;
 
+            // 1. Cek Anti-Spam LocalStorage (Mencakup penanganan jika user meng-refresh)
+            const antiSpam = cekFiturAntiSpam();
+            if (antiSpam.terblokir) {
+                addMessage(`⚠️ Lu ngirim pesan terlalu cepat! Tunggu ${antiSpam.detikTunggu} detik lagi ya bree (Maks 5 pesan/menit).`, 'ai');
+                return;
+            }
+
+            // Tampilkan pesan pengguna di layar
             addMessage(message, 'user');
             chatInput.value = '';
             
+            // Lock UI (Mencegah double click)
             sendChatBtn.disabled = true;
             chatInput.disabled = true;
             sendChatBtn.innerText = '⏳';
@@ -447,20 +465,23 @@ if ('serviceWorker' in navigator) {
                 });
 
                 const data = await response.json();
-                document.getElementById(loadingId).remove();
+                const elemLoading = document.getElementById(loadingId);
+                if (elemLoading) elemLoading.remove();
 
                 if (response.status === 429) {
-                    addMessage('⚠️ Tunggu bentar ya bree, lu ngirim pesan terlalu cepat (Anti-Spam aktif).', 'ai');
+                    addMessage('⚠️ Anti-Spam Server Aktif: Lu ngirim pesan terlalu cepat. Coba lagi dalam 1 menit.', 'ai');
                 } else if (response.ok) {
                     addMessage(data.reply, 'ai');
                 } else {
                     addMessage('Maaf, AI lagi error. Coba lagi nanti.', 'ai');
                 }
             } catch (error) {
-                document.getElementById(loadingId).remove();
+                const elemLoading = document.getElementById(loadingId);
+                if (elemLoading) elemLoading.remove();
                 addMessage('Koneksi terputus.', 'ai');
             }
 
+            // Lock tombol selama 5 detik setelah setiap kiriman
             setTimeout(() => {
                 sendChatBtn.disabled = false;
                 chatInput.disabled = false;
