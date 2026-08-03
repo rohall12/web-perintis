@@ -1,5 +1,5 @@
 module.exports = async (req, res) => {
-  // Set header CORS jika dibutuhkan
+  // Set CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile', // Model pintar & cepat
+        model: 'llama-3.3-70b-versatile',
         messages: [{ role: 'user', content: message }],
       }),
     });
