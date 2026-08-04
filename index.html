@@ -369,11 +369,12 @@
             btn.innerText = "MENGIRIM PESAN...";
 
             try {
-                const response = await fetch('/api/send-telegram', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ nama, kontak, pesan })
-                });
+                // ✅ KODE BARU YANG BENAR
+const response = await fetch('/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
+});
 
                 const result = await response.json();
 
