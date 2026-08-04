@@ -161,20 +161,28 @@ setInterval(updateClock, 1000);
 updateClock();
 
 // ==========================================
-// 6. DATA LIVE GITHUB ACTIVITY
+// 6. DATA LIVE GITHUB ACTIVITY (VIA CACHE LOKAL REDIS ⚡)
 // ==========================================
 async function fetchGitHubData() {
     try {
-        const response = await fetch("https://api.github.com/users/rohall12");
+        // Panggil API lokal yang mengambil data dari Upstash Redis
+        const response = await fetch("/api/github");
         if (response.ok) {
-            const data = await response.json();
+            const result = await response.json();
+            const data = result.data || result; // Menyesuaikan format JSON dari Redis
+
             const reposEl = document.getElementById("github-repos");
             const followersEl = document.getElementById("github-followers");
-            if (reposEl) reposEl.textContent = data.public_repos;
-            if (followersEl) followersEl.textContent = data.followers;
+
+            // Jika data berupa profil user GitHub
+            if (data.public_repos !== undefined && reposEl) reposEl.textContent = data.public_repos;
+            // Jika data berupa array list repositori
+            else if (Array.isArray(data) && reposEl) reposEl.textContent = data.length;
+
+            if (data.followers !== undefined && followersEl) followersEl.textContent = data.followers;
         }
     } catch (error) {
-        console.error("Gagal mengambil data GitHub:", error);
+        console.error("Gagal mengambil data GitHub dari cache:", error);
     }
 }
 fetchGitHubData();
