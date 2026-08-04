@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,32 +35,54 @@
     </script>
     <style>
         ::-webkit-scrollbar { display: none; }
+        
+        /* Native Smooth Touch Scrolling & GPU Friendly Rules */
         html, body {
             scrollbar-width: none;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch; 
             background-color: #03040a;
-            overscroll-behavior-y: none;
+            margin: 0;
+            padding: 0;
+            /* Biarkan sistem operasi Android menangani kelancaran touch-scroll secara native */
         }
 
-        /* GPU Accelerated Section Rendering */
+        /* Rendering Optimizations */
         .cv-auto {
             content-visibility: auto;
-            contain-intrinsic-size: 1px 300px;
+            contain-intrinsic-size: 1px 250px;
         }
 
-        /* Animasi Sparks - GPU Accelerated */
+        /* Text Glows Hanya Diaktifkan di Dekstop/Layar Besar */
+        @media (min-width: 768px) {
+            .text-glow-purple {
+                text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+            }
+            .text-glow-gold {
+                text-shadow: 0 0 8px rgba(251, 191, 36, 0.7);
+            }
+        }
+
+        /* Optimization Khusus Perangkat Seluler (Android GO / High-FPS Mobile) */
+        @media (max-width: 767px) {
+            /* Mematikan perhitungan shadow berat yang bikin GPU Android GO patah-patah */
+            *, .shadow-xl, .shadow-2xl, .shadow-lg {
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+            /* Matikan partikel animasi di HP untuk menghemat siklus CPU saat scroll */
+            .spark {
+                display: none !important;
+            }
+        }
+
+        /* Spark Animation (Aktif di Layar Sedang & Besar) */
         .spark {
             position: absolute;
             width: 3px;
             height: 3px;
             background: #f97316;
-            box-shadow: 0 0 6px #f97316;
             border-radius: 50%;
             animation: floatUp 4s infinite linear;
             opacity: 0;
-            will-change: transform, opacity;
-            transform: translateZ(0);
         }
         @keyframes floatUp {
             0% { transform: translateY(0) scale(0.8); opacity: 0; }
@@ -68,21 +90,13 @@
             80% { opacity: 0.6; }
             100% { transform: translateY(-180px) scale(0.2); opacity: 0; }
         }
-
-        /* Text Glows */
-        .text-glow-purple {
-            text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
-        }
-        .text-glow-gold {
-            text-shadow: 0 0 8px rgba(251, 191, 36, 0.7);
-        }
         
         @keyframes glitchSmooth {
             0% { opacity: 0; transform: scale(0.98); }
             100% { opacity: 1; transform: scale(1); }
         }
         .glitch-metalic {
-            animation: glitchSmooth 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: glitchSmooth 0.2s ease-out forwards;
         }
     </style>
 </head>
@@ -163,7 +177,7 @@
                 <!-- Card 1: Beranda Utama -->
                 <section id="beranda" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl relative overflow-hidden group">
                     <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-indigo-500/20 relative">
-                        <img src="./assets/new_hero_character.jpg" alt="Beranda Utama" loading="eager" decoding="async" class="w-full h-full object-cover opacity-90 transition duration-300">
+                        <img src="./assets/new_hero_character.jpg" alt="Beranda Utama" loading="eager" decoding="async" class="w-full h-full object-cover opacity-90">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
                     </div>
 
@@ -267,7 +281,7 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-[#060814] via-transparent to-transparent"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-[#060814]/80 via-transparent to-transparent"></div>
 
-                    <!-- Spark Particles Effect -->
+                    <!-- Spark Particles Effect (Hanya Tampil di Layar Sedang/Besar) -->
                     <div class="spark left-1/4 bottom-10" style="animation-delay: 0s;"></div>
                     <div class="spark left-2/4 bottom-14" style="animation-delay: 1s;"></div>
                     <div class="spark left-3/4 bottom-8" style="animation-delay: 2s;"></div>
@@ -340,7 +354,7 @@
     </div>
 
     <!-- Bottom Navigation Bar Mobile -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-slate-950 border-t border-indigo-500/20 py-2.5 px-6 flex justify-around items-center z-40 shadow-2xl">
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-slate-950 border-t border-indigo-500/20 py-2.5 px-6 flex justify-around items-center z-40">
         <a href="#beranda" class="flex flex-col items-center text-slate-400 hover:text-indigo-400 text-[10px] transition">Beranda</a>
         <a href="#github" class="flex flex-col items-center text-slate-400 hover:text-indigo-400 text-[10px] transition">GitHub</a>
         <a href="#pesan" class="flex flex-col items-center text-slate-400 hover:text-indigo-400 text-[10px] transition">Pesan</a>
@@ -515,7 +529,7 @@
             const warnaBorder = tipe === 'sukses' ? 'border-indigo-500/50 text-indigo-300' : 'border-red-800 text-red-500';
             
             container.innerHTML = `
-                <div class="p-3 bg-slate-950 border ${warnaBorder} rounded-xl text-xs text-center font-bold glitch-metalic shadow-lg">
+                <div class="p-3 bg-slate-950 border ${warnaBorder} rounded-xl text-xs text-center font-bold glitch-metalic">
                     ${pesanTeks}
                 </div>
             `;
