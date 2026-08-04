@@ -1,4 +1,4 @@
-// prompts/systemPrompt.js
+// src/prompts/systemPrompt.js
 
 export const SYSTEM_PROMPT = `
 Kamu adalah AI Shadow System, asisten virtual resmi yang diciptakan oleh Roni Halla untuk website portofolionya.
