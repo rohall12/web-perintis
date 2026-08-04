@@ -42,6 +42,7 @@
             background-color: #03040a;
             margin: 0;
             padding: 0;
+            touch-action: manipulation;
         }
 
         /* Rendering Optimizations */
@@ -50,7 +51,7 @@
             contain-intrinsic-size: 1px 250px;
         }
 
-        /* Text Glows Hanya Diaktifkan di Dekstop/Layar Besar */
+        /* Text Glows Hanya Diaktifkan di Desktop/Layar Besar */
         @media (min-width: 768px) {
             .text-glow-purple {
                 text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
@@ -60,7 +61,7 @@
             }
         }
 
-        /* Optimization Khusus Perangkat Seluler (Android GO / High-FPS Mobile) */
+        /* Optimization Khusus Perangkat Seluler */
         @media (max-width: 767px) {
             *, .shadow-xl, .shadow-2xl, .shadow-lg {
                 box-shadow: none !important;
@@ -71,7 +72,7 @@
             }
         }
 
-        /* Spark Animation (Aktif di Layar Sedang & Besar) */
+        /* Spark Animation */
         .spark {
             position: absolute;
             width: 3px;
@@ -95,6 +96,13 @@
         .glitch-metalic {
             animation: glitchSmooth 0.2s ease-out forwards;
         }
+
+        /* Smooth Floating Drag AI Icon */
+        #chat-toggle-btn {
+            touch-action: none;
+            will-change: transform;
+            user-select: none;
+        }
     </style>
 </head>
 <body class="bg-[#03040a] text-slate-100 min-h-screen flex items-center justify-center p-2 sm:p-4 lg:p-6 font-sans relative overflow-x-hidden selection:bg-indigo-500 selection:text-white">
@@ -105,7 +113,7 @@
     <div class="hidden md:block fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none"></div>
 
     <!-- MAIN FRAME CONTAINER -->
-    <div class="w-full max-w-6xl bg-[#070918] border border-indigo-500/20 rounded-3xl shadow-2xl overflow-hidden relative flex flex-col min-h-[820px] pb-20 md:pb-6">
+    <div class="w-full max-w-4xl bg-[#070918] border border-indigo-500/20 rounded-3xl shadow-2xl overflow-hidden relative flex flex-col min-h-[820px] pb-6">
         
         <!-- Header / Navbar Atas -->
         <header class="px-6 py-4 flex justify-between items-center border-b border-white/10 z-30 bg-slate-950/95 sticky top-0">
@@ -154,165 +162,157 @@
         </header>
 
         <!-- Dynamic Content Grid -->
-        <div class="p-4 sm:p-8 lg:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-20 flex-1">
+        <div class="p-4 sm:p-8 lg:p-10 space-y-6 relative z-20 flex-1 max-w-3xl mx-auto w-full">
             
-            <!-- LEFT COLUMN: Main Hero & Bio Information -->
-            <div class="lg:col-span-7 space-y-6">
-                
-                <!-- Rank & Title Badge -->
-                <div class="space-y-2">
-                    <div class="inline-flex items-center space-x-2 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-md">
-                        <span class="text-amber-400 font-extrabold text-lg italic tracking-wider text-glow-gold">S</span>
-                        <span class="text-amber-300 text-xs font-bold tracking-widest uppercase">RANK DEVELOPER</span>
-                    </div>
-                    <p class="text-xs text-indigo-300 font-mono tracking-widest uppercase">Shadow Monarch A.K.A</p>
-                    <h2 class="text-4xl sm:text-5xl font-black text-white tracking-wider uppercase text-glow-purple">
-                        RONI HALLA <span class="text-slate-400 text-2xl font-light">(성진우)</span>
-                    </h2>
+            <!-- Rank & Title Badge -->
+            <div class="space-y-2 text-center md:text-left">
+                <div class="inline-flex items-center space-x-2 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-md">
+                    <span class="text-amber-400 font-extrabold text-lg italic tracking-wider text-glow-gold">S</span>
+                    <span class="text-amber-300 text-xs font-bold tracking-widest uppercase">RANK DEVELOPER</span>
+                </div>
+                <p class="text-xs text-indigo-300 font-mono tracking-widest uppercase">Shadow Monarch A.K.A</p>
+                <h2 class="text-3xl sm:text-4xl font-black text-white tracking-wider uppercase text-glow-purple">
+                    RONI HALLA <span class="text-slate-400 text-xl font-light">(성진우)</span>
+                </h2>
+            </div>
+
+            <!-- Card 1: Beranda Utama -->
+            <section id="beranda" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl relative overflow-hidden group">
+                <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-indigo-500/20 relative">
+                    <img src="./assets/new_hero_character.jpg" alt="Beranda Utama" loading="eager" decoding="async" class="w-full h-full object-cover opacity-90">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
                 </div>
 
-                <!-- Card 1: Beranda Utama -->
-                <section id="beranda" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl relative overflow-hidden group">
-                    <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-indigo-500/20 relative">
-                        <img src="./assets/new_hero_character.jpg" alt="Beranda Utama" loading="eager" decoding="async" class="w-full h-full object-cover opacity-90">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                    Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan Python dan Web Development.
+                </p>
+
+                <div class="flex gap-3">
+                    <a href="#pesan" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-center text-xs font-bold py-2.5 rounded-xl text-white transition">Kirim Pesan</a>
+                    <a href="https://github.com/ronihalla" target="_blank" rel="noopener" class="flex-1 bg-slate-900/90 hover:bg-slate-800 text-center text-xs font-bold py-2.5 rounded-xl text-white transition border border-indigo-500/30">GitHub Saya ↗</a>
+                </div>
+            </section>
+
+            <!-- Card 2: Aktivitas Repositori -->
+            <section id="github" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="flex items-center space-x-2 text-indigo-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                        <span class="text-xs font-bold tracking-widest uppercase text-slate-200">AKTIVITAS REPOSITORI</span>
                     </div>
+                    <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded border border-emerald-500/30">LIVE SYSTEM</span>
+                </div>
 
-                    <p class="text-xs text-slate-300 leading-relaxed mb-4">
-                        Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan Python dan Web Development.
-                    </p>
-
-                    <div class="flex gap-3">
-                        <a href="#pesan" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-center text-xs font-bold py-2.5 rounded-xl text-white transition">Kirim Pesan</a>
-                        <a href="https://github.com/ronihalla" target="_blank" rel="noopener" class="flex-1 bg-slate-900/90 hover:bg-slate-800 text-center text-xs font-bold py-2.5 rounded-xl text-white transition border border-indigo-500/30">GitHub Saya ↗</a>
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div class="bg-slate-950 p-3 rounded-xl border border-indigo-500/20">
+                        <span class="text-[10px] text-slate-400 block">REPOSITORI PUBLIK</span>
+                        <span class="text-2xl font-black text-white">2</span>
                     </div>
-                </section>
-
-                <!-- Card 2: Aktivitas Repositori -->
-                <section id="github" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl">
-                    <div class="flex justify-between items-center mb-3">
-                        <div class="flex items-center space-x-2 text-indigo-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                            <span class="text-xs font-bold tracking-widest uppercase text-slate-200">AKTIVITAS REPOSITORI</span>
-                        </div>
-                        <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded border border-emerald-500/30">LIVE SYSTEM</span>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-indigo-500/20">
+                        <span class="text-[10px] text-slate-400 block">PENGIKUT</span>
+                        <span class="text-2xl font-black text-white">0</span>
                     </div>
+                </div>
+                <a href="https://github.com/ronihalla" target="_blank" rel="noopener" class="block w-full text-center bg-slate-900 hover:bg-slate-800 text-xs font-bold py-2.5 rounded-xl text-indigo-300 border border-indigo-500/30 transition">Lihat Profil GitHub ↗</a>
+            </section>
 
-                    <div class="grid grid-cols-2 gap-3 mb-4">
-                        <div class="bg-slate-950 p-3 rounded-xl border border-indigo-500/20">
-                            <span class="text-[10px] text-slate-400 block">REPOSITORI PUBLIK</span>
-                            <span class="text-2xl font-black text-white">2</span>
-                        </div>
-                        <div class="bg-slate-950 p-3 rounded-xl border border-indigo-500/20">
-                            <span class="text-[10px] text-slate-400 block">PENGIKUT</span>
-                            <span class="text-2xl font-black text-white">0</span>
-                        </div>
+            <!-- Card 3: Kirim Pesan -->
+            <section id="pesan" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl">
+                <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-indigo-500/20 relative">
+                    <img src="./assets/gojo.jpg" alt="Gojo Playing Phone" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-90">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                </div>
+
+                <div class="flex items-center space-x-2 mb-4 text-indigo-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <span class="text-xs font-bold tracking-widest uppercase text-slate-200">kirim pesan ke telegram Dev</span>
+                </div>
+
+                <form id="telegramForm" onsubmit="kirimPesanTelegram(event)" class="space-y-3">
+                    <div>
+                        <label class="block text-[10px] text-slate-400 mb-1">NAMA KAMU *</label>
+                        <input type="text" id="senderName" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Masukkan nama kamu">
                     </div>
-                    <a href="https://github.com/ronihalla" target="_blank" rel="noopener" class="block w-full text-center bg-slate-900 hover:bg-slate-800 text-xs font-bold py-2.5 rounded-xl text-indigo-300 border border-indigo-500/30 transition">Lihat Profil GitHub ↗</a>
-                </section>
-
-                <!-- Card 3: Kirim Pesan -->
-                <section id="pesan" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl">
-                    <!-- Gambar Gojo Main HP -->
-                    <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-indigo-500/20 relative">
-                        <img src="./assets/gojo.jpg" alt="Gojo Playing Phone" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-90">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                    <div>
+                        <label class="block text-[10px] text-slate-400 mb-1">KONTAK (WHATSAPP / EMAIL / IG)</label>
+                        <input type="text" id="senderContact" class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Boleh dikosongkan jika mau anonim">
                     </div>
-
-                    <div class="flex items-center space-x-2 mb-4 text-indigo-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                        <span class="text-xs font-bold tracking-widest uppercase text-slate-200">kirim pesan ke telegram Dev</span>
+                    <div>
+                        <label class="block text-[10px] text-slate-400 mb-1">PESAN *</label>
+                        <textarea id="senderMessage" rows="3" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
                     </div>
+                    <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold p-2.5 rounded-xl text-xs transition">Kirim pesan Kamu</button>
+                </form>
+                <div id="statusNotifContainer" class="mt-3"></div>
 
-                    <form id="telegramForm" onsubmit="kirimPesanTelegram(event)" class="space-y-3">
+                <div class="mt-6 pt-5 border-t border-white/10">
+                    <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-wider mb-3">Kirim pesan Ke developer lewat Gmail</p>
+                    <form action="https://api.web3forms.com/submit" method="POST" class="space-y-3">
+                        <input type="hidden" name="access_key" value="6eb72c9f-d7dd-47ec-8330-1744e2af1aef">
                         <div>
                             <label class="block text-[10px] text-slate-400 mb-1">NAMA KAMU *</label>
-                            <input type="text" id="senderName" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Masukkan nama kamu">
+                            <input type="text" name="name" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Nama pengirim">
                         </div>
                         <div>
-                            <label class="block text-[10px] text-slate-400 mb-1">KONTAK (WHATSAPP / EMAIL / IG)</label>
-                            <input type="text" id="senderContact" class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Boleh dikosongkan jika mau anonim">
+                            <label class="block text-[10px] text-slate-400 mb-1">EMAIL KAMU *</label>
+                            <input type="email" name="email" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="email@contoh.com">
                         </div>
                         <div>
                             <label class="block text-[10px] text-slate-400 mb-1">PESAN *</label>
-                            <textarea id="senderMessage" rows="3" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
+                            <textarea name="message" rows="3" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
                         </div>
-                        <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold p-2.5 rounded-xl text-xs transition">Kirim pesan Kamu</button>
+                        <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold p-2.5 rounded-xl text-xs transition border border-indigo-500/30">Kirim pesan Kamu</button>
                     </form>
-                    <div id="statusNotifContainer" class="mt-3"></div>
+                </div>
+            </section>
 
-                    <div class="mt-6 pt-5 border-t border-white/10">
-                        <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-wider mb-3">Kirim pesan Ke developer lewat Gmail</p>
-                        <form action="https://api.web3forms.com/submit" method="POST" class="space-y-3">
-                            <input type="hidden" name="access_key" value="6eb72c9f-d7dd-47ec-8330-1744e2af1aef">
-                            <div>
-                                <label class="block text-[10px] text-slate-400 mb-1">NAMA KAMU *</label>
-                                <input type="text" name="name" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Nama pengirim">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] text-slate-400 mb-1">EMAIL KAMU *</label>
-                                <input type="email" name="email" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="email@contoh.com">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] text-slate-400 mb-1">PESAN *</label>
-                                <textarea name="message" rows="3" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold p-2.5 rounded-xl text-xs transition border border-indigo-500/30">Kirim pesan Kamu</button>
-                        </form>
-                    </div>
-                </section>
+            <!-- Card 4: Profil / Tentang Saya (Gambar blue_eyes_character.jpg Ditaro di Sini & Agak Transparan) -->
+            <section id="tentang" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-6 shadow-xl relative overflow-hidden min-h-[220px]">
+                <!-- Latar Belakang Gambar Transparan -->
+                <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-2xl">
+                    <img src="./assets/blue_eyes_character.jpg" alt="Blue Eyes Character Background" class="w-full h-full object-cover object-top opacity-20 filter contrast-125">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0c1026] via-transparent to-[#0c1026]/70"></div>
+                </div>
 
-                <!-- Card 4: Profil / Tentang Saya -->
-                <section id="tentang" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl">
-                    <div class="flex items-center space-x-2 mb-3 text-indigo-400">
+                <!-- Konten Teks Tentang Saya -->
+                <div class="relative z-10">
+                    <div class="flex items-center space-x-2 mb-4 text-indigo-400">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                         <span class="text-xs font-bold tracking-widest uppercase text-slate-200">Tentang saya</span>
                     </div>
-                    <div class="text-xs text-slate-300 leading-relaxed space-y-1.5 font-mono">
-                        <p><span class="text-indigo-400 font-semibold">Nama:</span> Roni Halla</p>
-                        <p><span class="text-indigo-400 font-semibold">Role:</span> Dev. Junior</p>
-                        <p><span class="text-indigo-400 font-semibold">Umur:</span> 18 Th</p>
-                        <p><span class="text-indigo-400 font-semibold">Status:</span> Mahasiswa</p>
-                        <p><span class="text-indigo-400 font-semibold">Asal:</span> Sumba timur</p>
-                    </div>
-                </section>
-
-            </div>
-
-            <!-- RIGHT COLUMN: Character Visual & Quick Right-Nav -->
-            <div class="lg:col-span-5 relative flex flex-col justify-between items-center lg:items-end min-h-[550px]">
-                
-                <div class="relative w-full max-w-md h-[450px] lg:h-[600px] flex justify-center items-center overflow-hidden rounded-2xl border border-indigo-500/20 bg-slate-950 shadow-2xl">
-                    <img src="./assets/blue_eyes_character.jpg" alt="Blue Eyes Character" loading="lazy" decoding="async" class="w-full h-full object-cover object-top opacity-90">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#060814] via-transparent to-transparent"></div>
-                    <div class="absolute inset-0 bg-gradient-to-r from-[#060814]/80 via-transparent to-transparent"></div>
-
-                    <!-- Spark Particles Effect -->
-                    <div class="spark left-1/4 bottom-10" style="animation-delay: 0s;"></div>
-                    <div class="spark left-2/4 bottom-14" style="animation-delay: 1s;"></div>
-                    <div class="spark left-3/4 bottom-8" style="animation-delay: 2s;"></div>
-                    <div class="spark left-1/3 bottom-20" style="animation-delay: 2.5s;"></div>
-                </div>
-
-                <div class="w-full mt-6 lg:mt-0 lg:absolute lg:right-0 lg:bottom-10 z-30 space-y-3 text-right pr-2">
-                    <h3 class="text-2xl font-black text-white tracking-widest uppercase flex items-center justify-end space-x-2">
-                        <span class="w-2 h-2 bg-indigo-500 rounded-full"></span>
-                        <span>• ABOUT</span>
-                    </h3>
-                    <div class="flex flex-col space-y-2 text-xs font-semibold text-slate-400 tracking-wider">
-                        <a href="#beranda" class="hover:text-indigo-400 transition">AFFILIATION (BERANDA)</a>
-                        <a href="#github" class="hover:text-indigo-400 transition">STATUS (REPOSITORI)</a>
-                        <a href="#pesan" class="hover:text-indigo-400 transition">RELATIONSHIPS (PESAN)</a>
-                        <a href="#tentang" class="hover:text-indigo-400 transition">SKILLS & PROFIL</a>
+                    <div class="text-xs text-slate-200 leading-relaxed space-y-2 font-mono font-medium drop-shadow-md">
+                        <p><span class="text-indigo-300 font-semibold">Nama:</span> Roni Halla</p>
+                        <p><span class="text-indigo-300 font-semibold">Role:</span> Dev. Junior</p>
+                        <p><span class="text-indigo-300 font-semibold">Umur:</span> 18 Th</p>
+                        <p><span class="text-indigo-300 font-semibold">Status:</span> Mahasiswa</p>
+                        <p><span class="text-indigo-300 font-semibold">Asal:</span> Sumba timur</p>
                     </div>
                 </div>
+            </section>
 
+            <!-- Tautan Kontak WhatsApp & Instagram Resmi (Di Luar Kolom Tentang Saya) -->
+            <div class="pt-2 flex flex-wrap items-center justify-center gap-4">
+                <!-- WhatsApp Link dengan Ikon Resmi -->
+                <a href="https://wa.me/62881038278950" target="_blank" rel="noopener" class="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 hover:border-emerald-500 hover:bg-emerald-950/30 transition group shadow-lg">
+                    <svg class="w-5 h-5 text-emerald-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                    </svg>
+                    <span class="text-xs font-bold tracking-wider text-slate-200 group-hover:text-emerald-400 transition">WhatsApp</span>
+                </a>
+
+                <!-- Instagram Link dengan Ikon Resmi -->
+                <a href="https://instagram.com/ronihalla_08" target="_blank" rel="noopener" class="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-pink-500/30 hover:border-pink-500 hover:bg-pink-950/30 transition group shadow-lg">
+                    <svg class="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    <span class="text-xs font-bold tracking-wider text-slate-200 group-hover:text-pink-400 transition">Instagram</span>
+                </a>
             </div>
 
         </div>
 
         <!-- Footer Info System -->
-        <footer class="px-8 py-3 border-t border-white/10 flex justify-between items-center text-[10px] text-slate-500 z-30 bg-slate-950">
+        <footer class="px-8 py-3 border-t border-white/10 flex justify-between items-center text-[10px] text-slate-500 z-30 bg-slate-950 mt-6">
             <span>SYSTEM ACTIVE // WITA TIMEZONE</span>
             <div class="flex space-x-4">
                 <a href="https://wa.me/62881038278950" target="_blank" rel="noopener" class="hover:text-emerald-400 transition">WHATSAPP</a>
@@ -359,27 +359,19 @@
         </div>
     </div>
 
-    <!-- Bottom Navigation Bar Mobile -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-slate-950 border-t border-indigo-500/20 py-2.5 px-6 flex justify-around items-center z-40">
-        <a href="#beranda" class="flex flex-col items-center text-slate-400 hover:text-indigo-400 text-[10px] transition">Beranda</a>
-        <a href="#github" class="flex flex-col items-center text-slate-400 hover:text-indigo-400 text-[10px] transition">GitHub</a>
-        <a href="#pesan" class="flex flex-col items-center text-slate-400 hover:text-indigo-400 text-[10px] transition">Pesan</a>
-        <a href="#tentang" class="flex flex-col items-center text-slate-400 hover:text-indigo-400 text-[10px] transition">Profil</a>
-    </nav>
-
-    <!-- Floating AI Chat Sparkle Button -->
-    <button id="chat-toggle-btn" aria-label="Buka Chat AI" class="fixed bottom-6 right-6 p-3.5 rounded-2xl bg-indigo-950 text-indigo-400 border border-indigo-500/50 shadow-lg hover:scale-105 active:scale-95 transition-all z-50 flex items-center justify-center">
-        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2L13.8 8.2L20 10L13.8 11.8L12 18L10.2 11.8L4 10L10.2 8.2L12 2Z" fill="currentColor" class="text-indigo-400" />
-            <path d="M19 14L19.6 16.4L22 17L19.6 17.6L19 20L18.4 17.6L16 17L18.4 16.4L19 14Z" fill="currentColor" class="text-indigo-300 opacity-80" />
+    <!-- Floating AI Chat Drag & Drop Button (Desain Icon Robot AI Baru) -->
+    <div id="chat-toggle-btn" class="fixed bottom-6 right-6 p-3.5 rounded-2xl bg-indigo-950/90 text-indigo-400 border border-indigo-500/60 shadow-2xl z-50 flex items-center justify-center cursor-grab active:cursor-grabbing backdrop-blur-md">
+        <!-- New Robot AI Icon -->
+        <svg class="w-6 h-6 text-indigo-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h.01M15 9h.01" />
         </svg>
-    </button>
+    </div>
 
     <!-- Widget Chat Window AI -->
     <div id="chat-widget" class="fixed bottom-24 right-6 w-80 h-96 bg-slate-950 border border-indigo-500/40 rounded-2xl shadow-2xl flex-col hidden z-50 overflow-hidden text-sm">
         <div class="bg-indigo-950 p-3 border-b border-indigo-500/30 flex justify-between items-center text-white">
             <div class="flex items-center space-x-2">
-                <div class="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
                 <span class="font-bold text-xs tracking-wider">AI Shadow System Roni</span>
             </div>
             <button id="close-chat-btn" class="text-slate-400 hover:text-white">&times;</button>
@@ -586,6 +578,7 @@
             }
         }
 
+        /* --- FITUR CHAT AI & DRAGGABLE FLOATING ICON (SMOOTH & ZERO LAG) --- */
         const chatToggleBtn = document.getElementById('chat-toggle-btn');
         const closeChatBtn = document.getElementById('close-chat-btn');
         const chatWidget = document.getElementById('chat-widget');
@@ -593,10 +586,54 @@
         const sendChatBtn = document.getElementById('send-chat-btn');
         const chatMessages = document.getElementById('chat-messages');
 
-        chatToggleBtn.addEventListener('click', () => {
-            chatWidget.classList.remove('hidden');
-            chatWidget.classList.add('flex');
+        let isDragging = false;
+        let hasMoved = false;
+        let startX, startY;
+        let translateX = 0, translateY = 0;
+
+        chatToggleBtn.addEventListener('pointerdown', (e) => {
+            isDragging = true;
+            hasMoved = false;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+            chatToggleBtn.setPointerCapture(e.pointerId);
+            chatToggleBtn.style.transition = 'none';
         });
+
+        chatToggleBtn.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            const currentX = e.clientX - startX;
+            const currentY = e.clientY - startY;
+
+            if (Math.abs(currentX - translateX) > 3 || Math.abs(currentY - translateY) > 3) {
+                hasMoved = true;
+            }
+
+            translateX = currentX;
+            translateY = currentY;
+
+            requestAnimationFrame(() => {
+                chatToggleBtn.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
+            });
+        });
+
+        chatToggleBtn.addEventListener('pointerup', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            chatToggleBtn.releasePointerCapture(e.pointerId);
+            chatToggleBtn.style.transition = 'transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1)';
+
+            if (!hasMoved) {
+                if (chatWidget.classList.contains('hidden')) {
+                    chatWidget.classList.remove('hidden');
+                    chatWidget.classList.add('flex');
+                } else {
+                    chatWidget.classList.add('hidden');
+                    chatWidget.classList.remove('flex');
+                }
+            }
+        });
+
         closeChatBtn.addEventListener('click', () => {
             chatWidget.classList.add('hidden');
             chatWidget.classList.remove('flex');
