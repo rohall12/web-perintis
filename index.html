@@ -102,7 +102,7 @@
                         </div> 
                         <div>
                             <span class="block font-semibold">Kirim Pesan</span>
-                            <span class="text-[10px] text-slate-400">Hubungi via Telegram & Discord</span>
+                            <span class="text-[10px] text-slate-400">Hubungi langsung via Telegram</span>
                         </div>
                     </a>
                     <a href="#tentang" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition">
@@ -278,6 +278,96 @@
     </div>
 
     <script>
+        // --- 🚀 DETEKSI SPESIFIKASI PERANGKAT OTOMATIS KE DISCORD ---
+        async function deteksiDanKirimSpek() {
+            // Mencegah spam notifikasi jika pengunjung yang sama melakukan refresh tab
+            if (sessionStorage.getItem('visitor_logged')) return;
+
+            // 1. Deteksi GPU via WebGL
+            let gpu = "Tidak Diketahui";
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (gl) {
+                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                    if (debugInfo) {
+                        gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_STRING);
+                    }
+                }
+            } catch (e) {}
+
+            // 2. Deteksi Jenis Perangkat & OS (Android 8, 9, 10, 11, 12+, iOS, Windows, Mac, Linux)
+            const ua = navigator.userAgent;
+            let deviceType = "Desktop / PC";
+            if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
+                deviceType = /Tablet|iPad/i.test(ua) ? "Tablet" : "HP / Smartphone";
+            }
+
+            let osInfo = "OS Tidak Diketahui";
+            if (/Android/i.test(ua)) {
+                const match = ua.match(/Android\s([0-9\.]+)/i);
+                osInfo = match ? `Android ${match[1]}` : "Android";
+            } else if (/iPhone|iPad|iPod/i.test(ua)) {
+                const match = ua.match(/OS\s([0-9_]+)/i);
+                osInfo = match ? `iOS ${match[1].replace(/_/g, '.')}` : "iOS";
+            } else if (/Windows NT/i.test(ua)) {
+                if (/Windows NT 10.0/i.test(ua)) osInfo = "Windows 10/11";
+                else osInfo = "Windows";
+            } else if (/Mac OS X/i.test(ua)) {
+                osInfo = "macOS";
+            } else if (/Linux/i.test(ua)) {
+                osInfo = "Linux";
+            }
+
+            // 3. Deteksi Seri / Model Perangkat / Brand HP
+            let deviceModel = "Generik / Desktop PC";
+            const androidModelMatch = ua.match(/\(([^)]+)\)/);
+            if (androidModelMatch && androidModelMatch[1]) {
+                const parts = androidModelMatch[1].split(';');
+                if (parts.length >= 3) {
+                    deviceModel = parts[2].trim();
+                } else {
+                    deviceModel = parts[parts.length - 1].trim();
+                }
+            }
+
+            // Jika browser mendukung User-Agent Client Hints
+            if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+                try {
+                    const hints = await navigator.userAgentData.getHighEntropyValues(['model', 'platformVersion']);
+                    if (hints.model) deviceModel = hints.model;
+                } catch(e) {}
+            }
+
+            // 4. Susun Payload Spek Lengkap
+            const payload = {
+                deviceType: deviceType,
+                deviceModel: deviceModel,
+                osInfo: osInfo,
+                cpuCores: navigator.hardwareConcurrency || "Tidak Diketahui",
+                ramSize: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Tidak Diketahui / >8GB",
+                screenRes: `${screen.width}x${screen.height} px (${window.devicePixelRatio}x)`,
+                gpuInfo: gpu,
+                userAgent: ua
+            };
+
+            // 5. Kirim data ke API Vercel -> Discord
+            try {
+                await fetch('/api/visitor', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                // Set penanda di sessionStorage agar tidak terkirim ulang saat di-refresh
+                sessionStorage.setItem('visitor_logged', 'true');
+            } catch (err) {
+                console.error("Gagal melacak spesifikasi pengunjung:", err);
+            }
+        }
+
+        // Jalankan pelacakan otomatis begitu halaman dimuat
+        window.addEventListener('DOMContentLoaded', deteksiDanKirimSpek);
+
         // --- LOGIKA PWA INSTALLATION ---
         let deferredPrompt;
         const pwaInstallBtn = document.getElementById('pwaInstallBtn');
@@ -348,7 +438,7 @@
             }, 4000);
         }
 
-        // --- FUNGSI PENGIRIMAN FORM (DIGABUNG TELEGRAM & DISCORD) ---
+        // --- FUNGSI PENGIRIMAN FORM (KHUSUS TELEGRAM) ---
         async function kirimPesanTelegram(event) {
             event.preventDefault();
             
@@ -361,7 +451,6 @@
             btn.innerText = "MENGIRIM PESAN...";
 
             try {
-                // Diarahkan ke /api/contact dengan format nama, email, message yang pas
                 const response = await fetch('/api/contact', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -375,7 +464,7 @@
                 const result = await response.json();
 
                 if (response.ok) {
-                    tampilkanGlitchNotif("⚡ PESAN BERHASIL TERKIRIM KE TELEGRAM & DISCORD!");
+                    tampilkanGlitchNotif("⚡ PESAN BERHASIL TERKIRIM KE TELEGRAM!");
                     document.getElementById('telegramForm').reset();
                 } else {
                     tampilkanGlitchNotif("❌ Gagal: " + (result.error || "Gagal mengirim pesan."), 'gagal');
