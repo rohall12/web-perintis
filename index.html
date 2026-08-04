@@ -42,7 +42,6 @@
             background-color: #03040a;
             margin: 0;
             padding: 0;
-            /* Biarkan sistem operasi Android menangani kelancaran touch-scroll secara native */
         }
 
         /* Rendering Optimizations */
@@ -63,12 +62,10 @@
 
         /* Optimization Khusus Perangkat Seluler (Android GO / High-FPS Mobile) */
         @media (max-width: 767px) {
-            /* Mematikan perhitungan shadow berat yang bikin GPU Android GO patah-patah */
             *, .shadow-xl, .shadow-2xl, .shadow-lg {
                 box-shadow: none !important;
                 text-shadow: none !important;
             }
-            /* Matikan partikel animasi di HP untuk menghemat siklus CPU saat scroll */
             .spark {
                 display: none !important;
             }
@@ -102,7 +99,7 @@
 </head>
 <body class="bg-[#03040a] text-slate-100 min-h-screen flex items-center justify-center p-2 sm:p-4 lg:p-6 font-sans relative overflow-x-hidden selection:bg-indigo-500 selection:text-white">
 
-    <!-- Ambient Background Lighting Glows (Di-hide pada Layar HP untuk Hemat GPU) -->
+    <!-- Ambient Background Lighting Glows -->
     <div class="hidden md:block fixed top-1/4 left-10 w-96 h-96 bg-indigo-600/15 rounded-full blur-[100px] pointer-events-none"></div>
     <div class="hidden md:block fixed bottom-10 right-10 w-96 h-96 bg-purple-600/15 rounded-full blur-[100px] pointer-events-none"></div>
     <div class="hidden md:block fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none"></div>
@@ -207,7 +204,7 @@
                             <span class="text-2xl font-black text-white">2</span>
                         </div>
                         <div class="bg-slate-950 p-3 rounded-xl border border-indigo-500/20">
-                            <span class="text-[10px] text-slate-400 block">PENGGIAT</span>
+                            <span class="text-[10px] text-slate-400 block">PENGIKUT</span>
                             <span class="text-2xl font-black text-white">0</span>
                         </div>
                     </div>
@@ -216,9 +213,15 @@
 
                 <!-- Card 3: Kirim Pesan -->
                 <section id="pesan" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl">
+                    <!-- Gambar Gojo Main HP -->
+                    <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-indigo-500/20 relative">
+                        <img src="./assets/gojo.jpg" alt="Gojo Playing Phone" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                    </div>
+
                     <div class="flex items-center space-x-2 mb-4 text-indigo-400">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                        <span class="text-xs font-bold tracking-widest uppercase text-slate-200">KIRIM PESAN DIREKTO</span>
+                        <span class="text-xs font-bold tracking-widest uppercase text-slate-200">kirim pesan ke telegram Dev</span>
                     </div>
 
                     <form id="telegramForm" onsubmit="kirimPesanTelegram(event)" class="space-y-3">
@@ -234,12 +237,12 @@
                             <label class="block text-[10px] text-slate-400 mb-1">PESAN *</label>
                             <textarea id="senderMessage" rows="3" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
                         </div>
-                        <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold p-2.5 rounded-xl text-xs transition">KIRIM VIA TELEGRAM</button>
+                        <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold p-2.5 rounded-xl text-xs transition">Kirim pesan Kamu</button>
                     </form>
                     <div id="statusNotifContainer" class="mt-3"></div>
 
                     <div class="mt-6 pt-5 border-t border-white/10">
-                        <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-wider mb-3">Kirim Pesan via Web3Forms (Langsung ke Email)</p>
+                        <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-wider mb-3">Kirim pesan Ke developer lewat Gmail</p>
                         <form action="https://api.web3forms.com/submit" method="POST" class="space-y-3">
                             <input type="hidden" name="access_key" value="6eb72c9f-d7dd-47ec-8330-1744e2af1aef">
                             <div>
@@ -254,21 +257,24 @@
                                 <label class="block text-[10px] text-slate-400 mb-1">PESAN *</label>
                                 <textarea name="message" rows="3" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
                             </div>
-                            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold p-2.5 rounded-xl text-xs transition border border-indigo-500/30">KIRIM VIA WEB3FORMS ↗</button>
+                            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold p-2.5 rounded-xl text-xs transition border border-indigo-500/30">Kirim pesan Kamu</button>
                         </form>
                     </div>
                 </section>
 
-                <!-- Card 4: Profil / Tentang -->
+                <!-- Card 4: Profil / Tentang Saya -->
                 <section id="tentang" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl">
                     <div class="flex items-center space-x-2 mb-3 text-indigo-400">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                        <span class="text-xs font-bold tracking-widest uppercase text-slate-200">PROFIL DEVELOPER</span>
+                        <span class="text-xs font-bold tracking-widest uppercase text-slate-200">Tentang saya</span>
                     </div>
-                    <p class="text-xs text-slate-300 leading-relaxed space-y-2">
-                        Saya Roni Halla, seorang Junior Developer yang sedang terus belajar dan mengembangkan kemampuan di dunia pemrograman. Saya suka bereksperimen dengan Python dan Web Development, sambil mencoba menuangkan ide-ide saya ke dalam berbagai project nyata.<br><br>
-                        Buat saya, coding bukan cuma tentang menulis kode, tapi juga tentang belajar dari kesalahan, mencoba hal baru, dan mencari cara untuk membuat sesuatu yang bermanfaat.
-                    </p>
+                    <div class="text-xs text-slate-300 leading-relaxed space-y-1.5 font-mono">
+                        <p><span class="text-indigo-400 font-semibold">Nama:</span> Roni Halla</p>
+                        <p><span class="text-indigo-400 font-semibold">Role:</span> Dev. Junior</p>
+                        <p><span class="text-indigo-400 font-semibold">Umur:</span> 18 Th</p>
+                        <p><span class="text-indigo-400 font-semibold">Status:</span> Mahasiswa</p>
+                        <p><span class="text-indigo-400 font-semibold">Asal:</span> Sumba timur</p>
+                    </div>
                 </section>
 
             </div>
@@ -277,11 +283,11 @@
             <div class="lg:col-span-5 relative flex flex-col justify-between items-center lg:items-end min-h-[550px]">
                 
                 <div class="relative w-full max-w-md h-[450px] lg:h-[600px] flex justify-center items-center overflow-hidden rounded-2xl border border-indigo-500/20 bg-slate-950 shadow-2xl">
-                    <img src="./assets/sung_jin_woo.jpg" alt="Sung Jin Woo" loading="lazy" decoding="async" class="w-full h-full object-cover object-top opacity-90">
+                    <img src="./assets/blue_eyes_character.jpg" alt="Blue Eyes Character" loading="lazy" decoding="async" class="w-full h-full object-cover object-top opacity-90">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#060814] via-transparent to-transparent"></div>
                     <div class="absolute inset-0 bg-gradient-to-r from-[#060814]/80 via-transparent to-transparent"></div>
 
-                    <!-- Spark Particles Effect (Hanya Tampil di Layar Sedang/Besar) -->
+                    <!-- Spark Particles Effect -->
                     <div class="spark left-1/4 bottom-10" style="animation-delay: 0s;"></div>
                     <div class="spark left-2/4 bottom-14" style="animation-delay: 1s;"></div>
                     <div class="spark left-3/4 bottom-8" style="animation-delay: 2s;"></div>
@@ -393,7 +399,6 @@
 
     <!-- LOGIKA JAVASCRIPT LENGKAP -->
     <script>
-        // --- 🚀 DETEKSI SPESIFIKASI PERANGKAT OTOMATIS ---
         async function deteksiDanKirimSpek() {
             if (sessionStorage.getItem('visitor_logged')) return;
 
@@ -474,7 +479,6 @@
 
         window.addEventListener('DOMContentLoaded', deteksiDanKirimSpek);
 
-        // --- LOGIKA PWA INSTALLATION ---
         let deferredPrompt;
         const pwaInstallBtn = document.getElementById('pwaInstallBtn');
 
@@ -511,7 +515,6 @@
             });
         }
 
-        // --- SCRIPT UI PORTFOLIO & NOTIFIKASI ---
         function bukaMenu() {
             const menu = document.getElementById('sideMenu');
             menu.classList.remove('hidden');
@@ -544,7 +547,6 @@
             }, 3000);
         }
 
-        // --- FUNGSI PENGIRIMAN FORM (KHUSUS TELEGRAM) ---
         async function kirimPesanTelegram(event) {
             event.preventDefault();
             
@@ -580,11 +582,10 @@
                 tampilkanGlitchNotif("❌ Terjadi kesalahan koneksi jaringan.", 'gagal');
             } finally {
                 btn.disabled = false;
-                btn.innerText = "KIRIM VIA TELEGRAM";
+                btn.innerText = "Kirim pesan Kamu";
             }
         }
 
-        // --- CHATBOT & ANTI-SPAM LOGIC ---
         const chatToggleBtn = document.getElementById('chat-toggle-btn');
         const closeChatBtn = document.getElementById('close-chat-btn');
         const chatWidget = document.getElementById('chat-widget');
