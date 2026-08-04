@@ -1,5 +1,9 @@
 [
   {
+    "date": "2026-08-04",
+    "update": "Penambahan fitur Form Kontak alternatif Web3Forms (kirim langsung ke Email) pada section #pesan"
+  },
+  {
     "date": "2026-08-03",
     "update": "Integrasi AI Chatbot v2 pakai Groq & OpenRouter fallback"
   },
