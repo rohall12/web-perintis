@@ -4,6 +4,7 @@
   "description": "Portofolio Roni Halla dengan Firebase dan Gemini AI",
   "dependencies": {
     "@google/generative-ai": "^0.22.0",
+    "@upstash/redis": "^1.38.2",
     "firebase-admin": "^11.11.1"
   }
 }
