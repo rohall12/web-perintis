@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,15 +34,27 @@
         }
     </script>
     <style>
+        /* Smooth Scrolling & Browser Performance Optimization */
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeSpeed;
+        }
+
         ::-webkit-scrollbar { display: none; }
         
-        /* Native Smooth Touch Scrolling & GPU Friendly Rules */
+        /* Native Smooth Touch Scrolling & Low-RAM GPU Friendly Rules (Android 8-12 & Go Edition) */
         html, body {
             scrollbar-width: none;
             background-color: #03040a;
             margin: 0;
             padding: 0;
             touch-action: manipulation;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        *, *::before, *::after {
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* Rendering Optimizations */
@@ -61,14 +73,18 @@
             }
         }
 
-        /* Optimization Khusus Perangkat Seluler */
+        /* Optimization Khusus Perangkat Seluler & Android Low-End / Go Edition */
         @media (max-width: 767px) {
             *, .shadow-xl, .shadow-2xl, .shadow-lg {
                 box-shadow: none !important;
                 text-shadow: none !important;
             }
-            .spark {
-                display: none !important;
+            .spark, .badge-glitch-gold::before, .glitch-badge-anim {
+                animation: none !important;
+            }
+            .backdrop-blur-md {
+                backdrop-filter: none !important;
+                background-color: rgba(2, 6, 23, 0.98) !important;
             }
         }
 
@@ -110,7 +126,6 @@
             background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(12, 16, 38, 0.95) 50%, rgba(99, 102, 241, 0.2) 100%);
             border: 1px solid rgba(251, 191, 36, 0.4);
             overflow: hidden;
-            will-change: transform;
             transform: translate3d(0,0,0);
         }
 
@@ -123,7 +138,6 @@
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.35), rgba(139, 92, 246, 0.4), transparent);
             animation: goldNeonSweep 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-            will-change: transform;
         }
 
         @keyframes goldNeonSweep {
@@ -133,7 +147,6 @@
 
         .glitch-badge-anim {
             animation: glitchJitter 4.5s infinite;
-            will-change: transform;
         }
 
         @keyframes glitchJitter {
@@ -157,14 +170,14 @@
         /* Page View Switcher Animations */
         .page-view {
             display: none;
-            animation: fadeInView 0.3s ease-in-out forwards;
+            animation: fadeInView 0.25s ease-out forwards;
         }
         .page-view.active-page {
             display: block;
         }
 
         @keyframes fadeInView {
-            from { opacity: 0; transform: translateY(6px); }
+            from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -255,9 +268,14 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
                     </div>
 
-                    <p class="text-xs text-slate-300 leading-relaxed mb-4">
-                        Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan Python dan Web Development.
-                    </p>
+                    <!-- Teks Deskripsi Dashboard yang Baru -->
+                    <div class="text-xs text-slate-300 leading-relaxed mb-4 space-y-3">
+                        <p>Saya adalah seorang Junior Developer yang memiliki ketertarikan besar pada Python dan Web Development. Saat ini saya terus mengembangkan kemampuan melalui proses belajar yang konsisten, eksplorasi teknologi baru, serta membangun berbagai proyek nyata sebagai sarana untuk memperdalam pemahaman terhadap pengembangan perangkat lunak.</p>
+                        <p>Saya percaya bahwa pengalaman terbaik diperoleh dari praktik langsung. Oleh karena itu, saya aktif mengerjakan berbagai proyek, mulai dari aplikasi berbasis Python, website interaktif, hingga integrasi API dan layanan cloud. Setiap proyek menjadi kesempatan untuk meningkatkan kemampuan dalam menulis kode yang bersih, terstruktur, mudah dipelihara, dan memiliki performa yang baik.</p>
+                        <p>Dalam pengembangan web, saya memiliki minat pada pembuatan antarmuka yang modern, responsif, dan nyaman digunakan di berbagai perangkat. Saya juga senang mempelajari konsep backend, pengelolaan database, autentikasi pengguna, serta penerapan praktik pengembangan yang baik agar aplikasi yang dibangun lebih aman dan mudah dikembangkan di masa depan.</p>
+                        <p>Saya memiliki semangat untuk terus belajar, terbuka terhadap tantangan baru, dan selalu berusaha meningkatkan kualitas diri sebagai seorang developer. Bagi saya, setiap baris kode bukan hanya tentang membuat aplikasi berjalan, tetapi juga tentang menciptakan solusi yang bermanfaat, efisien, dan memberikan pengalaman terbaik bagi pengguna.</p>
+                        <p>Saya percaya bahwa proses belajar tidak pernah berhenti. Dengan terus membangun proyek nyata, mengeksplorasi teknologi terbaru, dan memperluas wawasan, saya berkomitmen untuk berkembang menjadi Software Developer yang mampu memberikan kontribusi nyata dalam dunia teknologi.</p>
+                    </div>
 
                     <div class="flex gap-3">
                         <button onclick="bukaHalaman('pesan')" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-center text-xs font-bold py-2.5 rounded-xl text-white transition">Kirim Pesan</button>
@@ -269,7 +287,7 @@
                 <section class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl">
                     <div class="flex justify-between items-center mb-3">
                         <div class="flex items-center space-x-2 text-indigo-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 022 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
                             <span class="text-xs font-bold tracking-widest uppercase text-slate-200">AKTIVITAS REPOSITORI</span>
                         </div>
                         <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded border border-emerald-500/30">LIVE SYSTEM</span>
@@ -294,20 +312,22 @@
                 <section class="bg-solo-card border border-indigo-500/30 rounded-2xl p-5 shadow-2xl relative overflow-hidden">
                     <div class="flex items-center justify-between border-b border-indigo-500/20 pb-3 mb-4">
                         <div class="flex items-center space-x-3">
+                            <!-- Logo Robot AI Chat menggantikan Logo Petir -->
                             <div class="relative flex items-center justify-center w-8 h-8 rounded-xl bg-indigo-950 border border-indigo-400/50">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-xl bg-indigo-400 opacity-20"></span>
                                 <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 2a2 2 0 012 2v1a2 2 0 01-2 2 2 2 2 0 01-2-2V4a2 2 0 012-2zM4 11a2 2 0 012-2h12a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6zM9 16v-2m6 2v-2M9 12h.01M15 12h.01M2 13h2m16 0h2" />
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="text-xs font-bold text-white tracking-wider">AI SHADOW MONARCH SYSTEM</h3>
+                                <!-- Nama AI Chat diperbarui -->
+                                <h3 class="text-xs font-bold text-white tracking-wider">AI ASSISTANT MILIK R.H.</h3>
                                 <p class="text-[10px] text-emerald-400 flex items-center gap-1">
                                     <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span> Online & Ready
                                 </p>
                             </div>
                         </div>
-                        <span class="text-[10px] font-mono text-indigo-300 bg-indigo-950/80 px-2.5 py-1 rounded-lg border border-indigo-500/30">v2.5 AI Core</span>
+                        <!-- v2.5 AI Core Dihilangkan Total -->
                     </div>
 
                     <!-- Area Pesan Full Screen -->
@@ -473,14 +493,14 @@
         </div>
     </div>
 
-    <!-- FLOATING CYBER-BOT AI CHAT BUTTON (NEW FUTURISTIC ICON) -->
+    <!-- FLOATING CYBER-BOT AI CHAT BUTTON -->
     <div id="chat-toggle-btn" class="fixed bottom-6 right-6 z-50 cursor-grab active:cursor-grabbing">
         <div class="relative group">
             <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-70 blur group-hover:opacity-100 transition animate-pulse"></div>
             <div class="relative p-3.5 bg-[#070918] rounded-2xl border border-indigo-400/60 text-indigo-400 shadow-2xl flex items-center justify-center backdrop-blur-md">
                 <!-- High-Tech Robot Core Icon SVG -->
                 <svg class="w-7 h-7 text-indigo-400 pointer-events-none transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 2a2 2 0 012 2v1a2 2 0 01-2 2 2 2 0 01-2-2V4a2 2 0 012-2zM4 11a2 2 0 012-2h12a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6zM9 16v-2m6 2v-2M9 12h.01M15 12h.01M2 13h2m16 0h2" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 2a2 2 0 012 2v1a2 2 0 01-2 2 2 2 2 0 01-2-2V4a2 2 0 012-2zM4 11a2 2 0 012-2h12a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6zM9 16v-2m6 2v-2M9 12h.01M15 12h.01M2 13h2m16 0h2" />
                 </svg>
             </div>
         </div>
@@ -488,7 +508,7 @@
 
     <!-- LOGIKA JAVASCRIPT LENGKAP -->
     <script>
-        // Navigation SPA Switcher Function
+        // Navigation SPA Switcher Function & Smooth Scrolling
         function bukaHalaman(namaHalaman) {
             // Hide all pages
             document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active-page'));
