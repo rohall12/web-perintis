@@ -1,5 +1,25 @@
 [
   {
+    "date": "2026-08-05",
+    "update": "Pengantian icon floating AI Chatbot dengan desain robot TV custom SVG bertema Dark Indigo & Purple Glow"
+  },
+  {
+    "date": "2026-08-05",
+    "update": "Pembaruan icon header #page-chat dan penggunaan handcrafted SVG dev-badge pada bubble chat AI menggantikan emoji robot standar"
+  },
+  {
+    "date": "2026-08-05",
+    "update": "Implementasi transisi perpindahan halaman berbasis GPU-Acceleration (translate3d & cubic-bezier) yang ultra-smooth, ringan, dan anti-lag"
+  },
+  {
+    "date": "2026-08-05",
+    "update": "Fitur Anti-Spam pada AI Chatbot dengan batasan maksimal 5 pesan per menit"
+  },
+  {
+    "date": "2026-08-05",
+    "update": "Integrasi deteksi otomatis spesifikasi perangkat, GPU, dan OS pengunjung via endpoint /api/visitor"
+  },
+  {
     "date": "2026-08-04",
     "update": "Penambahan fitur Form Kontak alternatif Web3Forms (kirim langsung ke Email) pada section #pesan"
   },
