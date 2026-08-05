@@ -104,7 +104,7 @@
             user-select: none;
         }
 
-        /* --- EMBLEM GOLDEN & DARK NEON GLITCH (OPTIMIZED FOR MOBILE) --- */
+        /* --- EMBLEM GOLDEN & DARK NEON GLITCH --- */
         .badge-glitch-gold {
             position: relative;
             background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(12, 16, 38, 0.95) 50%, rgba(99, 102, 241, 0.2) 100%);
@@ -114,7 +114,6 @@
             transform: translate3d(0,0,0);
         }
 
-        /* Sweep Light Keemasan & Dark Neon */
         .badge-glitch-gold::before {
             content: '';
             position: absolute;
@@ -132,7 +131,6 @@
             25%, 100% { transform: translateX(200%); }
         }
 
-        /* Animasi Jitter Glitch Super Smooth & Ringan */
         .glitch-badge-anim {
             animation: glitchJitter 4.5s infinite;
             will-change: transform;
@@ -155,6 +153,20 @@
                 border-color: rgba(139, 92, 246, 0.8);
             }
         }
+
+        /* Page View Switcher Animations */
+        .page-view {
+            display: none;
+            animation: fadeInView 0.3s ease-in-out forwards;
+        }
+        .page-view.active-page {
+            display: block;
+        }
+
+        @keyframes fadeInView {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="bg-[#03040a] text-slate-100 min-h-screen flex items-center justify-center p-2 sm:p-4 lg:p-6 font-sans relative overflow-x-hidden selection:bg-indigo-500 selection:text-white">
@@ -168,8 +180,8 @@
     <div class="w-full max-w-4xl bg-[#070918] border border-indigo-500/20 rounded-3xl shadow-2xl overflow-hidden relative flex flex-col min-h-[820px] pb-6">
         
         <!-- Header / Navbar Atas -->
-        <header class="px-6 py-4 flex justify-between items-center border-b border-white/10 z-30 bg-slate-950/95 sticky top-0">
-            <div class="flex items-center space-x-3">
+        <header class="px-6 py-4 flex justify-between items-center border-b border-white/10 z-30 bg-slate-950/95 sticky top-0 backdrop-blur-md">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="bukaHalaman('dashboard')">
                 <div class="flex flex-col space-y-1 pr-2 border-r border-white/10">
                     <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full"></span>
                     <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full"></span>
@@ -184,11 +196,17 @@
             </div>
 
             <!-- Desktop Nav Links -->
-            <nav class="hidden md:flex items-center space-x-8 text-xs font-medium text-slate-300">
-                <a href="#beranda" class="hover:text-indigo-400 transition tracking-wider">Home</a>
-                <a href="#github" class="hover:text-indigo-400 transition tracking-wider">Aktivitas</a>
-                <a href="#pesan" class="hover:text-indigo-400 transition tracking-wider">Pesan</a>
-                <a href="#tentang" class="hover:text-indigo-400 transition tracking-wider">Profil</a>
+            <nav class="hidden md:flex items-center space-x-6 text-xs font-medium text-slate-300">
+                <button onclick="bukaHalaman('dashboard')" id="nav-dashboard" class="nav-link text-indigo-400 font-bold border-b-2 border-indigo-500 pb-1 transition tracking-wider">Dashboard</button>
+                <button onclick="bukaHalaman('chat')" id="nav-chat" class="nav-link hover:text-indigo-400 transition tracking-wider flex items-center gap-1.5">
+                    <span>Chat AI</span>
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                    </span>
+                </button>
+                <button onclick="bukaHalaman('pesan')" id="nav-pesan" class="nav-link hover:text-indigo-400 transition tracking-wider">Pesan</button>
+                <button onclick="bukaHalaman('tentang')" id="nav-tentang" class="nav-link hover:text-indigo-400 transition tracking-wider">Tentang Saya</button>
             </nav>
 
             <!-- Actions / Search Bar & PWA -->
@@ -202,7 +220,7 @@
 
                 <div class="hidden sm:flex items-center bg-slate-900 border border-white/10 rounded-full px-3 py-1 text-xs text-slate-400">
                     <svg class="w-3.5 h-3.5 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <input type="text" placeholder="Search Here..." class="bg-transparent outline-none w-24 text-xs text-white">
+                    <input type="text" placeholder="Search..." class="bg-transparent outline-none w-20 text-xs text-white">
                 </div>
 
                 <button onclick="bukaMenu()" aria-label="Menu" class="md:hidden p-2 bg-white/5 rounded-xl border border-white/10 text-slate-300 hover:text-white transition">
@@ -213,11 +231,11 @@
             </div>
         </header>
 
-        <!-- Dynamic Content Grid -->
-        <div class="p-4 sm:p-8 lg:p-10 space-y-6 relative z-20 flex-1 max-w-3xl mx-auto w-full">
+        <!-- Dynamic Content Grid Container -->
+        <div class="p-4 sm:p-8 lg:p-10 relative z-20 flex-1 max-w-3xl mx-auto w-full">
             
-            <!-- Rank & Title Badge (EMBLEM DENGAN EFEK GLITCH GOLDEN DARK NEON) -->
-            <div class="space-y-2 text-center md:text-left">
+            <!-- Rank & Title Badge (Header Tetap Tampil) -->
+            <div class="space-y-2 text-center md:text-left mb-6">
                 <div class="badge-glitch-gold glitch-badge-anim inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-lg border">
                     <span class="text-amber-400 font-extrabold text-lg italic tracking-wider">S</span>
                     <span class="text-amber-300 text-xs font-bold tracking-widest uppercase">RANK DEVELOPER</span>
@@ -228,120 +246,167 @@
                 </h2>
             </div>
 
-            <!-- Card 1: Beranda Utama -->
-            <section id="beranda" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl relative overflow-hidden group">
-                <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-indigo-500/20 relative">
-                    <img src="./assets/new_hero_character.jpg" alt="Beranda Utama" loading="eager" decoding="async" class="w-full h-full object-cover opacity-90">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
-                </div>
-
-                <p class="text-xs text-slate-300 leading-relaxed mb-4">
-                    Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan Python dan Web Development.
-                </p>
-
-                <div class="flex gap-3">
-                    <a href="#pesan" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-center text-xs font-bold py-2.5 rounded-xl text-white transition">Kirim Pesan</a>
-                    <a href="https://github.com/ronihalla" target="_blank" rel="noopener" class="flex-1 bg-slate-900/90 hover:bg-slate-800 text-center text-xs font-bold py-2.5 rounded-xl text-white transition border border-indigo-500/30">GitHub Saya ↗</a>
-                </div>
-            </section>
-
-            <!-- Card 2: Aktivitas Repositori -->
-            <section id="github" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl">
-                <div class="flex justify-between items-center mb-3">
-                    <div class="flex items-center space-x-2 text-indigo-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                        <span class="text-xs font-bold tracking-widest uppercase text-slate-200">AKTIVITAS REPOSITORI</span>
+            <!-- ================= HALAMAN 1: DASHBOARD ================= -->
+            <div id="page-dashboard" class="page-view active-page space-y-6">
+                <!-- Card Beranda -->
+                <section class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl relative overflow-hidden group">
+                    <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-indigo-500/20 relative">
+                        <img src="./assets/new_hero_character.jpg" alt="Beranda Utama" loading="eager" decoding="async" class="w-full h-full object-cover opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
                     </div>
-                    <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded border border-emerald-500/30">LIVE SYSTEM</span>
-                </div>
 
-                <div class="grid grid-cols-2 gap-3 mb-4">
-                    <div class="bg-slate-950 p-3 rounded-xl border border-indigo-500/20">
-                        <span class="text-[10px] text-slate-400 block">REPOSITORI PUBLIK</span>
-                        <span class="text-2xl font-black text-white">2</span>
-                    </div>
-                    <div class="bg-slate-950 p-3 rounded-xl border border-indigo-500/20">
-                        <span class="text-[10px] text-slate-400 block">PENGIKUT</span>
-                        <span class="text-2xl font-black text-white">0</span>
-                    </div>
-                </div>
-                <a href="https://github.com/ronihalla" target="_blank" rel="noopener" class="block w-full text-center bg-slate-900 hover:bg-slate-800 text-xs font-bold py-2.5 rounded-xl text-indigo-300 border border-indigo-500/30 transition">Lihat Profil GitHub ↗</a>
-            </section>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                        Saya seorang Junior Developer yang fokus mengasah keterampilan coding dasar melalui proyek nyata dengan Python dan Web Development.
+                    </p>
 
-            <!-- Card 3: Kirim Pesan -->
-            <section id="pesan" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl">
-                <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-indigo-500/20 relative">
-                    <img src="./assets/gojo.jpg" alt="Gojo Playing Phone" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-90">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
-                </div>
-
-                <div class="flex items-center space-x-2 mb-4 text-indigo-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                    <span class="text-xs font-bold tracking-widest uppercase text-slate-200">kirim pesan ke telegram Dev</span>
-                </div>
-
-                <form id="telegramForm" onsubmit="kirimPesanTelegram(event)" class="space-y-3">
-                    <div>
-                        <label class="block text-[10px] text-slate-400 mb-1">NAMA KAMU *</label>
-                        <input type="text" id="senderName" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Masukkan nama kamu">
+                    <div class="flex gap-3">
+                        <button onclick="bukaHalaman('pesan')" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-center text-xs font-bold py-2.5 rounded-xl text-white transition">Kirim Pesan</button>
+                        <a href="https://github.com/ronihalla" target="_blank" rel="noopener" class="flex-1 bg-slate-900/90 hover:bg-slate-800 text-center text-xs font-bold py-2.5 rounded-xl text-white transition border border-indigo-500/30">GitHub Saya ↗</a>
                     </div>
-                    <div>
-                        <label class="block text-[10px] text-slate-400 mb-1">KONTAK (WHATSAPP / EMAIL / IG)</label>
-                        <input type="text" id="senderContact" class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Boleh dikosongkan jika mau anonim">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] text-slate-400 mb-1">PESAN *</label>
-                        <textarea id="senderMessage" rows="3" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
-                    </div>
-                    <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold p-2.5 rounded-xl text-xs transition">Kirim pesan Kamu</button>
-                </form>
-                <div id="statusNotifContainer" class="mt-3"></div>
+                </section>
 
-                <div class="mt-6 pt-5 border-t border-white/10">
-                    <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-wider mb-3">Kirim pesan Ke developer lewat Gmail</p>
-                    <form action="https://api.web3forms.com/submit" method="POST" class="space-y-3">
-                        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_DI_SINI">
+                <!-- Card Aktivitas Repositori -->
+                <section class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl">
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="flex items-center space-x-2 text-indigo-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                            <span class="text-xs font-bold tracking-widest uppercase text-slate-200">AKTIVITAS REPOSITORI</span>
+                        </div>
+                        <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded border border-emerald-500/30">LIVE SYSTEM</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 mb-4">
+                        <div class="bg-slate-950 p-3 rounded-xl border border-indigo-500/20">
+                            <span class="text-[10px] text-slate-400 block">REPOSITORI PUBLIK</span>
+                            <span id="github-repos" class="text-2xl font-black text-white">2</span>
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-xl border border-indigo-500/20">
+                            <span class="text-[10px] text-slate-400 block">PENGIKUT</span>
+                            <span id="github-followers" class="text-2xl font-black text-white">0</span>
+                        </div>
+                    </div>
+                    <a href="https://github.com/ronihalla" target="_blank" rel="noopener" class="block w-full text-center bg-slate-900 hover:bg-slate-800 text-xs font-bold py-2.5 rounded-xl text-indigo-300 border border-indigo-500/30 transition">Lihat Profil GitHub ↗</a>
+                </section>
+            </div>
+
+            <!-- ================= HALAMAN 2: CHAT AI ================= -->
+            <div id="page-chat" class="page-view space-y-6">
+                <section class="bg-solo-card border border-indigo-500/30 rounded-2xl p-5 shadow-2xl relative overflow-hidden">
+                    <div class="flex items-center justify-between border-b border-indigo-500/20 pb-3 mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="relative flex items-center justify-center w-8 h-8 rounded-xl bg-indigo-950 border border-indigo-400/50">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-xl bg-indigo-400 opacity-20"></span>
+                                <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xs font-bold text-white tracking-wider">AI SHADOW MONARCH SYSTEM</h3>
+                                <p class="text-[10px] text-emerald-400 flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span> Online & Ready
+                                </p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-mono text-indigo-300 bg-indigo-950/80 px-2.5 py-1 rounded-lg border border-indigo-500/30">v2.5 AI Core</span>
+                    </div>
+
+                    <!-- Area Pesan Full Screen -->
+                    <div id="full-chat-messages" class="h-96 overflow-y-auto flex flex-col space-y-3 p-3 bg-slate-950/80 border border-indigo-500/20 rounded-xl mb-4 text-xs text-white">
+                        <div class="self-start bg-slate-900 border border-indigo-500/30 p-3 rounded-xl max-w-[85%] leading-relaxed">
+                            <p class="font-bold text-indigo-400 mb-1">🤖 AI Assistant:</p>
+                            Halo! Saya AI Asisten Roni Halla. Ada yang mau kamu tanyakan tentang project, skill, atau background Roni?
+                        </div>
+                    </div>
+
+                    <!-- Input Box -->
+                    <div class="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-indigo-500/30">
+                        <input type="text" id="full-chat-input" placeholder="Tuliskan pertanyaan kamu ke AI..." class="flex-1 bg-transparent text-white text-xs outline-none px-3 py-1.5 placeholder-slate-500" autocomplete="off">
+                        <button id="full-send-chat-btn" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-xs font-bold px-4 py-2 rounded-lg transition shadow-lg flex items-center gap-1">
+                            <span>Kirim</span>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= HALAMAN 3: PESAN ================= -->
+            <div id="page-pesan" class="page-view space-y-6">
+                <section class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl">
+                    <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-indigo-500/20 relative">
+                        <img src="./assets/gojo.jpg" alt="Gojo Playing Phone" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                    </div>
+
+                    <div class="flex items-center space-x-2 mb-4 text-indigo-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        <span class="text-xs font-bold tracking-widest uppercase text-slate-200">Kirim pesan ke telegram Dev</span>
+                    </div>
+
+                    <form id="telegramForm" onsubmit="kirimPesanTelegram(event)" class="space-y-3">
                         <div>
                             <label class="block text-[10px] text-slate-400 mb-1">NAMA KAMU *</label>
-                            <input type="text" name="name" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Nama pengirim">
+                            <input type="text" id="senderName" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Masukkan nama kamu">
                         </div>
                         <div>
-                            <label class="block text-[10px] text-slate-400 mb-1">EMAIL KAMU *</label>
-                            <input type="email" name="email" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="email@contoh.com">
+                            <label class="block text-[10px] text-slate-400 mb-1">KONTAK (WHATSAPP / EMAIL / IG)</label>
+                            <input type="text" id="senderContact" class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Boleh dikosongkan jika mau anonim">
                         </div>
                         <div>
                             <label class="block text-[10px] text-slate-400 mb-1">PESAN *</label>
-                            <textarea name="message" rows="3" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
+                            <textarea id="senderMessage" rows="3" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
                         </div>
-                        <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold p-2.5 rounded-xl text-xs transition border border-indigo-500/30">Kirim pesan Kamu</button>
+                        <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold p-2.5 rounded-xl text-xs transition">Kirim pesan Kamu</button>
                     </form>
-                </div>
-            </section>
+                    <div id="statusNotifContainer" class="mt-3"></div>
 
-            <!-- Card 4: Profil / Tentang Saya -->
-            <section id="tentang" class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-6 shadow-xl relative overflow-hidden min-h-[220px]">
-                <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-2xl">
-                    <img src="./assets/blue_eyes_character.jpg" alt="Blue Eyes Character Background" class="w-full h-full object-cover object-top opacity-20 filter contrast-125">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#0c1026] via-transparent to-[#0c1026]/70"></div>
-                </div>
-
-                <div class="relative z-10">
-                    <div class="flex items-center space-x-2 mb-4 text-indigo-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                        <span class="text-xs font-bold tracking-widest uppercase text-slate-200">Tentang saya</span>
+                    <div class="mt-6 pt-5 border-t border-white/10">
+                        <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-wider mb-3">Kirim pesan Ke developer lewat Gmail</p>
+                        <form action="https://api.web3forms.com/submit" method="POST" class="space-y-3">
+                            <input type="hidden" name="access_key" value="6eb72c9f-d7dd-47ec-8330-1744e2af1aef">
+                            <div>
+                                <label class="block text-[10px] text-slate-400 mb-1">NAMA KAMU *</label>
+                                <input type="text" name="name" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Nama pengirim">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-400 mb-1">EMAIL KAMU *</label>
+                                <input type="email" name="email" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="email@contoh.com">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-400 mb-1">PESAN *</label>
+                                <textarea name="message" rows="3" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold p-2.5 rounded-xl text-xs transition border border-indigo-500/30">Kirim pesan Kamu</button>
+                        </form>
                     </div>
-                    <div class="text-xs text-slate-200 leading-relaxed space-y-2 font-mono font-medium drop-shadow-md">
-                        <p><span class="text-indigo-300 font-semibold">Nama:</span> Roni Halla</p>
-                        <p><span class="text-indigo-300 font-semibold">Role:</span> Dev. Junior</p>
-                        <p><span class="text-indigo-300 font-semibold">Umur:</span> 18 Th</p>
-                        <p><span class="text-indigo-300 font-semibold">Status:</span> Mahasiswa</p>
-                        <p><span class="text-indigo-300 font-semibold">Asal:</span> Sumba timur</p>
-                    </div>
-                </div>
-            </section>
+                </section>
+            </div>
 
-            <!-- Tautan Kontak WhatsApp & Instagram Resmi -->
-            <div class="pt-2 flex flex-wrap items-center justify-center gap-4">
+            <!-- ================= HALAMAN 4: TENTANG SAYA ================= -->
+            <div id="page-tentang" class="page-view space-y-6">
+                <section class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-6 shadow-xl relative overflow-hidden min-h-[260px]">
+                    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-2xl">
+                        <img src="./assets/blue_eyes_character.jpg" alt="Blue Eyes Character Background" class="w-full h-full object-cover object-top opacity-25 filter contrast-125">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0c1026] via-transparent to-[#0c1026]/70"></div>
+                    </div>
+
+                    <div class="relative z-10">
+                        <div class="flex items-center space-x-2 mb-4 text-indigo-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                            <span class="text-xs font-bold tracking-widest uppercase text-slate-200">Profil & Bio Roni Halla</span>
+                        </div>
+                        <div class="text-xs text-slate-200 leading-relaxed space-y-2.5 font-mono font-medium drop-shadow-md">
+                            <p class="flex justify-between border-b border-white/5 pb-1.5"><span class="text-indigo-300 font-semibold">Nama Lengkap:</span> <span>Roni Halla</span></p>
+                            <p class="flex justify-between border-b border-white/5 pb-1.5"><span class="text-indigo-300 font-semibold">Role:</span> <span>Junior Web & Python Dev</span></p>
+                            <p class="flex justify-between border-b border-white/5 pb-1.5"><span class="text-indigo-300 font-semibold">Umur:</span> <span>18 Tahun</span></p>
+                            <p class="flex justify-between border-b border-white/5 pb-1.5"><span class="text-indigo-300 font-semibold">Status:</span> <span>Mahasiswa</span></p>
+                            <p class="flex justify-between border-b border-white/5 pb-1.5"><span class="text-indigo-300 font-semibold">Asal:</span> <span>Sumba Timur, Indonesia</span></p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Tautan Kontak WhatsApp & Instagram (Selalu tampil) -->
+            <div class="pt-6 flex flex-wrap items-center justify-center gap-4">
                 <a href="https://wa.me/62881038278950" target="_blank" rel="noopener" class="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 hover:border-emerald-500 hover:bg-emerald-950/30 transition group shadow-lg">
                     <svg class="w-5 h-5 text-emerald-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
@@ -387,18 +452,19 @@
                 </div>
                 
                 <nav class="space-y-2 text-xs mb-8">
-                    <a href="#beranda" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-indigo-600/20 border border-transparent hover:border-indigo-500/30 transition">
-                        <span class="font-semibold">Beranda Utama</span>
-                    </a>
-                    <a href="#github" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-indigo-600/20 border border-transparent hover:border-indigo-500/30 transition">
-                        <span class="font-semibold">Aktivitas Repositori</span>
-                    </a>
-                    <a href="#pesan" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-indigo-600/20 border border-transparent hover:border-indigo-500/30 transition">
-                        <span class="font-semibold">Kirim Pesan</span>
-                    </a>
-                    <a href="#tentang" onclick="tutupMenu()" class="flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-indigo-600/20 border border-transparent hover:border-indigo-500/30 transition">
-                        <span class="font-semibold">Profil</span>
-                    </a>
+                    <button onclick="bukaHalaman('dashboard'); tutupMenu();" class="w-full text-left flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-indigo-600/20 border border-transparent hover:border-indigo-500/30 transition font-semibold">
+                        Dashboard
+                    </button>
+                    <button onclick="bukaHalaman('chat'); tutupMenu();" class="w-full text-left flex items-center justify-between text-slate-300 hover:text-white p-3 rounded-xl hover:bg-indigo-600/20 border border-transparent hover:border-indigo-500/30 transition font-semibold">
+                        <span>Chat AI</span>
+                        <span class="text-[9px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded border border-indigo-500/30">ONLINE</span>
+                    </button>
+                    <button onclick="bukaHalaman('pesan'); tutupMenu();" class="w-full text-left flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-indigo-600/20 border border-transparent hover:border-indigo-500/30 transition font-semibold">
+                        Kirim Pesan
+                    </button>
+                    <button onclick="bukaHalaman('tentang'); tutupMenu();" class="w-full text-left flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-indigo-600/20 border border-transparent hover:border-indigo-500/30 transition font-semibold">
+                        Tentang Saya
+                    </button>
                 </nav>
             </div>
             <div class="text-[10px] text-slate-500 text-center border-t border-white/10 pt-4">
@@ -407,37 +473,45 @@
         </div>
     </div>
 
-    <!-- Floating AI Chat Drag & Drop Button -->
-    <div id="chat-toggle-btn" class="fixed bottom-6 right-6 p-3.5 rounded-2xl bg-indigo-950/90 text-indigo-400 border border-indigo-500/60 shadow-2xl z-50 flex items-center justify-center cursor-grab active:cursor-grabbing backdrop-blur-md">
-        <svg class="w-6 h-6 text-indigo-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h.01M15 9h.01" />
-        </svg>
-    </div>
-
-    <!-- Widget Chat Window AI -->
-    <div id="chat-widget" class="fixed bottom-24 right-6 w-80 h-96 bg-slate-950 border border-indigo-500/40 rounded-2xl shadow-2xl flex-col hidden z-50 overflow-hidden text-sm">
-        <div class="bg-indigo-950 p-3 border-b border-indigo-500/30 flex justify-between items-center text-white">
-            <div class="flex items-center space-x-2">
-                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                <span class="font-bold text-xs tracking-wider">AI Shadow System Roni</span>
+    <!-- FLOATING CYBER-BOT AI CHAT BUTTON (NEW FUTURISTIC ICON) -->
+    <div id="chat-toggle-btn" class="fixed bottom-6 right-6 z-50 cursor-grab active:cursor-grabbing">
+        <div class="relative group">
+            <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-70 blur group-hover:opacity-100 transition animate-pulse"></div>
+            <div class="relative p-3.5 bg-[#070918] rounded-2xl border border-indigo-400/60 text-indigo-400 shadow-2xl flex items-center justify-center backdrop-blur-md">
+                <!-- High-Tech Robot Core Icon SVG -->
+                <svg class="w-7 h-7 text-indigo-400 pointer-events-none transform group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 2a2 2 0 012 2v1a2 2 0 01-2 2 2 2 0 01-2-2V4a2 2 0 012-2zM4 11a2 2 0 012-2h12a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6zM9 16v-2m6 2v-2M9 12h.01M15 12h.01M2 13h2m16 0h2" />
+                </svg>
             </div>
-            <button id="close-chat-btn" class="text-slate-400 hover:text-white">&times;</button>
-        </div>
-
-        <div id="chat-messages" class="flex-1 p-3 overflow-y-auto flex flex-col space-y-3 text-white text-xs">
-            <div class="self-start bg-slate-900 border border-indigo-500/20 p-2.5 rounded-xl max-w-[85%]">
-                Halo! Gw AI asistennya Roni. Ada yang mau ditanyain soal project, skill, atau pengalaman Roni?
-            </div>
-        </div>
-
-        <div class="p-3 border-t border-indigo-500/30 bg-slate-950 flex">
-            <input type="text" id="chat-input" placeholder="Ketik pesan..." class="flex-1 bg-transparent text-white text-xs border-none outline-none placeholder-slate-500 px-2" autocomplete="off">
-            <button id="send-chat-btn" class="text-indigo-400 hover:text-indigo-300 font-semibold px-2 text-xs transition-all">Kirim</button>
         </div>
     </div>
 
     <!-- LOGIKA JAVASCRIPT LENGKAP -->
     <script>
+        // Navigation SPA Switcher Function
+        function bukaHalaman(namaHalaman) {
+            // Hide all pages
+            document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active-page'));
+            
+            // Show requested page
+            const targetPage = document.getElementById('page-' + namaHalaman);
+            if(targetPage) targetPage.classList.add('active-page');
+
+            // Reset Desktop Nav Highlight
+            document.querySelectorAll('.nav-link').forEach(nav => {
+                nav.classList.remove('text-indigo-400', 'font-bold', 'border-b-2', 'border-indigo-500');
+            });
+
+            // Highlight Active Link
+            const activeNav = document.getElementById('nav-' + namaHalaman);
+            if(activeNav) {
+                activeNav.classList.add('text-indigo-400', 'font-bold', 'border-b-2', 'border-indigo-500');
+            }
+
+            // Scroll Smooth to top content
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         async function deteksiDanKirimSpek() {
             if (sessionStorage.getItem('visitor_logged')) return;
 
@@ -625,73 +699,23 @@
             }
         }
 
-        /* --- FITUR CHAT AI & DRAGGABLE FLOATING ICON --- */
+        /* --- FITUR CHAT AI FULL SCREEN & FLOATING BUTTON ROUTING --- */
         const chatToggleBtn = document.getElementById('chat-toggle-btn');
-        const closeChatBtn = document.getElementById('close-chat-btn');
-        const chatWidget = document.getElementById('chat-widget');
-        const chatInput = document.getElementById('chat-input');
-        const sendChatBtn = document.getElementById('send-chat-btn');
-        const chatMessages = document.getElementById('chat-messages');
+        const fullChatInput = document.getElementById('full-chat-input');
+        const fullSendChatBtn = document.getElementById('full-send-chat-btn');
+        const fullChatMessages = document.getElementById('full-chat-messages');
 
-        let isDragging = false;
-        let hasMoved = false;
-        let startX, startY;
-        let translateX = 0, translateY = 0;
-
-        chatToggleBtn.addEventListener('pointerdown', (e) => {
-            isDragging = true;
-            hasMoved = false;
-            startX = e.clientX - translateX;
-            startY = e.clientY - translateY;
-            chatToggleBtn.setPointerCapture(e.pointerId);
-            chatToggleBtn.style.transition = 'none';
+        // Floating AI Bot Click Navigation
+        chatToggleBtn.addEventListener('click', () => {
+            bukaHalaman('chat');
         });
 
-        chatToggleBtn.addEventListener('pointermove', (e) => {
-            if (!isDragging) return;
-            const currentX = e.clientX - startX;
-            const currentY = e.clientY - startY;
-
-            if (Math.abs(currentX - translateX) > 3 || Math.abs(currentY - translateY) > 3) {
-                hasMoved = true;
-            }
-
-            translateX = currentX;
-            translateY = currentY;
-
-            requestAnimationFrame(() => {
-                chatToggleBtn.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
-            });
-        });
-
-        chatToggleBtn.addEventListener('pointerup', (e) => {
-            if (!isDragging) return;
-            isDragging = false;
-            chatToggleBtn.releasePointerCapture(e.pointerId);
-            chatToggleBtn.style.transition = 'transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1)';
-
-            if (!hasMoved) {
-                if (chatWidget.classList.contains('hidden')) {
-                    chatWidget.classList.remove('hidden');
-                    chatWidget.classList.add('flex');
-                } else {
-                    chatWidget.classList.add('hidden');
-                    chatWidget.classList.remove('flex');
-                }
-            }
-        });
-
-        closeChatBtn.addEventListener('click', () => {
-            chatWidget.classList.add('hidden');
-            chatWidget.classList.remove('flex');
-        });
-
-        function addMessage(text, sender) {
+        function addFullMessage(text, sender) {
             const msgDiv = document.createElement('div');
-            msgDiv.className = `p-2.5 rounded-xl max-w-[85%] ${sender === 'user' ? 'self-end bg-indigo-600 text-white' : 'self-start bg-slate-900 border border-indigo-500/20 text-slate-200'}`;
-            msgDiv.innerText = text;
-            chatMessages.appendChild(msgDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            msgDiv.className = `p-3 rounded-xl max-w-[85%] leading-relaxed ${sender === 'user' ? 'self-end bg-indigo-600 text-white font-medium' : 'self-start bg-slate-900 border border-indigo-500/30 text-slate-200'}`;
+            msgDiv.innerHTML = sender === 'user' ? text : `<p class="font-bold text-indigo-400 mb-1">🤖 AI Assistant:</p>${text}`;
+            fullChatMessages.appendChild(msgDiv);
+            fullChatMessages.scrollTop = fullChatMessages.scrollHeight;
         }
 
         function cekFiturAntiSpam() {
@@ -713,30 +737,29 @@
             return { terblokir: false };
         }
 
-        sendChatBtn.addEventListener('click', async () => {
-            const message = chatInput.value.trim();
+        async function prosesKirimPesanAI() {
+            const message = fullChatInput.value.trim();
             if (!message) return;
 
             const antiSpam = cekFiturAntiSpam();
             if (antiSpam.terblokir) {
-                addMessage(`⚠️ Lu ngirim pesan terlalu cepat! Tunggu ${antiSpam.detikTunggu} detik lagi ya bree (Maks 5 pesan/menit).`, 'ai');
+                addFullMessage(`⚠️ Lu ngirim pesan terlalu cepat! Tunggu ${antiSpam.detikTunggu} detik lagi ya bree (Maks 5 pesan/menit).`, 'ai');
                 return;
             }
 
-            addMessage(message, 'user');
-            chatInput.value = '';
+            addFullMessage(message, 'user');
+            fullChatInput.value = '';
             
-            sendChatBtn.disabled = true;
-            chatInput.disabled = true;
-            sendChatBtn.innerText = '⏳';
+            fullSendChatBtn.disabled = true;
+            fullChatInput.disabled = true;
 
             const loadingId = 'loading-' + Date.now();
             const loadingDiv = document.createElement('div');
             loadingDiv.id = loadingId;
-            loadingDiv.className = 'self-start bg-slate-900 p-2 rounded-lg text-slate-400 italic text-[11px]';
-            loadingDiv.innerText = 'AI sedang mengetik...';
-            chatMessages.appendChild(loadingDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            loadingDiv.className = 'self-start bg-slate-900 p-2.5 rounded-xl border border-indigo-500/20 text-slate-400 italic text-[11px]';
+            loadingDiv.innerText = '🤖 AI sedang mengetik...';
+            fullChatMessages.appendChild(loadingDiv);
+            fullChatMessages.scrollTop = fullChatMessages.scrollHeight;
 
             try {
                 const response = await fetch('/api/chat', {
@@ -750,23 +773,27 @@
                 if (elemLoading) elemLoading.remove();
 
                 if (response.status === 429) {
-                    addMessage('⚠️ Anti-Spam Server Aktif: Lu ngirim pesan terlalu cepat. Coba lagi dalam 1 menit.', 'ai');
+                    addFullMessage('⚠️ Anti-Spam Server Aktif: Lu ngirim pesan terlalu cepat. Coba lagi dalam 1 menit.', 'ai');
                 } else if (response.ok) {
-                    addMessage(data.reply, 'ai');
+                    addFullMessage(data.reply, 'ai');
                 } else {
-                    addMessage('Maaf, AI lagi error. Coba lagi nanti.', 'ai');
+                    addFullMessage('Maaf, AI lagi error. Coba lagi nanti.', 'ai');
                 }
             } catch (error) {
                 const elemLoading = document.getElementById(loadingId);
                 if (elemLoading) elemLoading.remove();
-                addMessage('Koneksi terputus.', 'ai');
+                addFullMessage('Koneksi terputus.', 'ai');
             }
 
             setTimeout(() => {
-                sendChatBtn.disabled = false;
-                chatInput.disabled = false;
-                sendChatBtn.innerText = 'Kirim';
-            }, 5000);
+                fullSendChatBtn.disabled = false;
+                fullChatInput.disabled = false;
+            }, 1000);
+        }
+
+        fullSendChatBtn.addEventListener('click', prosesKirimPesanAI);
+        fullChatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') prosesKirimPesanAI();
         });
     </script>
 </body>
