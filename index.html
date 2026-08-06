@@ -1,703 +1,892 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RoniHalla | Portfolio & Shadow System</title>
-  <link rel="manifest" href="./manifest.json" />
-  <meta name="theme-color" content="#03040a" />
-  <style>
-    /* CSS Reset & Variables */
-    :root {
-      --bg-main: #03040a;
-      --bg-card: #070918;
-      --accent-indigo: #6366f1;
-      --accent-purple: #8b5cf6;
-      --accent-gold: #fbbf24;
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
-      --border-color: rgba(99, 102, 241, 0.2);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoniHalla | Portfolio & Shadow System</title>
+    
+    <!-- PWA & Theme Settings -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#070914">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RoniHalla">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        solo: {
+                            bg: '#060814',
+                            card: '#0c1026',
+                            border: 'rgba(99, 102, 241, 0.25)',
+                            accent: '#6366f1',
+                            purple: '#8b5cf6',
+                            gold: '#fbbf24'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth Scrolling & Browser Performance Optimization */
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeSpeed;
+        }
 
-    body {
-      background-color: var(--bg-main);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
-
-    .cv-auto {
-      content-visibility: auto;
-    }
-
-    /* Nav Header */
-    header {
-      background: rgba(7, 9, 24, 0.85);
-      backdrop-filter: blur(10px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid var(--border-color);
-      padding: 1rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 1.25rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--accent-indigo), var(--accent-purple));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .rank-badge {
-      font-size: 0.7rem;
-      color: var(--accent-gold);
-      border: 1px solid var(--accent-gold);
-      padding: 2px 6px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: bold;
-    }
-
-    /* Navigation Links */
-    nav {
-      display: flex;
-      gap: 1rem;
-    }
-
-    nav button {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 0.5rem 0.75rem;
-      border-radius: 6px;
-      transition: all 0.3s ease;
-    }
-
-    nav button:hover, nav button.active {
-      color: #ffffff;
-      background: rgba(99, 102, 241, 0.15);
-      border-bottom: 2px solid var(--accent-indigo);
-    }
-
-    /* Container Main */
-    main {
-      flex: 1;
-      max-width: 1000px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-    }
-
-    /* Tab Sections */
-    .tab-content {
-      display: none;
-      animation: fadeIn 0.4s ease-in-out forwards;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Desktop Glow Effects */
-    @media (min-width: 768px) {
-      .glow-text {
-        text-shadow: 0 0 12px rgba(99, 102, 241, 0.6);
-      }
-      .glow-card {
-        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
-      }
-    }
-
-    /* Mobile Optimization: Disable heavy box/text shadow for low-end devices */
-    @media (max-width: 767px) {
-      .glow-text { text-shadow: none !important; }
-      .glow-card { box-shadow: none !important; }
-      header { padding: 0.8rem 1rem; }
-      nav { gap: 0.25rem; }
-      nav button { font-size: 0.85rem; padding: 0.4rem 0.5rem; }
-    }
-
-    /* Cards & Components */
-    .card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    /* Dashboard Specifics */
-    .hero {
-      text-align: center;
-      padding: 2.5rem 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .hero h1 {
-      font-size: 2.2rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .hero p {
-      color: var(--text-muted);
-      max-width: 600px;
-      margin: 0 auto 1.5rem;
-      line-height: 1.6;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: transform 0.2s;
-    }
-
-    .btn:active { transform: scale(0.98); }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent-indigo), var(--accent-purple));
-      color: #fff;
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-main);
-      border: 1px solid var(--border-color);
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-
-    .stat-card {
-      text-align: center;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      padding: 1.25rem;
-      border-radius: 10px;
-    }
-
-    .stat-value {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: var(--accent-indigo);
-    }
-
-    .stat-label {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      margin-top: 0.25rem;
-    }
-
-    /* Chat UI */
-    .chat-box {
-      display: flex;
-      flex-direction: column;
-      height: 450px;
-    }
-
-    .chat-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .bot-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #00d2ff, #3a7bd5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-    }
-
-    .chat-messages {
-      flex: 1;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      padding-right: 0.5rem;
-    }
-
-    .msg {
-      max-width: 80%;
-      padding: 0.75rem 1rem;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      line-height: 1.4;
-    }
-
-    .msg-user {
-      align-self: flex-end;
-      background: var(--accent-indigo);
-      color: #fff;
-      border-bottom-right-radius: 2px;
-    }
-
-    .msg-bot {
-      align-self: flex-start;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text-main);
-      border-bottom-left-radius: 2px;
-    }
-
-    .chat-input-area {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-
-    .chat-input-area input {
-      flex: 1;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-      color: #fff;
-      outline: none;
-    }
-
-    .chat-input-area input:focus {
-      border-color: var(--accent-indigo);
-    }
-
-    /* Form UI */
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-
-    .form-group input, .form-group textarea {
-      width: 100%;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 0.75rem;
-      color: #fff;
-      outline: none;
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-
-    /* Floating AI Button */
-    #floating-ai-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent-indigo), var(--accent-purple));
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-      z-index: 1000;
-      user-select: none;
-      touch-action: none;
-    }
-
-    #install-btn-container {
-      text-align: center;
-      margin-top: 1.5rem;
-      display: none;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      border-top: 1px solid var(--border-color);
-      margin-top: auto;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Header Nav -->
-  <header>
-    <div class="logo">
-      <span>RoniHalla</span>
-      <span class="rank-badge">S-Rank</span>
-    </div>
-    <nav>
-      <button id="nav-dashboard" class="active" onclick="bukaHalaman('dashboard')">Dashboard</button>
-      <button id="nav-chat" onclick="bukaHalaman('chat')">Chat AI</button>
-      <button id="nav-pesan" onclick="bukaHalaman('pesan')">Pesan</button>
-      <button id="nav-tentang" onclick="bukaHalaman('tentang')">Tentang Saya</button>
-    </nav>
-  </header>
-
-  <!-- Main Content Areas -->
-  <main>
-    <!-- TAB 1: DASHBOARD -->
-    <section id="tab-dashboard" class="tab-content active cv-auto">
-      <div class="hero card glow-card">
-        <h1 class="glow-text">Selamat Datang di Shadow System</h1>
-        <p>Halo! Senang melihat Anda berkunjung. Jelajahi portofolio personal, antarmuka AI interaktif, serta proyek perangkat lunak saya di sini.</p>
-        <div class="btn-group">
-          <button class="btn btn-primary" onclick="bukaHalaman('pesan')">Kirim Pesan</button>
-          <a href="https://github.com/RoniHalla" target="_blank" rel="noopener" class="btn btn-secondary">GitHub Profil</a>
-        </div>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-value" id="github-repos">--</div>
-          <div class="stat-label">Public Repositories</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="github-followers">--</div>
-          <div class="stat-label">GitHub Followers</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value">Active</div>
-          <div class="stat-label">System Status</div>
-        </div>
-      </div>
-
-      <div id="install-btn-container">
-        <button id="btn-install-app" class="btn btn-secondary" onclick="installApp()">⚡ Install Shadow App (PWA)</button>
-      </div>
-    </section>
-
-    <!-- TAB 2: CHAT AI -->
-    <section id="tab-chat" class="tab-content cv-auto">
-      <div class="card chat-box glow-card">
-        <div class="chat-header">
-          <div class="bot-icon">🤖</div>
-          <div>
-            <h3 style="font-size: 1.1rem;">AI ASSISTANT MILIK R.H.</h3>
-            <span style="font-size: 0.75rem; color: #10b981;">● Online & Ready</span>
-          </div>
-        </div>
-        <div class="chat-messages" id="chat-messages">
-          <div class="msg msg-bot">Halo! Ada yang bisa saya bantu terkait informasi Roni Halla atau proyeknya?</div>
-        </div>
-        <div class="chat-input-area">
-          <input type="text" id="chat-input" placeholder="Ketik pesan..." onkeypress="handleEnter(event)" />
-          <button class="btn btn-primary" onclick="kirimPesanChat()">Kirim</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 3: PESAN -->
-    <section id="tab-pesan" class="tab-content cv-auto">
-      <div class="card glow-card">
-        <h2 style="margin-bottom: 1rem;">Kirim Pesan Direct</h2>
-        <form id="contact-form" onsubmit="handleFormSubmit(event)">
-          <div class="form-group">
-            <label>Nama Anda</label>
-            <input type="text" id="contact-name" required placeholder="Masukkan nama Anda" />
-          </div>
-          <div class="form-group">
-            <label>Email Anda</label>
-            <input type="email" id="contact-email" required placeholder="nama@email.com" />
-          </div>
-          <div class="form-group">
-            <label>Pesan</label>
-            <textarea id="contact-message" required placeholder="Tuliskan pesan Anda di sini..."></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%;">Kirim Pesan</button>
-        </form>
-      </div>
-    </section>
-
-    <!-- TAB 4: TENTANG SAYA -->
-    <section id="tab-tentang" class="tab-content cv-auto">
-      <div class="card glow-card">
-        <h2 class="glow-text" style="margin-bottom: 0.5rem;">Tentang Saya</h2>
-        <p style="color: var(--accent-indigo); font-weight: 600; margin-bottom: 1.5rem;">Junior Developer | 18 Tahun | Mahasiswa | Sumba Timur</p>
+        ::-webkit-scrollbar { display: none; }
         
-        <div style="line-height: 1.7; color: #d1d5db; display: flex; flex-direction: column; gap: 1rem;">
-          <p>
-            Saya adalah seorang pengembang muda yang memiliki ketertarikan mendalam pada pengembangan web, pemrosesan backend, dan integrasi Artificial Intelligence. Dengan semangat pemecahan masalah dan pembelajaran berkelanjutan, saya berfokus pada pembangunan sistem aplikasi web yang efisien, responsif, serta mudah diakses.
-          </p>
-          <p>
-            Pengalaman utama saya mencakup bahasa pemograman Python, JavaScript, pengembangan Single Page Application (SPA), serta pengoptimalan performa web untuk berbagai kelas perangkat, termasuk optimasi memori dan akselerasi visual pada perangkat seluler.
-          </p>
+        /* Native Smooth Touch Scrolling & Low-RAM GPU Friendly Rules */
+        html, body {
+            scrollbar-width: none;
+            background-color: #03040a;
+            margin: 0;
+            padding: 0;
+            touch-action: manipulation;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        *, *::before, *::after {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Rendering Optimizations */
+        .cv-auto {
+            content-visibility: auto;
+            contain-intrinsic-size: 1px 250px;
+        }
+
+        /* Text Glows Hanya Diaktifkan di Desktop/Layar Besar */
+        @media (min-width: 768px) {
+            .text-glow-purple {
+                text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+            }
+            .text-glow-gold {
+                text-shadow: 0 0 8px rgba(251, 191, 36, 0.7);
+            }
+        }
+
+        /* Optimization Khusus Perangkat Seluler (Android Low-RAM / GO Edition) */
+        @media (max-width: 767px) {
+            *, .shadow-xl, .shadow-2xl, .shadow-lg {
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+            .spark, .badge-glitch-gold::before, .glitch-badge-anim {
+                animation: none !important;
+            }
+            .backdrop-blur-md {
+                -webkit-backdrop-filter: none !important;
+                backdrop-filter: none !important;
+                background-color: rgba(6, 8, 20, 0.98) !important;
+            }
+        }
+
+        /* Spark Animation */
+        .spark {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #f97316;
+            border-radius: 50%;
+            animation: floatUp 4s infinite linear;
+            opacity: 0;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.8); opacity: 0; }
+            30% { opacity: 0.9; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-180px) scale(0.2); opacity: 0; }
+        }
+        
+        @keyframes glitchSmooth {
+            0% { opacity: 0; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .glitch-metalic {
+            animation: glitchSmooth 0.2s ease-out forwards;
+        }
+
+        /* Floating Drag AI Icon */
+        #chat-toggle-btn {
+            touch-action: none;
+            will-change: transform;
+            user-select: none;
+        }
+
+        /* --- EMBLEM GOLDEN & DARK NEON GLITCH --- */
+        .badge-glitch-gold {
+            position: relative;
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(12, 16, 38, 0.95) 50%, rgba(99, 102, 241, 0.2) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            overflow: hidden;
+            transform: translate3d(0,0,0);
+        }
+
+        .badge-glitch-gold::before {
+            content: '';
+            position: absolute;
+            top: 0; 
+            left: -100%;
+            width: 100%; 
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.35), rgba(139, 92, 246, 0.4), transparent);
+            animation: goldNeonSweep 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes goldNeonSweep {
+            0% { transform: translateX(0%); }
+            25%, 100% { transform: translateX(200%); }
+        }
+
+        .glitch-badge-anim {
+            animation: glitchJitter 4.5s infinite;
+        }
+
+        @keyframes glitchJitter {
+            0%, 91%, 95%, 100% { 
+                transform: translate3d(0, 0, 0); 
+            }
+            92% { 
+                transform: translate3d(-1.5px, 0.5px, 0); 
+                border-color: rgba(99, 102, 241, 0.8);
+            }
+            93% { 
+                transform: translate3d(1.5px, -0.5px, 0); 
+                border-color: rgba(251, 191, 36, 0.9);
+            }
+            94% { 
+                transform: translate3d(-1px, -0.5px, 0); 
+                border-color: rgba(139, 92, 246, 0.8);
+            }
+        }
+
+        /* Optimasi Transisi Perpindahan Halaman Halus (GPU-Accelerated & Anti-Lag) */
+        .page-view {
+            display: none;
+            opacity: 0;
+            transform: translate3d(0, 10px, 0);
+            will-change: transform, opacity;
+            transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .page-view.active-page {
+            display: block;
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+
+        /* --- OPTIMASI ULTRA-SMOOTH SIDE MENU NAVIGATION --- */
+        #sideMenu {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
+            will-change: opacity, visibility;
+        }
+
+        #sideMenu.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        #sideMenuDrawer {
+            transform: translate3d(100%, 0, 0);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+
+        #sideMenu.active #sideMenuDrawer {
+            transform: translate3d(0, 0, 0);
+        }
+    </style>
+</head>
+<body class="bg-[#03040a] text-slate-100 min-h-screen flex items-center justify-center p-2 sm:p-4 lg:p-6 font-sans relative overflow-x-hidden selection:bg-indigo-500 selection:text-white">
+
+    <!-- Ambient Background Lighting Glows -->
+    <div class="hidden md:block fixed top-1/4 left-10 w-96 h-96 bg-indigo-600/15 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="hidden md:block fixed bottom-10 right-10 w-96 h-96 bg-purple-600/15 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="hidden md:block fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- MAIN FRAME CONTAINER -->
+    <div class="w-full max-w-4xl bg-[#070918] border border-indigo-500/20 rounded-3xl shadow-2xl overflow-hidden relative flex flex-col min-h-[820px] pb-6">
+        
+        <!-- Header / Navbar Atas -->
+        <header class="px-6 py-4 flex justify-between items-center border-b border-white/10 z-30 bg-slate-950/95 sticky top-0 backdrop-blur-md">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="bukaHalaman('dashboard')">
+                <div class="flex flex-col space-y-1 pr-2 border-r border-white/10">
+                    <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full"></span>
+                    <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full"></span>
+                    <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full"></span>
+                </div>
+                <div>
+                    <h1 class="text-lg font-black tracking-widest text-white flex items-center gap-2">
+                        <span>나 혼자만 레벨업</span>
+                        <span class="text-xs font-normal text-indigo-400 font-mono">| RoniHalla</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-6 text-xs font-medium text-slate-300">
+                <button onclick="bukaHalaman('dashboard')" id="nav-dashboard" class="nav-link text-indigo-400 font-bold border-b-2 border-indigo-500 pb-1 transition tracking-wider">Dashboard</button>
+                <button onclick="bukaHalaman('chat')" id="nav-chat" class="nav-link hover:text-indigo-400 transition tracking-wider flex items-center gap-1.5">
+                    <span>Chat AI</span>
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                    </span>
+                </button>
+                <button onclick="bukaHalaman('pesan')" id="nav-pesan" class="nav-link hover:text-indigo-400 transition tracking-wider">Pesan</button>
+                <button onclick="bukaHalaman('tentang')" id="nav-tentang" class="nav-link hover:text-indigo-400 transition tracking-wider">Tentang Saya</button>
+            </nav>
+
+            <!-- Actions / Search Bar & PWA -->
+            <div class="flex items-center space-x-3">
+                <button id="pwaInstallBtn" class="hidden bg-gradient-to-r from-red-600 to-indigo-600 hover:from-red-500 hover:to-indigo-500 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg border border-white/20 transition shadow-lg flex items-center space-x-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                    </svg>
+                    <span>Install App</span>
+                </button>
+
+                <div class="hidden sm:flex items-center bg-slate-900 border border-white/10 rounded-full px-3 py-1 text-xs text-slate-400">
+                    <svg class="w-3.5 h-3.5 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <input type="text" placeholder="Search..." class="bg-transparent outline-none w-20 text-xs text-white">
+                </div>
+
+                <button onclick="bukaMenu()" aria-label="Menu" class="md:hidden p-2 bg-white/5 rounded-xl border border-white/10 text-slate-300 hover:text-white transition active:scale-90">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Dynamic Content Grid Container -->
+        <div class="p-4 sm:p-8 lg:p-10 relative z-20 flex-1 max-w-3xl mx-auto w-full">
+            
+            <!-- Rank & Title Badge (Header Tetap Tampil) -->
+            <div class="space-y-2 text-center md:text-left mb-6">
+                <div class="badge-glitch-gold glitch-badge-anim inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-lg border">
+                    <span class="text-amber-400 font-extrabold text-lg italic tracking-wider">S</span>
+                    <span class="text-amber-300 text-xs font-bold tracking-widest uppercase">RANK DEVELOPER</span>
+                </div>
+                <p class="text-xs text-indigo-300 font-mono tracking-widest uppercase">Shadow Monarch A.K.A</p>
+                <h2 class="text-3xl sm:text-4xl font-black text-white tracking-wider uppercase text-glow-purple">
+                    RONI HALLA <span class="text-slate-400 text-xl font-light">(성진우)</span>
+                </h2>
+            </div>
+
+            <!-- ================= HALAMAN 1: DASHBOARD ================= -->
+            <div id="page-dashboard" class="page-view active-page space-y-6">
+                <!-- Card Beranda -->
+                <section class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl relative overflow-hidden group">
+                    <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-indigo-500/20 relative">
+                        <img src="./assets/new_hero_character.jpg" alt="Beranda Utama" loading="eager" decoding="async" class="w-full h-full object-cover opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                    </div>
+
+                    <!-- Kalimat Sambutan Singkat Dashboard -->
+                    <div class="text-xs text-slate-300 leading-relaxed mb-4 space-y-3">
+                        <p>Selamat datang di website saya.</p>
+                        <p>Website ini merupakan tempat saya menuangkan ide, belajar, dan mengembangkan berbagai proyek di bidang Web Development, Python, serta teknologi modern. Setiap fitur yang ada dibangun sebagai bagian dari proses belajar sekaligus portofolio yang terus berkembang. Terima kasih telah berkunjung, semoga pengalaman kamu di website ini menyenangkan yhh😉.</p>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button onclick="bukaHalaman('pesan')" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-center text-xs font-bold py-2.5 rounded-xl text-white transition active:scale-95 duration-150">Kirim Pesan</button>
+                        <a href="https://github.com/ronihalla" target="_blank" rel="noopener" class="flex-1 bg-slate-900/90 hover:bg-slate-800 text-center text-xs font-bold py-2.5 rounded-xl text-white transition border border-indigo-500/30">GitHub Saya ↗</a>
+                    </div>
+                </section>
+
+                <!-- Card Aktivitas Repositori -->
+                <section class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl">
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="flex items-center space-x-2 text-indigo-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 022 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                            <span class="text-xs font-bold tracking-widest uppercase text-slate-200">AKTIVITAS REPOSITORI</span>
+                        </div>
+                        <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded border border-emerald-500/30">LIVE SYSTEM</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 mb-4">
+                        <div class="bg-slate-950 p-3 rounded-xl border border-indigo-500/20">
+                            <span class="text-[10px] text-slate-400 block">REPOSITORI PUBLIK</span>
+                            <span id="github-repos" class="text-2xl font-black text-white">2</span>
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-xl border border-indigo-500/20">
+                            <span class="text-[10px] text-slate-400 block">PENGIKUT</span>
+                            <span id="github-followers" class="text-2xl font-black text-white">0</span>
+                        </div>
+                    </div>
+                    <a href="https://github.com/ronihalla" target="_blank" rel="noopener" class="block w-full text-center bg-slate-900 hover:bg-slate-800 text-xs font-bold py-2.5 rounded-xl text-indigo-300 border border-indigo-500/30 transition">Lihat Profil GitHub ↗</a>
+                </section>
+            </div>
+
+            <!-- ================= HALAMAN 2: CHAT AI ================= -->
+            <div id="page-chat" class="page-view space-y-6">
+                <section class="bg-solo-card border border-indigo-500/30 rounded-2xl p-5 shadow-2xl relative overflow-hidden">
+                    <div class="flex items-center justify-between border-b border-indigo-500/20 pb-3 mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="relative flex items-center justify-center w-9 h-9 rounded-xl bg-indigo-950/80 border border-indigo-400/40 p-1.5 shadow-lg">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-xl bg-indigo-400 opacity-20"></span>
+                                <svg class="w-full h-full text-indigo-300" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 3.5L10 6M16 3.5L14 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <rect x="3" y="6" width="18" height="13" rx="4.5" fill="#060814" stroke="currentColor" stroke-width="1.8"/>
+                                    <path d="M7.5 11.5C8.2 10.3 9.8 10.3 10.5 11.5" stroke="#818cf8" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M13.5 11.5C14.2 10.3 15.8 10.3 16.5 11.5" stroke="#818cf8" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M9.5 14C10 15 10.7 15.2 11.2 14.3C11.5 13.8 12 13.8 12.3 14.3C12.8 15.2 13.5 15 14 14" stroke="#c084fc" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xs font-bold text-white tracking-wider">AI ASSISTANT MILIK R.H.</h3>
+                                <p class="text-[10px] text-emerald-400 flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span> Online & Ready
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Area Pesan Full Screen -->
+                    <div id="full-chat-messages" class="h-96 overflow-y-auto flex flex-col space-y-3 p-3 bg-slate-950/80 border border-indigo-500/20 rounded-xl mb-4 text-xs text-white">
+                        <div class="self-start bg-slate-900 border border-indigo-500/30 p-3 rounded-xl max-w-[85%] leading-relaxed">
+                            <div class="flex items-center gap-1.5 font-bold text-indigo-300 mb-1.5">
+                                <span class="inline-flex items-center justify-center w-5 h-5 bg-indigo-950 border border-indigo-500/40 rounded-md p-0.5">
+                                    <svg class="w-full h-full text-indigo-400" viewBox="0 0 24 24" fill="none">
+                                        <path d="M8 3.5L10 6M16 3.5L14 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        <rect x="3" y="6" width="18" height="13" rx="4" fill="#060814" stroke="currentColor" stroke-width="1.8"/>
+                                        <path d="M7.5 11.5C8.2 10.3 9.8 10.3 10.5 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        <path d="M13.5 11.5C14.2 10.3 15.8 10.3 16.5 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        <path d="M9.5 14C10 15 10.7 15.2 11.2 14.3C11.5 13.8 12 13.8 12.3 14.3C12.8 15.2 13.5 15 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                                    </svg>
+                                </span>
+                                <span>R.H. AI Assistant</span>
+                            </div>
+                            <p class="text-slate-200">Halo! Saya AI Asisten Roni Halla. Ada yang mau kamu tanyakan tentang project, skill, atau background Roni?</p>
+                        </div>
+                    </div>
+
+                    <!-- Input Box -->
+                    <div class="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-indigo-500/30">
+                        <input type="text" id="full-chat-input" placeholder="Tuliskan pertanyaan kamu ke AI..." class="flex-1 bg-transparent text-white text-xs outline-none px-3 py-1.5 placeholder-slate-500" autocomplete="off">
+                        <button id="full-send-chat-btn" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-xs font-bold px-4 py-2 rounded-lg transition shadow-lg flex items-center gap-1">
+                            <span>Kirim</span>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= HALAMAN 3: PESAN ================= -->
+            <div id="page-pesan" class="page-view space-y-6">
+                <section class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-5 shadow-xl">
+                    <div class="rounded-xl overflow-hidden mb-4 bg-slate-950 aspect-video border border-indigo-500/20 relative">
+                        <img src="./assets/gojo.jpg" alt="Gojo Playing Phone" loading="lazy" decoding="async" class="w-full h-full object-cover opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                    </div>
+
+                    <div class="flex items-center space-x-2 mb-4 text-indigo-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        <span class="text-xs font-bold tracking-widest uppercase text-slate-200">Kirim pesan ke telegram Dev</span>
+                    </div>
+
+                    <form id="telegramForm" onsubmit="kirimPesanTelegram(event)" class="space-y-3">
+                        <div>
+                            <label class="block text-[10px] text-slate-400 mb-1">NAMA KAMU *</label>
+                            <input type="text" id="senderName" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Masukkan nama kamu">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-slate-400 mb-1">KONTAK (WHATSAPP / EMAIL / IG)</label>
+                            <input type="text" id="senderContact" class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Boleh dikosongkan jika mau anonim">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-slate-400 mb-1">PESAN *</label>
+                            <textarea id="senderMessage" rows="3" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
+                        </div>
+                        <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold p-2.5 rounded-xl text-xs transition">Kirim pesan Kamu</button>
+                    </form>
+                    <div id="statusNotifContainer" class="mt-3"></div>
+
+                    <div class="mt-6 pt-5 border-t border-white/10">
+                        <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-wider mb-3">Kirim pesan Ke developer lewat Gmail</p>
+                        <form action="https://api.web3forms.com/submit" method="POST" class="space-y-3">
+                            <input type="hidden" name="access_key" value="6eb72c9f-d7dd-47ec-8330-1744e2af1aef">
+                            <div>
+                                <label class="block text-[10px] text-slate-400 mb-1">NAMA KAMU *</label>
+                                <input type="text" name="name" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Nama pengirim">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-400 mb-1">EMAIL KAMU *</label>
+                                <input type="email" name="email" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="email@contoh.com">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-400 mb-1">PESAN *</label>
+                                <textarea name="message" rows="3" required class="w-full p-2.5 bg-slate-950 border border-indigo-500/20 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" placeholder="Tuliskan pesan kamu di sini..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold p-2.5 rounded-xl text-xs transition border border-indigo-500/30">Kirim pesan Kamu</button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= HALAMAN 4: TENTANG SAYA ================= -->
+            <div id="page-tentang" class="page-view space-y-6">
+                <section class="cv-auto bg-solo-card border border-solo-border rounded-2xl p-6 shadow-xl relative overflow-hidden min-h-[260px]">
+                    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-2xl">
+                        <img src="./assets/blue_eyes_character.jpg" alt="Blue Eyes Character Background" class="w-full h-full object-cover object-top opacity-25 filter contrast-125">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0c1026] via-transparent to-[#0c1026]/70"></div>
+                    </div>
+
+                    <div class="relative z-10">
+                        <div class="flex items-center space-x-2 mb-4 text-indigo-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                            <span class="text-xs font-bold tracking-widest uppercase text-slate-200">Profil & Bio Roni Halla</span>
+                        </div>
+                        <div class="text-xs text-slate-200 leading-relaxed space-y-2.5 font-mono font-medium drop-shadow-md">
+                            <p class="flex justify-between border-b border-white/5 pb-1.5"><span class="text-indigo-300 font-semibold">Nama Lengkap:</span> <span>Roni Halla</span></p>
+                            <p class="flex justify-between border-b border-white/5 pb-1.5"><span class="text-indigo-300 font-semibold">Role:</span> <span>Junior Web & Python Dev</span></p>
+                            <p class="flex justify-between border-b border-white/5 pb-1.5"><span class="text-indigo-300 font-semibold">Umur:</span> <span>18 Tahun</span></p>
+                            <p class="flex justify-between border-b border-white/5 pb-1.5"><span class="text-indigo-300 font-semibold">Status:</span> <span>Mahasiswa</span></p>
+                            <p class="flex justify-between border-b border-white/5 pb-1.5"><span class="text-indigo-300 font-semibold">Asal:</span> <span>Sumba Timur, Indonesia</span></p>
+                        </div>
+
+                        <!-- deskripsi -->
+                        <div class="mt-6 pt-5 border-t border-white/10">
+                            <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider mb-3">deskripsi:</h3>
+                            <div class="text-xs text-slate-300 leading-relaxed space-y-3 font-sans">
+                                <p>Saya adalah seorang Junior Developer yang memiliki ketertarikan besar pada Python dan Web Development. Saat ini saya terus mengembangkan kemampuan melalui proses belajar yang konsisten, eksplorasi teknologi baru, serta membangun berbagai proyek nyata sebagai sarana untuk memperdalam pemahaman terhadap pengembangan perangkat lunak.</p>
+                                <p>Saya percaya bahwa pengalaman terbaik diperoleh dari praktik langsung. Oleh karena itu, saya aktif mengerjakan berbagai proyek, mulai dari aplikasi berbasis Python, website interaktif, hingga integrasi API dan layanan cloud. Setiap proyek menjadi kesempatan untuk meningkatkan kemampuan dalam menulis kode yang bersih, terstruktur, mudah dipelihara, dan memiliki performa yang baik.</p>
+                                <p>Dalam pengembangan web, saya memiliki minat pada pembuatan antarmuka yang modern, responsif, dan nyaman digunakan di berbagai perangkat. Saya juga senang mempelajari konsep backend, pengelolaan database, autentikasi pengguna, serta penerapan praktik pengembangan yang baik agar aplikasi yang dibangun lebih aman dan mudah dikembangkan di masa depan.</p>
+                                <p>Saya memiliki semangat untuk terus belajar, terbuka terhadap tantangan baru, dan selalu berusaha meningkatkan kualitas diri sebagai seorang developer. Bagi saya, setiap baris kode bukan hanya tentang membuat aplikasi berjalan, tetapi juga tentang menciptakan solusi yang bermanfaat, efisien, dan memberikan pengalaman terbaik bagi pengguna.</p>
+                                <p>Saya percaya bahwa proses belajar tidak pernah berhenti. Dengan terus membangun proyek nyata, mengeksplorasi teknologi terbaru, dan memperluas wawasan, saya berkomitmen untuk berkembang menjadi Software Developer yang mampu memberikan kontribusi nyata dalam dunia teknologi.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Tautan Kontak WhatsApp & Instagram -->
+            <div class="pt-6 flex flex-wrap items-center justify-center gap-4">
+                <a href="https://wa.me/62881038278950" target="_blank" rel="noopener" class="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 hover:border-emerald-500 hover:bg-emerald-950/30 transition group shadow-lg">
+                    <svg class="w-5 h-5 text-emerald-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                    </svg>
+                    <span class="text-xs font-bold tracking-wider text-slate-200 group-hover:text-emerald-400 transition">WhatsApp</span>
+                </a>
+
+                <a href="https://instagram.com/ronihalla_08" target="_blank" rel="noopener" class="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-pink-500/30 hover:border-pink-500 hover:bg-pink-950/30 transition group shadow-lg">
+                    <svg class="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    <span class="text-xs font-bold tracking-wider text-slate-200 group-hover:text-pink-400 transition">Instagram</span>
+                </a>
+            </div>
+
         </div>
 
-        <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-          <a href="https://github.com/RoniHalla" target="_blank" class="btn btn-secondary" style="font-size: 0.85rem;">GitHub</a>
-          <a href="mailto:ronihalla@example.com" class="btn btn-secondary" style="font-size: 0.85rem;">Email</a>
+        <!-- Footer Info System -->
+        <footer class="px-8 py-3 border-t border-white/10 flex justify-between items-center text-[10px] text-slate-500 z-30 bg-slate-950 mt-6">
+            <span>SYSTEM ACTIVE // WITA TIMEZONE</span>
+            <div class="flex space-x-4">
+                <a href="https://wa.me/62881038278950" target="_blank" rel="noopener" class="hover:text-emerald-400 transition">WHATSAPP</a>
+                <a href="https://instagram.com/ronihalla_08" target="_blank" rel="noopener" class="hover:text-pink-400 transition">INSTAGRAM</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Sidebar Menu Navigasi (Mobile Overlay Ultra Smooth GPU Animated) -->
+    <div id="sideMenu" class="fixed inset-0 bg-black/80 z-50">
+        <!-- Backdrop Interaktif untuk Tutup Menu -->
+        <div class="absolute inset-0" onclick="tutupMenu()"></div>
+        
+        <!-- Drawer Container -->
+        <div id="sideMenuDrawer" class="absolute right-0 top-0 bottom-0 w-72 bg-slate-950 border-l border-indigo-500/30 p-6 flex flex-col justify-between shadow-2xl z-10">
+            <div>
+                <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
+                    <div>
+                        <h2 class="font-bold text-indigo-400 text-xs tracking-widest uppercase">SYSTEM NAVIGASI</h2>
+                        <p class="text-[10px] text-slate-400">Direktori Portofolio</p>
+                    </div>
+                    <button onclick="tutupMenu()" class="p-2 text-slate-400 hover:text-white bg-white/5 rounded-lg border border-white/10 transition active:scale-90">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <nav class="space-y-2 text-xs mb-8">
+                    <button onclick="bukaHalaman('dashboard'); tutupMenu();" class="w-full text-left flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-indigo-600/20 border border-transparent hover:border-indigo-500/30 transition font-semibold active:bg-indigo-600/30">
+                        Dashboard
+                    </button>
+                    <button onclick="bukaHalaman('chat'); tutupMenu();" class="w-full text-left flex items-center justify-between text-slate-300 hover:text-white p-3 rounded-xl hover:bg-indigo-600/20 border border-transparent hover:border-indigo-500/30 transition font-semibold active:bg-indigo-600/30">
+                        <span>Chat AI</span>
+                        <span class="text-[9px] bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded border border-indigo-500/30">ONLINE</span>
+                    </button>
+                    <button onclick="bukaHalaman('pesan'); tutupMenu();" class="w-full text-left flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-indigo-600/20 border border-transparent hover:border-indigo-500/30 transition font-semibold active:bg-indigo-600/30">
+                        Kirim Pesan
+                    </button>
+                    <button onclick="bukaHalaman('tentang'); tutupMenu();" class="w-full text-left flex items-center space-x-3 text-slate-300 hover:text-white p-3 rounded-xl hover:bg-indigo-600/20 border border-transparent hover:border-indigo-500/30 transition font-semibold active:bg-indigo-600/30">
+                        Tentang Saya
+                    </button>
+                </nav>
+            </div>
+            <div class="text-[10px] text-slate-500 text-center border-t border-white/10 pt-4">
+                WITA Timezone active
+            </div>
         </div>
-      </div>
-    </section>
-  </main>
+    </div>
 
-  <!-- Floating Draggable AI Button -->
-  <div id="floating-ai-btn" onclick="bukaHalaman('chat')">
-    🤖
-  </div>
+    <!-- FLOATING CYBER-BOT AI CHAT BUTTON -->
+    <div id="chat-toggle-btn" class="fixed bottom-6 right-6 z-40 cursor-pointer active:scale-95 transition-transform duration-200">
+        <div class="relative group">
+            <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-700 opacity-80 blur group-hover:opacity-100 transition animate-pulse"></div>
+            <div class="relative w-14 h-14 bg-gradient-to-br from-indigo-950 via-slate-950 to-purple-950 rounded-2xl border border-indigo-400/50 shadow-2xl flex items-center justify-center backdrop-blur-md p-2.5">
+                <svg class="w-full h-full text-indigo-300 transform group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 3.5L10 6M16 3.5L14 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <rect x="3" y="6" width="18" height="13" rx="4.5" fill="#060814" stroke="currentColor" stroke-width="1.8"/>
+                    <path d="M7.5 11.5C8.2 10.3 9.8 10.3 10.5 11.5" stroke="#818cf8" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M13.5 11.5C14.2 10.3 15.8 10.3 16.5 11.5" stroke="#818cf8" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M9.5 14C10 15 10.7 15.2 11.2 14.3C11.5 13.8 12 13.8 12.3 14.3C12.8 15.2 13.5 15 14 14" stroke="#c084fc" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+    </div>
 
-  <footer>
-    &copy; 2026 RoniHalla. All rights reserved. Shadow System UI.
-  </footer>
-
-  <script>
-    // 1. Single Page Application (SPA) Router
-    function bukaHalaman(namaTab) {
-      const tabs = document.querySelectorAll('.tab-content');
-      const navBtns = document.querySelectorAll('nav button');
-
-      tabs.forEach(tab => tab.classList.remove('active'));
-      navBtns.forEach(btn => btn.classList.remove('active'));
-
-      const targetTab = document.getElementById('tab-' + namaTab);
-      const targetNav = document.getElementById('nav-' + namaTab);
-
-      if (targetTab) targetTab.classList.add('active');
-      if (targetNav) targetNav.classList.add('active');
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // 2. Fetch GitHub Public Stats
-    async function fetchGitHubStats() {
-      try {
-        const res = await fetch('https://api.github.com/users/RoniHalla');
-        if (res.ok) {
-          const data = await res.json();
-          document.getElementById('github-repos').innerText = data.public_repos ?? '0';
-          document.getElementById('github-followers').innerText = data.followers ?? '0';
+    <!-- LOGIKA JAVASCRIPT -->
+    <script>
+        // Buka / Tutup Mobile Side Menu Tanpa Lag (Pure CSS Class Trigger)
+        function bukaMenu() {
+            document.getElementById('sideMenu').classList.add('active');
         }
-      } catch (e) {
-        console.error('Gagal mengambil data GitHub:', e);
-      }
-    }
 
-    // 3. Chat AI Engine with Rate Limit Protection
-    async function kirimPesanChat() {
-      const input = document.getElementById('chat-input');
-      const pesan = input.value.trim();
-      if (!pesan) return;
+        function tutupMenu() {
+            document.getElementById('sideMenu').classList.remove('active');
+        }
 
-      // Anti-Spam: Max 5 pesan per menit (via localStorage)
-      const now = Date.now();
-      let msgHistory = JSON.parse(localStorage.getItem('chat_rate_limit') || '[]');
-      msgHistory = msgHistory.filter(timestamp => now - timestamp < 60000);
+        // SPA Switcher Function Dengan Optimasi Smooth Transition
+        function bukaHalaman(namaHalaman) {
+            const pages = document.querySelectorAll('.page-view');
+            const targetPage = document.getElementById('page-' + namaHalaman);
+            
+            if (!targetPage || targetPage.classList.contains('active-page')) return;
 
-      if (msgHistory.length >= 5) {
-        tambahPesanUI('sistem', 'Batas penggunaan tercapai. Silakan tunggu sebentar sebelum mengirim pesan lagi (Maks 5 pesan/menit).');
-        return;
-      }
+            pages.forEach(p => p.classList.remove('active-page'));
 
-      msgHistory.push(now);
-      localStorage.setItem('chat_rate_limit', JSON.stringify(msgHistory));
+            requestAnimationFrame(() => {
+                targetPage.classList.add('active-page');
+            });
 
-      tambahPesanUI('user', pesan);
-      input.value = '';
+            document.querySelectorAll('.nav-link').forEach(nav => {
+                nav.classList.remove('text-indigo-400', 'font-bold', 'border-b-2', 'border-indigo-500');
+            });
 
-      try {
-        const res = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: pesan })
+            const activeNav = document.getElementById('nav-' + namaHalaman);
+            if(activeNav) {
+                activeNav.classList.add('text-indigo-400', 'font-bold', 'border-b-2', 'border-indigo-500');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function deteksiDanKirimSpek() {
+            if (sessionStorage.getItem('visitor_logged')) return;
+
+            let gpu = "Tidak Diketahui";
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (gl) {
+                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                    if (debugInfo) {
+                        gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_STRING);
+                    }
+                }
+            } catch (e) {}
+
+            const ua = navigator.userAgent;
+            let deviceType = "Desktop / PC";
+            if (/Mobi|Android|iPhone|iPad|iPod/i.test(ua)) {
+                deviceType = /Tablet|iPad/i.test(ua) ? "Tablet" : "HP / Smartphone";
+            }
+
+            let osInfo = "OS Tidak Diketahui";
+            if (/Android/i.test(ua)) {
+                const match = ua.match(/Android\s([0-9\.]+)/i);
+                osInfo = match ? `Android ${match[1]}` : "Android";
+            } else if (/iPhone|iPad|iPod/i.test(ua)) {
+                const match = ua.match(/OS\s([0-9_]+)/i);
+                osInfo = match ? `iOS ${match[1].replace(/_/g, '.')}` : "iOS";
+            } else if (/Windows NT/i.test(ua)) {
+                if (/Windows NT 10.0/i.test(ua)) osInfo = "Windows 10/11";
+                else osInfo = "Windows";
+            } else if (/Mac OS X/i.test(ua)) {
+                osInfo = "macOS";
+            } else if (/Linux/i.test(ua)) {
+                osInfo = "Linux";
+            }
+
+            let deviceModel = "Generik / Desktop PC";
+            const androidModelMatch = ua.match(/\(([^)]+)\)/);
+            if (androidModelMatch && androidModelMatch[1]) {
+                const parts = androidModelMatch[1].split(';');
+                if (parts.length >= 3) {
+                    deviceModel = parts[2].trim();
+                } else {
+                    deviceModel = parts[parts.length - 1].trim();
+                }
+            }
+
+            if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+                try {
+                    const hints = await navigator.userAgentData.getHighEntropyValues(['model', 'platformVersion']);
+                    if (hints.model) deviceModel = hints.model;
+                } catch(e) {}
+            }
+
+            const payload = {
+                deviceType: deviceType,
+                deviceModel: deviceModel,
+                osInfo: osInfo,
+                cpuCores: navigator.hardwareConcurrency || "Tidak Diketahui",
+                ramSize: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Tidak Diketahui / >8GB",
+                screenRes: `${screen.width}x${screen.height} px (${window.devicePixelRatio}x)`,
+                gpuInfo: gpu,
+                userAgent: ua
+            };
+
+            try {
+                await fetch('/api/visitor', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                sessionStorage.setItem('visitor_logged', 'true');
+            } catch (err) {
+                console.error("Gagal melacak spesifikasi pengunjung:", err);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', deteksiDanKirimSpek);
+
+        let deferredPrompt;
+        const pwaInstallBtn = document.getElementById('pwaInstallBtn');
+
+        if (pwaInstallBtn) pwaInstallBtn.classList.add('hidden');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (pwaInstallBtn) pwaInstallBtn.classList.remove('hidden');
         });
 
-        if (res.ok) {
-          const data = await res.json();
-          tambahPesanUI('bot', data.reply || 'Pesan terkirim.');
-        } else {
-          tambahPesanUI('bot', 'Sistem AI sedang tidak merespons. Silakan coba lagi nanti.');
+        if (pwaInstallBtn) {
+            pwaInstallBtn.addEventListener('click', async () => {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    pwaInstallBtn.classList.add('hidden');
+                }
+                deferredPrompt = null;
+            });
         }
-      } catch (err) {
-        tambahPesanUI('bot', 'Terjadi kesalahan koneksi ke server AI.');
-      }
-    }
 
-    function handleEnter(e) {
-      if (e.key === 'Enter') kirimPesanChat();
-    }
-
-    function tambahPesanUI(sender, text) {
-      const container = document.getElementById('chat-messages');
-      const msgDiv = document.createElement('div');
-      msgDiv.className = 'msg ' + (sender === 'user' ? 'msg-user' : 'msg-bot');
-      msgDiv.innerText = text;
-      container.appendChild(msgDiv);
-      container.scrollTop = container.scrollHeight;
-    }
-
-    // 4. Contact Form Handler (Telegram + Web3Forms Fallback)
-    async function handleFormSubmit(e) {
-      e.preventDefault();
-      const name = document.getElementById('contact-name').value;
-      const email = document.getElementById('contact-email').value;
-      const message = document.getElementById('contact-message').value;
-
-      try {
-        // Primary: Telegram API endpoint
-        const res = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, message })
+        window.addEventListener('appinstalled', () => {
+            if (pwaInstallBtn) pwaInstallBtn.classList.add('hidden');
+            deferredPrompt = null;
         });
 
-        if (res.ok) {
-          alert('Pesan berhasil terkirim via Telegram!');
-          document.getElementById('contact-form').reset();
-        } else {
-          throw new Error('Telegram endpoint failed');
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker Registered!', reg))
+                    .catch(err => console.log('Service Worker Registration Failed!', err));
+            });
         }
-      } catch (err) {
-        // Fallback: Web3Forms API
-        try {
-          const w3res = await fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              access_key: 'YOUR_WEB3FORMS_ACCESS_KEY',
-              name, email, message
-            })
-          });
-          if (w3res.ok) {
-            alert('Pesan terkirim via Email cadangan!');
-            document.getElementById('contact-form').reset();
-          } else {
-            alert('Gagal mengirim pesan. Silakan coba lagi.');
-          }
-        } catch (w3err) {
-          alert('Gagal mengirim pesan. Periksa koneksi internet Anda.');
+
+        function tampilkanGlitchNotif(pesanTeks, tipe = 'sukses') {
+            const container = document.getElementById('statusNotifContainer');
+            const warnaBorder = tipe === 'sukses' ? 'border-indigo-500/50 text-indigo-300' : 'border-red-800 text-red-500';
+            
+            container.innerHTML = `
+                <div class="p-3 bg-slate-950 border ${warnaBorder} rounded-xl text-xs text-center font-bold glitch-metalic">
+                    ${pesanTeks}
+                </div>
+            `;
+
+            setTimeout(() => {
+                container.style.transition = "opacity 0.5s ease";
+                container.style.opacity = "0";
+                setTimeout(() => {
+                    container.innerHTML = "";
+                    container.style.opacity = "1";
+                }, 500);
+            }, 3000);
         }
-      }
-    }
 
-    // 5. Visitor Device Spec Telemetry
-    function deteksiDanKirimSpek() {
-      try {
-        const gl = document.createElement('canvas').getContext('webgl');
-        const debugInfo = gl ? gl.getExtension('WEBGL_debug_renderer_info') : null;
-        const gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_STRING) : 'Unknown';
+        async function kirimPesanTelegram(event) {
+            event.preventDefault();
+            
+            const nama = document.getElementById('senderName').value;
+            const kontak = document.getElementById('senderContact').value || "Tidak diisi";
+            const pesan = document.getElementById('senderMessage').value;
+            const btn = document.getElementById('submitBtn');
 
-        const spek = {
-          userAgent: navigator.userAgent,
-          platform: navigator.platform,
-          cores: navigator.hardwareConcurrency || 'Unknown',
-          ram: navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'Unknown',
-          screen: `${window.screen.width}x${window.screen.height}`,
-          gpu: gpu
-        };
+            btn.disabled = true;
+            btn.innerText = "MENGIRIM PESAN...";
 
-        fetch('/api/visitor', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(spek)
-        }).catch(() => {});
-      } catch (e) {}
-    }
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        name: nama, 
+                        email: kontak, 
+                        message: pesan 
+                    })
+                });
 
-    // 6. PWA Integration & Service Worker
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      document.getElementById('install-btn-container').style.display = 'block';
-    });
+                const result = await response.json();
 
-    function installApp() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(() => {
-          deferredPrompt = null;
-          document.getElementById('install-btn-container').style.display = 'none';
+                if (response.ok) {
+                    tampilkanGlitchNotif("⚡ PESAN BERHASIL TERKIRIM KE TELEGRAM!");
+                    document.getElementById('telegramForm').reset();
+                } else {
+                    tampilkanGlitchNotif("❌ Gagal: " + (result.error || "Gagal mengirim pesan."), 'gagal');
+                }
+            } catch (err) {
+                console.error(err);
+                tampilkanGlitchNotif("❌ Terjadi kesalahan koneksi jaringan.", 'gagal');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Kirim pesan Kamu";
+            }
+        }
+
+        /* --- FITUR CHAT AI FULL SCREEN & FLOATING BUTTON ROUTING --- */
+        const chatToggleBtn = document.getElementById('chat-toggle-btn');
+        const fullChatInput = document.getElementById('full-chat-input');
+        const fullSendChatBtn = document.getElementById('full-send-chat-btn');
+        const fullChatMessages = document.getElementById('full-chat-messages');
+
+        chatToggleBtn.addEventListener('click', () => {
+            bukaHalaman('chat');
         });
-      }
-    }
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch(() => {});
-    }
+        function addFullMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `p-3 rounded-xl max-w-[85%] leading-relaxed ${sender === 'user' ? 'self-end bg-indigo-600 text-white font-medium' : 'self-start bg-slate-900 border border-indigo-500/30 text-slate-200'}`;
+            
+            if (sender === 'user') {
+                msgDiv.innerText = text;
+            } else {
+                msgDiv.innerHTML = `
+                    <div class="flex items-center gap-1.5 font-bold text-indigo-300 mb-1.5">
+                        <span class="inline-flex items-center justify-center w-5 h-5 bg-indigo-950 border border-indigo-500/40 rounded-md p-0.5">
+                            <svg class="w-full h-full text-indigo-400" viewBox="0 0 24 24" fill="none">
+                                <path d="M8 3.5L10 6M16 3.5L14 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <rect x="3" y="6" width="18" height="13" rx="4" fill="#060814" stroke="currentColor" stroke-width="1.8"/>
+                                <path d="M7.5 11.5C8.2 10.3 9.8 10.3 10.5 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M13.5 11.5C14.2 10.3 15.8 10.3 16.5 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M9.5 14C10 15 10.7 15.2 11.2 14.3C11.5 13.8 12 13.8 12.3 14.3C12.8 15.2 13.5 15 14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                            </svg>
+                        </span>
+                        <span>R.H. AI Assistant</span>
+                    </div>
+                    <p class="text-slate-200">${text}</p>
+                `;
+            }
+            
+            fullChatMessages.appendChild(msgDiv);
+            fullChatMessages.scrollTop = fullChatMessages.scrollHeight;
+        }
 
-    // 7. Draggable Touch Handler for Floating AI Button
-    (function makeFloatingBtnDraggable() {
-      const btn = document.getElementById('floating-ai-btn');
-      let isDragging = false, startX, startY;
+        function cekFiturAntiSpam() {
+            const SEKARANG = Date.now();
+            const JEDA_WAKTU = 60000; 
+            const BATAS_PESAN = 5;    
 
-      btn.addEventListener('touchstart', (e) => {
-        isDragging = true;
-        startX = e.touches[0].clientX - btn.offsetLeft;
-        startY = e.touches[0].clientY - btn.offsetTop;
-      });
+            let riwayatPesan = JSON.parse(localStorage.getItem('ai_spam_history') || '[]');
+            riwayatPesan = riwayatPesan.filter(timestamp => (SEKARANG - timestamp) < JEDA_WAKTU);
 
-      btn.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        e.preventDefault();
-        btn.style.left = (e.touches[0].clientX - startX) + 'px';
-        btn.style.top = (e.touches[0].clientY - startY) + 'px';
-        btn.style.right = 'auto';
-        btn.style.bottom = 'auto';
-      });
+            if (riwayatPesan.length >= BATAS_PESAN) {
+                const pesanTerlama = riwayatPesan[0];
+                const sisaWaktuTunggu = Math.ceil((JEDA_WAKTU - (SEKARANG - pesanTerlama)) / 1000);
+                return { terblokir: true, detikTunggu: sisaWaktuTunggu };
+            }
 
-      btn.addEventListener('touchend', () => { isDragging = false; });
-    })();
+            riwayatPesan.push(SEKARANG);
+            localStorage.setItem('ai_spam_history', JSON.stringify(riwayatPesan));
+            return { terblokir: false };
+        }
 
-    // Initialize Page Data
-    window.addEventListener('DOMContentLoaded', () => {
-      fetchGitHubStats();
-      deteksiDanKirimSpek();
-    });
-  </script>
+        async function prosesKirimPesanAI() {
+            const message = fullChatInput.value.trim();
+            if (!message) return;
+
+            const antiSpam = cekFiturAntiSpam();
+            if (antiSpam.terblokir) {
+                addFullMessage(`⚠️ Lu ngirim pesan terlalu cepat! Tunggu ${antiSpam.detikTunggu} detik lagi ya bree (Maks 5 pesan/menit).`, 'ai');
+                return;
+            }
+
+            addFullMessage(message, 'user');
+            fullChatInput.value = '';
+            
+            fullSendChatBtn.disabled = true;
+            fullChatInput.disabled = true;
+
+            const loadingId = 'loading-' + Date.now();
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = loadingId;
+            loadingDiv.className = 'self-start bg-slate-900 p-2.5 rounded-xl border border-indigo-500/20 text-slate-400 italic text-[11px]';
+            loadingDiv.innerText = '🤖 AI sedang mengetik...';
+            fullChatMessages.appendChild(loadingDiv);
+            fullChatMessages.scrollTop = fullChatMessages.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+
+                const data = await response.json();
+                const elemLoading = document.getElementById(loadingId);
+                if (elemLoading) elemLoading.remove();
+
+                if (response.status === 429) {
+                    addFullMessage('⚠️ Anti-Spam Server Aktif: Lu ngirim pesan terlalu cepat. Coba lagi dalam 1 menit.', 'ai');
+                } else if (response.ok) {
+                    addFullMessage(data.reply, 'ai');
+                } else {
+                    addFullMessage('Maaf, AI lagi error. Coba lagi nanti.', 'ai');
+                }
+            } catch (error) {
+                const elemLoading = document.getElementById(loadingId);
+                if (elemLoading) elemLoading.remove();
+                addFullMessage('Koneksi terputus.', 'ai');
+            }
+
+            setTimeout(() => {
+                fullSendChatBtn.disabled = false;
+                fullChatInput.disabled = false;
+            }, 1000);
+        }
+
+        fullSendChatBtn.addEventListener('click', prosesKirimPesanAI);
+        fullChatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') prosesKirimPesanAI();
+        });
+    </script>
 </body>
 </html>
