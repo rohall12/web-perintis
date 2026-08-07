@@ -51,16 +51,25 @@
             padding: 0;
             touch-action: manipulation;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: none;
         }
 
         *, *::before, *::after {
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Rendering Optimizations */
+        /* Rendering Optimizations - Anti Scroll Jank */
         .cv-auto {
             content-visibility: auto;
-            contain-intrinsic-size: 1px 250px;
+            contain-intrinsic-size: 1px 380px;
+        }
+
+        /* GPU Layer Acceleration for Heavy Blur Elements */
+        .gpu-blur-layer {
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+            will-change: transform;
         }
 
         /* Text Glows Hanya Diaktifkan di Desktop/Layar Besar */
@@ -168,13 +177,13 @@
             }
         }
 
-        /* Optimasi Transisi Perpindahan Halaman Halus (GPU-Accelerated & Anti-Lag) */
+        /* Optimasi Transisi Perpindahan Halaman Halus (GPU-Accelerated & Ultra Responsive) */
         .page-view {
             display: none;
             opacity: 0;
-            transform: translate3d(0, 10px, 0);
+            transform: translate3d(0, 6px, 0);
             will-change: transform, opacity;
-            transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.18s ease-out, transform 0.18s ease-out;
         }
         
         .page-view.active-page {
@@ -188,7 +197,7 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
+            transition: opacity 0.2s ease-out, visibility 0.2s;
             will-change: opacity, visibility;
         }
 
@@ -200,7 +209,7 @@
 
         #sideMenuDrawer {
             transform: translate3d(100%, 0, 0);
-            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.2s ease-out;
             will-change: transform;
         }
 
@@ -211,16 +220,16 @@
 </head>
 <body class="bg-[#03040a] text-slate-100 min-h-screen flex items-center justify-center p-2 sm:p-4 lg:p-6 font-sans relative overflow-x-hidden selection:bg-indigo-500 selection:text-white">
 
-    <!-- Ambient Background Lighting Glows -->
-    <div class="hidden md:block fixed top-1/4 left-10 w-96 h-96 bg-indigo-600/15 rounded-full blur-[100px] pointer-events-none"></div>
-    <div class="hidden md:block fixed bottom-10 right-10 w-96 h-96 bg-purple-600/15 rounded-full blur-[100px] pointer-events-none"></div>
-    <div class="hidden md:block fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <!-- Ambient Background Lighting Glows (Diisolasi GPU agar Scrolling Sangat Smooth) -->
+    <div class="hidden md:block fixed top-1/4 left-10 w-96 h-96 bg-indigo-600/15 rounded-full blur-[100px] pointer-events-none gpu-blur-layer"></div>
+    <div class="hidden md:block fixed bottom-10 right-10 w-96 h-96 bg-purple-600/15 rounded-full blur-[100px] pointer-events-none gpu-blur-layer"></div>
+    <div class="hidden md:block fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none gpu-blur-layer"></div>
 
     <!-- MAIN FRAME CONTAINER -->
     <div class="w-full max-w-4xl bg-[#070918] border border-indigo-500/20 rounded-3xl shadow-2xl overflow-hidden relative flex flex-col min-h-[820px] pb-6">
         
         <!-- Header / Navbar Atas -->
-        <header class="px-6 py-4 flex justify-between items-center border-b border-white/10 z-30 bg-slate-950/95 sticky top-0 backdrop-blur-md">
+        <header class="px-6 py-4 flex justify-between items-center border-b border-white/10 z-30 bg-slate-950/95 sticky top-0 backdrop-blur-md gpu-blur-layer">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="bukaHalaman('dashboard')">
                 <div class="flex flex-col space-y-1 pr-2 border-r border-white/10">
                     <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full"></span>
@@ -561,7 +570,7 @@
         </div>
     </div>
 
-    <!-- LOGIKA JAVASCRIPT -->
+    <!-- LOGIKA JAVASCRIPT TEROPTIMASI -->
     <script>
         // Buka / Tutup Mobile Side Menu Tanpa Lag (Pure CSS Class Trigger)
         function bukaMenu() {
@@ -572,31 +581,44 @@
             document.getElementById('sideMenu').classList.remove('active');
         }
 
-        // SPA Switcher Function Dengan Optimasi Smooth Transition
+        // SPA Switcher Function Dengan Optimasi Hardware-Accelerated Instant Transition
         function bukaHalaman(namaHalaman) {
-            const pages = document.querySelectorAll('.page-view');
             const targetPage = document.getElementById('page-' + namaHalaman);
-            
             if (!targetPage || targetPage.classList.contains('active-page')) return;
 
+            const pages = document.querySelectorAll('.page-view');
             pages.forEach(p => p.classList.remove('active-page'));
-
-            requestAnimationFrame(() => {
-                targetPage.classList.add('active-page');
-            });
+            targetPage.classList.add('active-page');
 
             document.querySelectorAll('.nav-link').forEach(nav => {
                 nav.classList.remove('text-indigo-400', 'font-bold', 'border-b-2', 'border-indigo-500');
             });
 
             const activeNav = document.getElementById('nav-' + namaHalaman);
-            if(activeNav) {
+            if (activeNav) {
                 activeNav.classList.add('text-indigo-400', 'font-bold', 'border-b-2', 'border-indigo-500');
             }
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo(0, 0);
         }
 
+        // Fetch Live Statistik GitHub
+        async function fetchGitHubStats() {
+            try {
+                const res = await fetch('https://api.github.com/users/ronihalla');
+                if (res.ok) {
+                    const data = await res.json();
+                    const repos = document.getElementById('github-repos');
+                    const followers = document.getElementById('github-followers');
+                    if (repos) repos.textContent = data.public_repos ?? '2';
+                    if (followers) followers.textContent = data.followers ?? '0';
+                }
+            } catch (err) {
+                console.error("Gagal mengambil data dari GitHub API:", err);
+            }
+        }
+
+        // Pelacakan Spesifikasi Dijalankan Saat CPU Idle Agar Tidak Membebani Render Pertama
         async function deteksiDanKirimSpek() {
             if (sessionStorage.getItem('visitor_logged')) return;
 
@@ -675,7 +697,20 @@
             }
         }
 
-        window.addEventListener('DOMContentLoaded', deteksiDanKirimSpek);
+        // Tunda Tugas Non-Kritis Menggunakan RequestIdleCallback
+        window.addEventListener('DOMContentLoaded', () => {
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(() => {
+                    deteksiDanKirimSpek();
+                    fetchGitHubStats();
+                });
+            } else {
+                setTimeout(() => {
+                    deteksiDanKirimSpek();
+                    fetchGitHubStats();
+                }, 1000);
+            }
+        });
 
         let deferredPrompt;
         const pwaInstallBtn = document.getElementById('pwaInstallBtn');
