@@ -817,13 +817,26 @@
             bukaHalaman('chat');
         });
 
-        function addFullMessage(text, sender) {
+        function addFullMessage(text, sender, imageUrl = null) {
             const msgDiv = document.createElement('div');
-            msgDiv.className = `p-3 rounded-xl max-w-[85%] leading-relaxed ${sender === 'user' ? 'self-end bg-indigo-600 text-white font-medium' : 'self-start bg-slate-900 border border-indigo-500/30 text-slate-200'}`;
+            msgDiv.className = `p-3 rounded-xl max-w-[85%] leading-relaxed ${
+                sender === 'user' 
+                    ? 'self-end bg-indigo-600 text-white font-medium' 
+                    : 'self-start bg-slate-900 border border-indigo-500/30 text-slate-200'
+            }`;
             
             if (sender === 'user') {
                 msgDiv.innerText = text;
             } else {
+                let imageHTML = '';
+                if (imageUrl) {
+                    imageHTML = `
+                        <div class="mt-2.5 rounded-lg overflow-hidden border border-indigo-500/30 bg-slate-950 aspect-square max-w-[240px]">
+                            <img src="${imageUrl}" alt="Foto Request" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy">
+                        </div>
+                    `;
+                }
+
                 msgDiv.innerHTML = `
                     <div class="flex items-center gap-1.5 font-bold text-indigo-300 mb-1.5">
                         <span class="inline-flex items-center justify-center w-5 h-5 bg-indigo-950 border border-indigo-500/40 rounded-md p-0.5">
@@ -838,6 +851,7 @@
                         <span>R.H. AI Assistant</span>
                     </div>
                     <p class="text-slate-200">${text}</p>
+                    ${imageHTML}
                 `;
             }
             
@@ -880,11 +894,29 @@
             fullSendChatBtn.disabled = true;
             fullChatInput.disabled = true;
 
+            // Detection Kata Kunci Gambar
+            const q = message.toLowerCase();
+            let detectedImage = null;
+            let customTextOverride = null;
+
+            // Deteksi foto Pacar / Doi
+            if (q.includes('pacar') || q.includes('doi') || q.includes('cewek') || q.includes('pasangan')) {
+                detectedImage = './assets/pacar.jpg';
+                customTextOverride = "Ini dia foto pacarnya Roni Halla! Cantik kan? 😉";
+            } 
+            // Deteksi foto Roni
+            else if (q.includes('roni') || q.includes('muka') || q.includes('wajah') || q.includes('owner') || q.includes('pencipta')) {
+                if (q.includes('foto') || q.includes('gambar') || q.includes('lihat') || q.includes('mana') || q.includes('spill')) {
+                    detectedImage = './assets/roni.jpg';
+                    customTextOverride = "Ini dia foto dari Roni Halla (Shadow Monarch Dev)! 😎";
+                }
+            }
+
             const loadingId = 'loading-' + Date.now();
             const loadingDiv = document.createElement('div');
             loadingDiv.id = loadingId;
             loadingDiv.className = 'self-start bg-slate-900 p-2.5 rounded-xl border border-indigo-500/20 text-slate-400 italic text-[11px]';
-            loadingDiv.innerText = '🤖 AI sedang mengetik...';
+            loadingDiv.innerText = '🤖 AI sedang mencari foto/merespons...';
             fullChatMessages.appendChild(loadingDiv);
             fullChatMessages.scrollTop = fullChatMessages.scrollHeight;
 
@@ -902,14 +934,24 @@
                 if (response.status === 429) {
                     addFullMessage('⚠️ Anti-Spam Server Aktif: Lu ngirim pesan terlalu cepat. Coba lagi dalam 1 menit.', 'ai');
                 } else if (response.ok) {
-                    addFullMessage(data.reply, 'ai');
+                    const replyText = customTextOverride || data.reply;
+                    addFullMessage(replyText, 'ai', detectedImage);
                 } else {
-                    addFullMessage('Maaf, AI lagi error. Coba lagi nanti.', 'ai');
+                    if (detectedImage) {
+                        addFullMessage(customTextOverride, 'ai', detectedImage);
+                    } else {
+                        addFullMessage('Maaf, AI lagi error. Coba lagi nanti.', 'ai');
+                    }
                 }
             } catch (error) {
                 const elemLoading = document.getElementById(loadingId);
                 if (elemLoading) elemLoading.remove();
-                addFullMessage('Koneksi terputus.', 'ai');
+                
+                if (detectedImage) {
+                    addFullMessage(customTextOverride, 'ai', detectedImage);
+                } else {
+                    addFullMessage('Koneksi terputus.', 'ai');
+                }
             }
 
             setTimeout(() => {
