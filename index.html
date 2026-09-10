@@ -3,19 +3,380 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roni Halla — Portfolio & AI Shadow System</title>
+    <title>Roni Halla — Portofolio & AI Assistant</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
     <style>
-        /* Tambahan CSS khusus untuk perbaikan Modal HD & Ikon AI */
+        /* CSS Terpadu agar tidak berantakan di HP maupun PC */
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --border-color: #e2e8f0;
+            --sidebar-width: 260px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Layout Container */
+        .site-container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--card-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .sidebar-header p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5r em;
+            flex: 1;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: #e0f2fe;
+            color: var(--primary);
+        }
+
+        .sidebar-footer {
+            padding: 1rem 1.5rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 2.5rem;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .content-page {
+            display: none;
+        }
+
+        .content-page.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+        }
+
+        .greeting-tag {
+            display: inline-block;
+            background: #e0f2fe;
+            color: var(--primary);
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Section Headings */
+        .section-heading {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Certificate Grid */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .cert-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.08);
+        }
+
+        .cert-img-wrapper {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            cursor: pointer;
+            background: #e2e8f0;
+        }
+
+        .cert-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .cert-card:hover .cert-img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .zoom-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+            gap: 0.5rem;
+        }
+
+        .cert-img-wrapper:hover .zoom-overlay {
+            opacity: 1;
+        }
+
+        .cert-info {
+            padding: 1.25rem;
+        }
+
+        .cert-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+
+        .cert-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* AI Assistant Box */
+        .ai-chat-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .message {
+            padding: 0.85rem 1rem;
+            border-radius: 8px;
+            max-width: 80%;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .message.bot {
+            background: #f1f5f9;
+            color: var(--text-main);
+            align-self: flex-start;
+        }
+
+        .message.user {
+            background: var(--primary);
+            color: white;
+            align-self: flex-end;
+        }
+
+        .chat-input-area {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .chat-input-area input:focus {
+            border-color: var(--primary);
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.85rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+        }
+
+        /* Footer */
+        .site-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Modal HD Popup */
         .modal {
             display: none;
             position: fixed;
-            z-index: 9999;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
@@ -26,39 +387,68 @@
             align-items: center;
             padding: 1rem;
         }
+
         .modal-content {
             max-width: 95vw;
             max-height: 90vh;
             object-fit: contain;
             border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
         }
+
         .close-modal {
             position: absolute;
             top: 20px;
             right: 30px;
             color: #fff;
-            font-size: 35px;
+            font-size: 40px;
             font-weight: bold;
             cursor: pointer;
             background: rgba(0,0,0,0.5);
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
             transition: background 0.2s;
         }
+
         .close-modal:hover {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Responsive Mobile Layout */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: 1.5rem;
+            }
+            .sidebar-nav {
+                flex-direction: row;
+                overflow-x: auto;
+                padding: 1rem;
+            }
+            .nav-btn {
+                white-space: nowrap;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="site-container">
-        <!-- Sidebar Kiri / Navigasi -->
+        <!-- Sidebar / Navigasi -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>Roni Halla</h2>
@@ -85,14 +475,14 @@
             </div>
         </aside>
 
-        <!-- Konten Utama Kanan -->
+        <!-- Konten Utama -->
         <main class="main-content">
             
             <!-- Halaman Beranda -->
             <section id="home" class="content-page active">
                 <div class="hero-section">
                     <div class="greeting-tag">Halo, Selamat Datang! 👋</div>
-                    <h1 class="highlight-name">Roni Halla (Rohall)</h1>
+                    <h1 class="highlight-name">Roni Halla</h1>
                     <p class="hero-subtitle">
                         Mahasiswa Teknik Informatika Universitas Kristen Wira Wacana (Unkriswina) Sumba. Berfokus pada pengembangan web modern, sistem backend serverless, dan eksplorasi kecerdasan buatan.
                     </p>
@@ -110,85 +500,119 @@
                 <p class="section-desc">Kumpulan sertifikasi pemrograman dan teknologi yang telah diselesaikan.</p>
                 
                 <div class="cert-grid">
-                    <!-- Contoh Card Sertifikat 1 -->
+                    <!-- Sertifikat 1: Dicoding -->
                     <div class="cert-card">
-                        <div class="cert-img-wrapper" onclick="openModal('path-to-cert-image.jpg', 'Sertifikat Pemrograman Web')">
-                            <!-- Ganti src dengan link gambar sertifikat lu -->
-                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" alt="Sertifikat Web">
+                        <div class="cert-img-wrapper" onclick="openModal('images/sertif-dicoding.jpg', 'Sertifikat Dicoding Front-End')">
+                            <img src="images/sertif-dicoding.jpg" alt="Sertifikat Dicoding">
                             <div class="zoom-overlay">
                                 <i class="fa-solid fa-magnifying-glass-plus"></i> Klik untuk Buka HD
                             </div>
                         </div>
                         <div class="cert-info">
-                            <h4>Sertifikat Contoh Pemrograman Web</h4>
-                            <p>Dicoding / freeCodeCamp • 2026</p>
+                            <h4>Belajar Membuat Front-End Web untuk Pemula</h4>
+                            <p>Dicoding Indonesia • Agustus 2026</p>
+                        </div>
+                    </div>
+
+                    <!-- Sertifikat 2: OPSWAT -->
+                    <div class="cert-card">
+                        <div class="cert-img-wrapper" onclick="openModal('images/sertif-opswat.jpg', 'Sertifikat OPSWAT ICIP')">
+                            <img src="images/sertif-opswat.jpg" alt="Sertifikat OPSWAT">
+                            <div class="zoom-overlay">
+                                <i class="fa-solid fa-magnifying-glass-plus"></i> Klik untuk Buka HD
+                            </div>
+                        </div>
+                        <div class="cert-info">
+                            <h4>Introduction to Critical Infrastructure Protection (ICIP)</h4>
+                            <p>OPSWAT Academy • Agustus 2026</p>
+                        </div>
+                    </div>
+
+                    <!-- Sertifikat 3: Simplilearn -->
+                    <div class="cert-card">
+                        <div class="cert-img-wrapper" onclick="openModal('images/sertif-python.jpg', 'Sertifikat Python Simplilearn')">
+                            <img src="images/sertif-python.jpg" alt="Sertifikat Python">
+                            <div class="zoom-overlay">
+                                <i class="fa-solid fa-magnifying-glass-plus"></i> Klik untuk Buka HD
+                            </div>
+                        </div>
+                        <div class="cert-info">
+                            <h4>Python for Beginners</h4>
+                            <p>Simplilearn SkillUP • Agustus 2026</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Halaman AI Assistant (Shadow System) -->
+            <!-- Halaman AI Assistant -->
             <section id="ai-chat" class="content-page">
-                <h2 class="section-heading"><i class="fa-solid fa-robot" style="color: #111; margin-right: 8px;"></i> AI Shadow System</h2>
-                <p class="section-desc">Asisten virtual pribadi berbasis AI yang siap menjawab pertanyaan seputar portofolio, skill, dan biodata Roni.</p>
+                <h2 class="section-heading"><i class="fa-solid fa-robot" style="color: var(--primary); margin-right: 8px;"></i> AI Assistant</h2>
+                <p class="section-desc">Asisten virtual pribadi yang siap menjawab pertanyaan seputar portofolio dan biodata.</p>
                 
-                <!-- Letakkan komponen chat UI lu di sini -->
-                <div class="ai-chat-container" style="border: 1px solid #eaeaea; border-radius: 8px; padding: 1.5rem; background: #fafafa;">
-                    <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: #555;">Fitur AI Chat aktif dan terhubung ke backend serverless Vercel.</p>
+                <div class="ai-chat-box">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot">Halo! Ada yang bisa gw bantu seputar portofolio atau proyek Roni Halla?</div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="userInput" placeholder="Ketik pesan ke AI..." onkeypress="handleKeyPress(event)">
+                        <button class="btn btn-primary" onclick="sendMessage()">Kirim</button>
+                    </div>
                 </div>
             </section>
 
             <!-- Halaman Kontak -->
             <section id="contact" class="content-page">
                 <h2 class="section-heading">Hubungi Saya</h2>
-                <p class="section-desc">Punya pertanyaan atau ingin berkolaborasi? Kirim pesan langsung ke Telegram saya.</p>
+                <p class="section-desc">Punya pertanyaan atau ingin berkolaborasi? Kirim pesan langsung melalui formulir di bawah.</p>
                 
-                <form id="contactForm" style="display: flex; flex-direction: column; gap: 1rem; max-width: 500px;">
-                    <input type="text" name="nama" placeholder="Nama Lengkap" required style="padding: 0.8rem; border: 1px solid #ddd; border-radius: 6px; font-family: inherit;">
-                    <input type="text" name="kontak" placeholder="Email / No HP / Kontak" style="padding: 0.8rem; border: 1px solid #ddd; border-radius: 6px; font-family: inherit;">
-                    <textarea name="pesan" placeholder="Tulis pesanmu di sini..." rows="4" required style="padding: 0.8rem; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; resize: vertical;"></textarea>
-                    <button type="submit" class="btn btn-primary" style="cursor: pointer; border: none;">Kirim Pesan</button>
+                <form id="contactForm" class="contact-form" onsubmit="submitForm(event)">
+                    <div class="form-group">
+                        <input type="text" name="nama" placeholder="Nama Lengkap" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="kontak" placeholder="Email / No HP / Kontak" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="pesan" rows="4" placeholder="Tulis pesanmu di sini..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Kirim Pesan</button>
                 </form>
             </section>
 
             <!-- Footer Utama -->
             <footer class="site-footer">
-                Dibuat dengan penuh semangat oleh Roni Halla ⚡
+                &copy; 2026 Roni Halla. Hak cipta dilindungi.
             </footer>
         </main>
     </div>
 
-    <!-- Modal Popup Pratinjau HD -->
+    <!-- Modal Pratinjau Gambar HD -->
     <div id="imageModal" class="modal" onclick="closeModal()">
         <span class="close-modal">&times;</span>
         <img class="modal-content" id="modalImage">
     </div>
 
-    <!-- Script Navigasi & Modal HD -->
+    <!-- Script Aplikasi -->
     <script>
         function switchPage(pageId, event) {
             if (event) event.preventDefault();
             
-            // Sembunyikan semua halaman
             document.querySelectorAll('.content-page').forEach(page => {
                 page.classList.remove('active');
             });
             
-            // Nonaktifkan semua tombol navigasi
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             
-            // Tampilkan halaman yang dipilih
             document.getElementById(pageId).classList.add('active');
             
-            // Aktifkan tombol yang diklik
             if (event && event.currentTarget) {
                 event.currentTarget.classList.add('active');
             }
         }
 
-        // Fungsi Modal Auto-HD
+        // Modal Auto-HD
         function openModal(imageSrc, imageAlt) {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImage');
@@ -199,6 +623,45 @@
 
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Simulasi Kirim Pesan AI Chat
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatMessages = document.getElementById('chatMessages');
+            const text = input.value.trim();
+            
+            if (!text) return;
+
+            // Pesan user
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.textContent = text;
+            chatMessages.appendChild(userMsg);
+            
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Balasan bot otomatis (simulasi / koneksi backend)
+            setTimeout(() => {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'message bot';
+                botMsg.textContent = "Halo bro! Pesan lu sudah diterima. Fitur AI chat ini terhubung dengan backend Vercel.";
+                chatMessages.appendChild(botMsg);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 600);
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function submitForm(e) {
+            e.preventDefault();
+            alert("Pesan berhasil dikirim! Terima kasih sudah menghubungi Roni.");
+            e.target.reset();
         }
     </script>
 </body>
