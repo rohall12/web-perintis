@@ -46,17 +46,46 @@
 
         <!-- Section: Sertifikat -->
         <section id="section-sertifikat" class="hidden space-y-6 max-w-4xl">
-            <h2 class="text-2xl font-bold text-gray-800">Sertifikat Saya</h2>
-            <p class="text-gray-600">Daftar sertifikat dan pencapaian yang telah saya dapatkan:</p>
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">Sertifikat Saya</h2>
+                <p class="text-gray-600 mt-1">Daftar sertifikat dan pencapaian yang telah saya dapatkan:</p>
+            </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Tambahkan item sertifikat kamu di sini -->
-                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                    <div class="h-40 bg-gray-100 rounded-lg flex items-center justify-center mb-4 text-gray-400">
-                        <i class="fa-solid fa-award text-4xl"></i>
+                <!-- Dicoding Card -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-code text-xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-lg text-gray-800">JavaScript Programming</h3>
+                        <p class="text-sm text-gray-500 mt-1">Dicoding Indonesia</p>
                     </div>
-                    <h3 class="font-semibold text-lg text-gray-800">Sertifikat Kelulusan Course</h3>
-                    <p class="text-sm text-gray-500 mt-1">Diperoleh dalam kurun waktu 6 bulan terakhir.</p>
+                    <span class="inline-block mt-4 text-xs font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full w-fit">Terverifikasi</span>
+                </div>
+
+                <!-- freeCodeCamp Card -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-laptop-code text-xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-lg text-gray-800">Responsive Web Design (HTML/CSS)</h3>
+                        <p class="text-sm text-gray-500 mt-1">freeCodeCamp</p>
+                    </div>
+                    <span class="inline-block mt-4 text-xs font-medium text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full w-fit">Terverifikasi</span>
+                </div>
+
+                <!-- Kaggle Card -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-xl flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-database text-xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-lg text-gray-800">Python & Data Science Exercises</h3>
+                        <p class="text-sm text-gray-500 mt-1">Kaggle</p>
+                    </div>
+                    <span class="inline-block mt-4 text-xs font-medium text-sky-600 bg-sky-50 px-3 py-1 rounded-full w-fit">Terverifikasi</span>
                 </div>
             </div>
         </section>
@@ -86,7 +115,7 @@
 
     </main>
 
-    <!-- Simple JavaScript Navigation Switcher -->
+    <!-- JavaScript Navigation Switcher -->
     <script>
         function switchTab(tabName) {
             const sections = ['beranda', 'sertifikat', 'kontak'];
