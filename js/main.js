@@ -1,9 +1,10 @@
-// Fungsi untuk berpindah tab dengan animasi halus
+// Fungsi berpindah tab dengan Smooth Scroll & Animasi GPU
 window.switchTab = function(tabName) {
     const sectionBeranda = document.getElementById('section-beranda');
     const sectionSertifikat = document.getElementById('section-sertifikat');
     const navBeranda = document.getElementById('nav-beranda');
     const navSertifikat = document.getElementById('nav-sertifikat');
+    const mainContent = document.querySelector('main');
 
     // Kelas style navigasi aktif & non-aktif
     const activeClasses = ['bg-blue-50', 'text-blue-600', 'dark:bg-blue-900/40', 'dark:text-blue-400'];
