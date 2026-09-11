@@ -13,34 +13,30 @@
         }
     </script>
 
-    <!-- External Custom JavaScript -->
-    <script src="js/script.js"></script>
+    <!-- Custom Style CSS -->
+    <link rel="stylesheet" href="css/style.css">
 
     <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans min-h-screen flex flex-row transition-colors duration-200">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans min-h-screen flex flex-row">
 
     <!-- Sidebar Navigation -->
-    <aside id="sidebar" class="w-48 md:w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 p-3 md:p-6 flex-shrink-0 min-h-screen transition-all duration-300">
+    <aside id="sidebar" class="w-48 md:w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 p-3 md:p-6 flex-shrink-0 min-h-screen">
         <nav class="space-y-2 sticky top-6">
-            <button onclick="switchTab('beranda')" id="nav-beranda" class="w-full flex items-center gap-2.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-medium text-left transition-all text-xs md:text-base bg-blue-50 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400">
+            <button onclick="switchTab('beranda')" id="nav-beranda" class="w-full flex items-center gap-2.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-medium text-left bg-blue-50 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400 text-xs md:text-base">
                 <i class="fa-solid fa-house text-sm md:text-lg"></i>
                 <span>Beranda</span>
             </button>
-            <button onclick="switchTab('sertifikat')" id="nav-sertifikat" class="w-full flex items-center gap-2.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-medium text-left transition-all text-xs md:text-base text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+            <button onclick="switchTab('sertifikat')" id="nav-sertifikat" class="w-full flex items-center gap-2.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-medium text-left text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 text-xs md:text-base">
                 <i class="fa-solid fa-certificate text-sm md:text-lg"></i>
                 <span>Sertifikat</span>
-            </button>
-            <button onclick="switchTab('kontak')" id="nav-kontak" class="w-full flex items-center gap-2.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-medium text-left transition-all text-xs md:text-base text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
-                <i class="fa-solid fa-paper-plane text-sm md:text-lg"></i>
-                <span>Kontak</span>
             </button>
 
             <hr class="border-gray-200 dark:border-gray-700 my-3">
 
             <!-- Tombol Toggle Dark Mode -->
-            <button onclick="toggleDarkMode()" id="theme-toggle" class="w-full flex items-center gap-2.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-medium text-left transition-all text-xs md:text-base text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+            <button onclick="toggleDarkMode()" id="theme-toggle" class="w-full flex items-center gap-2.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-medium text-left text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 text-xs md:text-base">
                 <i id="theme-toggle-icon" class="fa-solid fa-moon text-sm md:text-lg"></i>
                 <span id="theme-toggle-text">Mode Gelap</span>
             </button>
@@ -48,69 +44,59 @@
     </aside>
 
     <!-- Main Content Area -->
-    <main class="flex-1 p-4 md:p-12 overflow-y-auto w-full transition-all duration-300 flex flex-col justify-between">
+    <main class="flex-1 p-4 md:p-12 overflow-y-auto w-full flex flex-col justify-between min-h-screen">
         
         <div>
             <!-- Tombol Tampilkan / Sembunyikan Sidebar -->
             <div class="mb-6">
-                <button onclick="toggleSidebar()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-all text-xs md:text-sm font-medium">
+                <button onclick="toggleSidebar()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 text-xs md:text-sm font-medium">
                     <i class="fa-solid fa-bars text-sm"></i>
                     <span id="sidebar-toggle-text">Sembunyikan Menu</span>
                 </button>
             </div>
 
-            <!-- Section: Beranda -->
+            <!-- Section 1: Beranda -->
             <section id="section-beranda" class="block space-y-6 max-w-4xl">
-                <!-- Card Perkenalan & Kontak -->
-                <div class="bg-white dark:bg-gray-800 p-5 md:p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 space-y-6 transition-colors duration-200">
-                    
-                    <!-- Teks Perkenalan -->
+                <!-- Card Perkenalan & Sosmed -->
+                <div class="bg-white dark:bg-gray-800 p-5 md:p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 space-y-6">
                     <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-sm md:text-lg">
                         Halo selamat datang di web portofolio saya, saya Roni seorang Mahasiswa TI dari Universitas Kristen Wira Wacana Sumba. Web ini saya buat dengan tujuan untuk mendokumentasikan sertifikat yang saya peroleh melalui kemampuan saya sendiri selama kurang lebih 6 bulan.
                     </p>
 
                     <!-- Tombol Aksi & Sosial Media -->
                     <div class="flex flex-wrap items-center gap-3 pt-2">
-                        <button onclick="switchTab('sertifikat')" class="bg-blue-600 hover:bg-blue-700 text-white px-5 md:px-6 py-2.5 md:py-3 rounded-xl text-xs md:text-base font-medium transition-colors inline-flex items-center gap-2 shadow-sm">
+                        <button onclick="switchTab('sertifikat')" class="bg-blue-600 hover:bg-blue-700 text-white px-5 md:px-6 py-2.5 md:py-3 rounded-xl text-xs md:text-base font-medium inline-flex items-center gap-2 shadow-sm">
                             <i class="fa-solid fa-award"></i> Lihat Sertifikat Saya
                         </button>
 
-                        <!-- Link Instagram -->
-                        <a href="https://instagram.com/ronihalla_08" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2.5 md:py-3 rounded-xl bg-pink-50 dark:bg-pink-950/40 text-pink-600 dark:text-pink-400 hover:bg-pink-100 dark:hover:bg-pink-900/60 border border-pink-200 dark:border-pink-900/50 transition-all inline-flex items-center gap-2 text-xs md:text-sm font-medium shadow-sm" title="Instagram @ronihalla_08">
+                        <a href="https://instagram.com/ronihalla_08" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2.5 md:py-3 rounded-xl bg-pink-50 dark:bg-pink-950/40 text-pink-600 dark:text-pink-400 hover:bg-pink-100 dark:hover:bg-pink-900/60 border border-pink-200 dark:border-pink-900/50 inline-flex items-center gap-2 text-xs md:text-sm font-medium shadow-sm">
                             <i class="fa-brands fa-instagram text-base md:text-lg"></i>
                             <span>Instagram</span>
                         </a>
 
-                        <!-- Link WhatsApp -->
-                        <a href="https://wa.me/62881038278950" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2.5 md:py-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-900/50 transition-all inline-flex items-center gap-2 text-xs md:text-sm font-medium shadow-sm" title="WhatsApp 62881038278950">
+                        <a href="https://wa.me/62881038278950" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2.5 md:py-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-900/50 inline-flex items-center gap-2 text-xs md:text-sm font-medium shadow-sm">
                             <i class="fa-brands fa-whatsapp text-base md:text-lg"></i>
                             <span>WhatsApp</span>
                         </a>
                     </div>
-
                 </div>
 
-                <!-- Section Bawah: Tech & Tools (Posisi Baru) -->
-                <div class="bg-white dark:bg-gray-800 p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 space-y-3 transition-colors duration-200 mt-8">
+                <!-- Section: Tech & Tools (Di Bawah) -->
+                <div class="bg-white dark:bg-gray-800 p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 space-y-3 mt-8">
                     <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">Tech & Tools</h3>
                     <div class="flex flex-wrap gap-2 md:gap-2.5">
-                        <!-- Python -->
                         <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/50">
                             <i class="fa-brands fa-python text-sm text-blue-500"></i> Python
                         </span>
-                        <!-- JavaScript -->
                         <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-100 dark:border-amber-900/50">
                             <i class="fa-brands fa-js text-sm text-amber-500"></i> JavaScript
                         </span>
-                        <!-- HTML -->
                         <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-orange-50 dark:bg-orange-950/50 text-orange-700 dark:text-orange-300 border border-orange-100 dark:border-orange-900/50">
                             <i class="fa-brands fa-html5 text-sm text-orange-500"></i> HTML
                         </span>
-                        <!-- Tailwind CSS -->
                         <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-cyan-50 dark:bg-cyan-950/50 text-cyan-700 dark:text-cyan-300 border border-cyan-100 dark:border-cyan-900/50">
                             <i class="fa-solid fa-wind text-sm text-cyan-500"></i> Tailwind CSS
                         </span>
-                        <!-- Git -->
                         <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs md:text-sm font-medium bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 border border-rose-100 dark:border-rose-900/50">
                             <i class="fa-brands fa-git-alt text-sm text-rose-500"></i> Git
                         </span>
@@ -118,7 +104,7 @@
                 </div>
             </section>
 
-            <!-- Section: Sertifikat -->
+            <!-- Section 2: Sertifikat -->
             <section id="section-sertifikat" class="hidden space-y-6 max-w-4xl">
                 <div>
                     <h2 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white">Sertifikat Saya</h2>
@@ -127,7 +113,7 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     <!-- 1. Dicoding -->
-                    <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between transition-colors duration-200">
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between">
                         <div>
                             <div class="relative group cursor-pointer overflow-hidden rounded-xl mb-4 border border-gray-100 dark:border-gray-700" onclick="openModal('images/sertif-dicoding.jpg', 'Belajar Membuat Front-End Web untuk Pemula - Dicoding')">
                                 <img src="images/sertif-dicoding.jpg" alt="Sertifikat Dicoding" class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105">
@@ -143,7 +129,7 @@
                     </div>
 
                     <!-- 2. OPSWAT Academy -->
-                    <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between transition-colors duration-200">
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between">
                         <div>
                             <div class="relative group cursor-pointer overflow-hidden rounded-xl mb-4 border border-gray-100 dark:border-gray-700" onclick="openModal('images/sertif-opswat.jpg', 'Introduction to Critical Infrastructure Protection (ICIP) - OPSWAT Academy')">
                                 <img src="images/sertif-opswat.jpg" alt="Sertifikat OPSWAT" class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105">
@@ -159,7 +145,7 @@
                     </div>
 
                     <!-- 3. Simplilearn SkillUp -->
-                    <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between transition-colors duration-200">
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between">
                         <div>
                             <div class="relative group cursor-pointer overflow-hidden rounded-xl mb-4 border border-gray-100 dark:border-gray-700" onclick="openModal('images/sertif-python.jpg', 'Python for Beginners - Simplilearn SkillUp')">
                                 <img src="images/sertif-python.jpg" alt="Sertifikat Simplilearn" class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105">
@@ -175,32 +161,9 @@
                     </div>
                 </div>
             </section>
-
-            <!-- Section: Kontak -->
-            <section id="section-kontak" class="hidden space-y-6 max-w-2xl">
-                <div>
-                    <h2 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Hubungi Saya</h2>
-                    <p class="text-xs md:text-sm text-gray-600 dark:text-gray-400 mt-1">Punya pertanyaan? Silahkan kirim pesan langsung melalui Formulir dibawah.</p>
-                </div>
-
-                <form class="bg-white dark:bg-gray-800 p-5 md:p-8 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm space-y-4 transition-colors duration-200" onsubmit="event.preventDefault(); alert('Pesan berhasil terkirim!');">
-                    <div>
-                        <input type="text" placeholder="Nama Lengkap" required class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
-                    </div>
-                    <div>
-                        <input type="text" placeholder="Email / No HP / Kontak" required class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
-                    </div>
-                    <div>
-                        <textarea rows="4" placeholder="Tulis pesanmu di sini..." required class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl text-sm font-medium transition-colors shadow-sm">
-                        Kirim Pesan
-                    </button>
-                </form>
-            </section>
         </div>
 
-        <!-- Footer Permanen -->
+        <!-- Footer Permanen (Dikunci di Paling Bawah) -->
         <footer class="mt-12 pt-6 border-t border-gray-200/60 dark:border-gray-700/60 text-center text-xs md:text-sm text-gray-500 dark:text-gray-400 font-medium">
             Development By Roni Halla
         </footer>
@@ -208,11 +171,11 @@
     </main>
 
     <!-- Modal Preview Gambar -->
-    <div id="image-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-all" onclick="closeModal()">
+    <div id="image-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeModal()">
         <div class="relative max-w-4xl w-full bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-2xl p-2 md:p-4 border border-transparent dark:border-gray-700" onclick="event.stopPropagation()">
             <div class="flex justify-between items-center pb-3 px-2 border-b border-gray-100 dark:border-gray-700 mb-3">
                 <h4 id="modal-title" class="font-bold text-gray-800 dark:text-white text-sm md:text-base truncate">Preview Sertifikat</h4>
-                <button onclick="closeModal()" class="text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 p-2 rounded-lg transition-colors">
+                <button onclick="closeModal()" class="text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 p-2 rounded-lg">
                     <i class="fa-solid fa-xmark text-2xl"></i>
                 </button>
             </div>
@@ -221,6 +184,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Modul JavaScript Utama -->
+    <script type="module" src="js/main.js"></script>
 
 </body>
 </html>
