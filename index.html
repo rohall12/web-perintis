@@ -23,7 +23,7 @@
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans min-h-screen flex flex-row transition-colors duration-200">
 
     <!-- Sidebar Navigation -->
-    <aside class="w-48 md:w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 p-3 md:p-6 flex-shrink-0 min-h-screen transition-colors duration-200">
+    <aside id="sidebar" class="w-48 md:w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 p-3 md:p-6 flex-shrink-0 min-h-screen transition-all duration-300">
         <nav class="space-y-2 sticky top-6">
             <button onclick="switchTab('beranda')" id="nav-beranda" class="w-full flex items-center gap-2.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-medium text-left transition-all text-xs md:text-base bg-blue-50 text-blue-600 dark:bg-blue-900/40 dark:text-blue-400">
                 <i class="fa-solid fa-house text-sm md:text-lg"></i>
@@ -49,8 +49,16 @@
     </aside>
 
     <!-- Main Content Area -->
-    <main class="flex-1 p-4 md:p-12 overflow-y-auto">
+    <main class="flex-1 p-4 md:p-12 overflow-y-auto w-full transition-all duration-300">
         
+        <!-- Tombol Tampilkan / Sembunyikan Sidebar -->
+        <div class="mb-6">
+            <button onclick="toggleSidebar()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-all text-xs md:text-sm font-medium">
+                <i class="fa-solid fa-bars text-sm"></i>
+                <span id="sidebar-toggle-text">Sembunyikan Menu</span>
+            </button>
+        </div>
+
         <!-- Section: Beranda -->
         <section id="section-beranda" class="block space-y-6 max-w-4xl">
             <div class="bg-white dark:bg-gray-800 p-5 md:p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 space-y-6 transition-colors duration-200">
@@ -167,8 +175,9 @@
         </div>
     </div>
 
-    <!-- JavaScript Navigation, Theme Switcher & Modal -->
+    <!-- JavaScript Navigation, Sidebar Toggle, Dark Mode & Modal -->
     <script>
+        // Switcher Tab Navigasi
         function switchTab(tabName) {
             const sections = ['beranda', 'sertifikat', 'kontak'];
             
@@ -194,7 +203,21 @@
             });
         }
 
-        // Fungsi Switcher Dark / Light Mode
+        // Toggle Sidebar (Tampilkan / Sembunyikan Navigasi)
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggleText = document.getElementById('sidebar-toggle-text');
+            
+            sidebar.classList.toggle('hidden');
+            
+            if (sidebar.classList.contains('hidden')) {
+                toggleText.textContent = 'Tampilkan Menu';
+            } else {
+                toggleText.textContent = 'Sembunyikan Menu';
+            }
+        }
+
+        // Switcher Dark / Light Mode
         function toggleDarkMode() {
             const isDark = document.documentElement.classList.toggle('dark');
             updateThemeUI(isDark);
@@ -215,12 +238,13 @@
             }
         }
 
-        // Update UI tombol tema sesuai state halaman saat ini
+        // Initialize UI State saat DOM Loaded
         document.addEventListener('DOMContentLoaded', () => {
             const isDark = document.documentElement.classList.contains('dark');
             updateThemeUI(isDark);
         });
 
+        // Modal Handler
         function openModal(imageSrc, title) {
             const modal = document.getElementById('image-modal');
             const modalImg = document.getElementById('modal-image');
