@@ -48,7 +48,7 @@
         <section id="section-sertifikat" class="hidden space-y-6 max-w-4xl">
             <div>
                 <h2 class="text-2xl font-bold text-gray-800">Sertifikat Saya</h2>
-                <p class="text-gray-600 mt-1">Daftar sertifikat dan pencapaian yang telah saya dapatkan:</p>
+                <p class="text-gray-600 mt-1">Daftar sertifikat dan pencapaian yang telah saya dapatkan (Klik gambar untuk memperbesar):</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -56,7 +56,13 @@
                 <!-- 1. Dicoding -->
                 <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
                     <div>
-                        <img src="images/sertif-dicoding.jpg" alt="Sertifikat Dicoding" class="w-full h-auto rounded-xl object-cover mb-4 border border-gray-100">
+                        <div class="relative group cursor-pointer overflow-hidden rounded-xl mb-4 border border-gray-100" onclick="openModal('images/sertif-dicoding.jpg', 'Belajar Membuat Front-End Web untuk Pemula - Dicoding')">
+                            <img src="images/sertif-dicoding.jpg" alt="Sertifikat Dicoding" class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-medium gap-2">
+                                <i class="fa-solid fa-magnifying-glass-plus text-xl"></i>
+                                <span>Lihat Sertifikat</span>
+                            </div>
+                        </div>
                         <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">Dicoding Indonesia</span>
                         <h3 class="font-bold text-lg text-gray-800 mt-2">Belajar Membuat Front-End Web untuk Pemula</h3>
                         <p class="text-xs text-gray-500 mt-1">Diterbitkan: 29 Agustus 2026</p>
@@ -66,7 +72,13 @@
                 <!-- 2. OPSWAT Academy -->
                 <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
                     <div>
-                        <img src="images/sertif-opswat.jpg" alt="Sertifikat OPSWAT" class="w-full h-auto rounded-xl object-cover mb-4 border border-gray-100">
+                        <div class="relative group cursor-pointer overflow-hidden rounded-xl mb-4 border border-gray-100" onclick="openModal('images/sertif-opswat.jpg', 'Introduction to Critical Infrastructure Protection (ICIP) - OPSWAT Academy')">
+                            <img src="images/sertif-opswat.jpg" alt="Sertifikat OPSWAT" class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-medium gap-2">
+                                <i class="fa-solid fa-magnifying-glass-plus text-xl"></i>
+                                <span>Lihat Sertifikat</span>
+                            </div>
+                        </div>
                         <span class="text-xs font-semibold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-md">OPSWAT Academy</span>
                         <h3 class="font-bold text-lg text-gray-800 mt-2">Introduction to Critical Infrastructure Protection (ICIP)</h3>
                         <p class="text-xs text-gray-500 mt-1">Diterbitkan: 31 Agustus 2026</p>
@@ -76,7 +88,13 @@
                 <!-- 3. Simplilearn SkillUp -->
                 <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
                     <div>
-                        <img src="images/sertif-python.jpg" alt="Sertifikat Simplilearn" class="w-full h-auto rounded-xl object-cover mb-4 border border-gray-100">
+                        <div class="relative group cursor-pointer overflow-hidden rounded-xl mb-4 border border-gray-100" onclick="openModal('images/sertif-python.jpg', 'Python for Beginners - Simplilearn SkillUp')">
+                            <img src="images/sertif-python.jpg" alt="Sertifikat Simplilearn" class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-medium gap-2">
+                                <i class="fa-solid fa-magnifying-glass-plus text-xl"></i>
+                                <span>Lihat Sertifikat</span>
+                            </div>
+                        </div>
                         <span class="text-xs font-semibold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">Simplilearn SkillUp</span>
                         <h3 class="font-bold text-lg text-gray-800 mt-2">Python for Beginners</h3>
                         <p class="text-xs text-gray-500 mt-1">Diterbitkan: 30 Agustus 2026</p>
@@ -111,14 +129,31 @@
 
     </main>
 
-    <!-- JavaScript Navigation Switcher -->
+    <!-- Modal Preview Gambar -->
+    <div id="image-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-all" onclick="closeModal()">
+        <div class="relative max-w-4xl w-full bg-white rounded-2xl overflow-hidden shadow-2xl p-2 md:p-4" onclick="event.stopPropagation()">
+            <!-- Header Modal -->
+            <div class="flex justify-between items-center pb-3 px-2 border-b border-gray-100 mb-3">
+                <h4 id="modal-title" class="font-bold text-gray-800 text-sm md:text-base truncate">Preview Sertifikat</h4>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-red-500 p-2 rounded-lg transition-colors">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+            <!-- Container Gambar Preview -->
+            <div class="flex justify-center items-center max-h-[80vh] overflow-auto">
+                <img id="modal-image" src="" alt="Preview Sertifikat" class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-sm">
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Navigation & Modal Switcher -->
     <script>
         function switchTab(tabName) {
             const sections = ['beranda', 'sertifikat', 'kontak'];
             
             sections.forEach(s => {
                 const secEl = document.getElementById(`section-${s}`);
-                navEl = document.getElementById(`nav-${s}`);
+                const navEl = document.getElementById(`nav-${s}`);
                 
                 if (s === tabName) {
                     secEl.classList.remove('hidden');
@@ -137,6 +172,31 @@
                 }
             });
         }
+
+        // Fungsi Modal Preview Gambar
+        function openModal(imageSrc, title) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-image');
+            const modalTitle = document.getElementById('modal-title');
+
+            modalImg.src = imageSrc;
+            modalTitle.textContent = title;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Kunci scroll latar belakang
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('image-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Kembalikan scroll
+        }
+
+        // Tutup modal dengan tombol Escape di keyboard
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
     </script>
 </body>
 </html>
