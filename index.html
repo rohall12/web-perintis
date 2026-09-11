@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roni Halla — Portofolio & AI Assistant</title>
+    <title>Portofolio & AI Assistant — Roni</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
@@ -54,23 +54,6 @@
             top: 0;
             left: 0;
             z-index: 100;
-        }
-
-        .sidebar-header {
-            padding: 2rem 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .sidebar-header h2 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .sidebar-header p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
         }
 
         .sidebar-nav {
@@ -144,29 +127,11 @@
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
         }
 
-        .greeting-tag {
-            display: inline-block;
-            background: #e0f2fe;
-            color: var(--primary);
-            padding: 0.35rem 0.85rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .highlight-name {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-main);
-        }
-
         .hero-subtitle {
-            font-size: 1.05rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            max-width: 700px;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            line-height: 1.7;
+            max-width: 800px;
             margin-bottom: 2rem;
         }
 
@@ -420,42 +385,26 @@
             background: rgba(255,255,255,0.3);
         }
 
-        /* ==========================================
-           RESPONSIVE MOBILE FIX (LAYAR HP < 900px)
-           ========================================== */
+        /* RESPONSIVE MOBILE FIX (< 900px) */
         @media (max-width: 900px) {
             body {
-                display: block; /* Matikan flex body agar halaman mengalir normal ke bawah */
+                display: block;
             }
 
             .site-container {
                 display: block;
             }
 
-            /* Sidebar berubah jadi Top Navigation Bar (Sticky di atas) */
             .sidebar {
                 position: sticky;
                 top: 0;
                 width: 100%;
                 height: auto;
                 flex-direction: row;
-                justify-content: space-between;
+                justify-content: center;
                 align-items: center;
                 padding: 0.75rem 1rem;
                 box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            }
-
-            .sidebar-header {
-                padding: 0;
-                border-bottom: none;
-            }
-
-            .sidebar-header h2 {
-                font-size: 1rem;
-            }
-
-            .sidebar-header p {
-                display: none; /* Sembunyikan subteks di HP agar ringkas */
             }
 
             .sidebar-nav {
@@ -463,6 +412,8 @@
                 padding: 0;
                 gap: 0.35rem;
                 flex: unset;
+                width: 100%;
+                justify-content: space-around;
             }
 
             .nav-btn {
@@ -470,13 +421,13 @@
                 font-size: 0.85rem;
                 gap: 0.4rem;
                 border-radius: 6px;
+                justify-content: center;
             }
 
             .sidebar-footer {
-                display: none; /* Sembunyikan footer sidebar di HP */
+                display: none;
             }
 
-            /* Main Content di HP */
             .main-content {
                 margin-left: 0;
                 max-width: 100%;
@@ -487,12 +438,8 @@
                 padding: 1.5rem;
             }
 
-            .highlight-name {
-                font-size: 1.8rem;
-            }
-
             .cert-grid {
-                grid-template-columns: 1fr; /* Kartu sertifikat disusun 1 kolom penuh ke bawah agar besar & jelas */
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -502,11 +449,6 @@
     <div class="site-container">
         <!-- Sidebar / Navigasi -->
         <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2>Roni Halla</h2>
-                <p>Teknik Informatika '26</p>
-            </div>
-            
             <nav class="sidebar-nav">
                 <button class="nav-btn active" onclick="switchPage('home', event)">
                     <i class="fa-solid fa-house"></i> <span>Beranda</span>
@@ -523,7 +465,7 @@
             </nav>
 
             <div class="sidebar-footer">
-                &copy; 2026 Roni Halla. All rights reserved.
+                &copy; 2026 Roni. All rights reserved.
             </div>
         </aside>
 
@@ -533,10 +475,8 @@
                 <!-- Halaman Beranda -->
                 <section id="home" class="content-page active">
                     <div class="hero-section">
-                        <div class="greeting-tag">Halo, Selamat Datang! 👋</div>
-                        <h1 class="highlight-name">Roni Halla</h1>
                         <p class="hero-subtitle">
-                            Mahasiswa Teknik Informatika Universitas Kristen Wira Wacana (Unkriswina) Sumba. Berfokus pada pengembangan web modern, sistem backend serverless, dan eksplorasi kecerdasan buatan.
+                            Halo selamat datang di web portofolio saya, saya Roni seorang Mahasiswa TI dari Universitas Kristen Wira Wacana Sumba.Web ini saya buat dengan tujuan untuk mendokumentasi sertifikat yang saya peroleh melalui kemampuan saya sendiri selama kurang lebihh 6 bulan.
                         </p>
                         <div class="action-buttons">
                             <a href="#" class="btn btn-primary" onclick="switchPage('ai-chat', event)">
@@ -552,7 +492,7 @@
                     <p class="section-desc">Kumpulan sertifikasi pemrograman dan teknologi yang telah diselesaikan.</p>
                     
                     <div class="cert-grid">
-                        <!-- Sertifikat 1: Dicoding -->
+                        <!-- Sertifikat 1 -->
                         <div class="cert-card">
                             <div class="cert-img-wrapper" onclick="openModal('images/sertif-dicoding.jpg', 'Sertifikat Dicoding Front-End')">
                                 <img src="images/sertif-dicoding.jpg" alt="Sertifikat Dicoding">
@@ -566,7 +506,7 @@
                             </div>
                         </div>
 
-                        <!-- Sertifikat 2: OPSWAT -->
+                        <!-- Sertifikat 2 -->
                         <div class="cert-card">
                             <div class="cert-img-wrapper" onclick="openModal('images/sertif-opswat.jpg', 'Sertifikat OPSWAT ICIP')">
                                 <img src="images/sertif-opswat.jpg" alt="Sertifikat OPSWAT">
@@ -580,7 +520,7 @@
                             </div>
                         </div>
 
-                        <!-- Sertifikat 3: Simplilearn -->
+                        <!-- Sertifikat 3 -->
                         <div class="cert-card">
                             <div class="cert-img-wrapper" onclick="openModal('images/sertif-python.jpg', 'Sertifikat Python Simplilearn')">
                                 <img src="images/sertif-python.jpg" alt="Sertifikat Python">
@@ -599,11 +539,11 @@
                 <!-- Halaman AI Assistant -->
                 <section id="ai-chat" class="content-page">
                     <h2 class="section-heading"><i class="fa-solid fa-robot" style="color: var(--primary); margin-right: 8px;"></i> AI Assistant</h2>
-                    <p class="section-desc">Asisten virtual pribadi yang siap menjawab pertanyaan seputar portofolio dan biodata.</p>
+                    <p class="section-desc">Asisten virtual pribadi yang siap menjawab pertanyaan seputar portofolio dan sertifikat.</p>
                     
                     <div class="ai-chat-box">
                         <div class="chat-messages" id="chatMessages">
-                            <div class="message bot">Halo! Ada yang bisa gw bantu seputar portofolio atau proyek Roni Halla?</div>
+                            <div class="message bot">Halo! Ada yang bisa saya bantu seputar portofolio atau sertifikat Roni?</div>
                         </div>
                         <div class="chat-input-area">
                             <input type="text" id="userInput" placeholder="Ketik pesan ke AI..." onkeypress="handleKeyPress(event)">
@@ -634,7 +574,7 @@
 
             <!-- Footer Utama -->
             <footer class="site-footer">
-                &copy; 2026 Roni Halla. Hak cipta dilindungi.
+                &copy; 2026 Roni. Hak cipta dilindungi.
             </footer>
         </main>
     </div>
@@ -665,7 +605,6 @@
             }
         }
 
-        // Modal Auto-HD
         function openModal(imageSrc, imageAlt) {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImage');
@@ -678,7 +617,6 @@
             document.getElementById('imageModal').style.display = 'none';
         }
 
-        // Simulasi Kirim Pesan AI Chat
         function sendMessage() {
             const input = document.getElementById('userInput');
             const chatMessages = document.getElementById('chatMessages');
@@ -697,7 +635,7 @@
             setTimeout(() => {
                 const botMsg = document.createElement('div');
                 botMsg.className = 'message bot';
-                botMsg.textContent = "Halo bro! Pesan lu sudah diterima. Fitur AI chat ini terhubung dengan backend Vercel.";
+                botMsg.textContent = "Halo! Pesan kamu sudah diterima.";
                 chatMessages.appendChild(botMsg);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             }, 600);
@@ -711,7 +649,7 @@
 
         function submitForm(e) {
             e.preventDefault();
-            alert("Pesan berhasil dikirim! Terima kasih sudah menghubungi Roni.");
+            alert("Pesan berhasil dikirim!");
             e.target.reset();
         }
     </script>
