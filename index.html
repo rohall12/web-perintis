@@ -3,654 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolio & AI Assistant — Roni</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
+    <title>Portofolio - Roni</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --primary: #0284c7;
-            --primary-hover: #0369a1;
-            --border-color: #e2e8f0;
-            --sidebar-width: 260px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Layout Container Desktop */
-        .site-container {
-            display: flex;
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* Sidebar Styling (Desktop) */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: var(--card-bg);
-            border-right: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            height: 100vh;
-            top: 0;
-            left: 0;
-            z-index: 100;
-        }
-
-        .sidebar-nav {
-            padding: 1.5rem 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            flex: 1;
-        }
-
-        .nav-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background: transparent;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: left;
-        }
-
-        .nav-btn:hover, .nav-btn.active {
-            background: #e0f2fe;
-            color: var(--primary);
-        }
-
-        .sidebar-footer {
-            padding: 1rem 1.5rem;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border-color);
-        }
-
-        /* Main Content Styling (Desktop) */
-        .main-content {
-            margin-left: var(--sidebar-width);
-            flex: 1;
-            padding: 2.5rem;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .content-page {
-            display: none;
-        }
-
-        .content-page.active {
-            display: block;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Hero Section */
-        .hero-section {
-            background: var(--card-bg);
-            padding: 3rem;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-main);
-            line-height: 1.7;
-            max-width: 800px;
-            margin-bottom: 2rem;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-        }
-
-        /* Section Headings */
-        .section-heading {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .section-desc {
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-
-        /* Certificate Grid */
-        .cert-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .cert-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .cert-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.08);
-        }
-
-        .cert-img-wrapper {
-            position: relative;
-            height: 180px;
-            overflow: hidden;
-            cursor: pointer;
-            background: #e2e8f0;
-        }
-
-        .cert-img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-
-        .cert-card:hover .cert-img-wrapper img {
-            transform: scale(1.05);
-        }
-
-        .zoom-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 0.9rem;
-            opacity: 0;
-            transition: opacity 0.2s;
-            gap: 0.5rem;
-        }
-
-        .cert-img-wrapper:hover .zoom-overlay {
-            opacity: 1;
-        }
-
-        .cert-info {
-            padding: 1.25rem;
-        }
-
-        .cert-info h4 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.35rem;
-        }
-
-        .cert-info p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* AI Assistant Box */
-        .ai-chat-box {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            height: 450px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding-right: 0.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .message {
-            padding: 0.85rem 1rem;
-            border-radius: 8px;
-            max-width: 80%;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .message.bot {
-            background: #f1f5f9;
-            color: var(--text-main);
-            align-self: flex-start;
-        }
-
-        .message.user {
-            background: var(--primary);
-            color: white;
-            align-self: flex-end;
-        }
-
-        .chat-input-area {
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .chat-input-area input {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            outline: none;
-            font-size: 0.95rem;
-        }
-
-        .chat-input-area input:focus {
-            border-color: var(--primary);
-        }
-
-        /* Contact Form */
-        .contact-form {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 2rem;
-            border-radius: 12px;
-            max-width: 600px;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 0.85rem;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: var(--primary);
-        }
-
-        /* Footer */
-        .site-footer {
-            margin-top: 3rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* Modal HD Popup */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(5px);
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-
-        .modal-content {
-            max-width: 95vw;
-            max-height: 90vh;
-            object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: #fff;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            background: rgba(0,0,0,0.5);
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background 0.2s;
-        }
-
-        .close-modal:hover {
-            background: rgba(255,255,255,0.3);
-        }
-
-        /* RESPONSIVE MOBILE FIX (< 900px) */
-        @media (max-width: 900px) {
-            body {
-                display: block;
-            }
-
-            .site-container {
-                display: block;
-            }
-
-            .sidebar {
-                position: sticky;
-                top: 0;
-                width: 100%;
-                height: auto;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                padding: 0.75rem 1rem;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            }
-
-            .sidebar-nav {
-                flex-direction: row;
-                padding: 0;
-                gap: 0.35rem;
-                flex: unset;
-                width: 100%;
-                justify-content: space-around;
-            }
-
-            .nav-btn {
-                padding: 0.5rem 0.75rem;
-                font-size: 0.85rem;
-                gap: 0.4rem;
-                border-radius: 6px;
-                justify-content: center;
-            }
-
-            .sidebar-footer {
-                display: none;
-            }
-
-            .main-content {
-                margin-left: 0;
-                max-width: 100%;
-                padding: 1.25rem;
-            }
-
-            .hero-section {
-                padding: 1.5rem;
-            }
-
-            .cert-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col md:flex-row">
 
-    <div class="site-container">
-        <!-- Sidebar / Navigasi -->
-        <aside class="sidebar">
-            <nav class="sidebar-nav">
-                <button class="nav-btn active" onclick="switchPage('home', event)">
-                    <i class="fa-solid fa-house"></i> <span>Beranda</span>
-                </button>
-                <button class="nav-btn" onclick="switchPage('certificates', event)">
-                    <i class="fa-solid fa-certificate"></i> <span>Sertifikat</span>
-                </button>
-                <button class="nav-btn" onclick="switchPage('ai-chat', event)">
-                    <i class="fa-solid fa-robot"></i> <span>AI Assistant</span>
-                </button>
-                <button class="nav-btn" onclick="switchPage('contact', event)">
-                    <i class="fa-solid fa-paper-plane"></i> <span>Kontak</span>
-                </button>
-            </nav>
+    <!-- Sidebar Navigation -->
+    <aside class="w-full md:w-64 bg-white border-r border-gray-200 p-6 flex-shrink-0">
+        <nav class="space-y-2">
+            <button onclick="switchTab('beranda')" id="nav-beranda" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-left transition-all bg-blue-50 text-blue-600">
+                <i class="fa-solid fa-house text-lg"></i>
+                <span>Beranda</span>
+            </button>
+            <button onclick="switchTab('sertifikat')" id="nav-sertifikat" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-left transition-all text-gray-600 hover:bg-gray-50">
+                <i class="fa-solid fa-certificate text-lg"></i>
+                <span>Sertifikat</span>
+            </button>
+            <button onclick="switchTab('kontak')" id="nav-kontak" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-left transition-all text-gray-600 hover:bg-gray-50">
+                <i class="fa-solid fa-paper-plane text-lg"></i>
+                <span>Kontak</span>
+            </button>
+        </nav>
+    </aside>
 
-            <div class="sidebar-footer">
-                &copy; 2026 Roni. All rights reserved.
+    <!-- Main Content Area -->
+    <main class="flex-1 p-6 md:p-12 overflow-y-auto">
+        
+        <!-- Section: Beranda -->
+        <section id="section-beranda" class="block space-y-6 max-w-4xl">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 space-y-6">
+                <p class="text-gray-700 leading-relaxed text-base md:text-lg">
+                    Halo selamat datang di web portofolio saya, saya Roni seorang Mahasiswa TI dari Universitas Kristen Wira Wacana Sumba. Web ini saya buat dengan tujuan untuk mendokumentasikan sertifikat yang saya peroleh melalui kemampuan saya sendiri selama kurang lebih 6 bulan.
+                </p>
+                <div>
+                    <button onclick="switchTab('sertifikat')" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors inline-flex items-center gap-2 shadow-sm">
+                        Lihat Sertifikat Saya
+                    </button>
+                </div>
             </div>
-        </aside>
+        </section>
 
-        <!-- Konten Utama -->
-        <main class="main-content">
+        <!-- Section: Sertifikat -->
+        <section id="section-sertifikat" class="hidden space-y-6 max-w-4xl">
+            <h2 class="text-2xl font-bold text-gray-800">Sertifikat Saya</h2>
+            <p class="text-gray-600">Daftar sertifikat dan pencapaian yang telah saya dapatkan:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Tambahkan item sertifikat kamu di sini -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                    <div class="h-40 bg-gray-100 rounded-lg flex items-center justify-center mb-4 text-gray-400">
+                        <i class="fa-solid fa-award text-4xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg text-gray-800">Sertifikat Kelulusan Course</h3>
+                    <p class="text-sm text-gray-500 mt-1">Diperoleh dalam kurun waktu 6 bulan terakhir.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Kontak -->
+        <section id="section-kontak" class="hidden space-y-6 max-w-2xl">
             <div>
-                <!-- Halaman Beranda -->
-                <section id="home" class="content-page active">
-                    <div class="hero-section">
-                        <p class="hero-subtitle">
-                            Halo selamat datang di web portofolio saya, saya Roni seorang Mahasiswa TI dari Universitas Kristen Wira Wacana Sumba.Web ini saya buat dengan tujuan untuk mendokumentasi sertifikat yang saya peroleh melalui kemampuan saya sendiri selama kurang lebihh 6 bulan.
-                        </p>
-                        <div class="action-buttons">
-                            <a href="#" class="btn btn-primary" onclick="switchPage('ai-chat', event)">
-                                <i class="fa-solid fa-sparkles"></i> Ngobrol dengan AI
-                            </a>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Halaman Sertifikat -->
-                <section id="certificates" class="content-page">
-                    <h2 class="section-heading">Sertifikat & Pencapaian</h2>
-                    <p class="section-desc">Kumpulan sertifikasi pemrograman dan teknologi yang telah diselesaikan.</p>
-                    
-                    <div class="cert-grid">
-                        <!-- Sertifikat 1 -->
-                        <div class="cert-card">
-                            <div class="cert-img-wrapper" onclick="openModal('images/sertif-dicoding.jpg', 'Sertifikat Dicoding Front-End')">
-                                <img src="images/sertif-dicoding.jpg" alt="Sertifikat Dicoding">
-                                <div class="zoom-overlay">
-                                    <i class="fa-solid fa-magnifying-glass-plus"></i> Klik untuk Buka HD
-                                </div>
-                            </div>
-                            <div class="cert-info">
-                                <h4>Belajar Membuat Front-End Web untuk Pemula</h4>
-                                <p>Dicoding Indonesia • Agustus 2026</p>
-                            </div>
-                        </div>
-
-                        <!-- Sertifikat 2 -->
-                        <div class="cert-card">
-                            <div class="cert-img-wrapper" onclick="openModal('images/sertif-opswat.jpg', 'Sertifikat OPSWAT ICIP')">
-                                <img src="images/sertif-opswat.jpg" alt="Sertifikat OPSWAT">
-                                <div class="zoom-overlay">
-                                    <i class="fa-solid fa-magnifying-glass-plus"></i> Klik untuk Buka HD
-                                </div>
-                            </div>
-                            <div class="cert-info">
-                                <h4>Introduction to Critical Infrastructure Protection (ICIP)</h4>
-                                <p>OPSWAT Academy • Agustus 2026</p>
-                            </div>
-                        </div>
-
-                        <!-- Sertifikat 3 -->
-                        <div class="cert-card">
-                            <div class="cert-img-wrapper" onclick="openModal('images/sertif-python.jpg', 'Sertifikat Python Simplilearn')">
-                                <img src="images/sertif-python.jpg" alt="Sertifikat Python">
-                                <div class="zoom-overlay">
-                                    <i class="fa-solid fa-magnifying-glass-plus"></i> Klik untuk Buka HD
-                                </div>
-                            </div>
-                            <div class="cert-info">
-                                <h4>Python for Beginners</h4>
-                                <p>Simplilearn SkillUP • Agustus 2026</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Halaman AI Assistant -->
-                <section id="ai-chat" class="content-page">
-                    <h2 class="section-heading"><i class="fa-solid fa-robot" style="color: var(--primary); margin-right: 8px;"></i> AI Assistant</h2>
-                    <p class="section-desc">Asisten virtual pribadi yang siap menjawab pertanyaan seputar portofolio dan sertifikat.</p>
-                    
-                    <div class="ai-chat-box">
-                        <div class="chat-messages" id="chatMessages">
-                            <div class="message bot">Halo! Ada yang bisa saya bantu seputar portofolio atau sertifikat Roni?</div>
-                        </div>
-                        <div class="chat-input-area">
-                            <input type="text" id="userInput" placeholder="Ketik pesan ke AI..." onkeypress="handleKeyPress(event)">
-                            <button class="btn btn-primary" onclick="sendMessage()">Kirim</button>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Halaman Kontak -->
-                <section id="contact" class="content-page">
-                    <h2 class="section-heading">Hubungi Saya</h2>
-                    <p class="section-desc">Punya pertanyaan atau ingin berkolaborasi? Kirim pesan langsung melalui formulir di bawah.</p>
-                    
-                    <form id="contactForm" class="contact-form" onsubmit="submitForm(event)">
-                        <div class="form-group">
-                            <input type="text" name="nama" placeholder="Nama Lengkap" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="kontak" placeholder="Email / No HP / Kontak" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea name="pesan" rows="4" placeholder="Tulis pesanmu di sini..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Kirim Pesan</button>
-                    </form>
-                </section>
+                <h2 class="text-2xl font-bold text-gray-900">Hubungi Saya</h2>
+                <p class="text-gray-600 mt-1">Punya pertanyaan? Silakan kirim pesan langsung melalui formulir di bawah.</p>
             </div>
 
-            <!-- Footer Utama -->
-            <footer class="site-footer">
-                &copy; 2026 Roni. Hak cipta dilindungi.
-            </footer>
-        </main>
-    </div>
+            <form class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm space-y-4" onsubmit="event.preventDefault(); alert('Pesan berhasil terkirim!');">
+                <div>
+                    <input type="text" placeholder="Nama Lengkap" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                </div>
+                <div>
+                    <input type="text" placeholder="Email / No HP / Kontak" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                </div>
+                <div>
+                    <textarea rows="4" placeholder="Tulis pesanmu di sini..." required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-medium transition-colors shadow-sm">
+                    Kirim Pesan
+                </button>
+            </form>
+        </section>
 
-    <!-- Modal Pratinjau Gambar HD -->
-    <div id="imageModal" class="modal" onclick="closeModal()">
-        <span class="close-modal">&times;</span>
-        <img class="modal-content" id="modalImage">
-    </div>
+    </main>
 
-    <!-- Script Aplikasi -->
+    <!-- Simple JavaScript Navigation Switcher -->
     <script>
-        function switchPage(pageId, event) {
-            if (event) event.preventDefault();
+        function switchTab(tabName) {
+            const sections = ['beranda', 'sertifikat', 'kontak'];
             
-            document.querySelectorAll('.content-page').forEach(page => {
-                page.classList.remove('active');
+            sections.forEach(s => {
+                const secEl = document.getElementById(`section-${s}`);
+                const navEl = document.getElementById(`nav-${s}`);
+                
+                if (s === tabName) {
+                    secEl.classList.remove('hidden');
+                    secEl.classList.add('block');
+                    if (navEl) {
+                        navEl.classList.add('bg-blue-50', 'text-blue-600');
+                        navEl.classList.remove('text-gray-600', 'hover:bg-gray-50');
+                    }
+                } else {
+                    secEl.classList.remove('block');
+                    secEl.classList.add('hidden');
+                    if (navEl) {
+                        navEl.classList.remove('bg-blue-50', 'text-blue-600');
+                        navEl.classList.add('text-gray-600', 'hover:bg-gray-50');
+                    }
+                }
             });
-            
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            document.getElementById(pageId).classList.add('active');
-            
-            if (event && event.currentTarget) {
-                event.currentTarget.classList.add('active');
-            }
-        }
-
-        function openModal(imageSrc, imageAlt) {
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-            modal.style.display = 'flex';
-            modalImg.src = imageSrc;
-            modalImg.alt = imageAlt;
-        }
-
-        function closeModal() {
-            document.getElementById('imageModal').style.display = 'none';
-        }
-
-        function sendMessage() {
-            const input = document.getElementById('userInput');
-            const chatMessages = document.getElementById('chatMessages');
-            const text = input.value.trim();
-            
-            if (!text) return;
-
-            const userMsg = document.createElement('div');
-            userMsg.className = 'message user';
-            userMsg.textContent = text;
-            chatMessages.appendChild(userMsg);
-            
-            input.value = '';
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            setTimeout(() => {
-                const botMsg = document.createElement('div');
-                botMsg.className = 'message bot';
-                botMsg.textContent = "Halo! Pesan kamu sudah diterima.";
-                chatMessages.appendChild(botMsg);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 600);
-        }
-
-        function handleKeyPress(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        }
-
-        function submitForm(e) {
-            e.preventDefault();
-            alert("Pesan berhasil dikirim!");
-            e.target.reset();
         }
     </script>
 </body>
